@@ -8,7 +8,7 @@ game Classname[]!
 		
 		jackieAsks [ 3 == -4] ! #semantic error
 				var2 <- "Hello World"
-			jackieAsks[ (not TRUE) => (3 /= 4) ] ! #semantic error
+			jackieAsks[ (not TRUE) == (3 /= 4) ] ! #semantic error
 					var2 <- "you"
 			! elseJackie!
 					var1 <- 323

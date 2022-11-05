@@ -7,6 +7,9 @@ grammar expr;
 prog: 'game' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
 	;
 
+
+//********************** class ********************** //
+
 body: (decl)* (assi)* (mymethod)*	#ClassBody
 	;
 
@@ -17,6 +20,11 @@ decl: VAR_NAME '<<' DATA_TYPE	#Declaration
 assi: VAR_NAME '<-' expr	#Assignment
 	;
 	
+expr: r_method_call 	
+	| value				
+	;
+	
+//********************** mymethod ********************** //
 mymethod: 'mymethod' METHODNAME method_type		#Method
 		;
 	
@@ -30,23 +38,10 @@ return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'jackieRetur
 void_method: VOID_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body '!'		#VoidMethod
 	   	   ;
 
-expr: r_method_call 	
-	| value				
-	;
-	
-value: NUM | DOUBLE | STRING | CHAR | BOOL 	#Values
-	 ;
-		  
-	
-r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
-			 ;
-
-if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
-			;
-
 method_body: (decl)* (assi)* (if_statement)* (r_method_call)*	#MethodBody
-		   ;	
+		   ;
 		   
+//********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
 	;
 	
@@ -55,8 +50,19 @@ t_method_call: CLASS_NAME'.'METHODNAME'['input']'
 
 // what input
 input:  
+	 ;	
+	
+//********************** if Statement ********************** //	 
+if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
+			;	 
+	 
+//********************** extra ********************** //
+value: NUM | DOUBLE | STRING | CHAR | BOOL 	#Values
 	 ;
- 	   
+		  
+r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
+			 ;
+
 math: math '+' math		#Addition
 	| math '-' math		#Subtraction
 	| math '*' math		#Multiplication
@@ -78,6 +84,7 @@ cond: '(' cond ')'		#CondParenthesis
 	| cond '<' cond		#LessThan
 	| 'not' cond		#Negation
 	| VAR_NAME			#CondVariable
+	| BOOL				#CondBool
 	| NUM				#CondNum
 	;	
 			 

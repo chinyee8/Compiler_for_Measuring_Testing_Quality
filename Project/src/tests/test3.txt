@@ -6,13 +6,13 @@ game Classname[]!
 			var2 << STRING
 			var2 <- "How are you"
 		
-		jackieAsks [ (1 => 2) ] ! #semantic error
+		jackieAsks [ (1 == 2) ] ! #semantic error
 				var2 <- "Hello World"
 		! elseJackie !
 				var1 <- 123
 		!
 		
-		jackieAsks [ TRUE => FALSE ] !
+		jackieAsks [ TRUE] !
 		! elseJackie !
 		!
 		
