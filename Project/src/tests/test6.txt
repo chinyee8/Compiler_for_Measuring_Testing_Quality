@@ -1,9 +1,11 @@
 game Classname[]!
 		var1 << INT #need to change in docs
+		var2 << STRING
 	
 		var1 <- 123
+		var2 <- "Hello"
 
-	mymethod HFDFS_FDFSF1 INT [ INT var1 , STRING var2 ] ! #need to consider empty parameter
+	mymethod HFDFS_FDFSF1 INT [ INT var1, INT var3 ] ! 
 		
 			var2 << STRING
 

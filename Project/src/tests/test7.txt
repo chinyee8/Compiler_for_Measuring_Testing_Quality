@@ -1,0 +1,24 @@
+game ConditionTesting[]!
+        var_int << INT #need to change in docs
+        var_int2 << INT
+        var_bool << BOOLEAN
+        var_string << STRING
+        
+        var_int <- 100
+        var_int1 <- 101
+        var_bool <- TRUE
+        var_string <- "hello"
+        
+        
+    mymethod METHOD_1 INT [ INT var1, INT var2, INT var3] ! #need to consider empty parameter
+        jackieAsks [(9>5) == (TRUE || FALSE) ] !
+            vartemp << INT
+            vartemp <- 1
+            
+        !
+        elseJackie !
+            
+        !
+        jackieReturns var2
+    ! 
+!

@@ -32,24 +32,19 @@ method_type: return_method		#mReturnMethod
 		   | void_method		#mVoidMethod
 		   ;  
 	
-return_method: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
+return_method: DATA_TYPE '[' param ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
 			 ;
 			 
-void_method: VOID_TYPE '[' parameter ']' '!' method_body '!'		#VoidMethod
+void_method: VOID_TYPE '[' param ']' '!' method_body '!'		#VoidMethod
 	   	   ;
 
 method_body: (decl)* (assi)* (if_statement)* (r_method_call)*	#MethodBody
 		   ;
 		   
-parameter: param
-    | multi_param
-    |
-    ;           
-param: DATA_TYPE VAR_NAME 
-     ;
-multi_param: param ',' (multi_param)+
-        | param
-        ; 
+param: DATA_TYPE VAR_NAME
+	 | (DATA_TYPE VAR_NAME ',')+ DATA_TYPE VAR_NAME
+	 |
+	 ;
 		   
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
