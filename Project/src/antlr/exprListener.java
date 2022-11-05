@@ -140,6 +140,16 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitMethodBody(exprParser.MethodBodyContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link exprParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void enterParam(exprParser.ParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link exprParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void exitParam(exprParser.ParamContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link exprParser#test}.
 	 * @param ctx the parse tree
 	 */
@@ -252,6 +262,18 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitSubtraction(exprParser.SubtractionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code x}
+	 * labeled alternative in {@link exprParser#math}.
+	 * @param ctx the parse tree
+	 */
+	void enterX(exprParser.XContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code x}
+	 * labeled alternative in {@link exprParser#math}.
+	 * @param ctx the parse tree
+	 */
+	void exitX(exprParser.XContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code MathDouble}
 	 * labeled alternative in {@link exprParser#math}.
 	 * @param ctx the parse tree
@@ -288,29 +310,41 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitDivision(exprParser.DivisionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Mathematic}
+	 * Enter a parse tree produced by the {@code a}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
 	 */
-	void enterMathematic(exprParser.MathematicContext ctx);
+	void enterA(exprParser.AContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Mathematic}
+	 * Exit a parse tree produced by the {@code a}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
 	 */
-	void exitMathematic(exprParser.MathematicContext ctx);
+	void exitA(exprParser.AContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LessOrEqual}
+	 * Enter a parse tree produced by the {@code b}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
 	 */
-	void enterLessOrEqual(exprParser.LessOrEqualContext ctx);
+	void enterB(exprParser.BContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LessOrEqual}
+	 * Exit a parse tree produced by the {@code b}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
 	 */
-	void exitLessOrEqual(exprParser.LessOrEqualContext ctx);
+	void exitB(exprParser.BContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code c}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterC(exprParser.CContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code c}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitC(exprParser.CContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Negation}
 	 * labeled alternative in {@link exprParser#cond}.
@@ -324,6 +358,66 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitNegation(exprParser.NegationContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code d}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterD(exprParser.DContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code d}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitD(exprParser.DContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code e}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterE(exprParser.EContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code e}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitE(exprParser.EContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code f}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterF(exprParser.FContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code f}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitF(exprParser.FContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code g}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterG(exprParser.GContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code g}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitG(exprParser.GContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code h}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterH(exprParser.HContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code h}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitH(exprParser.HContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code NotEqualTo}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
@@ -335,30 +429,6 @@ public interface exprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNotEqualTo(exprParser.NotEqualToContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code CondNum}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondNum(exprParser.CondNumContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CondNum}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondNum(exprParser.CondNumContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code CondVariable}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondVariable(exprParser.CondVariableContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CondVariable}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondVariable(exprParser.CondVariableContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code EqualTo}
 	 * labeled alternative in {@link exprParser#cond}.
@@ -384,42 +454,6 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitDisjunction(exprParser.DisjunctionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LessThan}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void enterLessThan(exprParser.LessThanContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code LessThan}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void exitLessThan(exprParser.LessThanContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code CondBool}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondBool(exprParser.CondBoolContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CondBool}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondBool(exprParser.CondBoolContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code MoreOrEqual}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoreOrEqual(exprParser.MoreOrEqualContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code MoreOrEqual}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoreOrEqual(exprParser.MoreOrEqualContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Conjunction}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
@@ -443,16 +477,4 @@ public interface exprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCondParenthesis(exprParser.CondParenthesisContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code MoreThan}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoreThan(exprParser.MoreThanContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code MoreThan}
-	 * labeled alternative in {@link exprParser#cond}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoreThan(exprParser.MoreThanContext ctx);
 }

@@ -32,14 +32,18 @@ method_type: return_method		#mReturnMethod
 		   | void_method		#mVoidMethod
 		   ;  
 	
-return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
+return_method: DATA_TYPE '[' param ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
 			 ;
 			 
-void_method: VOID_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body '!'		#VoidMethod
+void_method: VOID_TYPE '[' param ']' '!' method_body '!'		#VoidMethod
 	   	   ;
 
 method_body: (decl)* (assi)* (if_statement)* (r_method_call)*	#MethodBody
 		   ;
+		   
+param: DATA_TYPE VAR_NAME
+	 | 
+	 ;
 		   
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
@@ -63,30 +67,33 @@ value: NUM | DOUBLE | STRING | CHAR | BOOL 	#Values
 r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
 			 ;
 
-math: math '+' math		#Addition
-	| math '-' math		#Subtraction
-	| math '*' math		#Multiplication
-	| math '/' math		#Division
-	| '(' math ')'		#MathParenthesis
-	| NUM				#MathNumber
-	| DOUBLE			#MathDouble
-	;
-		  
-cond: '(' cond ')'		#CondParenthesis
-	| math				#Mathematic
-	| cond '&&' cond	#Conjunction
-	| cond '||' cond	#Disjunction
-	| cond '==' cond	#EqualTo
-	| cond '/=' cond	#NotEqualTo
-	| cond '>=' cond	#MoreOrEqual
-	| cond '<=' cond	#LessOrEqual
-	| cond '>' cond		#MoreThan
-	| cond '<' cond		#LessThan
-	| 'not' cond		#Negation
-	| VAR_NAME			#CondVariable
-	| BOOL				#CondBool
-	| NUM				#CondNum
-	;	
+math:'(' math ')'        #MathParenthesis 
+    | math '+' math        #Addition
+    | math '-' math        #Subtraction
+    | math '*' math        #Multiplication
+    | math '/' math        #Division
+    | NUM                #MathNumber
+    | DOUBLE            # x
+    | VAR_NAME            #MathDouble
+    ;
+          
+cond: 'not' cond        #Negation 
+    |'(' cond ')'        #CondParenthesis
+    | cond '&&' cond    #Conjunction
+    | cond '||' cond    #Disjunction
+    | cond '==' cond    #EqualTo
+    | cond '/=' cond    #NotEqualTo
+    | BOOL                 # a
+    | math '>=' math    # b    
+    | math '>=' math    # b    
+    | math '<=' math    #c
+    | math '=<' math     #d
+    | math '=>' math    #e        
+    | math '<' math        #f
+    | math '>' math        #g
+    | VAR_NAME            #h
+    ;  
+	
 			 
 
 DATA_TYPE:'INT'|'DOUBLE'|'BOOLEAN'|'STRING'|'CHAR';
