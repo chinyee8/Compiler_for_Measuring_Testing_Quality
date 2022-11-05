@@ -31,25 +31,25 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGame(exprParser.GameContext ctx) { }
+	@Override public void enterGameClass(exprParser.GameClassContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGame(exprParser.GameContext ctx) { }
+	@Override public void exitGameClass(exprParser.GameClassContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassBody(exprParser.ClassBodyContext ctx) { }
+	@Override public void enterGameBody(exprParser.GameBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassBody(exprParser.ClassBodyContext ctx) { }
+	@Override public void exitGameBody(exprParser.GameBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -79,133 +79,241 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(exprParser.ExprContext ctx) { }
+	@Override public void enterAssiRMethodCall(exprParser.AssiRMethodCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(exprParser.ExprContext ctx) { }
+	@Override public void exitAssiRMethodCall(exprParser.AssiRMethodCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMethod(exprParser.MethodContext ctx) { }
+	@Override public void enterAssiExprValues(exprParser.AssiExprValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMethod(exprParser.MethodContext ctx) { }
+	@Override public void exitAssiExprValues(exprParser.AssiExprValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMReturnMethod(exprParser.MReturnMethodContext ctx) { }
+	@Override public void enterMyMethod(exprParser.MyMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMReturnMethod(exprParser.MReturnMethodContext ctx) { }
+	@Override public void exitMyMethod(exprParser.MyMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMVoidMethod(exprParser.MVoidMethodContext ctx) { }
+	@Override public void enterMyReturnM(exprParser.MyReturnMContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMVoidMethod(exprParser.MVoidMethodContext ctx) { }
+	@Override public void exitMyReturnM(exprParser.MyReturnMContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnMethod(exprParser.ReturnMethodContext ctx) { }
+	@Override public void enterMyVoidM(exprParser.MyVoidMContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnMethod(exprParser.ReturnMethodContext ctx) { }
+	@Override public void exitMyVoidM(exprParser.MyVoidMContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVoidMethod(exprParser.VoidMethodContext ctx) { }
+	@Override public void enterMyReturnMethod(exprParser.MyReturnMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVoidMethod(exprParser.VoidMethodContext ctx) { }
+	@Override public void exitMyReturnMethod(exprParser.MyReturnMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMethodBody(exprParser.MethodBodyContext ctx) { }
+	@Override public void enterMyVoidMethod(exprParser.MyVoidMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMethodBody(exprParser.MethodBodyContext ctx) { }
+	@Override public void exitMyVoidMethod(exprParser.MyVoidMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam(exprParser.ParamContext ctx) { }
+	@Override public void enterMyMethodBody(exprParser.MyMethodBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam(exprParser.ParamContext ctx) { }
+	@Override public void exitMyMethodBody(exprParser.MyMethodBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTest(exprParser.TestContext ctx) { }
+	@Override public void enterMyParameter(exprParser.MyParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTest(exprParser.TestContext ctx) { }
+	@Override public void exitMyParameter(exprParser.MyParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterT_method_call(exprParser.T_method_callContext ctx) { }
+	@Override public void enterMyMultiParameter(exprParser.MyMultiParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitT_method_call(exprParser.T_method_callContext ctx) { }
+	@Override public void exitMyMultiParameter(exprParser.MyMultiParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInput(exprParser.InputContext ctx) { }
+	@Override public void enterMyNoParameter(exprParser.MyNoParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInput(exprParser.InputContext ctx) { }
+	@Override public void exitMyNoParameter(exprParser.MyNoParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestCase(exprParser.TestCaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestCase(exprParser.TestCaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestMethodCall(exprParser.TestMethodCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestMethodCall(exprParser.TestMethodCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestChar(exprParser.TestCharContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestChar(exprParser.TestCharContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestEmpty(exprParser.TestEmptyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestEmpty(exprParser.TestEmptyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestVarName(exprParser.TestVarNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestVarName(exprParser.TestVarNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestNum(exprParser.TestNumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestNum(exprParser.TestNumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestDouble(exprParser.TestDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestDouble(exprParser.TestDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestInputs(exprParser.TestInputsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestInputs(exprParser.TestInputsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestString(exprParser.TestStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestString(exprParser.TestStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -295,18 +403,6 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterX(exprParser.XContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitX(exprParser.XContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMathDouble(exprParser.MathDoubleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -331,6 +427,18 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMathVarName(exprParser.MathVarNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMathVarName(exprParser.MathVarNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDivision(exprParser.DivisionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -343,37 +451,13 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterA(exprParser.AContext ctx) { }
+	@Override public void enterLessOrEqual(exprParser.LessOrEqualContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitA(exprParser.AContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterB(exprParser.BContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitB(exprParser.BContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterC(exprParser.CContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitC(exprParser.CContext ctx) { }
+	@Override public void exitLessOrEqual(exprParser.LessOrEqualContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -391,66 +475,6 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterD(exprParser.DContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitD(exprParser.DContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterE(exprParser.EContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitE(exprParser.EContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterF(exprParser.FContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitF(exprParser.FContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterG(exprParser.GContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitG(exprParser.GContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterH(exprParser.HContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitH(exprParser.HContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterNotEqualTo(exprParser.NotEqualToContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -463,25 +487,25 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterI(exprParser.IContext ctx) { }
+	@Override public void enterCondVarName(exprParser.CondVarNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitI(exprParser.IContext ctx) { }
+	@Override public void exitCondVarName(exprParser.CondVarNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterJ(exprParser.JContext ctx) { }
+	@Override public void enterCondEqual(exprParser.CondEqualContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitJ(exprParser.JContext ctx) { }
+	@Override public void exitCondEqual(exprParser.CondEqualContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -499,6 +523,18 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMore(exprParser.MoreContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMore(exprParser.MoreContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDisjunction(exprParser.DisjunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -506,6 +542,42 @@ public class exprBaseListener implements exprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDisjunction(exprParser.DisjunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondBool(exprParser.CondBoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondBool(exprParser.CondBoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMoreOrEqual(exprParser.MoreOrEqualContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMoreOrEqual(exprParser.MoreOrEqualContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondNotEqual(exprParser.CondNotEqualContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondNotEqual(exprParser.CondNotEqualContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -530,6 +602,18 @@ public class exprBaseListener implements exprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCondParenthesis(exprParser.CondParenthesisContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLess(exprParser.LessContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLess(exprParser.LessContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
