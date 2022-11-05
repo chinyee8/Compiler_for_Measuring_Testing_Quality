@@ -33,7 +33,6 @@ expr: r_method_call
 	| value				
 	;
 	
-//what if enter string in int variable, semantic or parse error?
 value: NUM | DOUBLE | STRING | CHAR | BOOL 	#Values
 	 ;
 		  
