@@ -84,7 +84,7 @@ cond: 'not' cond        #Negation
     | cond '==' cond    #EqualTo
     | cond '/=' cond    #NotEqualTo
     | BOOL                 # a
-    | math '>=' math    # b    
+    | math '==' math    # b    
     | math '>=' math    # b    
     | math '<=' math    #c
     | math '=<' math     #d
