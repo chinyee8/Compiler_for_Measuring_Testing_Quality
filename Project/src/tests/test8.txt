@@ -2,13 +2,13 @@ test test_api01 []!
 	var1 << INT
 	var1 <- 123
 	
-	HelloClass.T_MATH[1 + 2]
-	HelloClass.TCOND1234[2 < 3]
-	HelloClass.TVAR_NAME[ var1]
-	HelloClass.T_N[ 123 ]
-	HelloClass.T_C[ 'A' ]
-	HelloClass.T_S[ "Hello World" ]
-	HelloClass.T_D[123.44]
-	HelloClass.T_INP_123[ 1 + 2 , "Hello World" ]	
-	HelloClass.T_INP_123[ 1 + 2 , "Hello World" , 2 < 34]
+	Helloclass.T_MATH[1 + 2]
+	Helloclass.TCOND1234[2 < 3]
+	Helloclass.TVAR_NAME[ var1]
+	Helloclass.T_N[ 123 ]
+	Helloclass.T_C[ 'A' ]
+	Helloclass.T_S[ "Hello World" ]
+	Helloclass.T_D[123.44]
+	Helloclass.T_INP_123[ 1 + 2 , "Hello World" ]	
+	Helloclass.T_INP_123[ 1 + 2 , "Hello World" , 2 < 34]
 !
