@@ -52,7 +52,9 @@ test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
 	
 t_method_call: CLASS_NAME'.'METHODNAME'['input']'
 			 ;
-input: 
+
+// what input
+input:  
 	 ;
  	   
 math: math '+' math		#Addition
