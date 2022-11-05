@@ -1,4 +1,4 @@
-game ConditionTesting[]!
+game Conditiontesting[]!
         var_int << INT #need to change in docs
         var_int2 << INT
         var_bool << BOOLEAN
