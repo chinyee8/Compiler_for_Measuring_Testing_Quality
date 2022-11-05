@@ -4,11 +4,13 @@ grammar expr;
 	package antlr;
 }
 
-prog: 'game' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
+prog: (game | test) EOF	#Program
 	;
 
 
 //********************** class ********************** //
+game: 'game' CLASS_NAME '[' ']' '!' body '!'
+	 ;
 
 body: (decl)* (assi)* (mymethod)*	#ClassBody
 	;
@@ -53,9 +55,16 @@ test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
 t_method_call: CLASS_NAME'.'METHODNAME'['input']'
 			 ;
 
-// what input
-input:  
-	 ;	
+input: math
+     | cond
+     | VAR_NAME
+     | NUM
+     | CHAR
+     | STRING
+     | DOUBLE
+     | input ',' input
+     |
+;    
 	
 //********************** if Statement ********************** //	 
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
@@ -101,9 +110,9 @@ cond: 'not' cond        #Negation
 DATA_TYPE:'INT'|'DOUBLE'|'BOOLEAN'|'STRING'|'CHAR';
 VOID_TYPE:'VOID';
 BOOL: 'TRUE' | 'FALSE';
+TEST_NAME: 'test_'[a-zA-Z0-9_]*;
 VAR_NAME:[a-z][a-z0-9_]*;
 CLASS_NAME:[A-Z][a-zA-Z]*;
-TEST_NAME: 'test_'[a-zA-Z0-9_]*;
 METHODNAME: [A-Z][A-Z0-9_]*;
 NUM: '0' | '-'?[1-9][0-9]*;
 CHAR: '\''[a-z]'\'' | '\''[A-Z]'\'' ;

@@ -20,6 +20,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(exprParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link exprParser#game}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGame(exprParser.GameContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ClassBody}
 	 * labeled alternative in {@link exprParser#body}.
 	 * @param ctx the parse tree

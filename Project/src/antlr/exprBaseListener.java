@@ -31,6 +31,18 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGame(exprParser.GameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGame(exprParser.GameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassBody(exprParser.ClassBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
