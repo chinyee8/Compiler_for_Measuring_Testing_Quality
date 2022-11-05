@@ -7,59 +7,60 @@ grammar expr;
 prog: 'game' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
 	;
 
-body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (mymethod)*
+body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (mymethod)*	#ClassBody
 	;
 
-decl: VAR_NAME '<<' DATA_TYPE
+decl: VAR_NAME '<<' DATA_TYPE	#Declaration
 	;
 
-assi: VAR_NAME '<-' expr
+assi: VAR_NAME '<-' expr	#Assignment
 	;
 	
-mymethod: 'mymethod' METHODNAME method_type
+mymethod: 'mymethod' METHODNAME method_type		#Method
 	;
 	
-method_type: return_method
-		   | void_method
+method_type: return_method		
+		   | void_method		
 		   ;  
 	
-return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'jackieReturns' VAR_NAME '!' 
+return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
 			 ;
 			 
-void_method: VOID_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body '!'
+void_method: VOID_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body '!'		#VoidMethod
 	   	   ;
 
-expr: r_method_call 
-	| value
+expr: r_method_call 	
+	| value				
 	;
 	
-
-value: NUM | DOUB | STRING | CHAR | BOOL //what if enter string in int variable, semantic or parse error?
+//what if enter string in int variable, semantic or parse error?
+value: NUM | DOUB | STRING | CHAR | BOOL 	#Values
 	 ;
 		  
 	
-r_method_call: METHODNAME '[' VAR_NAME ']'
+r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
 			 ;
 
-if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'
+if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
 			;
 
 //compulsory for decl and assi or not
-method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*
-		   ;
-		   
+method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*	#MethodBody
+		   ;		   
 
-cond: '(' cond ')'
-	| 'not' cond
-	| cond '&&' cond
-	| cond '||' cond
-	| cond '=>' cond
-	| cond '==' cond
-	| cond '/=' cond
-	| cond '>' cond
-	| cond '<' cond
-	| NUM
-	| BOOL
+//do we need implication?
+// do we need >= and <=
+cond: '(' cond ')'		#Parenthesis
+	| 'not' cond		#Negation
+	| cond '&&' cond	#Conjunction
+	| cond '||' cond	#Disjunction
+	| cond '=>' cond	#Implication
+	| cond '==' cond	#EqualTo
+	| cond '/=' cond	#NotEqualTo
+	| cond '>' cond		#MoreThan
+	| cond '<' cond		#LessThan
+	| NUM				#Number
+	| BOOL				#Boolean
 	;		 
 
 VAR_NAME:[a-z][a-z0-9_]*;
