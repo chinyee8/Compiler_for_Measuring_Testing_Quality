@@ -1,0 +1,16 @@
+game Classname[]!
+	jackieServes:
+		var1 << iNT #need to change in docs
+	
+	jackieAssigns:
+		var1 <- 123
+
+	mymethod HFDFS_FDFSF1 iNT [ iNT var1 ] ! #need to consider empty parameter
+		jackieServes:
+			var2 << sTRING
+		jackieAssigns:
+			var2 <- "How are you"
+		
+		jackieReturns var2
+	! 
+!
