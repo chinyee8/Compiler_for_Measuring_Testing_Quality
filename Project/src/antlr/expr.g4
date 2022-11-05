@@ -45,36 +45,47 @@ if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' met
 			;
 
 method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*	#MethodBody
-		   ;		   
-
+		   ;	
+		   
+test: 'test' TEST_NAME '[' ']''!' 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (t_method_call)* '!'
+	;
+	
+t_method_call: CLASS_NAME'.'METHODNAME'['input']'
+			 ;
+input: 
+	 ;
+ 	   
 math: math '+' math		#Addition
 	| math '-' math		#Subtraction
 	| math '*' math		#Multiplication
 	| math '/' math		#Division
+	| '(' math ')'		#MathParenthesis
 	| NUM				#MathNumber
 	| DOUBLE			#MathDouble
 	;
-
-//do we need implication?
-// do we need >= and <=
-cond: '(' cond ')'		#Parenthesis
-	| 'not' cond		#Negation
+		  
+cond: '(' cond ')'		#CondParenthesis
+	| math				#Mathematic
 	| cond '&&' cond	#Conjunction
 	| cond '||' cond	#Disjunction
-	| cond '=>' cond	#Implication
 	| cond '==' cond	#EqualTo
 	| cond '/=' cond	#NotEqualTo
+	| cond '>=' cond	#MoreOrEqual
+	| cond '<=' cond	#LessOrEqual
 	| cond '>' cond		#MoreThan
 	| cond '<' cond		#LessThan
-	| NUM				#CondNumber
-	| BOOL				#CondBoolean
-	;		 
+	| 'not' cond		#Negation
+	| VAR_NAME			#CondVariable
+	| NUM				#CondNum
+	;	
+			 
 
 DATA_TYPE:'INT'|'DOUBLE'|'BOOLEAN'|'STRING'|'CHAR';
 VOID_TYPE:'VOID';
 BOOL: 'TRUE' | 'FALSE';
 VAR_NAME:[a-z][a-z0-9_]*;
 CLASS_NAME:[A-Z][a-zA-Z]*;
+TEST_NAME: 'test_'[a-zA-Z0-9_]*;
 METHODNAME: [A-Z][A-Z0-9_]*;
 NUM: '0' | '-'?[1-9][0-9]*;
 CHAR: '\''[a-z]'\'' | '\''[A-Z]'\'' ;
