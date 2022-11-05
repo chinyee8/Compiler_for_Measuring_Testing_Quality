@@ -10,6 +10,7 @@ prog: 'game' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
 body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (mymethod)*	#ClassBody
 	;
 
+//	 do we allow class name to be same as method name and var name?
 decl: VAR_NAME '<<' DATA_TYPE	#Declaration
 	;
 
@@ -17,10 +18,10 @@ assi: VAR_NAME '<-' expr	#Assignment
 	;
 	
 mymethod: 'mymethod' METHODNAME method_type		#Method
-	;
+		;
 	
-method_type: return_method		
-		   | void_method		
+method_type: return_method		#mReturnMethod
+		   | void_method		#mVoidMethod
 		   ;  
 	
 return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
