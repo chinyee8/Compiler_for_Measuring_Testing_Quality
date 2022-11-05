@@ -9,61 +9,61 @@ prog: (game | test) EOF	#Program
 
 
 //********************** class ********************** //
-game: 'game' CLASS_NAME '[' ']' '!' body '!'
+game: 'game' CLASS_NAME '[' ']' '!' body '!'	#GameClass
 	 ;
 
-body: (decl)* (assi)* (mymethod)*	#ClassBody
+body: (decl)* (assi)* (mymethod)*				#GameBody
 	;
 
 //	 do we allow class name to be same as method name and var name?
-decl: VAR_NAME '<<' DATA_TYPE	#Declaration
+decl: VAR_NAME '<<' DATA_TYPE					#Declaration
 	;
 
-assi: VAR_NAME '<-' expr	#Assignment
+assi: VAR_NAME '<-' expr						#Assignment
 	;
 	
-expr: r_method_call 	
-	| value				
+expr: r_method_call 							#AssiRMethodCall
+	| value										#AssiExprValues
 	;
 	
 //********************** mymethod ********************** //
-mymethod: 'mymethod' METHODNAME method_type		#Method
+mymethod: 'mymethod' METHODNAME method_type												#MyMethod
 		;
 	
-method_type: return_method		#mReturnMethod
-		   | void_method		#mVoidMethod
+method_type: return_method																#MyReturnM
+		   | void_method																#MyVoidM
 		   ;  
 	
-return_method: DATA_TYPE '[' param ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#ReturnMethod
+return_method: DATA_TYPE '[' param ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#MyReturnMethod
 			 ;
 			 
-void_method: VOID_TYPE '[' param ']' '!' method_body '!'		#VoidMethod
+void_method: VOID_TYPE '[' param ']' '!' method_body '!'								#MyVoidMethod
 	   	   ;
 
-method_body: (decl)* (assi)* (if_statement)* (r_method_call)*	#MethodBody
+method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBody
 		   ;
 		   
-param: DATA_TYPE VAR_NAME
-	 | (DATA_TYPE VAR_NAME ',')+ DATA_TYPE VAR_NAME
-	 |
+param: DATA_TYPE VAR_NAME																#MyParameter
+	 | (DATA_TYPE VAR_NAME ',')+ DATA_TYPE VAR_NAME										#MyMultiParameter
+	 |																					#MyNoParameter
 	 ;
 		   
 //********************** test method ********************** //		   
-test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
+test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
 	;
 	
-t_method_call: CLASS_NAME'.'METHODNAME'['input']'
+t_method_call: CLASS_NAME'.'METHODNAME'['input']'							#TestMethodCall
 			 ;
 
-input: math
-     | cond
-     | VAR_NAME
-     | NUM
-     | CHAR
-     | STRING
-     | DOUBLE
-     | input ',' input
-     |
+input: math																	#TestString
+     | cond																	#TestChar
+     | VAR_NAME																#TestVarName
+     | NUM																	#TestNum
+     | CHAR																	#TestChar
+     | STRING																#TestString
+     | DOUBLE																#TestDouble
+     | input ',' input														#TestInputs
+     |																		#TestEmpty
 ;    
 	
 //********************** if Statement ********************** //	 
@@ -71,38 +71,36 @@ if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' met
 			;	 
 	 
 //********************** extra ********************** //
-value: NUM | DOUBLE | STRING | CHAR | BOOL 	#Values
+value: NUM | DOUBLE | STRING | CHAR | BOOL 		#Values
 	 ;
 		  
 r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
 			 ;
 
 math:'(' math ')'        #MathParenthesis 
-    | math '+' math        #Addition
-    | math '-' math        #Subtraction
-    | math '*' math        #Multiplication
-    | math '/' math        #Division
+    | math '+' math      #Addition
+    | math '-' math      #Subtraction
+    | math '*' math      #Multiplication
+    | math '/' math      #Division
     | NUM                #MathNumber
-    | DOUBLE            # x
-    | VAR_NAME            #MathDouble
+    | DOUBLE             #MathDouble
+    | VAR_NAME           #MathVarName
     ;
           
 cond: 'not' cond        #Negation 
-    |'(' cond ')'        #CondParenthesis
+    |'(' cond ')'       #CondParenthesis
     | cond '&&' cond    #Conjunction
     | cond '||' cond    #Disjunction
     | cond '==' cond    #EqualTo
     | cond '/=' cond    #NotEqualTo
-    | BOOL                 # a
-    | math '==' math    #i
-    | math '/=' math    # j    
-    | math '>=' math    # b    
-    | math '<=' math    #c
-    | math '=<' math     #d
-    | math '=>' math    #e        
-    | math '<' math        #f
-    | math '>' math        #g
-    | VAR_NAME            #h
+    | BOOL              #CondBool
+    | math '==' math    #CondEqual
+    | math '/=' math    #CondNotEqual    
+    | math '>=' math    #MoreOrEqual
+    | math '<=' math    #LessOrEqual        
+    | math '<' math     #Less
+    | math '>' math     #More
+    | VAR_NAME          #CondVarName
     ;  
 	
 			 
