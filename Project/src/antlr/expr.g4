@@ -34,7 +34,7 @@ expr: r_method_call
 	;
 	
 //what if enter string in int variable, semantic or parse error?
-value: NUM | DOUB | STRING | CHAR | BOOL 	#Values
+value: NUM | DOUBLE | STRING | CHAR | BOOL 	#Values
 	 ;
 		  
 	
@@ -48,6 +48,14 @@ if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' met
 method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*	#MethodBody
 		   ;		   
 
+math: math '+' math		#Addition
+	| math '-' math		#Subtraction
+	| math '*' math		#Multiplication
+	| math '/' math		#Division
+	| NUM				#MathNumber
+	| DOUBLE			#MathDouble
+	;
+
 //do we need implication?
 // do we need >= and <=
 cond: '(' cond ')'		#Parenthesis
@@ -59,8 +67,8 @@ cond: '(' cond ')'		#Parenthesis
 	| cond '/=' cond	#NotEqualTo
 	| cond '>' cond		#MoreThan
 	| cond '<' cond		#LessThan
-	| NUM				#Number
-	| BOOL				#Boolean
+	| NUM				#CondNumber
+	| BOOL				#CondBoolean
 	;		 
 
 VAR_NAME:[a-z][a-z0-9_]*;
@@ -72,6 +80,6 @@ VOID_TYPE:'vOID';
 BOOL: 'tRUE' | 'fALSE';
 CHAR: '\''[a-z]'\'' | '\''[A-Z]'\'' ;
 STRING: '"'[a-zA-Z0-9][a-zA-Z0-9 ]*'"';
-DOUB: NUM'.'[0-9][0-9]; //2 decimal point
+DOUBLE: NUM'.'[0-9][0-9]; //2 decimal point
 COMMENT: '#' ~[\r\n]* ->skip;
 WS: [ \t\n\r]+ -> skip; 
