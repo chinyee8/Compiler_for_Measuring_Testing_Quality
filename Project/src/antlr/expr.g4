@@ -112,7 +112,7 @@ VOID_TYPE:'VOID';
 BOOL: 'TRUE' | 'FALSE';
 TEST_NAME: 'test_'[a-zA-Z0-9_]*;
 VAR_NAME:[a-z][a-z0-9_]*;
-CLASS_NAME:[A-Z][a-zA-Z]*;
+CLASS_NAME:[A-Z][a-z]*;
 METHODNAME: [A-Z][A-Z0-9_]*;
 NUM: '0' | '-'?[1-9][0-9]*;
 CHAR: '\''[a-z]'\'' | '\''[A-Z]'\'' ;
