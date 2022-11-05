@@ -259,6 +259,20 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNotEqualTo(exprParser.NotEqualToContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code i}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitI(exprParser.IContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code j}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJ(exprParser.JContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code EqualTo}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree

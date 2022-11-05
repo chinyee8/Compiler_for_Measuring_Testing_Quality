@@ -430,6 +430,30 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitNotEqualTo(exprParser.NotEqualToContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code i}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterI(exprParser.IContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code i}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitI(exprParser.IContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code j}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterJ(exprParser.JContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code j}
+	 * labeled alternative in {@link exprParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitJ(exprParser.JContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code EqualTo}
 	 * labeled alternative in {@link exprParser#cond}.
 	 * @param ctx the parse tree
