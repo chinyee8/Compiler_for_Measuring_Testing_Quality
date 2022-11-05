@@ -44,7 +44,6 @@ r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
 			;
 
-//compulsory for decl and assi or not
 method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*	#MethodBody
 		   ;		   
 
@@ -71,13 +70,13 @@ cond: '(' cond ')'		#Parenthesis
 	| BOOL				#CondBoolean
 	;		 
 
+DATA_TYPE:'INT'|'DOUBLE'|'BOOLEAN'|'STRING'|'CHAR';
+VOID_TYPE:'VOID';
+BOOL: 'TRUE' | 'FALSE';
 VAR_NAME:[a-z][a-z0-9_]*;
 CLASS_NAME:[A-Z][a-zA-Z]*;
-DATA_TYPE:'iNT'|'dOUBLE'|'bOOLEAN'|'sTRING'|'cHAR';
 METHODNAME: [A-Z][A-Z0-9_]*;
 NUM: '0' | '-'?[1-9][0-9]*;
-VOID_TYPE:'vOID';
-BOOL: 'tRUE' | 'fALSE';
 CHAR: '\''[a-z]'\'' | '\''[A-Z]'\'' ;
 STRING: '"'[a-zA-Z0-9][a-zA-Z0-9 ]*'"';
 DOUBLE: NUM'.'[0-9][0-9]; //2 decimal point

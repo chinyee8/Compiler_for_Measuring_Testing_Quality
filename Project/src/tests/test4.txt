@@ -1,12 +1,12 @@
 game Classname[]!
 	jackieServes:
-		var1 << iNT #need to change in docs
+		var1 << INT #need to change in docs
 	jackieAssigns:	
 		var1 <- 123
 
-	mymethod HFDFS_FDFSF1 iNT [ iNT var1 ] ! #need to consider empty parameter
+	mymethod HFDFS_FDFSF1 INT [ INT var1 ] ! #need to consider empty parameter
 		jackieServes:	
-			var2 << sTRING
+			var2 << STRING
 		jackieAssigns:
 			var2 <- "How are you"
 		
@@ -14,7 +14,7 @@ game Classname[]!
 			jackieServes:
 			jackieAssigns:
 				var2 <- "Hello World"
-			jackieAsks[ (not tRUE) => (3 /= 4) ] ! #semantic error
+			jackieAsks[ (not TRUE) => (3 /= 4) ] ! #semantic error
 				jackieServes:
 				jackieAssigns:
 					var2 <- "you"
@@ -28,7 +28,7 @@ game Classname[]!
 			jackieAssigns:
 				var1 <- 123
 				
-			jackieAsks[not tRUE] !
+			jackieAsks[not TRUE] !
 				jackieServes:
 				jackieAssigns:
 			!elseJackie!

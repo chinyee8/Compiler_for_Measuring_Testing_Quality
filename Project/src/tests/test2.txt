@@ -1,23 +1,23 @@
 game Classname[]!
 	jackieServes:
-		var1 << dOUBLE #need to change in docs
+		var1 << DOUBLE #need to change in docs
 	jackieAssigns:
 		var1 <- -23.45	#negative decimal works / 0.45
 		var1 <- 0
 		var1 <- -12	
 
-	mymethod HFDFS_FDFSF1 bOOLEAN [ iNT var1 ] !
+	mymethod HFDFS_FDFSF1 BOOLEAN [ INT var1 ] !
 		jackieServes:
-			var2 << cHAR
+			var2 << CHAR
 		jackieAssigns:
 			var2 <- 'A'
 		
 		jackieReturns var2
 	! 
 	
-	mymethod HFDFS_FDFSF1 vOID [ iNT var1 ] !
+	mymethod HFDFS_FDFSF1 VOID [ INT var1 ] !
 		jackieServes:			
-			var2 << cHAR
+			var2 << CHAR
 		jackieAssigns:		
 			var2 <- 't'
 		

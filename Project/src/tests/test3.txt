@@ -1,12 +1,12 @@
 game Classname[]!
 	jackieServes:
-		var1 << iNT #need to change in docs
+		var1 << INT #need to change in docs
 	jackieAssigns:
 		var1 <- 123
 
-	mymethod HFDFS_FDFSF1 iNT [ iNT var1 ] ! #need to consider empty parameter
+	mymethod HFDFS_FDFSF1 INT [ INT var1 ] ! #need to consider empty parameter
 		jackieServes:
-			var2 << sTRING
+			var2 << STRING
 		jackieAssigns:	
 			var2 <- "How are you"
 		
@@ -20,7 +20,7 @@ game Classname[]!
 				var1 <- 123
 		!
 		
-		jackieAsks [ tRUE => fALSE ] !
+		jackieAsks [ TRUE => FALSE ] !
 			jackieServes:	#whats this
 			jackieAssigns:
 		! elseJackie !
