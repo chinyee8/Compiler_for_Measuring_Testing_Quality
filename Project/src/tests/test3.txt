@@ -1,31 +1,19 @@
 game Classname[]!
-	jackieServes:
 		var1 << INT #need to change in docs
-	jackieAssigns:
 		var1 <- 123
 
 	mymethod HFDFS_FDFSF1 INT [ INT var1 ] ! #need to consider empty parameter
-		jackieServes:
 			var2 << STRING
-		jackieAssigns:	
 			var2 <- "How are you"
 		
 		jackieAsks [ (1 => 2) ] ! #semantic error
-			jackieServes:	#whats this
-			jackieAssigns:
 				var2 <- "Hello World"
 		! elseJackie !
-			jackieServes:	#whats this
-			jackieAssigns:
 				var1 <- 123
 		!
 		
 		jackieAsks [ TRUE => FALSE ] !
-			jackieServes:	#whats this
-			jackieAssigns:
 		! elseJackie !
-			jackieServes:
-			jackieAssigns:
 		!
 		
 		

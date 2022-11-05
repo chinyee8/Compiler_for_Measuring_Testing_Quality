@@ -7,7 +7,7 @@ grammar expr;
 prog: 'game' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
 	;
 
-body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (mymethod)*	#ClassBody
+body: (decl)* (assi)* (mymethod)*	#ClassBody
 	;
 
 //	 do we allow class name to be same as method name and var name?
@@ -44,10 +44,10 @@ r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
 			;
 
-method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*	#MethodBody
+method_body: (decl)* (assi)* (if_statement)* (r_method_call)*	#MethodBody
 		   ;	
 		   
-test: 'test' TEST_NAME '[' ']''!' 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (t_method_call)* '!'
+test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'
 	;
 	
 t_method_call: CLASS_NAME'.'METHODNAME'['input']'
