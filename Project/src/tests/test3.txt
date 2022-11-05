@@ -10,16 +10,22 @@ game Classname[]!
 		jackieAssigns:	
 			var2 <- "How are you"
 		
-		If [ (1 => 2) ] ! #semantic error
+		jackieAsks [ (1 => 2) ] ! #semantic error
+			jackieServes:	#whats this
 			jackieAssigns:
 				var2 <- "Hello World"
-		! elf !
+		! elseJackie !
+			jackieServes:	#whats this
 			jackieAssigns:
 				var1 <- 123
 		!
 		
-		If [ tRUE => fALSE ] !
-		! elf !
+		jackieAsks [ tRUE => fALSE ] !
+			jackieServes:	#whats this
+			jackieAssigns:
+		! elseJackie !
+			jackieServes:
+			jackieAssigns:
 		!
 		
 		

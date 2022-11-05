@@ -11,9 +11,13 @@ game Classname[]!
 		jackieAssigns:
 			var2 <- "How are you"
 		
-		JackieAsks [ tRUE] !
+		jackieAsks [ tRUE] !
+			jackieServes:
+			jackieAssigns:
 		!
-		ElseJackie !
+		elseJackie !
+			jackieServes:
+			jackieAssigns:
 		!
 		
 		jackieReturns var2

@@ -10,23 +10,30 @@ game Classname[]!
 		jackieAssigns:
 			var2 <- "How are you"
 		
-		If [ 3 == -4] ! #semantic error]
+		jackieAsks [ 3 == -4] ! #semantic error
 			jackieServes:
+			jackieAssigns:
 				var2 <- "Hello World"
-			If[ (not tRUE) => (3 /= 4) ] ! #semantic error
+			jackieAsks[ (not tRUE) => (3 /= 4) ] ! #semantic error
 				jackieServes:
+				jackieAssigns:
 					var2 <- "you"
-			! elf!
+			! elseJackie!
 				jackieServes:
+				jackieAssigns:
 					var1 <- 323
 			!
-		! elf !
+		! elseJackie !
 			jackieServes:
+			jackieAssigns:
 				var1 <- 123
-			If[not tRUE] !
-			
-			!elf!
+				
+			jackieAsks[not tRUE] !
 				jackieServes:
+				jackieAssigns:
+			!elseJackie!
+				jackieServes:
+				jackieAssigns:
 					var1 <-234
 			!
 		!

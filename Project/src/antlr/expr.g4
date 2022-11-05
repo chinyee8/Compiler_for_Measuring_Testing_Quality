@@ -4,10 +4,10 @@ grammar expr;
 	package antlr;
 }
 
-prog: 'jackie' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
+prog: 'game' CLASS_NAME '[' ']' '!' body '!' EOF	#Program
 	;
 
-body: (decl)* (assi)* (mymethod)*
+body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (mymethod)*
 	;
 
 decl: VAR_NAME '<<' DATA_TYPE
@@ -23,7 +23,7 @@ method_type: return_method
 		   | void_method
 		   ;  
 	
-return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'return' VAR_NAME '!' 
+return_method: DATA_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body 'jackieReturns' VAR_NAME '!' 
 			 ;
 			 
 void_method: VOID_TYPE '[' DATA_TYPE VAR_NAME ']' '!' method_body '!'
@@ -41,11 +41,11 @@ value: NUM | DOUB | STRING | CHAR | BOOL //what if enter string in int variable,
 r_method_call: METHODNAME '[' VAR_NAME ']'
 			 ;
 
-if_statement: 'If' '[' cond ']' '!' method_body '!' 'elf' '!' method_body '!'
+if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'
 			;
 
 //compulsory for decl and assi or not
-method_body: (decl)* (assi)* (if_statement)* (r_method_call)*
+method_body: 'jackieServes:' (decl)* 'jackieAssigns:' (assi)* (if_statement)* (r_method_call)*
 		   ;
 		   
 
