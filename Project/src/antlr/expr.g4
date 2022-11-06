@@ -51,7 +51,8 @@ parameter: param						#SingleParam
             
 param: DATA_TYPE VAR_NAME 				#Params
      ;
-     
+   
+//MultiParameter 
 multi_param: param ',' (multi_param)+	#MultiParam1
            | param						#MultiParam2
            ; 
