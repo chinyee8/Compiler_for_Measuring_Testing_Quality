@@ -20,9 +20,9 @@ decl: VAR_NAME '<<' DATA_TYPE					#Declaration
 assi: VAR_NAME '<-' expr						#Assignment
 	;
 	
-//AssiExpr	
-expr: r_method_call 							#AssiRMethodCall
-	| value										#AssiExprValues
+//Expr	
+expr: r_method_call 							#RMethodCall
+	| value										#Values
 	;
 	
 //********************** mymethod ********************** //
@@ -75,7 +75,7 @@ if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' met
 			;	 
 	 
 //********************** extra ********************** //
-//AssiExprValues
+//Values
 value: NUM 			#ValueNum
 	 | DOUBLE 		#ValueDouble
 	 | STRING 		#ValueString
