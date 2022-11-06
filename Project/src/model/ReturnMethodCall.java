@@ -1,10 +1,10 @@
 package model;
 
-public class returnMethodCall {
+public class ReturnMethodCall {
 	public String methodName;
 	public String varName;
 	
-	public returnMethodCall(String methodName, String varName) {
+	public ReturnMethodCall(String methodName, String varName) {
 		this.methodName = methodName;
 		this.varName = varName;
 	}
