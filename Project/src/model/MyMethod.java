@@ -2,9 +2,9 @@ package model;
 
 public class MyMethod {
 	String methodName;
-	String methodType;
+	returnMethodCall methodType;
 	
-	public MyMethod(String name, String type) {
+	public MyMethod(String name, returnMethodCall type) {
 		methodName = name;
 		methodType = type;
 	}
