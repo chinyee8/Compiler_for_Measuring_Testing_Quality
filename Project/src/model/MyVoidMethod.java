@@ -1,6 +1,6 @@
 package model;
 
-public class MyVoidMethod {
+public class MyVoidMethod extends MethodType{
 	String voidType;
 	Parameter param;
 	MyMethodBody body;
