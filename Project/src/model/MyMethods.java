@@ -9,12 +9,12 @@ public class MyMethods extends Expression{
 	MethodType methodType; 
 	
 	
-	public MyMethods(String name, MyReturnM type) {
+	public MyMethods(String name, MyReturnMethod type) {
 		methodName = name;
 		methodType = type;
 	}
 	
-	public MyMethods(String name, MyVoidM type) {
+	public MyMethods(String name, MyVoidMethod type) {
 		methodName = name;
 		methodType = type;
 	}
