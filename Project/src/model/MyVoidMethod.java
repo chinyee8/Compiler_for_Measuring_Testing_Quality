@@ -1,15 +1,27 @@
 package model;
 
 public class MyVoidMethod {
-	MyParameter param;
+	String voidType;
+	Parameter param;
 	MyMethodBody body;
 	String varName;
 	
-	public MyVoidMethod(MyParameter param,
+	public MyVoidMethod(String voidType, Parameter param,
 			MyMethodBody body,
 			String varName) {
 		this.param = param;
 		this.body = body;
 		this.varName = varName;
+	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		
+		result += voidType + " [ " + param.toString() + " ] ! \n";
+		result += body.toString() + "\n";
+		result += "!";
+		
+		return result ;
 	}
 }

@@ -62,12 +62,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssiExprValues(exprParser.AssiExprValuesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MyMethod}
+	 * Visit a parse tree produced by the {@code MyMethods}
 	 * labeled alternative in {@link exprParser#mymethod}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMyMethod(exprParser.MyMethodContext ctx);
+	T visitMyMethods(exprParser.MyMethodsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MyReturnM}
 	 * labeled alternative in {@link exprParser#method_type}.
@@ -125,6 +125,13 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMyNoParameter(exprParser.MyNoParameterContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code PMulti}
+	 * labeled alternative in {@link exprParser#p_multi}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPMulti(exprParser.PMultiContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code TestCase}
 	 * labeled alternative in {@link exprParser#test}.
 	 * @param ctx the parse tree
@@ -160,12 +167,26 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTestVarName(exprParser.TestVarNameContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code TestMath}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTestMath(exprParser.TestMathContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code TestNum}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTestNum(exprParser.TestNumContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TestCond}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTestCond(exprParser.TestCondContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TestDouble}
 	 * labeled alternative in {@link exprParser#input}.
@@ -195,11 +216,40 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(exprParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link exprParser#value}.
+	 * Visit a parse tree produced by the {@code ValueNum}
+	 * labeled alternative in {@link exprParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(exprParser.ValueContext ctx);
+	T visitValueNum(exprParser.ValueNumContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueDouble}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueDouble(exprParser.ValueDoubleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueString}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueString(exprParser.ValueStringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueChar}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueChar(exprParser.ValueCharContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueBool}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueBool(exprParser.ValueBoolContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code returnMethodCall}
 	 * labeled alternative in {@link exprParser#r_method_call}.

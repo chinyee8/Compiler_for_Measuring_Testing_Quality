@@ -1,5 +1,28 @@
 package model;
 
-public class IfStatement {
+import appAdd.Expression;
 
+public class IfStatement extends Expression{
+	Condition cond;
+	MyMethodBody methbody1;
+	MyMethodBody methbody2;
+	
+	public IfStatement(Condition cond, MyMethodBody methbody1, MyMethodBody methbody2) {
+		this.cond = cond;
+		this.methbody1 = methbody1;
+		this.methbody2 = methbody2;
+	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		
+		result += "jackieAsks [ " + cond.toString() + " ] !\n";
+		result += methbody1.toString() + "\n";
+		result += "! elseJackie !\n";
+		result += methbody2.toString() + "\n";
+		result += "!";
+		
+		return result;
+	}
 }

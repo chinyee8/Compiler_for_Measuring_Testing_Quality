@@ -1,9 +1,5 @@
 package model;
 
-public class AssiExprValues {
-	public Values value;
+public class AssiExprValues extends AssiExpr  {
 	
-	public AssiExprValues(Values val) {
-		value = val;
-	}
 }

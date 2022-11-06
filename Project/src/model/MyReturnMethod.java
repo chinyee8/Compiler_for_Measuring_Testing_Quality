@@ -2,17 +2,28 @@ package model;
 
 public class MyReturnMethod {
 	String dataType;
-	MyParameter param;
+	Parameter param;
 	MyMethodBody body;
 	String varName;
 	
 	public MyReturnMethod(String dataType,
-			MyParameter param,
+			Parameter param,
 			MyMethodBody body,
 			String varName) {
 		this.dataType = dataType;
 		this.param = param;
 		this.body = body;
 		this.varName = varName;
+	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		
+		result += dataType + " [ " + param.toString() + " ] ! \n";
+		result += body.toString() + "\n";
+		result += "jackieReturns " + varName + "\n!";
+		
+		return result ;
 	}
 }

@@ -1,42 +1,44 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
+import appAdd.Expression;
 
-public class MyMethodBody {
+public class MyMethodBody extends Expression{
 	public List<Declaration> declList;
 	public List<Assignment> assiList;
 	public List<IfStatement> ifStatList;
-	public List<TestMethodCall> testMethodList;
+	public List<returnMethodCall> rMethodList;
 	
-	public MyMethodBody() {
-		declList = new ArrayList<>();
-		assiList = new ArrayList<>();
-		ifStatList = new ArrayList<>();
-		testMethodList = new ArrayList<>();
+	public MyMethodBody(List<Declaration> declList,
+						List<Assignment> assiList,
+						List<IfStatement> ifStatList,
+						List<returnMethodCall> rMethodList) {
+		this.declList = declList;
+		this.assiList = assiList;
+		this.ifStatList = ifStatList;
+		this.rMethodList = rMethodList;
 	}
 	
-	public void addDecl(Declaration decl) {
+	@Override
+	public String toString() {
+		String result = "";
 		
-		declList.add(decl);
+		for(Declaration d: declList) {
+			result += d.toString() + "\n";
+		}
 		
-	}
-	
-	public void addAssi(Assignment assi) {
+		for(Assignment a: assiList) {
+			result += a.toString() + "\n";
+		}
 		
-		assiList.add(assi);
+		for(IfStatement i: ifStatList) {
+			result += i.toString() + "\n";
+		}
 		
-	}
-
-	public void addIfStatement(IfStatement ifst) {
-	
-		ifStatList.add(ifst);
-	
-	}
-	
-	public void addTestMethodCall(TestMethodCall test) {
+		for(returnMethodCall r: rMethodList) {
+			result += r.toString() + "\n";
+		}
 		
-		testMethodList.add(test);
-	
+		return result;
 	}
 }

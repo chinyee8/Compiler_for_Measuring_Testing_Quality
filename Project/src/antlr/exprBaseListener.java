@@ -103,13 +103,13 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMyMethod(exprParser.MyMethodContext ctx) { }
+	@Override public void enterMyMethods(exprParser.MyMethodsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMyMethod(exprParser.MyMethodContext ctx) { }
+	@Override public void exitMyMethods(exprParser.MyMethodsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -211,6 +211,18 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPMulti(exprParser.PMultiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPMulti(exprParser.PMultiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTestCase(exprParser.TestCaseContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -271,6 +283,18 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTestMath(exprParser.TestMathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestMath(exprParser.TestMathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTestNum(exprParser.TestNumContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -278,6 +302,18 @@ public class exprBaseListener implements exprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTestNum(exprParser.TestNumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTestCond(exprParser.TestCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTestCond(exprParser.TestCondContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -331,13 +367,61 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValue(exprParser.ValueContext ctx) { }
+	@Override public void enterValueNum(exprParser.ValueNumContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValue(exprParser.ValueContext ctx) { }
+	@Override public void exitValueNum(exprParser.ValueNumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueDouble(exprParser.ValueDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueDouble(exprParser.ValueDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueString(exprParser.ValueStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueString(exprParser.ValueStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueChar(exprParser.ValueCharContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueChar(exprParser.ValueCharContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueBool(exprParser.ValueBoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueBool(exprParser.ValueBoolContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

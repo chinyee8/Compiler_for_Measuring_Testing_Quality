@@ -50,7 +50,7 @@ public class exprLexer extends Lexer {
 			null, "'game'", "'['", "']'", "'!'", "'<<'", "'<-'", "'mymethod'", "'jackieReturns'", 
 			"','", "'test'", "'.'", "'jackieAsks'", "'elseJackie'", "'('", "')'", 
 			"'+'", "'-'", "'*'", "'/'", "'not'", "'&&'", "'||'", "'=='", "'/='", 
-			"'>='", "'<='", "'<'", "'>'", null, "'VOID'"
+			"'>='", "'<='", "'>'", "'<'", null, "'VOID'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -253,7 +253,7 @@ public class exprLexer extends Lexer {
 		"\u0000\u0000\u0000\u00b6\u00b7\u0005>\u0000\u0000\u00b7\u00b8\u0005=\u0000"+
 		"\u0000\u00b82\u0001\u0000\u0000\u0000\u00b9\u00ba\u0005<\u0000\u0000\u00ba"+
 		"\u00bb\u0005=\u0000\u0000\u00bb4\u0001\u0000\u0000\u0000\u00bc\u00bd\u0005"+
-		"<\u0000\u0000\u00bd6\u0001\u0000\u0000\u0000\u00be\u00bf\u0005>\u0000"+
+		">\u0000\u0000\u00bd6\u0001\u0000\u0000\u0000\u00be\u00bf\u0005<\u0000"+
 		"\u0000\u00bf8\u0001\u0000\u0000\u0000\u00c0\u00c1\u0005I\u0000\u0000\u00c1"+
 		"\u00c2\u0005N\u0000\u0000\u00c2\u00db\u0005T\u0000\u0000\u00c3\u00c4\u0005"+
 		"D\u0000\u0000\u00c4\u00c5\u0005O\u0000\u0000\u00c5\u00c6\u0005U\u0000"+

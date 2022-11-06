@@ -94,17 +94,17 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitAssiExprValues(exprParser.AssiExprValuesContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MyMethod}
+	 * Enter a parse tree produced by the {@code MyMethods}
 	 * labeled alternative in {@link exprParser#mymethod}.
 	 * @param ctx the parse tree
 	 */
-	void enterMyMethod(exprParser.MyMethodContext ctx);
+	void enterMyMethods(exprParser.MyMethodsContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code MyMethod}
+	 * Exit a parse tree produced by the {@code MyMethods}
 	 * labeled alternative in {@link exprParser#mymethod}.
 	 * @param ctx the parse tree
 	 */
-	void exitMyMethod(exprParser.MyMethodContext ctx);
+	void exitMyMethods(exprParser.MyMethodsContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MyReturnM}
 	 * labeled alternative in {@link exprParser#method_type}.
@@ -202,6 +202,18 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitMyNoParameter(exprParser.MyNoParameterContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code PMulti}
+	 * labeled alternative in {@link exprParser#p_multi}.
+	 * @param ctx the parse tree
+	 */
+	void enterPMulti(exprParser.PMultiContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code PMulti}
+	 * labeled alternative in {@link exprParser#p_multi}.
+	 * @param ctx the parse tree
+	 */
+	void exitPMulti(exprParser.PMultiContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code TestCase}
 	 * labeled alternative in {@link exprParser#test}.
 	 * @param ctx the parse tree
@@ -262,6 +274,18 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitTestVarName(exprParser.TestVarNameContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code TestMath}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void enterTestMath(exprParser.TestMathContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TestMath}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void exitTestMath(exprParser.TestMathContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code TestNum}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
@@ -273,6 +297,18 @@ public interface exprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTestNum(exprParser.TestNumContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code TestCond}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void enterTestCond(exprParser.TestCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TestCond}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void exitTestCond(exprParser.TestCondContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code TestDouble}
 	 * labeled alternative in {@link exprParser#input}.
@@ -322,15 +358,65 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(exprParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link exprParser#value}.
+	 * Enter a parse tree produced by the {@code ValueNum}
+	 * labeled alternative in {@link exprParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(exprParser.ValueContext ctx);
+	void enterValueNum(exprParser.ValueNumContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link exprParser#value}.
+	 * Exit a parse tree produced by the {@code ValueNum}
+	 * labeled alternative in {@link exprParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(exprParser.ValueContext ctx);
+	void exitValueNum(exprParser.ValueNumContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueDouble}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueDouble(exprParser.ValueDoubleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueDouble}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueDouble(exprParser.ValueDoubleContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueString}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueString(exprParser.ValueStringContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueString}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueString(exprParser.ValueStringContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueChar}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueChar(exprParser.ValueCharContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueChar}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueChar(exprParser.ValueCharContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueBool}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueBool(exprParser.ValueBoolContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueBool}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueBool(exprParser.ValueBoolContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code returnMethodCall}
 	 * labeled alternative in {@link exprParser#r_method_call}.

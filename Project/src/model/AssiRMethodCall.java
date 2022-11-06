@@ -1,11 +1,5 @@
 package model;
 
-public class AssiRMethodCall {
-	public String methodName;
-	public String varName;
+public class AssiRMethodCall extends AssiExpr  {
 	
-	public AssiRMethodCall(String method, String var) {
-		methodName = method;
-		varName = var;
-	}
 }

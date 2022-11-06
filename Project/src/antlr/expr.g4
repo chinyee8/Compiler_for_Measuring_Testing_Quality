@@ -4,32 +4,32 @@ grammar expr;
 	package antlr;
 }
 
-prog: (game | test) EOF	#Program
+prog: (game | (test)+) EOF	#Program
 	;
-
 
 //********************** class ********************** //
 game: 'game' CLASS_NAME '[' ']' '!' body '!'	#GameClass
-	 ;
+	;
 
 body: (decl)* (assi)* (mymethod)*				#GameBody
 	;
 
-//	 do we allow class name to be same as method name and var name?
 decl: VAR_NAME '<<' DATA_TYPE					#Declaration
 	;
 
 assi: VAR_NAME '<-' expr						#Assignment
 	;
 	
+//AssiExpr	
 expr: r_method_call 							#AssiRMethodCall
 	| value										#AssiExprValues
 	;
 	
 //********************** mymethod ********************** //
-mymethod: 'mymethod' METHODNAME method_type												#MyMethod
+mymethod: 'mymethod' METHODNAME method_type												#MyMethods
 		;
 	
+//MethodType
 method_type: return_method																#MyReturnM
 		   | void_method																#MyVoidM
 		   ;  
@@ -42,11 +42,15 @@ void_method: VOID_TYPE '[' param ']' '!' method_body '!'								#MyVoidMethod
 
 method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBody
 		   ;
-		   
-param: DATA_TYPE VAR_NAME																#MyParameter
-	 | (DATA_TYPE VAR_NAME ',')+ DATA_TYPE VAR_NAME										#MyMultiParameter
-	 |																					#MyNoParameter
+
+//Parameter	   
+param: DATA_TYPE VAR_NAME													#MyParameter
+	 | (p_multi)+ DATA_TYPE VAR_NAME										#MyMultiParameter
+	 |																		#MyNoParameter
 	 ;
+	 
+p_multi:  DATA_TYPE VAR_NAME ','											#PMulti
+	   ;
 		   
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
@@ -54,9 +58,9 @@ test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCas
 	
 t_method_call: CLASS_NAME'.'METHODNAME'['input']'							#TestMethodCall
 			 ;
-
-input: math																	#TestString
-     | cond																	#TestChar
+//Input
+input: math																	#TestMath
+     | cond																	#TestCond
      | VAR_NAME																#TestVarName
      | NUM																	#TestNum
      | CHAR																	#TestChar
@@ -64,19 +68,25 @@ input: math																	#TestString
      | DOUBLE																#TestDouble
      | input ',' input														#TestInputs
      |																		#TestEmpty
-;    
+	 ;    
 	
 //********************** if Statement ********************** //	 
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
 			;	 
 	 
 //********************** extra ********************** //
-value: NUM | DOUBLE | STRING | CHAR | BOOL 		#Values
+//AssiExprValues
+value: NUM 			#ValueNum
+	 | DOUBLE 		#ValueDouble
+	 | STRING 		#ValueString
+	 | CHAR 		#ValueChar
+	 | BOOL 		#ValueBool
 	 ;
-		  
+	  
 r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
 			 ;
 
+//Mathematics
 math:'(' math ')'        #MathParenthesis 
     | math '+' math      #Addition
     | math '-' math      #Subtraction
@@ -86,7 +96,8 @@ math:'(' math ')'        #MathParenthesis
     | DOUBLE             #MathDouble
     | VAR_NAME           #MathVarName
     ;
-          
+      
+//Condition    
 cond: 'not' cond        #Negation 
     |'(' cond ')'       #CondParenthesis
     | cond '&&' cond    #Conjunction
@@ -97,9 +108,9 @@ cond: 'not' cond        #Negation
     | math '==' math    #CondEqual
     | math '/=' math    #CondNotEqual    
     | math '>=' math    #MoreOrEqual
-    | math '<=' math    #LessOrEqual        
+    | math '<=' math    #LessOrEqual    
+    | math '>' math     #More    
     | math '<' math     #Less
-    | math '>' math     #More
     | VAR_NAME          #CondVarName
     ;  
 	

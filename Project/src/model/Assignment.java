@@ -1,17 +1,19 @@
 package model;
 
-public class Assignment {
+import appAdd.Expression;
+
+public class Assignment extends Expression{
 	public String varName;
-	public AssiRMethodCall assiRMethodCall;
-	public AssiExprValues assiExprValues;
+	public AssiExpr assiexpr;
 	
-	public Assignment(String name, 
-			AssiRMethodCall method,
-			AssiExprValues expVal) {
+	public Assignment(String name, AssiExpr assiexpr) {
 		
 		varName = name;
-		assiRMethodCall = method;
-		assiExprValues = expVal;
+		this.assiexpr = assiexpr;
 	}
 	
+	@Override
+	public String toString() {
+		return varName + " <- " + this.assiexpr.toString();
+	}
 }
