@@ -1,6 +1,6 @@
 package model;
 
-public class MyReturnMethod {
+public class MyReturnMethod extends MethodType {
 	String dataType;
 	Parameter param;
 	MyMethodBody body;
