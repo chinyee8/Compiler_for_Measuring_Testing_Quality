@@ -1,9 +1,9 @@
 package model;
 
-public class TestDouble extends Input{
+public class CallParamDouble extends Input{
 	double input;
 	
-	public TestDouble(double input) {
+	public CallParamDouble(double input) {
 		this.input = input;
 	}
 	
