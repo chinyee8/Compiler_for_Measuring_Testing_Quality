@@ -1,20 +1,15 @@
 package model;
 
-<<<<<<< Updated upstream
 public class MyReturnMethod extends MethodType {
-=======
-public class MyReturnMethod extends MyReturnM{
->>>>>>> Stashed changes
 	String dataType;
 	Parameter param;
 	MyMethodBody body;
 	String varName;
 	
-	public MyReturnMethod(MyReturnMethod method, String dataType,
+	public MyReturnMethod(String dataType,
 			Parameter param,
 			MyMethodBody body,
 			String varName) {
-		super(method);
 		this.dataType = dataType;
 		this.param = param;
 		this.body = body;

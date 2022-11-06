@@ -1,17 +1,15 @@
 package model;
 
-public class Assignment extends Expression{
+public class Assignment{
 	public String varName;
-	public Expr assiexpr;
+	public Expr expr;
 	
-	public Assignment(String name, Expr assiexpr) {
-		
+	public Assignment(String name, Expr expr) {
 		varName = name;
-		this.assiexpr = assiexpr;
+		this.expr = expr;
 	}
 	
-	@Override
 	public String toString() {
-		return varName + " <- " + this.assiexpr.toString();
+		return varName + " <- " + this.expr.toString();
 	}
 }
