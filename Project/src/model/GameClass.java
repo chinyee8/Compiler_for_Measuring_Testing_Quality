@@ -1,13 +1,14 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameClass {
 	public String className;
-	public List<GameBody> classBody;
+	public GameBody classBody;
 	
-	public GameClass(String className, List<GameBody> classBody) {
+	public GameClass(String className, GameBody classBody) {
 		this.className = className;
-		this.classBody.addAll(classBody);
+		this.classBody = classBody;
 	}
 }
