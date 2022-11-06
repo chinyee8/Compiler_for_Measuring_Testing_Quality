@@ -8,39 +8,33 @@ prog: (game | (test)+) EOF						#Program
 	;
 
 //********************** class ********************** //
-game: 'game' CLASS_NAME '[' ']' '!' body '!'				#GameClass
+game: 'game' CLASS_NAME '[' ']' '!' body '!'	#GameClass
 	;
 
-body: (decl)* (assi)* (mymethod)*					#GameBody
+body: (decl)* (assi)* (mymethod)*				#GameBody
 	;
 
-decl: VAR_NAME '<<' DATA_TYPE						#Declaration
+decl: VAR_NAME '<<' DATA_TYPE					#Declaration
 	;
 
 assi: VAR_NAME '<-' expr						#Assignment
 	;
 	
-//Expr	
 expr: r_method_call 							#RMethodCall
-	| value								#Values
+	| value										#Values
 	;
 	
 //********************** mymethod ********************** //
-mymethod: 'mymethod' METHODNAME method_type				#MyMethods
+mymethod: 'mymethod' METHODNAME method_type															#MyMethods
 		;
 	
 //MethodType
-method_type: return_method						#MyReturnM
-		   | void_method					#MyVoidM
+method_type: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!'				#MyReturnMethod
+		   | VOID_TYPE '[' parameter ']' '!' method_body '!'										#MyVoidMethod
 		   ;  
 	
-return_method: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!' 			#MyReturnMethod
-			 ;
-			 
-void_method: VOID_TYPE '[' parameter ']' '!' method_body '!'							#MyVoidMethod
-	   	   ;
 
-method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBody
+method_body: (decl)* (assi)* (if_statement)* (r_method_call|v_method_call)*					 					#MyMethodBody
 		   ;
 
 //Parameter	   
@@ -59,21 +53,29 @@ multi_param: ',' param						#MultiParamChild
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
 	;
+//********************** method calls ********************** //		   
 	
-t_method_call: CLASS_NAME'.'METHODNAME'['input']'							#TestMethodCall
+t_method_call: CLASS_NAME'.'METHODNAME'[' call_parameter ']'				#TestMethodCall
 			 ;
+r_method_call: METHODNAME '[' call_parameter ']'							#ReturnMethodCall
+			 ;
+v_method_call: VOIDCALL METHODNAME '[' call_parameter ']'			 		#VoidMethodCall
+			;
 //Input
-input: math																	#TestMath
-     | cond																	#TestCond
-     | VAR_NAME																#TestVarName
-     | NUM																	#TestNum
-     | CHAR																	#TestChar
-     | STRING																#TestString
-     | DOUBLE																#TestDouble
-     | input ',' input														#TestInputs
-     |																		#TestEmpty
+call_parameter: input														#CallParameter
+				| input (multi_input)+										#CallMultiParameter
+				|															#CallEmptyParameter
+			;
+input: math																	#CallParamMath
+     | cond																	#CallParamCond
+     | VAR_NAME																#CallParamVarName
+     | NUM																	#CallParamNum
+     | CHAR																	#CallParamChar
+     | STRING																#CallParamString
+     | DOUBLE																#CallParamDouble
 	 ;    
-	
+multi_input: ',' input
+	;	
 //********************** if Statement ********************** //	 
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
 			;	 
@@ -85,11 +87,8 @@ value: NUM 			#ValueNum
 	 | STRING 		#ValueString
 	 | CHAR 		#ValueChar
 	 | BOOL 		#ValueBool
-	 ;
-	  
-r_method_call: METHODNAME '[' VAR_NAME ']'		#returnMethodCall
-			 ;
-
+	 | math			#ValueMath
+	 ;		 
 //Mathematics
 math:'(' math ')'        #MathParenthesis 
     | math '+' math      #Addition
@@ -119,7 +118,7 @@ cond: 'not' cond        #Negation
     ;  
 	
 			 
-
+VOIDCALL: 'void_';
 DATA_TYPE:'INT'|'DOUBLE'|'BOOLEAN'|'STRING'|'CHAR';
 VOID_TYPE:'VOID';
 BOOL: 'TRUE' | 'FALSE';
