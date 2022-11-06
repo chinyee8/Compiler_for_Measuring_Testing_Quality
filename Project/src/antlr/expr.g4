@@ -44,16 +44,16 @@ method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBod
 		   ;
 
 //Parameter	   
-parameter: param								#SingleParam
-    	 | param (multi_param)+							#MultiParam
+parameter: param							#SingleParam
+    	 | param (multi_param)+				#MultiParam
     	 |									#EmptyParam
     	 ;   
             
-param: DATA_TYPE VAR_NAME 							#Params
+param: DATA_TYPE VAR_NAME 					#Params
      ;
    
-//MultiParameter 
-multi_param: ',' param								#MultiParam1
+ 
+multi_param: ',' param						#MultiParamChild
            ; 
 		   
 //********************** test method ********************** //		   

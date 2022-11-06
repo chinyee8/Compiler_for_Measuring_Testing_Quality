@@ -214,29 +214,17 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitParams(exprParser.ParamsContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MultiParam1}
+	 * Enter a parse tree produced by the {@code MultiParamChild}
 	 * labeled alternative in {@link exprParser#multi_param}.
 	 * @param ctx the parse tree
 	 */
-	void enterMultiParam1(exprParser.MultiParam1Context ctx);
+	void enterMultiParamChild(exprParser.MultiParamChildContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code MultiParam1}
+	 * Exit a parse tree produced by the {@code MultiParamChild}
 	 * labeled alternative in {@link exprParser#multi_param}.
 	 * @param ctx the parse tree
 	 */
-	void exitMultiParam1(exprParser.MultiParam1Context ctx);
-	/**
-	 * Enter a parse tree produced by the {@code MultiParam2}
-	 * labeled alternative in {@link exprParser#multi_param}.
-	 * @param ctx the parse tree
-	 */
-	void enterMultiParam2(exprParser.MultiParam2Context ctx);
-	/**
-	 * Exit a parse tree produced by the {@code MultiParam2}
-	 * labeled alternative in {@link exprParser#multi_param}.
-	 * @param ctx the parse tree
-	 */
-	void exitMultiParam2(exprParser.MultiParam2Context ctx);
+	void exitMultiParamChild(exprParser.MultiParamChildContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code TestCase}
 	 * labeled alternative in {@link exprParser#test}.

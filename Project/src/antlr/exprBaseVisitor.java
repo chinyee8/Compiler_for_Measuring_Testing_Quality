@@ -139,14 +139,7 @@ public class exprBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements e
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultiParam1(exprParser.MultiParam1Context ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitMultiParam2(exprParser.MultiParam2Context ctx) { return visitChildren(ctx); }
+	@Override public T visitMultiParamChild(exprParser.MultiParamChildContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

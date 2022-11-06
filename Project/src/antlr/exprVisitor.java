@@ -132,19 +132,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParams(exprParser.ParamsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MultiParam1}
+	 * Visit a parse tree produced by the {@code MultiParamChild}
 	 * labeled alternative in {@link exprParser#multi_param}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMultiParam1(exprParser.MultiParam1Context ctx);
-	/**
-	 * Visit a parse tree produced by the {@code MultiParam2}
-	 * labeled alternative in {@link exprParser#multi_param}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiParam2(exprParser.MultiParam2Context ctx);
+	T visitMultiParamChild(exprParser.MultiParamChildContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TestCase}
 	 * labeled alternative in {@link exprParser#test}.
