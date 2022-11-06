@@ -1,9 +1,9 @@
 package model;
 
-public class TestNum extends Input{
+public class CallParamNum extends Input{
 	int num;
 	
-	public TestNum(int num) {
+	public CallParamNum(int num) {
 		this.num = num;
 	}
 	
