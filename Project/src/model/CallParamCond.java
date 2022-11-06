@@ -1,9 +1,9 @@
 package model;
 
-public class TestCond extends Input{
+public class CallParamCond extends Input{
 	Condition cond;
 	
-	public TestCond(Condition cond) {
+	public CallParamCond(Condition cond) {
 		this.cond = cond;
 	}
 	
