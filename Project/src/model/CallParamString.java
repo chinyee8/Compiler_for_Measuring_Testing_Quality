@@ -1,8 +1,8 @@
 package model;
 
-public class TestString extends Input{
+public class CallParamString extends Input{
 	String input;
-	public TestString(String input) {
+	public CallParamString(String input) {
 		this.input = input;
 	}
 	
