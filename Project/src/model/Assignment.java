@@ -2,9 +2,9 @@ package model;
 
 public class Assignment extends Expression{
 	public String varName;
-	public AssiExpr assiexpr;
+	public Expr assiexpr;
 	
-	public Assignment(String name, AssiExpr assiexpr) {
+	public Assignment(String name, Expr assiexpr) {
 		
 		varName = name;
 		this.assiexpr = assiexpr;

@@ -48,19 +48,19 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(exprParser.AssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AssiRMethodCall}
+	 * Visit a parse tree produced by the {@code RMethodCall}
 	 * labeled alternative in {@link exprParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssiRMethodCall(exprParser.AssiRMethodCallContext ctx);
+	T visitRMethodCall(exprParser.RMethodCallContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AssiExprValues}
+	 * Visit a parse tree produced by the {@code Values}
 	 * labeled alternative in {@link exprParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssiExprValues(exprParser.AssiExprValuesContext ctx);
+	T visitValues(exprParser.ValuesContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MyMethods}
 	 * labeled alternative in {@link exprParser#mymethod}.
@@ -124,13 +124,6 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMyNoParameter(exprParser.MyNoParameterContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code PMulti}
-	 * labeled alternative in {@link exprParser#p_multi}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPMulti(exprParser.PMultiContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TestCase}
 	 * labeled alternative in {@link exprParser#test}.

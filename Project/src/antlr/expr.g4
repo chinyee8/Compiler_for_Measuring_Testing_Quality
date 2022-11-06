@@ -45,12 +45,9 @@ method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBod
 
 //Parameter	   
 param: DATA_TYPE VAR_NAME													#MyParameter
-	 | (p_multi)+ DATA_TYPE VAR_NAME										#MyMultiParameter
+	 | (DATA_TYPE VAR_NAME ',')+ DATA_TYPE VAR_NAME										#MyMultiParameter
 	 |																		#MyNoParameter
 	 ;
-	 
-p_multi:  DATA_TYPE VAR_NAME ','											#PMulti
-	   ;
 		   
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase

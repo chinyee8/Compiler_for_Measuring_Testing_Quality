@@ -1,6 +1,6 @@
 package model;
 
-public class returnMethodCall extends AssiRMethodCall {
+public class returnMethodCall extends RMethodCall {
 	public String methodName;
 	public String varName;
 	

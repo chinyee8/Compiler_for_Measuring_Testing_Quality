@@ -1,7 +1,7 @@
 package model;
 
 
-public class ValueBool extends AssiExprValues {
+public class ValueBool extends Values {
 	boolean value;
 	public ValueBool(boolean value) {
 		this.value = value;
