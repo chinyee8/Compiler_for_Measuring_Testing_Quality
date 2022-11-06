@@ -4,17 +4,17 @@ grammar expr;
 	package antlr;
 }
 
-prog: (game | (test)+) EOF	#Program
+prog: (game | (test)+) EOF						#Program
 	;
 
 //********************** class ********************** //
-game: 'game' CLASS_NAME '[' ']' '!' body '!'	#GameClass
+game: 'game' CLASS_NAME '[' ']' '!' body '!'				#GameClass
 	;
 
-body: (decl)* (assi)* (mymethod)*				#GameBody
+body: (decl)* (assi)* (mymethod)*					#GameBody
 	;
 
-decl: VAR_NAME '<<' DATA_TYPE					#Declaration
+decl: VAR_NAME '<<' DATA_TYPE						#Declaration
 	;
 
 assi: VAR_NAME '<-' expr						#Assignment
@@ -22,56 +22,55 @@ assi: VAR_NAME '<-' expr						#Assignment
 	
 //Expr	
 expr: r_method_call 							#RMethodCall
-	| value										#Values
+	| value								#Values
 	;
 	
 //********************** mymethod ********************** //
-mymethod: 'mymethod' METHODNAME method_type												#MyMethods
+mymethod: 'mymethod' METHODNAME method_type				#MyMethods
 		;
 	
 //MethodType
-method_type: return_method																#MyReturnM
-		   | void_method																#MyVoidM
+method_type: return_method						#MyReturnM
+		   | void_method					#MyVoidM
 		   ;  
 	
-return_method: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#MyReturnMethod
+return_method: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!' 			#MyReturnMethod
 			 ;
 			 
-void_method: VOID_TYPE '[' parameter ']' '!' method_body '!'								#MyVoidMethod
+void_method: VOID_TYPE '[' parameter ']' '!' method_body '!'							#MyVoidMethod
 	   	   ;
 
 method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBody
 		   ;
 
 //Parameter	   
-parameter: param						#SingleParam
-    	 | multi_param					#MultiParam
-    	 |								#EmptyParam
+parameter: param								#SingleParam
+    	 | param (multi_param)+							#MultiParam
+    	 |									#EmptyParam
     	 ;   
             
-param: DATA_TYPE VAR_NAME 				#Params
+param: DATA_TYPE VAR_NAME 							#Params
      ;
    
 //MultiParameter 
-multi_param: param ',' (multi_param)+	#MultiParam1
-           | param						#MultiParam2
+multi_param: ',' param								#MultiParam1
            ; 
 		   
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
 	;
 	
-t_method_call: CLASS_NAME'.'METHODNAME'['input']'							#TestMethodCall
+t_method_call: CLASS_NAME'.'METHODNAME'['input']'												#TestMethodCall
 			 ;
 //Input
 input: math																	#TestMath
      | cond																	#TestCond
-     | VAR_NAME																#TestVarName
+     | VAR_NAME																	#TestVarName
      | NUM																	#TestNum
      | CHAR																	#TestChar
-     | STRING																#TestString
-     | DOUBLE																#TestDouble
-     | input ',' input														#TestInputs
+     | STRING																	#TestString
+     | DOUBLE																	#TestDouble
+     | input ',' input																#TestInputs
      |																		#TestEmpty
 	 ;    
 	
