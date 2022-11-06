@@ -1,9 +1,9 @@
 package model;
 
-public class TestChar extends Input{
+public class CallParamChar extends Input{
 	char input;
 	
-	public TestChar(char input) {
+	public CallParamChar(char input) {
 		this.input = input;
 	}
 	
