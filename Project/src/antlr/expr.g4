@@ -60,17 +60,17 @@ multi_param: ',' param						#MultiParamChild
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
 	;
 	
-t_method_call: CLASS_NAME'.'METHODNAME'['input']'												#TestMethodCall
+t_method_call: CLASS_NAME'.'METHODNAME'['input']'							#TestMethodCall
 			 ;
 //Input
 input: math																	#TestMath
      | cond																	#TestCond
-     | VAR_NAME																	#TestVarName
+     | VAR_NAME																#TestVarName
      | NUM																	#TestNum
      | CHAR																	#TestChar
-     | STRING																	#TestString
-     | DOUBLE																	#TestDouble
-     | input ',' input																#TestInputs
+     | STRING																#TestString
+     | DOUBLE																#TestDouble
+     | input ',' input														#TestInputs
      |																		#TestEmpty
 	 ;    
 	
