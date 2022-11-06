@@ -104,26 +104,47 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMyMethodBody(exprParser.MyMethodBodyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MyParameter}
-	 * labeled alternative in {@link exprParser#param}.
+	 * Visit a parse tree produced by the {@code SingleParam}
+	 * labeled alternative in {@link exprParser#parameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMyParameter(exprParser.MyParameterContext ctx);
+	T visitSingleParam(exprParser.SingleParamContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MyMultiParameter}
-	 * labeled alternative in {@link exprParser#param}.
+	 * Visit a parse tree produced by the {@code MultiParam}
+	 * labeled alternative in {@link exprParser#parameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMyMultiParameter(exprParser.MyMultiParameterContext ctx);
+	T visitMultiParam(exprParser.MultiParamContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MyNoParameter}
+	 * Visit a parse tree produced by the {@code EmptyParam}
+	 * labeled alternative in {@link exprParser#parameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEmptyParam(exprParser.EmptyParamContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Params}
 	 * labeled alternative in {@link exprParser#param}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMyNoParameter(exprParser.MyNoParameterContext ctx);
+	T visitParams(exprParser.ParamsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiParam1}
+	 * labeled alternative in {@link exprParser#multi_param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiParam1(exprParser.MultiParam1Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiParam2}
+	 * labeled alternative in {@link exprParser#multi_param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiParam2(exprParser.MultiParam2Context ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TestCase}
 	 * labeled alternative in {@link exprParser#test}.

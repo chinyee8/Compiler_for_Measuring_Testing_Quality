@@ -34,20 +34,27 @@ method_type: return_method																#MyReturnM
 		   | void_method																#MyVoidM
 		   ;  
 	
-return_method: DATA_TYPE '[' param ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#MyReturnMethod
+return_method: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!' 	#MyReturnMethod
 			 ;
 			 
-void_method: VOID_TYPE '[' param ']' '!' method_body '!'								#MyVoidMethod
+void_method: VOID_TYPE '[' parameter ']' '!' method_body '!'								#MyVoidMethod
 	   	   ;
 
 method_body: (decl)* (assi)* (if_statement)* (r_method_call)*							#MyMethodBody
 		   ;
 
 //Parameter	   
-param: DATA_TYPE VAR_NAME													#MyParameter
-	 | (DATA_TYPE VAR_NAME ',')+ DATA_TYPE VAR_NAME										#MyMultiParameter
-	 |																		#MyNoParameter
-	 ;
+parameter: param						#SingleParam
+    	 | multi_param					#MultiParam
+    	 |								#EmptyParam
+    	 ;   
+            
+param: DATA_TYPE VAR_NAME 				#Params
+     ;
+     
+multi_param: param ',' (multi_param)+	#MultiParam1
+           | param						#MultiParam2
+           ; 
 		   
 //********************** test method ********************** //		   
 test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
