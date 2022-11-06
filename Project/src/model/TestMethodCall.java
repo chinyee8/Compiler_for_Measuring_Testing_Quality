@@ -1,19 +1,18 @@
 package model;
 
-public class TestMethodCall extends Expression{
-	String className;
-	String methodName;
-	Input input;
+public class TestMethodCall{
+	private String className;
+	private String methodName;
+	private Input input;
 	
 	public TestMethodCall(String className,
-							String methodName,
-							Input input) {
+						  String methodName,
+						  Input input) {
 		this.className = className;
 		this.methodName = methodName;
 		this.input = input;
 	}
 	
-	@Override
 	public String toString() {
 		return className + "." + methodName + "[ " + input.toString() + " ]";
 	}

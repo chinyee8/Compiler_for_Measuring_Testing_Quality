@@ -1,9 +1,9 @@
 package model;
 
-public class IfStatement extends Expression{
-	Condition cond;
-	MyMethodBody methbody1;
-	MyMethodBody methbody2;
+public class IfStatement{
+	private Condition cond;
+	private MyMethodBody methbody1;
+	private MyMethodBody methbody2;
 	
 	public IfStatement(Condition cond, MyMethodBody methbody1, MyMethodBody methbody2) {
 		this.cond = cond;
@@ -11,7 +11,6 @@ public class IfStatement extends Expression{
 		this.methbody2 = methbody2;
 	}
 	
-	@Override
 	public String toString() {
 		String result = "";
 		

@@ -1,5 +1,5 @@
 package model;
 
-public class Parameter extends Expression {
+public abstract class Parameter {
 
 }

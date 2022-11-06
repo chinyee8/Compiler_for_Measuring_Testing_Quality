@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class MyMethodBody extends Expression{
+public class MyMethodBody{
 	public List<Declaration> declList;
 	public List<Assignment> assiList;
 	public List<IfStatement> ifStatList;

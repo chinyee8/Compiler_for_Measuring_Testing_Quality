@@ -1,6 +1,6 @@
 package model;
 
-public class returnMethodCall extends RMethodCall {
+public class returnMethodCall {
 	public String methodName;
 	public String varName;
 	

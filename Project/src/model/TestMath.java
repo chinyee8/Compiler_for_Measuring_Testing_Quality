@@ -1,6 +1,6 @@
 package model;
 
-public class TestMath {
+public class TestMath extends Input{
 	Mathematics math;
 	
 	public TestMath(Mathematics math) {

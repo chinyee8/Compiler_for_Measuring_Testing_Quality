@@ -1,6 +1,6 @@
 package model;
 
-public class MyMethods extends Expression{
+public class MyMethods{	
 	String methodName;
 	
 	/* I made an abstract class to help 
@@ -21,7 +21,7 @@ public class MyMethods extends Expression{
 	
 	@Override
 	public String toString() {
-		return "mymethod " + methodName + " " + methodType.toString(); 
+		return "mymethod " + methodName + " "; 
 	}
 }
  

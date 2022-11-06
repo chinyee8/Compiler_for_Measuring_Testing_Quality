@@ -1,5 +1,5 @@
 package model;
 
-public class Input extends Expression {
+public abstract class Input{
 
 }
