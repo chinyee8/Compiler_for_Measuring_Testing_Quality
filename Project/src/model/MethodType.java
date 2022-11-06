@@ -1,5 +1,5 @@
 package model;
 
-public class MethodType extends Expression {
+public abstract class MethodType extends Expression {
 
 }
