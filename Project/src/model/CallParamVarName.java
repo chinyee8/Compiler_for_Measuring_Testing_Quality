@@ -1,9 +1,9 @@
 package model;
 
-public class TestVarName extends Input{
+public class CallParamVarName extends Input{
 	String varName;
 	
-	public TestVarName(String varName) {
+	public CallParamVarName(String varName) {
 		this.varName = varName;
 	}
 	
