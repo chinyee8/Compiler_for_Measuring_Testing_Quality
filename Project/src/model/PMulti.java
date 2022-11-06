@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class PMulti extends Expression {
 	String dataType;
 	String varName;

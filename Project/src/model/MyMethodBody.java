@@ -1,7 +1,6 @@
 package model;
 
 import java.util.List;
-import appAdd.Expression;
 
 public class MyMethodBody extends Expression{
 	public List<Declaration> declList;

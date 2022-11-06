@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class GameClass extends Expression{
 	public String className;
 	public GameBody classBody;

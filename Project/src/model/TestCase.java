@@ -2,8 +2,6 @@ package model;
 
 import java.util.List;
 
-import appAdd.Expression;
-
 public class TestCase extends Expression{
 	String testName;
 	List<Declaration> decl;

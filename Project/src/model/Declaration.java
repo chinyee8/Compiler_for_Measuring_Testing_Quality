@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class Declaration extends Expression{
 	public String varName;
 	public String dataType;

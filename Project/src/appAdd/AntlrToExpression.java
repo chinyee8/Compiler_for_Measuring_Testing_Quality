@@ -62,6 +62,7 @@ import antlr.exprParser.ValueCharContext;
 import antlr.exprParser.ValueDoubleContext;
 import antlr.exprParser.ValueNumContext;
 import antlr.exprParser.ValueStringContext;
+import model.Expression;
 
 public class AntlrToExpression extends exprBaseVisitor<Expression>{
 	List<String> vars;

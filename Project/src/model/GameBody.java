@@ -2,8 +2,6 @@ package model;
 
 import java.util.List;
 
-import appAdd.Expression;
-
 public class GameBody extends Expression{
 	public List<Declaration> declList;
 	public List<Assignment> assiList;

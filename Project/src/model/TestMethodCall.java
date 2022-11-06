@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class TestMethodCall extends Expression{
 	String className;
 	String methodName;

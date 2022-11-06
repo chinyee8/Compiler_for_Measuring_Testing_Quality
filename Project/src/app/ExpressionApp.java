@@ -12,7 +12,7 @@ import antlr.exprParser;
 import appAdd.AntlrToProgram;
 import appAdd.ErrorListener;
 import appAdd.ExpressionProcessor;
-import appAdd.Program;
+import model.Program;
 
 public class ExpressionApp {
 	public static void main(String[] args) {

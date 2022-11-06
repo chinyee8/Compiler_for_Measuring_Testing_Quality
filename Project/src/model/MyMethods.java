@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class MyMethods extends Expression{
 	String methodName;
 	

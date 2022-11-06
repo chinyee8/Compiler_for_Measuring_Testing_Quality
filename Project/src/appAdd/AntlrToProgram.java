@@ -5,6 +5,7 @@ import java.util.List;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.ProgramContext;
+import model.Program;
 
 public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> semanticErrors;

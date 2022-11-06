@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class Assignment extends Expression{
 	public String varName;
 	public AssiExpr assiexpr;

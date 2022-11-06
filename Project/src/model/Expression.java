@@ -1,4 +1,4 @@
-package appAdd;
+package model;
 
 public abstract class Expression {
 

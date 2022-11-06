@@ -1,7 +1,5 @@
 package model;
 
-import appAdd.Expression;
-
 public class IfStatement extends Expression{
 	Condition cond;
 	MyMethodBody methbody1;
