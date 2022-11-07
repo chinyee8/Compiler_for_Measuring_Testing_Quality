@@ -10,7 +10,9 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	
-	
+	public AntlrToValue(List<String> semanticErrors) {
+		this.semanticErrors = new ArrayList<>();
+	}
 	
 	@Override
 	public Values visitValues(ValuesContext ctx) {
@@ -53,7 +55,7 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 	}
 	@Override
 	public Values visitValueMath(ValueMathContext ctx) {
-		AntlrToMathematics mVisitor = new AntlrToMathematics();
+		AntlrToMathematics mVisitor = new AntlrToMathematics(semanticErrors);
 		Mathematics m = mVisitor.visit(ctx.getChild(0));
 		return new ValueMath(m);
 	}

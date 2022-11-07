@@ -1,4 +1,5 @@
 package AntlrToObject;
+import java.util.ArrayList;
 import java.util.List;
 
 import antlr.*;
@@ -8,6 +9,10 @@ import model.*;
 public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
+	
+	public AntlrToMathematics(List<String> semanticErrors) {
+		this.semanticErrors = new ArrayList<>();
+	}
 
 	@Override
 	public Mathematics visitMathNumber(MathNumberContext ctx) {

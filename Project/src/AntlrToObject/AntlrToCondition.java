@@ -15,14 +15,15 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	
-	
-
+	public AntlrToCondition(List<String> semanticErrors) {
+		this.semanticErrors = new ArrayList<>();
+	}
 	
 	@Override
 	public Condition visitLessOrEqual(LessOrEqualContext ctx) {
-		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors);
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
-		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
 		return new LessOrEqual(left, right);
@@ -45,9 +46,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	}
 	@Override
 	public Condition visitCondEqual(CondEqualContext ctx) {
-		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors);
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
-		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
 		return new CondEqual(left, right);
@@ -60,9 +61,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	}
 	@Override
 	public Condition visitMore(MoreContext ctx) {
-		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors);
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
-		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
 		return new More(left, right);
@@ -87,18 +88,18 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	}
 	@Override
 	public Condition visitMoreOrEqual(MoreOrEqualContext ctx) {
-		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors);
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
-		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
 		return new MoreOrEqual(left, right);
 	}
 	@Override
 	public Condition visitCondNotEqual(CondNotEqualContext ctx) {
-		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors);
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
-		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
 		return new CondNotEqual(left, right);
@@ -116,9 +117,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	}
 	@Override
 	public Condition visitLess(LessContext ctx) {
-		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors);
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
-		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
 		return new Less(left, right);

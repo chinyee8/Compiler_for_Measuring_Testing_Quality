@@ -25,7 +25,6 @@ import model.Mathematics;
 public class AntlrToInput_List extends exprBaseVisitor<Input_List>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
-	public List<String> vars;
 	
 	public AntlrToInput_List(List<String> semanticErrors) {
 		this.semanticErrors = new ArrayList<>();
@@ -33,14 +32,14 @@ public class AntlrToInput_List extends exprBaseVisitor<Input_List>{
 	
 	@Override
 	public Input_List visitCallParamMath(CallParamMathContext ctx) {
-		AntlrToMathematics mVisitor = new AntlrToMathematics();
+		AntlrToMathematics mVisitor = new AntlrToMathematics(semanticErrors);
 		Mathematics m = mVisitor.visit(ctx.getChild(0));
 		return new CallParamMath(m);
 	}
 
 	@Override
 	public Input_List visitCallParamCond(CallParamCondContext ctx) {
-		AntlrToCondition cVisitor = new AntlrToCondition();
+		AntlrToCondition cVisitor = new AntlrToCondition(semanticErrors);
 		Condition c = cVisitor.visit(ctx.getChild(0));
 		return new CallParamCond(c);
 	}
