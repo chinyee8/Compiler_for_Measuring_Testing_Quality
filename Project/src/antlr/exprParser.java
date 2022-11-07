@@ -30,13 +30,13 @@ public class exprParser extends Parser {
 		RULE_expr = 5, RULE_mymethod = 6, RULE_method_type = 7, RULE_method_body = 8, 
 		RULE_parameter = 9, RULE_param = 10, RULE_multi_param = 11, RULE_test = 12, 
 		RULE_t_method_call = 13, RULE_r_method_call = 14, RULE_v_method_call = 15, 
-		RULE_call_parameter = 16, RULE_input = 17, RULE_multi_input = 18, RULE_if_statement = 19, 
+		RULE_call_parameter = 16, RULE_input = 17, RULE_multiInput = 18, RULE_if_statement = 19, 
 		RULE_value = 20, RULE_math = 21, RULE_cond = 22;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"prog", "game", "body", "decl", "assi", "expr", "mymethod", "method_type", 
 			"method_body", "parameter", "param", "multi_param", "test", "t_method_call", 
-			"r_method_call", "v_method_call", "call_parameter", "input", "multi_input", 
+			"r_method_call", "v_method_call", "call_parameter", "input", "multiInput", 
 			"if_statement", "value", "math", "cond"
 		};
 	}
@@ -1564,11 +1564,11 @@ public class exprParser extends Parser {
 		public InputContext input() {
 			return getRuleContext(InputContext.class,0);
 		}
-		public List<Multi_inputContext> multi_input() {
-			return getRuleContexts(Multi_inputContext.class);
+		public List<MultiInputContext> multiInput() {
+			return getRuleContexts(MultiInputContext.class);
 		}
-		public Multi_inputContext multi_input(int i) {
-			return getRuleContext(Multi_inputContext.class,i);
+		public MultiInputContext multiInput(int i) {
+			return getRuleContext(MultiInputContext.class,i);
 		}
 		public CallMultiParameterContext(Call_parameterContext ctx) { copyFrom(ctx); }
 		@Override
@@ -1615,7 +1615,7 @@ public class exprParser extends Parser {
 					{
 					{
 					setState(204);
-					multi_input();
+					multiInput();
 					}
 					}
 					setState(207); 
@@ -1863,43 +1863,43 @@ public class exprParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Multi_inputContext extends ParserRuleContext {
-		public Multi_inputContext(ParserRuleContext parent, int invokingState) {
+	public static class MultiInputContext extends ParserRuleContext {
+		public MultiInputContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_multi_input; }
+		@Override public int getRuleIndex() { return RULE_multiInput; }
 	 
-		public Multi_inputContext() { }
-		public void copyFrom(Multi_inputContext ctx) {
+		public MultiInputContext() { }
+		public void copyFrom(MultiInputContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class Multi_InputContext extends Multi_inputContext {
+	public static class MultipleInputContext extends MultiInputContext {
 		public InputContext input() {
 			return getRuleContext(InputContext.class,0);
 		}
-		public Multi_InputContext(Multi_inputContext ctx) { copyFrom(ctx); }
+		public MultipleInputContext(MultiInputContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof exprListener ) ((exprListener)listener).enterMulti_Input(this);
+			if ( listener instanceof exprListener ) ((exprListener)listener).enterMultipleInput(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof exprListener ) ((exprListener)listener).exitMulti_Input(this);
+			if ( listener instanceof exprListener ) ((exprListener)listener).exitMultipleInput(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitMulti_Input(this);
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitMultipleInput(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Multi_inputContext multi_input() throws RecognitionException {
-		Multi_inputContext _localctx = new Multi_inputContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_multi_input);
+	public final MultiInputContext multiInput() throws RecognitionException {
+		MultiInputContext _localctx = new MultiInputContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_multiInput);
 		try {
-			_localctx = new Multi_InputContext(_localctx);
+			_localctx = new MultipleInputContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(221);

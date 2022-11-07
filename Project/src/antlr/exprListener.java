@@ -370,17 +370,17 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitCallParamDouble(exprParser.CallParamDoubleContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Multi_Input}
-	 * labeled alternative in {@link exprParser#multi_input}.
+	 * Enter a parse tree produced by the {@code MultipleInput}
+	 * labeled alternative in {@link exprParser#multiInput}.
 	 * @param ctx the parse tree
 	 */
-	void enterMulti_Input(exprParser.Multi_InputContext ctx);
+	void enterMultipleInput(exprParser.MultipleInputContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Multi_Input}
-	 * labeled alternative in {@link exprParser#multi_input}.
+	 * Exit a parse tree produced by the {@code MultipleInput}
+	 * labeled alternative in {@link exprParser#multiInput}.
 	 * @param ctx the parse tree
 	 */
-	void exitMulti_Input(exprParser.Multi_InputContext ctx);
+	void exitMultipleInput(exprParser.MultipleInputContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code IfStatement}
 	 * labeled alternative in {@link exprParser#if_statement}.

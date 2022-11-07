@@ -107,7 +107,7 @@ r_method_call
 v_method_call
 call_parameter
 input
-multi_input
+multiInput
 if_statement
 value
 math

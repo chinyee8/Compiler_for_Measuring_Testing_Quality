@@ -230,7 +230,7 @@ public class exprBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements e
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMulti_Input(exprParser.Multi_InputContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultipleInput(exprParser.MultipleInputContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

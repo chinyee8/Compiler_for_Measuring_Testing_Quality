@@ -223,12 +223,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCallParamDouble(exprParser.CallParamDoubleContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Multi_Input}
-	 * labeled alternative in {@link exprParser#multi_input}.
+	 * Visit a parse tree produced by the {@code MultipleInput}
+	 * labeled alternative in {@link exprParser#multiInput}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMulti_Input(exprParser.Multi_InputContext ctx);
+	T visitMultipleInput(exprParser.MultipleInputContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code IfStatement}
 	 * labeled alternative in {@link exprParser#if_statement}.
