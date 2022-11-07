@@ -4,10 +4,10 @@ import java.util.List;
 
 public class CallMultiParameter extends Call_Parameter {
 	Input_List input;
-	List<Multi_Input> multi_input;
+	List<MultipleInput> multi_input;
 	
 	public CallMultiParameter(Input_List input,
-							  List<Multi_Input> multi_input) {
+							  List<MultipleInput> multi_input) {
 		this.input = input;
 		this.multi_input = multi_input;
 	}
@@ -16,7 +16,7 @@ public class CallMultiParameter extends Call_Parameter {
 	public String toString() {
 		String result = "";
 		
-		for(Multi_Input m: multi_input) {
+		for(MultipleInput m: multi_input) {
 			result += m.toString();
 		}
 		
