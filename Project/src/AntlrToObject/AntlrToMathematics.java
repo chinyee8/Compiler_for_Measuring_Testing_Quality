@@ -8,60 +8,59 @@ import model.*;
 public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
-	
-	//monica: hi yeseul, i've created a skeleton, pls fill them in (remove this comment after reading :))
 
 	@Override
 	public Mathematics visitMathNumber(MathNumberContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMathNumber(ctx);
+		Mathematics num = visit(ctx.getChild(0));
+		int intNum = Integer.parseInt(num.toString());
+		return new MathNumber(intNum);
 	}
 
 	@Override
 	public Mathematics visitAddition(AdditionContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitAddition(ctx);
+		Mathematics left = visit(ctx.getChild(0));
+		Mathematics right = visit(ctx.getChild(1));
+		return new Addition(left,right);
 	}
 
 	@Override
 	public Mathematics visitMultiplication(MultiplicationContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMultiplication(ctx);
+		Mathematics left = visit(ctx.getChild(0));
+		Mathematics right = visit(ctx.getChild(1));
+		return new Multiplication(left,right);
 	}
 
 	@Override
 	public Mathematics visitSubtraction(SubtractionContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitSubtraction(ctx);
+		Mathematics left = visit(ctx.getChild(0));
+		Mathematics right = visit(ctx.getChild(1));
+		return new Subtraction(left,right);
 	}
 
 	@Override
 	public Mathematics visitMathDouble(MathDoubleContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMathDouble(ctx);
+		Mathematics db = visit(ctx.getChild(0));
+		double dbDb = Double.parseDouble(db.toString());
+		return new MathDouble(dbDb);
 	}
 
 	@Override
 	public Mathematics visitMathParenthesis(MathParenthesisContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMathParenthesis(ctx);
+		Mathematics math = visit(ctx.getChild(0));
+		return new MathParenthesis(math);
 	}
 
 	@Override
 	public Mathematics visitMathVarName(MathVarNameContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMathVarName(ctx);
+		Mathematics varName = visit(ctx.getChild(0));
+		String strVarName = varName.toString();
+		return new MathVarName(strVarName);
 	}
 
 	@Override
 	public Mathematics visitDivision(DivisionContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitDivision(ctx);
-	}
-	
-	
-	
-	
-	
-	
+		Mathematics left = visit(ctx.getChild(0));
+		Mathematics right = visit(ctx.getChild(1));
+		return new Division(left,right);
+	}	
 }
