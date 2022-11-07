@@ -6,7 +6,9 @@ import java.util.List;
 import AntlrToObject.AntlrToTestCase;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.ProgramContext;
+import model.Game;
 import model.Program;
+import model.TestCase;
 import antlr.*;
 public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> semanticErrors;
@@ -17,21 +19,25 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		Program prog = new Program();
 		semanticErrors = new ArrayList<>();
 		
-		AntlrToGameClass gameClassVisitor = new AntlrToGameClass(semanticErrors);
+		AntlrToGame gameClassVisitor = new AntlrToGame(semanticErrors);
 		AntlrToTestCase testCaseVisitor = new AntlrToTestCase(semanticErrors);
 		
-		
-		for(int i = 0; i < ctx.getChildCount(); i++) {
-			if(i == ctx.getChildCount()-1) {
-				
-			}
-			else {
-				// Need to fix this part but idk how...
-				// we should distinguish if the ctx is testcase or gameClass 
-				prog.addGameClass(gameClassVisitor.visit(ctx.getChild(i))); 
-				prog.addTestCase(testCaseVisitor.visit(ctx.getChild(i)));
+		if(ctx.getChild(0) instanceof Game) {
+			prog.addGameClass(gameClassVisitor.visit(ctx.getChild(0))); 
+			
+		}else if(ctx.getChild(0) instanceof TestCase) {
+			
+			for(int i = 0; i < ctx.getChildCount(); i++) {
+				if(i == ctx.getChildCount()-1) {
+					
+				}
+				else {
+					prog.addTestCase(testCaseVisitor.visit(ctx.getChild(i)));
+				}
 			}
 		}
+		
+		
 		
 		return prog;
 	}
