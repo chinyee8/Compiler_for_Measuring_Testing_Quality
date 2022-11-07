@@ -25,8 +25,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 				
 			}
 			else {
-				//kinda confused about using int i here when there are two kinds of objects to visit.
-				//should I use other 2 seperated index variables for ctx.getCHild() ??  
+				// Need to fix this part but idk how...
+				// we should distinguish if the ctx is testcase or gameClass 
 				prog.addGameClass(gameClassVisitor.visit(ctx.getChild(i))); 
 				prog.addTestCase(testCaseVisitor.visit(ctx.getChild(i)));
 			}
