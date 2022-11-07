@@ -19,8 +19,6 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		AntlrToGameClass gameClassVisitor = new AntlrToGameClass(semanticErrors);
 		AntlrToTestCase testCaseVisitor = new AntlrToTestCase(semanticErrors);
 		
-		//int gameClassIndex = 0;
-		//int testCaseIndex = 0;
 		
 		for(int i = 0; i < ctx.getChildCount(); i++) {
 			if(i == ctx.getChildCount()-1) {
@@ -31,8 +29,6 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 				//should I use other 2 seperated index variables for ctx.getCHild() ??  
 				prog.addGameClass(gameClassVisitor.visit(ctx.getChild(i))); 
 				prog.addTestCase(testCaseVisitor.visit(ctx.getChild(i)));
-				//prog.addGameClass(gameClassVisitor.visit(ctx.getChild(gameClassIndex++))); 
-				//prog.addTestCase(testCaseVisitor.visit(ctx.getChild(testCaseIndex++)));
 			}
 		}
 		
