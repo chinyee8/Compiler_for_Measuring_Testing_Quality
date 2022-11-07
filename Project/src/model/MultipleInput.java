@@ -1,6 +1,6 @@
 package model;
 
-public class MultipleInput {
+public class MultipleInput{
 	Input_List input;
 	
 	public MultipleInput(Input_List input) {
