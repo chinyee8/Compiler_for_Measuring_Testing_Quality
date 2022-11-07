@@ -18,21 +18,21 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	@Override
 	public Mathematics visitAddition(AdditionContext ctx) {
 		Mathematics left = visit(ctx.getChild(0));
-		Mathematics right = visit(ctx.getChild(1));
+		Mathematics right = visit(ctx.getChild(2));
 		return new Addition(left,right);
 	}
 
 	@Override
 	public Mathematics visitMultiplication(MultiplicationContext ctx) {
 		Mathematics left = visit(ctx.getChild(0));
-		Mathematics right = visit(ctx.getChild(1));
+		Mathematics right = visit(ctx.getChild(2));
 		return new Multiplication(left,right);
 	}
 
 	@Override
 	public Mathematics visitSubtraction(SubtractionContext ctx) {
 		Mathematics left = visit(ctx.getChild(0));
-		Mathematics right = visit(ctx.getChild(1));
+		Mathematics right = visit(ctx.getChild(2));
 		return new Subtraction(left,right);
 	}
 
@@ -44,7 +44,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 
 	@Override
 	public Mathematics visitMathParenthesis(MathParenthesisContext ctx) {
-		Mathematics math = visit(ctx.getChild(0));
+		Mathematics math = visit(ctx.getChild(1));
 		return new MathParenthesis(math);
 	}
 
@@ -57,7 +57,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	@Override
 	public Mathematics visitDivision(DivisionContext ctx) {
 		Mathematics left = visit(ctx.getChild(0));
-		Mathematics right = visit(ctx.getChild(1));
+		Mathematics right = visit(ctx.getChild(2));
 		return new Division(left,right);
 	}	
 }
