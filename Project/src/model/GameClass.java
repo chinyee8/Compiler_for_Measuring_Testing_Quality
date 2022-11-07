@@ -1,6 +1,6 @@
 package model;
 
-public class GameClass extends Expression{
+public class GameClass{
 	public String className;
 	public GameBody body;
 	

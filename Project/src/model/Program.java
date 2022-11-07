@@ -5,13 +5,18 @@ import java.util.List;
 
 public class Program{
 
-	public List<Expression> expressions;
+	public GameClass gameclass;
+	private List<TestCase> testcase;
 	
 	public Program() { // constructor
-		this.expressions = new ArrayList<>();
+		this.testcase = new ArrayList<>();
 	}
   
-	public void addExpression(Expression  e) {
-		expressions.add(e);
+	public void addGameClass(GameClass  e) {
+		gameclass = e;
+	}
+	
+	public void addTestCase(TestCase  e) {
+		this.testcase.add(e);
 	}
 }
