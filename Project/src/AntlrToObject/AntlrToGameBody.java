@@ -42,14 +42,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		methodTypeVisitor = new AntlrToMethodType(semanticErrors);
 	}
 
-	public void visitDecl(DeclarationContext ctx) { // helper.. not sure // maybe make new AntlrTo__ for this?
+	public GameBody visitDeclaration(DeclarationContext ctx) {
 		String varName = ctx.getChild(0).getText();
 		String dataType = ctx.getChild(2).getText();
 		Declaration newDecl = new Declaration(varName, dataType);
 		decl.add(newDecl);
+		return new GameBody(decl,assi,methods);
 	}
 	
-	public void visitAssi(AssignmentContext ctx) { // helper.. not sure // maybe make new AntlrTo__ for this?
+	public GameBody visitAssignment(AssignmentContext ctx) {
 		String varName = ctx.getChild(0).getText();
 		
 		Expr expr = exprVisitor.visit(ctx.getChild(2));
@@ -57,9 +58,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		assi.add(newAssi);
 		
 		//also need to add error for undeclared variable's assignment
+		return new GameBody(decl,assi,methods);
 	}
 	
-	public void visitMM(MyMethodsContext ctx) { // helper.. not sure // maybe make new AntlrTo__ for this?
+	public GameBody visitMyMethods(MyMethodsContext ctx) {
 		MyMethods newMM = null; // initialize
 		String methodName = ctx.getChild(1).getText();
 		
@@ -80,20 +82,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			semanticErrors.add("Error: invalid method type.");
 		}
 		methods.add(newMM);
-	}
-	
-	public GameBody visitGameBody(GameBodyContext ctx) {
-		for(int i = 0; i < ctx.getChildCount(); i++) {
-			if(i == ctx.getChildCount()-1) {
-				
-			}
-			else {
-				//need to distinguish if the ctx is assignment or declaration or method
-				//then add them into proper list (member variables above)
-			}
-		}
 		return new GameBody(decl,assi,methods);
-		
 	}
 	
 }
