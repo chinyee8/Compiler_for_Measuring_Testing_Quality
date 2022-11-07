@@ -64,7 +64,7 @@ v_method_call: VOIDCALL METHODNAME '[' call_parameter ']'			 		#VoidMethodCall
 			;
 //Call_Parameter
 call_parameter: input														#CallParameter
-				| input (multi_input)+										#CallMultiParameter
+				| input (multiInput)+										#CallMultiParameter
 				|															#CallEmptyParameter
 			;
 
@@ -78,7 +78,7 @@ input: math																	#CallParamMath
      | DOUBLE																#CallParamDouble
 	 ;    
 	 
-multi_input: ',' input														#Multi_Input
+multiInput: ',' input														#MultipleInput
 	;	
 //********************** if Statement ********************** //	 
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
