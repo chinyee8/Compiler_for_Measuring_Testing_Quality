@@ -69,29 +69,15 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMyMethods(exprParser.MyMethodsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MyReturnM}
-	 * labeled alternative in {@link exprParser#method_type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMyReturnM(exprParser.MyReturnMContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code MyVoidM}
-	 * labeled alternative in {@link exprParser#method_type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMyVoidM(exprParser.MyVoidMContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code MyReturnMethod}
-	 * labeled alternative in {@link exprParser#return_method}.
+	 * labeled alternative in {@link exprParser#method_type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMyReturnMethod(exprParser.MyReturnMethodContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MyVoidMethod}
-	 * labeled alternative in {@link exprParser#void_method}.
+	 * labeled alternative in {@link exprParser#method_type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -153,68 +139,96 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTestMethodCall(exprParser.TestMethodCallContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestChar}
-	 * labeled alternative in {@link exprParser#input}.
+	 * Visit a parse tree produced by the {@code ReturnMethodCall}
+	 * labeled alternative in {@link exprParser#r_method_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestChar(exprParser.TestCharContext ctx);
+	T visitReturnMethodCall(exprParser.ReturnMethodCallContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestEmpty}
-	 * labeled alternative in {@link exprParser#input}.
+	 * Visit a parse tree produced by the {@code VoidMethodCall}
+	 * labeled alternative in {@link exprParser#v_method_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestEmpty(exprParser.TestEmptyContext ctx);
+	T visitVoidMethodCall(exprParser.VoidMethodCallContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestVarName}
-	 * labeled alternative in {@link exprParser#input}.
+	 * Visit a parse tree produced by the {@code CallParameter}
+	 * labeled alternative in {@link exprParser#call_parameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestVarName(exprParser.TestVarNameContext ctx);
+	T visitCallParameter(exprParser.CallParameterContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestMath}
-	 * labeled alternative in {@link exprParser#input}.
+	 * Visit a parse tree produced by the {@code CallMultiParameter}
+	 * labeled alternative in {@link exprParser#call_parameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestMath(exprParser.TestMathContext ctx);
+	T visitCallMultiParameter(exprParser.CallMultiParameterContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestNum}
-	 * labeled alternative in {@link exprParser#input}.
+	 * Visit a parse tree produced by the {@code CallEmptyParameter}
+	 * labeled alternative in {@link exprParser#call_parameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestNum(exprParser.TestNumContext ctx);
+	T visitCallEmptyParameter(exprParser.CallEmptyParameterContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestCond}
+	 * Visit a parse tree produced by the {@code CallParamMath}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestCond(exprParser.TestCondContext ctx);
+	T visitCallParamMath(exprParser.CallParamMathContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestDouble}
+	 * Visit a parse tree produced by the {@code CallParamCond}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestDouble(exprParser.TestDoubleContext ctx);
+	T visitCallParamCond(exprParser.CallParamCondContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestInputs}
+	 * Visit a parse tree produced by the {@code CallParamVarName}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestInputs(exprParser.TestInputsContext ctx);
+	T visitCallParamVarName(exprParser.CallParamVarNameContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TestString}
+	 * Visit a parse tree produced by the {@code CallParamNum}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTestString(exprParser.TestStringContext ctx);
+	T visitCallParamNum(exprParser.CallParamNumContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CallParamChar}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallParamChar(exprParser.CallParamCharContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CallParamString}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallParamString(exprParser.CallParamStringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CallParamDouble}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallParamDouble(exprParser.CallParamDoubleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Multi_Input}
+	 * labeled alternative in {@link exprParser#multi_input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulti_Input(exprParser.Multi_InputContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code IfStatement}
 	 * labeled alternative in {@link exprParser#if_statement}.
@@ -258,12 +272,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValueBool(exprParser.ValueBoolContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code returnMethodCall}
-	 * labeled alternative in {@link exprParser#r_method_call}.
+	 * Visit a parse tree produced by the {@code ValueMath}
+	 * labeled alternative in {@link exprParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitReturnMethodCall(exprParser.ReturnMethodCallContext ctx);
+	T visitValueMath(exprParser.ValueMathContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MathNumber}
 	 * labeled alternative in {@link exprParser#math}.
