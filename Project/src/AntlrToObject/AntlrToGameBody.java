@@ -42,14 +42,14 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		methodTypeVisitor = new AntlrToMethodType(semanticErrors);
 	}
 
-	public void visitDecl(DeclarationContext ctx) { // helper.. not sure
+	public void visitDecl(DeclarationContext ctx) { // helper.. not sure // maybe make new AntlrTo__ for this?
 		String varName = ctx.getChild(0).getText();
 		String dataType = ctx.getChild(2).getText();
 		Declaration newDecl = new Declaration(varName, dataType);
 		decl.add(newDecl);
 	}
 	
-	public void visitAssi(AssignmentContext ctx) { // helper.. not sure
+	public void visitAssi(AssignmentContext ctx) { // helper.. not sure // maybe make new AntlrTo__ for this?
 		String varName = ctx.getChild(0).getText();
 		
 		Expr expr = exprVisitor.visit(ctx.getChild(2));
@@ -59,7 +59,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		//also need to add error for undeclared variable's assignment
 	}
 	
-	public void visitMM(MyMethodsContext ctx) { // helper.. not sure
+	public void visitMM(MyMethodsContext ctx) { // helper.. not sure // maybe make new AntlrTo__ for this?
 		MyMethods newMM = null; // initialize
 		String methodName = ctx.getChild(1).getText();
 		
