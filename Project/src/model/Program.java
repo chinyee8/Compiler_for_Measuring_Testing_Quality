@@ -6,7 +6,7 @@ import java.util.List;
 public class Program{
 
 	public GameClass gameclass;
-	private List<TestCase> testcase;
+	public List<TestCase> testcase;
 	
 	public Program() { // constructor
 		this.testcase = new ArrayList<>();
