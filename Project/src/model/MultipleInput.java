@@ -1,9 +1,9 @@
 package model;
 
-public class Multi_Input {
+public class MultipleInput {
 	Input_List input;
 	
-	public Multi_Input(Input_List input) {
+	public MultipleInput(Input_List input) {
 		this.input = input;
 	}
 	
