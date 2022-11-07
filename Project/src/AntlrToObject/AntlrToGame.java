@@ -42,7 +42,7 @@ import antlr.exprParser.MoreContext;
 import antlr.exprParser.MoreOrEqualContext;
 import antlr.exprParser.MultiParamChildContext;
 import antlr.exprParser.MultiParamContext;
-import antlr.exprParser.Multi_InputContext;
+import antlr.exprParser.MultipleInputContext;
 import antlr.exprParser.MultiplicationContext;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.MyMethodsContext;
@@ -65,370 +65,357 @@ import antlr.exprParser.ValueNumContext;
 import antlr.exprParser.ValueStringContext;
 import antlr.exprParser.ValuesContext;
 import antlr.exprParser.VoidMethodCallContext;
-import model.Expression;
+import model.GameClass;
 
-public class AntlrToExpression extends exprBaseVisitor<Expression>{
+public class AntlrToGame extends exprBaseVisitor<GameClass>{
 	List<String> vars;
 	List<String> methods; 
 	// can variable and method has the same name as class?
-	List<String> tests;
 	List<String> semanticErrors;
 	
-	public AntlrToExpression(List<String> semanticErrors) {
+	public AntlrToGame(List<String> semanticErrors) {
 		this.vars = new ArrayList<>();
 		this.semanticErrors = semanticErrors;
 	}
 
 	@Override
-	public Expression visitGameClass(GameClassContext ctx) {
+	public GameClass visitGameClass(GameClassContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitGameClass(ctx);
 	}
 
 	@Override
-	public Expression visitGameBody(GameBodyContext ctx) {
+	public GameClass visitGameBody(GameBodyContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitGameBody(ctx);
 	}
 
 	@Override
-	public Expression visitDeclaration(DeclarationContext ctx) {
+	public GameClass visitDeclaration(DeclarationContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitDeclaration(ctx);
 	}
 
 	@Override
-	public Expression visitAssignment(AssignmentContext ctx) {
+	public GameClass visitAssignment(AssignmentContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitAssignment(ctx);
 	}
 
 	@Override
-	public Expression visitRMethodCall(RMethodCallContext ctx) {
+	public GameClass visitRMethodCall(RMethodCallContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitRMethodCall(ctx);
 	}
 
 	@Override
-	public Expression visitValues(ValuesContext ctx) {
+	public GameClass visitValues(ValuesContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValues(ctx);
 	}
 
 	@Override
-	public Expression visitMyMethods(MyMethodsContext ctx) {
+	public GameClass visitMyMethods(MyMethodsContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMyMethods(ctx);
 	}
 
 	@Override
-	public Expression visitMyReturnMethod(MyReturnMethodContext ctx) {
+	public GameClass visitMyReturnMethod(MyReturnMethodContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMyReturnMethod(ctx);
 	}
 
 	@Override
-	public Expression visitMyVoidMethod(MyVoidMethodContext ctx) {
+	public GameClass visitMyVoidMethod(MyVoidMethodContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMyVoidMethod(ctx);
 	}
 
 	@Override
-	public Expression visitMyMethodBody(MyMethodBodyContext ctx) {
+	public GameClass visitMyMethodBody(MyMethodBodyContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMyMethodBody(ctx);
 	}
 
 	@Override
-	public Expression visitSingleParam(SingleParamContext ctx) {
+	public GameClass visitSingleParam(SingleParamContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitSingleParam(ctx);
 	}
 
 	@Override
-	public Expression visitMultiParam(MultiParamContext ctx) {
+	public GameClass visitMultiParam(MultiParamContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMultiParam(ctx);
 	}
 
 	@Override
-	public Expression visitEmptyParam(EmptyParamContext ctx) {
+	public GameClass visitEmptyParam(EmptyParamContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitEmptyParam(ctx);
 	}
 
 	@Override
-	public Expression visitParams(ParamsContext ctx) {
+	public GameClass visitParams(ParamsContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitParams(ctx);
 	}
 
 	@Override
-	public Expression visitMultiParamChild(MultiParamChildContext ctx) {
+	public GameClass visitMultiParamChild(MultiParamChildContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMultiParamChild(ctx);
 	}
 
 	@Override
-	public Expression visitTestCase(TestCaseContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitTestCase(ctx);
-	}
-
-	@Override
-	public Expression visitTestMethodCall(TestMethodCallContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitTestMethodCall(ctx);
-	}
-
-	@Override
-	public Expression visitReturnMethodCall(ReturnMethodCallContext ctx) {
+	public GameClass visitReturnMethodCall(ReturnMethodCallContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitReturnMethodCall(ctx);
 	}
 
 	@Override
-	public Expression visitVoidMethodCall(VoidMethodCallContext ctx) {
+	public GameClass visitVoidMethodCall(VoidMethodCallContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitVoidMethodCall(ctx);
 	}
 
 	@Override
-	public Expression visitCallParameter(CallParameterContext ctx) {
+	public GameClass visitCallParameter(CallParameterContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParameter(ctx);
 	}
 
 	@Override
-	public Expression visitCallMultiParameter(CallMultiParameterContext ctx) {
+	public GameClass visitCallMultiParameter(CallMultiParameterContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallMultiParameter(ctx);
 	}
 
 	@Override
-	public Expression visitCallEmptyParameter(CallEmptyParameterContext ctx) {
+	public GameClass visitCallEmptyParameter(CallEmptyParameterContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallEmptyParameter(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamMath(CallParamMathContext ctx) {
+	public GameClass visitCallParamMath(CallParamMathContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamMath(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamCond(CallParamCondContext ctx) {
+	public GameClass visitCallParamCond(CallParamCondContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamCond(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamVarName(CallParamVarNameContext ctx) {
+	public GameClass visitCallParamVarName(CallParamVarNameContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamVarName(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamNum(CallParamNumContext ctx) {
+	public GameClass visitCallParamNum(CallParamNumContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamNum(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamChar(CallParamCharContext ctx) {
+	public GameClass visitCallParamChar(CallParamCharContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamChar(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamString(CallParamStringContext ctx) {
+	public GameClass visitCallParamString(CallParamStringContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamString(ctx);
 	}
 
 	@Override
-	public Expression visitCallParamDouble(CallParamDoubleContext ctx) {
+	public GameClass visitCallParamDouble(CallParamDoubleContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCallParamDouble(ctx);
 	}
 
 	@Override
-	public Expression visitMulti_Input(Multi_InputContext ctx) {
+	public GameClass visitMultipleInput(MultipleInputContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitMulti_Input(ctx);
+		return super.visitMultipleInput(ctx);
 	}
 
 	@Override
-	public Expression visitIfStatement(IfStatementContext ctx) {
+	public GameClass visitIfStatement(IfStatementContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitIfStatement(ctx);
 	}
 
 	@Override
-	public Expression visitValueNum(ValueNumContext ctx) {
+	public GameClass visitValueNum(ValueNumContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValueNum(ctx);
 	}
 
 	@Override
-	public Expression visitValueDouble(ValueDoubleContext ctx) {
+	public GameClass visitValueDouble(ValueDoubleContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValueDouble(ctx);
 	}
 
 	@Override
-	public Expression visitValueString(ValueStringContext ctx) {
+	public GameClass visitValueString(ValueStringContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValueString(ctx);
 	}
 
 	@Override
-	public Expression visitValueChar(ValueCharContext ctx) {
+	public GameClass visitValueChar(ValueCharContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValueChar(ctx);
 	}
 
 	@Override
-	public Expression visitValueBool(ValueBoolContext ctx) {
+	public GameClass visitValueBool(ValueBoolContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValueBool(ctx);
 	}
 
 	@Override
-	public Expression visitValueMath(ValueMathContext ctx) {
+	public GameClass visitValueMath(ValueMathContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitValueMath(ctx);
 	}
 
 	@Override
-	public Expression visitMathNumber(MathNumberContext ctx) {
+	public GameClass visitMathNumber(MathNumberContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMathNumber(ctx);
 	}
 
 	@Override
-	public Expression visitAddition(AdditionContext ctx) {
+	public GameClass visitAddition(AdditionContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitAddition(ctx);
 	}
 
 	@Override
-	public Expression visitMultiplication(MultiplicationContext ctx) {
+	public GameClass visitMultiplication(MultiplicationContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMultiplication(ctx);
 	}
 
 	@Override
-	public Expression visitSubtraction(SubtractionContext ctx) {
+	public GameClass visitSubtraction(SubtractionContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitSubtraction(ctx);
 	}
 
 	@Override
-	public Expression visitMathDouble(MathDoubleContext ctx) {
+	public GameClass visitMathDouble(MathDoubleContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMathDouble(ctx);
 	}
 
 	@Override
-	public Expression visitMathParenthesis(MathParenthesisContext ctx) {
+	public GameClass visitMathParenthesis(MathParenthesisContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMathParenthesis(ctx);
 	}
 
 	@Override
-	public Expression visitMathVarName(MathVarNameContext ctx) {
+	public GameClass visitMathVarName(MathVarNameContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMathVarName(ctx);
 	}
 
 	@Override
-	public Expression visitDivision(DivisionContext ctx) {
+	public GameClass visitDivision(DivisionContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitDivision(ctx);
 	}
 
 	@Override
-	public Expression visitLessOrEqual(LessOrEqualContext ctx) {
+	public GameClass visitLessOrEqual(LessOrEqualContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitLessOrEqual(ctx);
 	}
 
 	@Override
-	public Expression visitNegation(NegationContext ctx) {
+	public GameClass visitNegation(NegationContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitNegation(ctx);
 	}
 
 	@Override
-	public Expression visitNotEqualTo(NotEqualToContext ctx) {
+	public GameClass visitNotEqualTo(NotEqualToContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitNotEqualTo(ctx);
 	}
 
 	@Override
-	public Expression visitCondVarName(CondVarNameContext ctx) {
+	public GameClass visitCondVarName(CondVarNameContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCondVarName(ctx);
 	}
 
 	@Override
-	public Expression visitCondEqual(CondEqualContext ctx) {
+	public GameClass visitCondEqual(CondEqualContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCondEqual(ctx);
 	}
 
 	@Override
-	public Expression visitEqualTo(EqualToContext ctx) {
+	public GameClass visitEqualTo(EqualToContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitEqualTo(ctx);
 	}
 
 	@Override
-	public Expression visitMore(MoreContext ctx) {
+	public GameClass visitMore(MoreContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMore(ctx);
 	}
 
 	@Override
-	public Expression visitDisjunction(DisjunctionContext ctx) {
+	public GameClass visitDisjunction(DisjunctionContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitDisjunction(ctx);
 	}
 
 	@Override
-	public Expression visitCondBool(CondBoolContext ctx) {
+	public GameClass visitCondBool(CondBoolContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCondBool(ctx);
 	}
 
 	@Override
-	public Expression visitMoreOrEqual(MoreOrEqualContext ctx) {
+	public GameClass visitMoreOrEqual(MoreOrEqualContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMoreOrEqual(ctx);
 	}
 
 	@Override
-	public Expression visitCondNotEqual(CondNotEqualContext ctx) {
+	public GameClass visitCondNotEqual(CondNotEqualContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCondNotEqual(ctx);
 	}
 
 	@Override
-	public Expression visitConjunction(ConjunctionContext ctx) {
+	public GameClass visitConjunction(ConjunctionContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitConjunction(ctx);
 	}
 
 	@Override
-	public Expression visitCondParenthesis(CondParenthesisContext ctx) {
+	public GameClass visitCondParenthesis(CondParenthesisContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitCondParenthesis(ctx);
 	}
 
 	@Override
-	public Expression visitLess(LessContext ctx) {
+	public GameClass visitLess(LessContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitLess(ctx);
 	}
