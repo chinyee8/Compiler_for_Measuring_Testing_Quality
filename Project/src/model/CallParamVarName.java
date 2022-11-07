@@ -1,6 +1,6 @@
 package model;
 
-public class CallParamVarName extends Input{
+public class CallParamVarName extends Input_List{
 	String varName;
 	
 	public CallParamVarName(String varName) {
@@ -9,6 +9,6 @@ public class CallParamVarName extends Input{
 	
 	@Override
 	public String toString() {
-		return this.varName;
+		return varName;
 	}
 }

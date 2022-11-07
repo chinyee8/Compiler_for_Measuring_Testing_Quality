@@ -1,6 +1,6 @@
 package model;
 
-public class CallParamDouble extends Input{
+public class CallParamDouble extends Input_List{
 	double input;
 	
 	public CallParamDouble(double input) {

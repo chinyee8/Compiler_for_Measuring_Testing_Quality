@@ -9,19 +9,19 @@ public class MyMethods{
 	MethodType methodType; 
 	
 	
-	public MyMethods(String name, MyReturnMethod type) {
+	public MyMethods(String name, MyReturnMethod method_type) {
 		methodName = name;
-		methodType = type;
+		methodType = method_type;
 	}
 	
-	public MyMethods(String name, MyVoidMethod type) {
+	public MyMethods(String name, MyVoidMethod method_type) {
 		methodName = name;
-		methodType = type;
+		methodType = method_type;
 	}
 	
 	@Override
 	public String toString() {
-		return "mymethod " + methodName + " "; 
+		return "mymethod " + methodName + " " + methodType.toString(); 
 	}
 }
  

@@ -20,6 +20,7 @@ decl: VAR_NAME '<<' DATA_TYPE					#Declaration
 assi: VAR_NAME '<-' expr						#Assignment
 	;
 	
+//Expr
 expr: r_method_call 							#RMethodCall
 	| value										#Values
 	;
@@ -61,11 +62,13 @@ r_method_call: METHODNAME '[' call_parameter ']'							#ReturnMethodCall
 			 ;
 v_method_call: VOIDCALL METHODNAME '[' call_parameter ']'			 		#VoidMethodCall
 			;
-//Input
+//Call_Parameter
 call_parameter: input														#CallParameter
 				| input (multi_input)+										#CallMultiParameter
 				|															#CallEmptyParameter
 			;
+
+//Input_List
 input: math																	#CallParamMath
      | cond																	#CallParamCond
      | VAR_NAME																#CallParamVarName
@@ -74,14 +77,15 @@ input: math																	#CallParamMath
      | STRING																#CallParamString
      | DOUBLE																#CallParamDouble
 	 ;    
-multi_input: ',' input
+	 
+multi_input: ',' input														#Multi_Input
 	;	
 //********************** if Statement ********************** //	 
 if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' method_body '!'	#IfStatement
 			;	 
 	 
 //********************** extra ********************** //
-//Values
+//Value_List
 value: NUM 			#ValueNum
 	 | DOUBLE 		#ValueDouble
 	 | STRING 		#ValueString

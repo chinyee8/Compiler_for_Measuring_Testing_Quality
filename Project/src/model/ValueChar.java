@@ -1,6 +1,6 @@
 package model;
 
-public class ValueChar extends Values {
+public class ValueChar extends Value_List {
 	char value;
 	public ValueChar(char value) {
 		this.value = value;

@@ -1,5 +1,5 @@
 package model;
 
-public class Condition extends Expression{
+public abstract class Condition {
 
 }

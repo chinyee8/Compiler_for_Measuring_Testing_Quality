@@ -6,12 +6,12 @@ public class MyMethodBody{
 	public List<Declaration> declList;
 	public List<Assignment> assiList;
 	public List<IfStatement> ifStatList;
-	public List<returnMethodCall> rMethodList;
+	public List<ReturnMethodCall> rMethodList;
 	
 	public MyMethodBody(List<Declaration> declList,
 						List<Assignment> assiList,
 						List<IfStatement> ifStatList,
-						List<returnMethodCall> rMethodList) {
+						List<ReturnMethodCall> rMethodList) {
 		this.declList = declList;
 		this.assiList = assiList;
 		this.ifStatList = ifStatList;
@@ -34,7 +34,7 @@ public class MyMethodBody{
 			result += i.toString() + "\n";
 		}
 		
-		for(returnMethodCall r: rMethodList) {
+		for(ReturnMethodCall r: rMethodList) {
 			result += r.toString() + "\n";
 		}
 		

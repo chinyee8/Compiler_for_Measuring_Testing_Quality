@@ -6,16 +6,16 @@ public class TestCase extends Expression{
 	String testName;
 	List<Declaration> decl;
 	List<Assignment> assi;
-	List<TestMethodCall> tmeth;
+	List<TestMethodCall> t_method_call;
 
 	public TestCase(String testName,
 					List<Declaration> decl,
 					List<Assignment> assi,
-					List<TestMethodCall> tmeth) {
+					List<TestMethodCall> t_method_call) {
 		this.testName = testName;
 		this.decl = decl;
 		this.assi = assi;
-		this.tmeth = tmeth;
+		this.t_method_call = t_method_call;
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class TestCase extends Expression{
 			result += a.toString() + "\n";
 		}
 		
-		for(TestMethodCall t: tmeth) {
+		for(TestMethodCall t: t_method_call) {
 			result += t.toString() + "\n";
 		}
 		

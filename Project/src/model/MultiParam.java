@@ -1,16 +1,16 @@
 package model;
 
 public class MultiParam extends Parameter{
-	private Params params;
-	private MultiParamChild multiparams;
+	 Params param;
+	 MultiParamChild multi_param;
 	
-	public MultiParam(Params params, MultiParamChild multiparams) {
-		this.params = params;
-		this.multiparams = multiparams;
+	public MultiParam(Params param, MultiParamChild multi_param) {
+		this.param = param;
+		this.multi_param = multi_param;
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString() + params.toString() + multiparams.toString();
+		return param.toString() + " " + multi_param.toString();
 	}
 }

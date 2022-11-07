@@ -1,9 +1,9 @@
 package model;
 
-public class CallParamMath extends Input_List{
+public class ValueMath extends Value_List {
 	Mathematics math;
 	
-	public CallParamMath(Mathematics math) {
+	public ValueMath(Mathematics math) {
 		this.math = math;
 	}
 	

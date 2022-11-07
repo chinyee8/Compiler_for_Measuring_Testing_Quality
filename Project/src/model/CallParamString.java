@@ -1,6 +1,6 @@
 package model;
 
-public class CallParamString extends Input{
+public class CallParamString extends Input_List{
 	String input;
 	public CallParamString(String input) {
 		this.input = input;

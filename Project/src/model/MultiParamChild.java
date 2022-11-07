@@ -1,10 +1,10 @@
 package model;
 
 public class MultiParamChild {
-	private Params params;
+	Params params;
 
-	public MultiParamChild(Params params) {
-		this.params = params;
+	public MultiParamChild(Params param) {
+		this.params = param;
 	}
 	
 	public String toString() {

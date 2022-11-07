@@ -1,12 +1,12 @@
 package model;
 
-public class Declaration extends Expression{
-	public String varName;
-	public String dataType;
+public class Declaration {
+	String varName;
+	String dataType;
 	
-	public Declaration(String name, String type) { // constructor
-		varName = name;
-		dataType = type;
+	public Declaration(String varName, String dataType) {
+		this.varName = varName;
+		this.dataType = dataType;
 	}
 	
 	@Override

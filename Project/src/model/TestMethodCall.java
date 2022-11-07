@@ -1,19 +1,19 @@
 package model;
 
 public class TestMethodCall{
-	private String className;
-	private String methodName;
-	private Input input;
+	 String className;
+	 String methodName;
+	 Call_Parameter call_parameter;
 	
 	public TestMethodCall(String className,
 						  String methodName,
-						  Input input) {
+						  Call_Parameter call_parameter) {
 		this.className = className;
 		this.methodName = methodName;
-		this.input = input;
+		this.call_parameter = call_parameter;
 	}
 	
 	public String toString() {
-		return className + "." + methodName + "[ " + input.toString() + " ]";
+		return className + "." + methodName + "[ " + call_parameter.toString() + " ]";
 	}
 }

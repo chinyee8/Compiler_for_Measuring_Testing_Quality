@@ -2,26 +2,26 @@ package model;
 
 public class MyReturnMethod extends MethodType {
 	String dataType;
-	Parameter param;
-	MyMethodBody body;
+	Parameter parameter;
+	MyMethodBody method_body;
 	String varName;
 	
 	public MyReturnMethod(String dataType,
-			Parameter param,
-			MyMethodBody body,
+			Parameter parameter,
+			MyMethodBody method_body,
 			String varName) {
 		this.dataType = dataType;
-		this.param = param;
-		this.body = body;
+		this.parameter = parameter;
+		this.method_body = method_body;
 		this.varName = varName;
 	}
 	
 	@Override
 	public String toString() {
-		String result = super.toString();
+		String result = "";
 		
-		result += dataType + " [ " + param.toString() + " ] ! \n";
-		result += body.toString() + "\n";
+		result += dataType + " [ " + parameter.toString() + " ] ! \n";
+		result += method_body.toString() + "\n";
 		result += "jackieReturns " + varName + "\n!";
 		
 		return result ;

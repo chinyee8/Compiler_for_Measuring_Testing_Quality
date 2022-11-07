@@ -1,6 +1,6 @@
 package model;
 
-public class CallParamChar extends Input{
+public class CallParamChar extends Input_List{
 	char input;
 	
 	public CallParamChar(char input) {

@@ -2,24 +2,23 @@ package model;
 
 import java.util.List;
 
-public class GameBody extends GameClass{
+//should i extend GameClass?
+public class GameBody{	
 	public List<Declaration> declList;
 	public List<Assignment> assiList;
 	public List<MyMethods> myMethodList;
 	
-	public GameBody(String className, 
-					List<Declaration> declList,
+	public GameBody(List<Declaration> declList,
 					List<Assignment> assiList, 
 					List<MyMethods> myMethodList) {
-		super(className);
 		this.declList = declList;
 		this.assiList = assiList;
 		this.myMethodList = myMethodList;
 	}
-
+	
 	@Override
 	public String toString() {
-		String result = super.toString();
+		String result = "";
 		
 			for(Declaration d : this.declList) {
 				result += d.toString() + "\n";
@@ -32,8 +31,6 @@ public class GameBody extends GameClass{
 			for(MyMethods m : this.myMethodList) {
 				result += m.toString() + "\n";
 			}
-			
-			result += "!";
 		
 		return result;
 	}

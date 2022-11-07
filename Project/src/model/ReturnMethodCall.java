@@ -2,15 +2,16 @@ package model;
 
 public class ReturnMethodCall {
 	public String methodName;
-	public String varName;
+	public Call_Parameter call_parameter;
 	
-	public ReturnMethodCall(String methodName, String varName) {
+	public ReturnMethodCall(String methodName, Call_Parameter call_parameter) {
 		this.methodName = methodName;
-		this.varName = varName;
+		this.call_parameter = call_parameter;
 	}
 	
 	@Override
 	public String toString() {
-		return methodName + " [ " + varName + " ] " ;
+		return methodName + " [ " + call_parameter.toString() + " ] " ;
 	}
 }
+

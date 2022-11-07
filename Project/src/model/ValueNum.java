@@ -1,6 +1,6 @@
 package model;
 
-public class ValueNum extends Values{
+public class ValueNum extends Value_List{
 // should I make each containers for NUM | DOUBLE | STRING | CHAR | BOOL ?? 
 	int num;
 	public ValueNum(int num) {

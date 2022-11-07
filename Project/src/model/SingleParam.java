@@ -1,7 +1,7 @@
 package model;
 
 public class SingleParam extends Parameter{
-	private Params params;
+	Params params;
 	
 	public SingleParam(Params params) {
 		this.params = params;
@@ -9,6 +9,6 @@ public class SingleParam extends Parameter{
 	
 	@Override
 	public String toString() {
-		return super.toString() + params.toString();
+		return params.toString();
 	}
 }

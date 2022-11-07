@@ -1,5 +1,5 @@
 package model;
 
-public abstract class Expr extends Expression {
-
+public abstract class Expr {
+	
 }
