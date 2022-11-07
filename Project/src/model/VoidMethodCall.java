@@ -1,6 +1,6 @@
 package model;
 
-public class VoidMethodCall {
+public class VoidMethodCall extends MethodCall{
 	String voidcall;
 	String methodname;
 	Call_Parameter call_parameter;

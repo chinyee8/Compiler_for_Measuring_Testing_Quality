@@ -1,6 +1,6 @@
 package model;
 
-public class ReturnMethodCall {
+public class ReturnMethodCall extends MethodCall {
 	public String methodName;
 	public Call_Parameter call_parameter;
 	

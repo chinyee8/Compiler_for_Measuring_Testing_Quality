@@ -6,16 +6,16 @@ public class MyMethodBody{
 	public List<Declaration> declList;
 	public List<Assignment> assiList;
 	public List<IfStatement> ifStatList;
-	public List<ReturnMethodCall> rMethodList;
+	public List<MethodCall> methodCall;
 	
 	public MyMethodBody(List<Declaration> declList,
 						List<Assignment> assiList,
 						List<IfStatement> ifStatList,
-						List<ReturnMethodCall> rMethodList) {
+						List<MethodCall> methodCall) {
 		this.declList = declList;
 		this.assiList = assiList;
 		this.ifStatList = ifStatList;
-		this.rMethodList = rMethodList;
+		this.methodCall = methodCall;
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public class MyMethodBody{
 			result += i.toString() + "\n";
 		}
 		
-		for(ReturnMethodCall r: rMethodList) {
+		for(MethodCall r: methodCall) {
 			result += r.toString() + "\n";
 		}
 		
