@@ -1,5 +1,5 @@
 package model;
 
-public abstract class Input_List {
+public abstract class Input_List{
 
 }
