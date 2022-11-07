@@ -1,6 +1,6 @@
 package model;
 
-public class ValueString extends Value_List {
+public class ValueString extends Values {
 	String value;
 	public ValueString(String value) {
 		this.value = value;

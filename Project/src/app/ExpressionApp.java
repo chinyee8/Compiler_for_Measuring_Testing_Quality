@@ -31,10 +31,10 @@ public class ExpressionApp {
 				AntlrToProgram progVisitor = new AntlrToProgram();
 				Program prog = progVisitor.visit(AST);
 				if (progVisitor.semanticErrors.isEmpty()) {
-					ExpressionProcessor ep = new ExpressionProcessor(prog.expressions);
-					for(String evaluation: ep.getEvaluationResults()) {
-						System.out.println(evaluation);
-					}
+//					ExpressionProcessor ep = new ExpressionProcessor(prog.expressions);
+//					for(String evaluation: ep.getEvaluationResults()) {
+//						System.out.println(evaluation);
+//					}
 				}
 				else {
 					for(String err: progVisitor.semanticErrors) {

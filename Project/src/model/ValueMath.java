@@ -1,6 +1,6 @@
 package model;
 
-public class ValueMath extends Value_List {
+public class ValueMath extends Values {
 	Mathematics math;
 	
 	public ValueMath(Mathematics math) {

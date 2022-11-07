@@ -1,6 +1,6 @@
 package model;
 
-public class ValueDouble extends Value_List {
+public class ValueDouble extends Values {
 	double value;
 	public ValueDouble(double value) {
 		this.value = value;

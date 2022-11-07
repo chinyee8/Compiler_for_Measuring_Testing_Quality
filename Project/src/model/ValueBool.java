@@ -1,6 +1,6 @@
 package model;
 
-public class ValueBool extends Value_List {
+public class ValueBool extends Values {
 	boolean value;
 	public ValueBool(boolean value) {
 		this.value = value;
