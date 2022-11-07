@@ -65,21 +65,23 @@ import antlr.exprParser.ValueNumContext;
 import antlr.exprParser.ValueStringContext;
 import antlr.exprParser.ValuesContext;
 import antlr.exprParser.VoidMethodCallContext;
+import model.GameBody;
 import model.GameClass;
 
 public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
-	public List<String> vars;
-	public List<String> methods; 
-	// can variable and method has the same name as class?
-		// ^ for example...? As I know we can make them to have same name, but not sure in what situation you wanna do that
-	public List<String> semanticErrors;
-	public List<Integer> linesCovered;
-
-
 	
-	public AntlrToGameClass(List<String> semanticErrors) {
-		this.vars = new ArrayList<>();
-		this.semanticErrors = semanticErrors;
+	public List<String> semanticErrors; 
+	//public List<Integer> linesCovered;
+	
+	public AntlrToGameClass(List<String> semanticError) {
+		this.semanticErrors = semanticError;
 	}
 	
+	public GameClass visitGameClass(GameClassContext ctx) {
+		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors);
+		String className = ctx.getChild(1).getText();
+		GameBody gameBody = gbVisitor.visit(ctx.getChild(5));
+		
+		return new GameClass(className, gameBody);
+	}
 }
