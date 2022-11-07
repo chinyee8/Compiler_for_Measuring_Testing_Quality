@@ -1,16 +1,16 @@
 package model;
 
 public class NotEqualTo extends Condition{
-	Condition cond1;
-	Condition cond2;
+	Condition left;
+	Condition right;
 	
 	public NotEqualTo(Condition cond1, Condition cond2) {
-		this.cond1 = cond1;
-		this.cond2 = cond2;
+		this.left = cond1;
+		this.right = cond2;
 	}
 	
 	@Override
 	public String toString() {
-		return cond1.toString() + " /= " + cond2.toString();
+		return left.toString() + " /= " + right.toString();
 	}
 }

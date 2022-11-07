@@ -3,81 +3,125 @@ import model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import antlr.*;
 import antlr.exprParser.*;
 
 public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
+	
+	
+
+	
 	@Override
 	public Condition visitLessOrEqual(LessOrEqualContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitLessOrEqual(ctx);
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
+		
+		return new LessOrEqual(left, right);
 	}
 	@Override
 	public Condition visitNegation(NegationContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitNegation(ctx);
+		Condition condition = visit(ctx.getChild(1));
+		return new Negation(condition);
 	}
 	@Override
 	public Condition visitNotEqualTo(NotEqualToContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitNotEqualTo(ctx);
+		Condition left = visit(ctx.getChild(0));
+		Condition right = visit(ctx.getChild(2));
+		return new NotEqualTo(left, right);
 	}
 	@Override
 	public Condition visitCondVarName(CondVarNameContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitCondVarName(ctx);
+		String varName = ctx.getChild(0).getText();
+		return new CondVarName(varName);
 	}
 	@Override
 	public Condition visitCondEqual(CondEqualContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitCondEqual(ctx);
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
+		
+		return new CondEqual(left, right);
 	}
 	@Override
 	public Condition visitEqualTo(EqualToContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitEqualTo(ctx);
+		Condition left = visit(ctx.getChild(0));
+		Condition right = visit(ctx.getChild(2));
+		return new EqualTo(left, right);
 	}
 	@Override
 	public Condition visitMore(MoreContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMore(ctx);
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
+		
+		return new More(left, right);
 	}
 	@Override
 	public Condition visitDisjunction(DisjunctionContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitDisjunction(ctx);
+		Condition left = visit(ctx.getChild(0));
+		Condition right = visit(ctx.getChild(2));
+		return new Disjunction(left, right);
 	}
 	@Override
 	public Condition visitCondBool(CondBoolContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitCondBool(ctx);
+		String temp = ctx.getChild(0).getText();
+		boolean res = false;
+		if(temp.equals("TRUE")) {
+			res = true;
+		}
+		else if (temp.equals("FALSE")) {
+			res = false;
+		}
+		return new CondBool(res);
 	}
 	@Override
 	public Condition visitMoreOrEqual(MoreOrEqualContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMoreOrEqual(ctx);
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
+		
+		return new MoreOrEqual(left, right);
 	}
 	@Override
 	public Condition visitCondNotEqual(CondNotEqualContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitCondNotEqual(ctx);
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
+		
+		return new CondNotEqual(left, right);
 	}
 	@Override
 	public Condition visitConjunction(ConjunctionContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitConjunction(ctx);
+		Condition left = visit(ctx.getChild(0));
+		Condition right = visit(ctx.getChild(2));
+		return new Conjunction(left, right);
 	}
 	@Override
 	public Condition visitCondParenthesis(CondParenthesisContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitCondParenthesis(ctx);
+		Condition temp = visit(ctx.getChild(1));
+		return new CondParenthesis(temp);
 	}
 	@Override
 	public Condition visitLess(LessContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitLess(ctx);
+		AntlrToMathematics mVisitorLeft = new AntlrToMathematics();
+		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
+		AntlrToMathematics mVisitorRight = new AntlrToMathematics();
+		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
+		
+		return new Less(left, right);
 	}
 
 	

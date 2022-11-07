@@ -19,33 +19,43 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 	}
 	@Override
 	public Values visitValueNum(ValueNumContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitValueNum(ctx);
+		int temp = Integer.parseInt(ctx.getChild(0).getText());
+		return new ValueNum(temp);
 	}
 	@Override
 	public Values visitValueDouble(ValueDoubleContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitValueDouble(ctx);
+		String temp = "";
+		for(int i = 0; i < ctx.getChild(0).getText().length(); i++) {
+			if(ctx.getChild(0).getText().charAt(i) != '.') {
+				temp += ctx.getChild(0).getText().charAt(i);
+			}
+		}
+		int temp1 = Integer.parseInt(temp);
+		double res = temp1/100;
+		return new ValueDouble(res);
 	}
 	@Override
 	public Values visitValueString(ValueStringContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitValueString(ctx);
+		return new ValueString(ctx.getChild(0).getText());
 	}
 	@Override
 	public Values visitValueChar(ValueCharContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitValueChar(ctx);
+		return new ValueChar(ctx.getChild(0).getText().charAt(1));
 	}
 	@Override
 	public Values visitValueBool(ValueBoolContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitValueBool(ctx);
+		String temp = ctx.getChild(0).getText();
+		boolean k = false;
+		if(temp.equals("TRUE")) {
+			k = true;
+		}
+		return new ValueBool(k);
 	}
 	@Override
 	public Values visitValueMath(ValueMathContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitValueMath(ctx);
+		AntlrToMathematics mVisitor = new AntlrToMathematics();
+		Mathematics m = mVisitor.visit(ctx.getChild(0));
+		return new ValueMath(m);
 	}
 	
 	
