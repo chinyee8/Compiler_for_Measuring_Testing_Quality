@@ -11,8 +11,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 
 	@Override
 	public Mathematics visitMathNumber(MathNumberContext ctx) {
-		Mathematics num = visit(ctx.getChild(0));
-		int intNum = Integer.parseInt(num.toString());
+		int intNum = Integer.parseInt(ctx.getChild(0).getText());
 		return new MathNumber(intNum);
 	}
 
@@ -39,9 +38,8 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 
 	@Override
 	public Mathematics visitMathDouble(MathDoubleContext ctx) {
-		Mathematics db = visit(ctx.getChild(0));
-		double dbDb = Double.parseDouble(db.toString());
-		return new MathDouble(dbDb);
+		double db = Double.parseDouble(ctx.getChild(0).getText());
+		return new MathDouble(db);
 	}
 
 	@Override
@@ -52,8 +50,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 
 	@Override
 	public Mathematics visitMathVarName(MathVarNameContext ctx) {
-		Mathematics varName = visit(ctx.getChild(0));
-		String strVarName = varName.toString();
+		String strVarName = ctx.getChild(0).getText();
 		return new MathVarName(strVarName);
 	}
 
