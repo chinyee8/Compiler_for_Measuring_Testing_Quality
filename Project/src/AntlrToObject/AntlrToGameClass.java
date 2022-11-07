@@ -71,6 +71,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public List<String> vars;
 	public List<String> methods; 
 	// can variable and method has the same name as class?
+		// ^ for example...? As I know we can, but not sure in what situation you wanna do that
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 
