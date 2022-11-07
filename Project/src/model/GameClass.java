@@ -1,6 +1,6 @@
 package model;
 
-public class GameClass{
+public class GameClass extends Game{
 	public String className;
 	public GameBody body;
 	

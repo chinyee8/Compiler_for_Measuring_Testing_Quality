@@ -1,4 +1,4 @@
-package AntlrToObject;
+package incomplete_antlrToobjects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ import antlr.exprParser.VoidMethodCallContext;
 import model.GameBody;
 import model.GameClass;
 
-public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
+public class AntlrToGame extends exprBaseVisitor<Game>{
 	
 	public List<String> semanticErrors; 
 	//public List<Integer> linesCovered;
