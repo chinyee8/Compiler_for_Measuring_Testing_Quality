@@ -25,18 +25,3 @@ public class MyMethods{
 	}
 }
  
-/*
- 	String methodName;
-	MethodType methodType; 
-	
-	
-	public MyMethod(String name, MethodType type) {
-		methodName = name;
-		methodType = type;
-	}
-
-	@Override
-	public String toString() {
-		return "mymethod " + methodName + " " + methodType.toString(); 
-	}
-*/
