@@ -7,9 +7,17 @@ import org.antlr.v4.runtime.Token;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AdditionContext;
-import antlr.exprParser.AssiExprValuesContext;
-import antlr.exprParser.AssiRMethodCallContext;
 import antlr.exprParser.AssignmentContext;
+import antlr.exprParser.CallEmptyParameterContext;
+import antlr.exprParser.CallMultiParameterContext;
+import antlr.exprParser.CallParamCharContext;
+import antlr.exprParser.CallParamCondContext;
+import antlr.exprParser.CallParamDoubleContext;
+import antlr.exprParser.CallParamMathContext;
+import antlr.exprParser.CallParamNumContext;
+import antlr.exprParser.CallParamStringContext;
+import antlr.exprParser.CallParamVarNameContext;
+import antlr.exprParser.CallParameterContext;
 import antlr.exprParser.CondBoolContext;
 import antlr.exprParser.CondEqualContext;
 import antlr.exprParser.CondNotEqualContext;
@@ -19,6 +27,7 @@ import antlr.exprParser.ConjunctionContext;
 import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.DisjunctionContext;
 import antlr.exprParser.DivisionContext;
+import antlr.exprParser.EmptyParamContext;
 import antlr.exprParser.EqualToContext;
 import antlr.exprParser.GameBodyContext;
 import antlr.exprParser.GameClassContext;
@@ -31,37 +40,31 @@ import antlr.exprParser.MathParenthesisContext;
 import antlr.exprParser.MathVarNameContext;
 import antlr.exprParser.MoreContext;
 import antlr.exprParser.MoreOrEqualContext;
+import antlr.exprParser.MultiParamChildContext;
+import antlr.exprParser.MultiParamContext;
+import antlr.exprParser.Multi_InputContext;
 import antlr.exprParser.MultiplicationContext;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.MyMethodsContext;
-import antlr.exprParser.MyMultiParameterContext;
-import antlr.exprParser.MyNoParameterContext;
-import antlr.exprParser.MyParameterContext;
-import antlr.exprParser.MyReturnMContext;
 import antlr.exprParser.MyReturnMethodContext;
-import antlr.exprParser.MyVoidMContext;
 import antlr.exprParser.MyVoidMethodContext;
 import antlr.exprParser.NegationContext;
 import antlr.exprParser.NotEqualToContext;
-import antlr.exprParser.PMultiContext;
+import antlr.exprParser.ParamsContext;
+import antlr.exprParser.RMethodCallContext;
 import antlr.exprParser.ReturnMethodCallContext;
+import antlr.exprParser.SingleParamContext;
 import antlr.exprParser.SubtractionContext;
 import antlr.exprParser.TestCaseContext;
-import antlr.exprParser.TestCharContext;
-import antlr.exprParser.TestCondContext;
-import antlr.exprParser.TestDoubleContext;
-import antlr.exprParser.TestEmptyContext;
-import antlr.exprParser.TestInputsContext;
-import antlr.exprParser.TestMathContext;
 import antlr.exprParser.TestMethodCallContext;
-import antlr.exprParser.TestNumContext;
-import antlr.exprParser.TestStringContext;
-import antlr.exprParser.TestVarNameContext;
 import antlr.exprParser.ValueBoolContext;
 import antlr.exprParser.ValueCharContext;
 import antlr.exprParser.ValueDoubleContext;
+import antlr.exprParser.ValueMathContext;
 import antlr.exprParser.ValueNumContext;
 import antlr.exprParser.ValueStringContext;
+import antlr.exprParser.ValuesContext;
+import antlr.exprParser.VoidMethodCallContext;
 import model.Expression;
 
 public class AntlrToExpression extends exprBaseVisitor<Expression>{
@@ -101,33 +104,21 @@ public class AntlrToExpression extends exprBaseVisitor<Expression>{
 	}
 
 	@Override
-	public Expression visitAssiRMethodCall(AssiRMethodCallContext ctx) {
+	public Expression visitRMethodCall(RMethodCallContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitAssiRMethodCall(ctx);
+		return super.visitRMethodCall(ctx);
 	}
 
 	@Override
-	public Expression visitAssiExprValues(AssiExprValuesContext ctx) {
+	public Expression visitValues(ValuesContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitAssiExprValues(ctx);
+		return super.visitValues(ctx);
 	}
 
 	@Override
 	public Expression visitMyMethods(MyMethodsContext ctx) {
 		// TODO Auto-generated method stub
 		return super.visitMyMethods(ctx);
-	}
-
-	@Override
-	public Expression visitMyReturnM(MyReturnMContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMyReturnM(ctx);
-	}
-
-	@Override
-	public Expression visitMyVoidM(MyVoidMContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitMyVoidM(ctx);
 	}
 
 	@Override
@@ -149,27 +140,33 @@ public class AntlrToExpression extends exprBaseVisitor<Expression>{
 	}
 
 	@Override
-	public Expression visitMyParameter(MyParameterContext ctx) {
+	public Expression visitSingleParam(SingleParamContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitMyParameter(ctx);
+		return super.visitSingleParam(ctx);
 	}
 
 	@Override
-	public Expression visitMyMultiParameter(MyMultiParameterContext ctx) {
+	public Expression visitMultiParam(MultiParamContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitMyMultiParameter(ctx);
+		return super.visitMultiParam(ctx);
 	}
 
 	@Override
-	public Expression visitMyNoParameter(MyNoParameterContext ctx) {
+	public Expression visitEmptyParam(EmptyParamContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitMyNoParameter(ctx);
+		return super.visitEmptyParam(ctx);
 	}
 
 	@Override
-	public Expression visitPMulti(PMultiContext ctx) {
+	public Expression visitParams(ParamsContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitPMulti(ctx);
+		return super.visitParams(ctx);
+	}
+
+	@Override
+	public Expression visitMultiParamChild(MultiParamChildContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitMultiParamChild(ctx);
 	}
 
 	@Override
@@ -185,57 +182,81 @@ public class AntlrToExpression extends exprBaseVisitor<Expression>{
 	}
 
 	@Override
-	public Expression visitTestChar(TestCharContext ctx) {
+	public Expression visitReturnMethodCall(ReturnMethodCallContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestChar(ctx);
+		return super.visitReturnMethodCall(ctx);
 	}
 
 	@Override
-	public Expression visitTestEmpty(TestEmptyContext ctx) {
+	public Expression visitVoidMethodCall(VoidMethodCallContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestEmpty(ctx);
+		return super.visitVoidMethodCall(ctx);
 	}
 
 	@Override
-	public Expression visitTestVarName(TestVarNameContext ctx) {
+	public Expression visitCallParameter(CallParameterContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestVarName(ctx);
+		return super.visitCallParameter(ctx);
 	}
 
 	@Override
-	public Expression visitTestMath(TestMathContext ctx) {
+	public Expression visitCallMultiParameter(CallMultiParameterContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestMath(ctx);
+		return super.visitCallMultiParameter(ctx);
 	}
 
 	@Override
-	public Expression visitTestNum(TestNumContext ctx) {
+	public Expression visitCallEmptyParameter(CallEmptyParameterContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestNum(ctx);
+		return super.visitCallEmptyParameter(ctx);
 	}
 
 	@Override
-	public Expression visitTestCond(TestCondContext ctx) {
+	public Expression visitCallParamMath(CallParamMathContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestCond(ctx);
+		return super.visitCallParamMath(ctx);
 	}
 
 	@Override
-	public Expression visitTestDouble(TestDoubleContext ctx) {
+	public Expression visitCallParamCond(CallParamCondContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestDouble(ctx);
+		return super.visitCallParamCond(ctx);
 	}
 
 	@Override
-	public Expression visitTestInputs(TestInputsContext ctx) {
+	public Expression visitCallParamVarName(CallParamVarNameContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestInputs(ctx);
+		return super.visitCallParamVarName(ctx);
 	}
 
 	@Override
-	public Expression visitTestString(TestStringContext ctx) {
+	public Expression visitCallParamNum(CallParamNumContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitTestString(ctx);
+		return super.visitCallParamNum(ctx);
+	}
+
+	@Override
+	public Expression visitCallParamChar(CallParamCharContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitCallParamChar(ctx);
+	}
+
+	@Override
+	public Expression visitCallParamString(CallParamStringContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitCallParamString(ctx);
+	}
+
+	@Override
+	public Expression visitCallParamDouble(CallParamDoubleContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitCallParamDouble(ctx);
+	}
+
+	@Override
+	public Expression visitMulti_Input(Multi_InputContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitMulti_Input(ctx);
 	}
 
 	@Override
@@ -275,9 +296,9 @@ public class AntlrToExpression extends exprBaseVisitor<Expression>{
 	}
 
 	@Override
-	public Expression visitReturnMethodCall(ReturnMethodCallContext ctx) {
+	public Expression visitValueMath(ValueMathContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitReturnMethodCall(ctx);
+		return super.visitValueMath(ctx);
 	}
 
 	@Override
