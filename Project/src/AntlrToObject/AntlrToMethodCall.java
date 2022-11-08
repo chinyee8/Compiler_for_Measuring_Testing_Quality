@@ -1,28 +1,40 @@
 package AntlrToObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.ReturnMethodCallContext;
 import antlr.exprParser.VoidMethodCallContext;
-import model.CallParameter;
+import model.Call_Parameter;
 import model.MethodCall;
 import model.ReturnMethodCall;
 import model.VoidMethodCall;
 
 public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
+	public List<String> semanticErrors;
+	public List<Integer> linesCovered;
+	
+	public AntlrToMethodCall(List<String> semanticErrors) {
+		this.semanticErrors = new ArrayList<>();
+	}
+	
+	@Override
 	public MethodCall visitVoidMethodCall(VoidMethodCallContext ctx) { 
 		
-		String className = ctx.getChild(0).getText();
+		String voidCall = ctx.VOIDCALL().getText();
 		String methodName = ctx.getChild(1).getText();
-		AntlrToCallParameter callParamVisitor = new AntlrToCallParameter();
-		CallParameter callParam = callParamVisitor.visit(ctx.getChild(3));
-		return new VoidMethodCall(className, methodName, callParam);
+		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors);
+		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
+		return new VoidMethodCall(voidCall, methodName, callParam);
 		
 	}
 	
+	@Override
 	public MethodCall visitReturnMethodCall(ReturnMethodCallContext ctx) {
 		String methodName = ctx.getChild(0).getText();
-		AntlrToCallParameter callParamVisitor = new AntlrToCallParameter();
-		CallParameter callParam = callParamVisitor.visit(ctx.getChild(2));
+		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors);
+		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
 		return new ReturnMethodCall(methodName, callParam);
 	}
 }
