@@ -18,7 +18,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public List<Integer> linesCovered;
 
 	public AntlrToMyMethodBody(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 
 	@Override

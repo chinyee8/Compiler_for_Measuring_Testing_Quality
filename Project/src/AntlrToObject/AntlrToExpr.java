@@ -17,7 +17,7 @@ public class AntlrToExpr extends exprBaseVisitor<Expr> {
 	public List<Integer> linesCovered;
 	
 	public AntlrToExpr(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	

@@ -19,7 +19,7 @@ public class AntlrToParameter extends exprBaseVisitor<Parameter>{
 	public List<Integer> linesCovered;
 	
 	public AntlrToParameter(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 
 	@Override

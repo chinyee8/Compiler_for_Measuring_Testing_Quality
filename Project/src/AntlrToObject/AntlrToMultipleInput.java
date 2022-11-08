@@ -13,7 +13,7 @@ public class AntlrToMultipleInput extends exprBaseVisitor<MultipleInput>{
 	public List<Integer> linesCovered;
 	
 	public AntlrToMultipleInput(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 
 	@Override

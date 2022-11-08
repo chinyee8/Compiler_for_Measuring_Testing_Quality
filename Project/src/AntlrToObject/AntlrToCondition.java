@@ -12,7 +12,7 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	public List<Integer> linesCovered;
 	
 	public AntlrToCondition(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override

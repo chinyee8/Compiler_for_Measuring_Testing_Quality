@@ -13,7 +13,7 @@ public class AntlrToMultiParamChild extends exprBaseVisitor<MultiParamChild>{
 	public List<Integer> linesCovered;
 	
 	public AntlrToMultiParamChild(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 
 	@Override

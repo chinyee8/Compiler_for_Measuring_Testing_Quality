@@ -13,7 +13,7 @@ public class AntlrToTestMethodCall extends exprBaseVisitor<TestMethodCall> {
 	public List<Integer> linesCovered;
 	
 	public AntlrToTestMethodCall(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 
 	@Override

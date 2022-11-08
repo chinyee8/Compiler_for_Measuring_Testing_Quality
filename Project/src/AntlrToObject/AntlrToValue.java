@@ -11,7 +11,7 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 	public List<Integer> linesCovered;
 	
 	public AntlrToValue(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override

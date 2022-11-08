@@ -12,7 +12,7 @@ public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 	public List<Integer> linesCovered;
 	
 	public AntlrToDeclaration(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override

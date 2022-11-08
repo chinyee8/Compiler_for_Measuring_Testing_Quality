@@ -13,7 +13,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public List<Integer> linesCovered;
 
 	public AntlrToIfStatement(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override

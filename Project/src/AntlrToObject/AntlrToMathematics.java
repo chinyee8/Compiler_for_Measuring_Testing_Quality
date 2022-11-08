@@ -11,7 +11,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	public List<Integer> linesCovered;
 	
 	public AntlrToMathematics(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 
 	@Override

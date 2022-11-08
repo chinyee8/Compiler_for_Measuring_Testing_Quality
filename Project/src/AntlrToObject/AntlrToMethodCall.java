@@ -16,7 +16,7 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 	public List<Integer> linesCovered;
 	
 	public AntlrToMethodCall(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override

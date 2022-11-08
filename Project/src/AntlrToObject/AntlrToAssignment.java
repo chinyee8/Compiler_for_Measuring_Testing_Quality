@@ -13,7 +13,7 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 	public List<Integer> linesCovered;
 	
 	public AntlrToAssignment(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override

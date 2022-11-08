@@ -27,7 +27,7 @@ public class AntlrToInput_List extends exprBaseVisitor<Input_List>{
 	public List<Integer> linesCovered;
 	
 	public AntlrToInput_List(List<String> semanticErrors) {
-		this.semanticErrors = new ArrayList<>();
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override
