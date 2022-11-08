@@ -9,14 +9,9 @@ public class MyMethods{
 	MethodType methodType; 
 	
 	
-	public MyMethods(String name, MyReturnMethod method_type) {
-		methodName = name;
-		methodType = method_type;
-	}
-	
-	public MyMethods(String name, MyVoidMethod method_type) {
-		methodName = name;
-		methodType = method_type;
+	public MyMethods(String methodName, MethodType methodType) {
+		this.methodName = methodName;
+		this.methodType = methodType;
 	}
 	
 	@Override
