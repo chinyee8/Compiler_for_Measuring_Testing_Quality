@@ -40,11 +40,13 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		for(int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
+		
+		for(int i = 0; i < ctx.if_statement().size(); i++){
+			  ifstatement.add(ifVisitor.visit(ctx.getChild(i)));
+		}
 
 		for(int i = 0; i < ctx.getChildCount(); i++) { 
-			if(ctx.getChild(i) instanceof IfStatementContext){
-				ifstatement.add(ifVisitor.visit(ctx.getChild(i)));
-			}else if(ctx.getChild(i) instanceof ReturnMethodCallContext 
+			 if(ctx.getChild(i) instanceof ReturnMethodCallContext 
 					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
 				methodCall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}

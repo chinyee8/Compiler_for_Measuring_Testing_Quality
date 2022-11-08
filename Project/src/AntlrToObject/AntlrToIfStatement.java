@@ -15,8 +15,9 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public AntlrToIfStatement(List<String> semanticErrors) {
 		this.semanticErrors = new ArrayList<>();
 	}
-
-	public IfStatement VisitIfStatement(IfStatementContext ctx) {
+	
+	@Override
+	public IfStatement visitIfStatement(IfStatementContext ctx) {
 
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors);
 		Condition cond = condVisitor.visit(ctx.cond());
