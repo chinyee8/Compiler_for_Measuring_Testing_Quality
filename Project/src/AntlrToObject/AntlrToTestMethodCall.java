@@ -18,8 +18,8 @@ public class AntlrToTestMethodCall extends exprBaseVisitor<TestMethodCall> {
 
 	@Override
 	public TestMethodCall visitTestMethodCall(TestMethodCallContext ctx) {
-		String className = ctx.getChild(1).getText();
-		String methodName = ctx.getChild(3).getText();
+		String className = ctx.getChild(0).getText();
+		String methodName = ctx.getChild(2).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.getChild(4));
 		return new TestMethodCall(className, methodName, callParam);
