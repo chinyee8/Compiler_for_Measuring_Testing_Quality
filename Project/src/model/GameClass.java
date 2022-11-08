@@ -1,6 +1,6 @@
 package model;
 
-public class GameClass extends Classes{
+public class GameClass{
 	public String className;
 	public GameBody body;
 	
@@ -13,8 +13,8 @@ public class GameClass extends Classes{
 	public String toString() {
 		String result = "";
 		
-			result = "game " + this.className + "[ ] !\n";
-			result += body.toString() + "\n";
+			result = "game " + this.className + "[ ] !<br>";
+			result += body.toString() + "<br>";
 			result += "!";
 			
 		return result;

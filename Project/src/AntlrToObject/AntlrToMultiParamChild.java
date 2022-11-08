@@ -19,7 +19,7 @@ public class AntlrToMultiParamChild extends exprBaseVisitor<MultiParamChild>{
 	@Override
 	public MultiParamChild visitMultiParamChild(MultiParamChildContext ctx) {
 		AntlrToParams pVisitor = new AntlrToParams(semanticErrors);
-		Params params = pVisitor.visit(ctx.getChild(0));
+		Params params = pVisitor.visit(ctx.param());
 		return new MultiParamChild(params);
 	}
 	

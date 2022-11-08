@@ -5,10 +5,10 @@ public class IfStatement{
 	MyMethodBody methbody1;
 	MyMethodBody methbody2;
 
-	public IfStatement(Condition cond, MyMethodBody methbody1, MyMethodBody methbody2) {
+	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody) {
 		this.cond = cond;
-		this.methbody1 = methbody1;
-		this.methbody2 = methbody2;
+		this.methbody1 = ifBody;
+		this.methbody2 = elseBody;
 	}
 
 	public String toString() {

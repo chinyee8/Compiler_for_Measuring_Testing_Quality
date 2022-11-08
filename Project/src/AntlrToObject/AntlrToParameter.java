@@ -36,8 +36,8 @@ public class AntlrToParameter extends exprBaseVisitor<Parameter>{
 		
 		AntlrToMultiParamChild mVisitor = new AntlrToMultiParamChild(semanticErrors);
 		List<MultiParamChild> multi_param = new ArrayList<>();
-		for(int i = 1; i < ctx.getChildCount(); i++) {
-			multi_param.add(mVisitor.visit(ctx.getChild(i)));
+		for(int i = 0; i < ctx.multi_param().size(); i++) {
+			multi_param.add(mVisitor.visit(ctx.multi_param(i)));
 		}
 		
 		return new MultiParam(param, multi_param);

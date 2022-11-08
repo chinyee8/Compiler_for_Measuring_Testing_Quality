@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class TestCase extends Classes{
+public class TestCase{
 	String testName;
 	List<Declaration> decl;
 	List<Assignment> assi;

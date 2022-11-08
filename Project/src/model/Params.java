@@ -1,6 +1,6 @@
 package model;
 
-public class Params{
+public class Params extends Parameter{
 	String dataType;
 	String varName;
 	

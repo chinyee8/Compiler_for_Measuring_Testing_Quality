@@ -7,37 +7,38 @@ public class MyMethodBody{
 	public List<Assignment> assiList;
 	public List<IfStatement> ifStatList;
 	public List<MethodCall> methodCall;
-	
+
 	public MyMethodBody(List<Declaration> declList,
-						List<Assignment> assiList,
-						List<IfStatement> ifStatList,
-						List<MethodCall> methodCall) {
+			List<Assignment> assiList,
+			List<IfStatement> ifStatList,
+			List<MethodCall> methodCall) {
 		this.declList = declList;
 		this.assiList = assiList;
 		this.ifStatList = ifStatList;
 		this.methodCall = methodCall;
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = "";
-		
+
 		for(Declaration d: declList) {
-			result += d.toString() + "\n";
+			result += d.toString() + "<br>";
 		}
-		
+
 		for(Assignment a: assiList) {
-			result += a.toString() + "\n";
+			result += a.toString() + "<br>";
 		}
-		
+
 		for(IfStatement i: ifStatList) {
-			result += i.toString() + "\n";
+			result += i.toString() + "<br>";
 		}
-		
+
+
 		for(MethodCall r: methodCall) {
-			result += r.toString() + "\n";
+			result += r.toString() + "<br>";
 		}
-		
+
 		return result;
 	}
 }

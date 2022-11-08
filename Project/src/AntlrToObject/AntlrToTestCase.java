@@ -4,35 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
-import antlr.exprParser.GameClassContext;
 import antlr.exprParser.TestCaseContext;
 import model.Assignment;
-import model.Classes;
 import model.Declaration;
-import model.GameBody;
-import model.GameClass;
 import model.TestCase;
 import model.TestMethodCall;
 
-public class AntlrToClasses extends exprBaseVisitor<Classes>{
+public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
 	
 	
-	public AntlrToClasses(List<String> semanticError) {
+	public AntlrToTestCase(List<String> semanticError) {
 		this.semanticErrors = semanticError;
 	}
 	
-	@Override
-	public GameClass visitGameClass(GameClassContext ctx) {
-		String className = ctx.CLASS_NAME().getText();
-		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors);
-		GameBody gamebody = gbVisitor.visit(ctx.body());
-		return new GameClass(className, gamebody);
-	}
+	
 	
 	@Override
-	public Classes visitTestCase(TestCaseContext ctx) {
+	public TestCase visitTestCase(TestCaseContext ctx) {
 		String testName = ctx.TEST_NAME().getText();
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();

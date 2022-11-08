@@ -9,7 +9,12 @@ public class MyMethods{
 	MethodType methodType; 
 	
 	
-	public MyMethods(String methodName, MethodType methodType) {
+	public MyMethods(String methodName, MyReturnMethod methodType) {
+		this.methodName = methodName;
+		this.methodType = methodType;
+	}
+	
+	public MyMethods(String methodName, MyVoidMethod methodType) {
 		this.methodName = methodName;
 		this.methodType = methodType;
 	}

@@ -20,9 +20,9 @@ public class MyReturnMethod extends MethodType {
 	public String toString() {
 		String result = "";
 		
-		result += dataType + " [ " + parameter.toString() + " ] ! \n";
-		result += method_body.toString() + "\n";
-		result += "jackieReturns " + varName + "\n!";
+		result += dataType + " [ " + parameter.toString() + " ] ! <br>";
+		result += method_body.toString() + "<br>";
+		result += "jackieReturns " + varName + "<br>!";
 		
 		return result ;
 	}

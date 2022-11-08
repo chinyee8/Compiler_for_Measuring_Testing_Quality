@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Program{
-
-	public List<Classes> classes;
+	public GameClass gameclass;
+	public List<TestCase> testcases;
 
 	
 	public Program() { // constructor
-		this.classes = new ArrayList<>();
+		this.testcases = new ArrayList<>();
 	}
  
 	
-	public void addClass(Classes  e) {
-		classes.add(e);
+	public void addTestCase(TestCase  e) {
+		testcases.add(e);
+	}
+
+
+	public void addGameClass(GameClass e) {
+		gameclass = e;
 	}
 	
 }

@@ -21,15 +21,15 @@ public class GameBody{
 		String result = "";
 		
 			for(Declaration d : this.declList) {
-				result += d.toString() + "\n";
+				result += d.toString() + "<br>";
 			}
 			
 			for(Assignment a : this.assiList) {
-				result += a.toString() + "\n";
+				result += a.toString() + "<br>";
 			}
 			
 			for(MyMethods m : this.myMethodList) {
-				result += m.toString() + "\n";
+				result += m.toString() + "<br>";
 			}
 		
 		return result;

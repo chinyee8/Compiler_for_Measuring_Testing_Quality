@@ -19,7 +19,7 @@ public class AntlrToMultipleInput extends exprBaseVisitor<MultipleInput>{
 	@Override
 	public MultipleInput visitMultipleInput(MultipleInputContext ctx) {
 		AntlrToInput_List iVisitor = new AntlrToInput_List(semanticErrors);
-		Input_List input = iVisitor.visit(ctx.getChild(0));
+		Input_List input = iVisitor.visit(ctx.input());
 		return new MultipleInput(input);
 	}
 

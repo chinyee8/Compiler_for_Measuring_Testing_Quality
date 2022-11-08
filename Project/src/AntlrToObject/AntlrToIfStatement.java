@@ -11,22 +11,21 @@ import model.MyMethodBody;
 public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
-	
+
 	public AntlrToIfStatement(List<String> semanticErrors) {
 		this.semanticErrors = new ArrayList<>();
 	}
-	
+
 	public IfStatement VisitIfStatement(IfStatementContext ctx) {
-		
+
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors);
-		Condition cond = condVisitor.visit(ctx.getChild(2));
-		
-		AntlrToMyMethodBody ifBodyVisitor = new AntlrToMyMethodBody(semanticErrors);
-		MyMethodBody ifBody = ifBodyVisitor.visit(ctx.getChild(5));
-		
-		AntlrToMyMethodBody elseBodyVisitor = new AntlrToMyMethodBody(semanticErrors);
-		MyMethodBody elseBody = elseBodyVisitor.visit(ctx.getChild(9));
-		
+		Condition cond = condVisitor.visit(ctx.cond());
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors);
+
+		MyMethodBody ifBody = BodyVisitor.visit(ctx.method_body(0));
+		MyMethodBody elseBody = BodyVisitor.visit(ctx.method_body(1));
+
 		return new IfStatement(cond,ifBody,elseBody);
+
 	}
 }
