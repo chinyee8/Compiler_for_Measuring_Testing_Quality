@@ -16,8 +16,8 @@ public class AntlrToTestMethodCall extends exprBaseVisitor<TestMethodCall> {
 		this.semanticErrors = new ArrayList<>();
 	}
 
-
-	public TestMethodCall VisitTestMethodCall(TestMethodCallContext ctx) {
+	@Override
+	public TestMethodCall visitTestMethodCall(TestMethodCallContext ctx) {
 		String className = ctx.getChild(1).getText();
 		String methodName = ctx.getChild(3).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors);
