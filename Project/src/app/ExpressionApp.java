@@ -32,9 +32,16 @@ public class ExpressionApp {
 				AntlrToProgram progVisitor = new AntlrToProgram();
 				Program prog = progVisitor.visit(AST);
 				if (progVisitor.semanticErrors.isEmpty()) {
-					Evaluator ep = new Evaluator(prog.gameclass);
-					PrettyPrinter printer = new PrettyPrinter(ep);
-					printer.prettyPrint();
+					if(prog.gameclass != null) {
+						Evaluator ep = new Evaluator(prog.gameclass);
+						PrettyPrinter printer = new PrettyPrinter(ep);
+						printer.prettyPrint();
+					}else if(prog.testcases.size() != 0) {
+						Evaluator ep = new Evaluator(prog.testcases);
+						PrettyPrinter printer = new PrettyPrinter(ep);
+						printer.prettyPrint();
+					}
+			
 				}
 				else {
 					for(String err: progVisitor.semanticErrors) {

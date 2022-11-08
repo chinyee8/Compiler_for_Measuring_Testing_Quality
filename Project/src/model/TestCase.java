@@ -22,18 +22,18 @@ public class TestCase{
 	public String toString() {
 		String result = "";
 		
-		result += "test " + testName + "[ ] ! \n";
+		result += "test " + testName + "[ ] ! <br>";
 		
 		for(Declaration d: decl) {
-			result += d.toString() + "\n";
+			result += d.toString() + "<br>";
 		}
 		
 		for(Assignment a: assi) {
-			result += a.toString() + "\n";
+			result += a.toString() + "<br>";
 		}
 		
 		for(TestMethodCall t: t_method_call) {
-			result += t.toString() + "\n";
+			result += t.toString() + "<br>";
 		}
 		
 		result += "!";
