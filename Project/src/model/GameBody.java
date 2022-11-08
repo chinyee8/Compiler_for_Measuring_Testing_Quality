@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 
 //should i extend GameClass?
-public class GameBody extends Game{	
+public class GameBody{	
 	public List<Declaration> declList;
 	public List<Assignment> assiList;
 	public List<MyMethods> myMethodList;
