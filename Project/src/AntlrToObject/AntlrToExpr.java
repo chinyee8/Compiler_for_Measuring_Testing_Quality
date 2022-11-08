@@ -8,7 +8,6 @@ import antlr.exprParser.RMethodCallContext;
 import antlr.exprParser.ValuesContext;
 import model.Expr;
 import model.MethodCall;
-import model.RMethodCall;
 import model.ReturnMethodCall;
 import model.Values;
 
@@ -24,8 +23,8 @@ public class AntlrToExpr extends exprBaseVisitor<Expr> {
 	@Override
 	public Expr visitRMethodCall(RMethodCallContext ctx) {
 		AntlrToMethodCall mVisitor = new AntlrToMethodCall(semanticErrors);
-		MethodCall r_method_call = mVisitor.visit(ctx.getChild(0)); 
-		return new RMethodCall((ReturnMethodCall) r_method_call);
+		MethodCall ReturnMethodCall = mVisitor.visit(ctx.getChild(0)); 
+		return ReturnMethodCall;
 	}
 	
 	@Override

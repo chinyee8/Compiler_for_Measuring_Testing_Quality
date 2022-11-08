@@ -10,7 +10,7 @@ game Pika [] !
 	
 	pika1 <- 98324
 	pika2 <- TRUE
-	pika3 <- "hello world"
+	pika3 <- METHOD_ONE[]
 	pika4 <- 9.43
 	pika5 <- 'c'
 	

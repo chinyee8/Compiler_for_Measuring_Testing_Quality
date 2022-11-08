@@ -13,7 +13,7 @@ import model.MyMethods;
 public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
-	
+//	public HashMap<String, >
 	
 	public AntlrToGameBody(List<String> semanticError) {
 		this.semanticErrors = semanticError;
