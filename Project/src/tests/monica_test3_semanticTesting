@@ -1,0 +1,36 @@
+game Pika [] !
+	
+	
+	
+	var1 << INT
+	var2 << STRING
+	var3 << CHAR
+	
+	var1 <- NOTEXIST[]
+	
+	mymethod FIRST INT [INT var1, INT var2, INT var3] !
+		
+		
+		
+		jackieReturns var1
+	!
+	
+	mymethod SECOND CHAR [INT var1, INT var2, INT var3] !
+		
+		
+		
+		jackieReturns var1
+	!
+	
+	mymethod THIRD STRING [INT var1, INT var2, INT var3] !
+		
+		
+		
+		jackieReturns var1
+	!
+	
+	mymethod METHOD_TWO VOID [BOOLEAN var1, BOOLEAN var2, STRING var3] !
+		
+		
+	!
+!

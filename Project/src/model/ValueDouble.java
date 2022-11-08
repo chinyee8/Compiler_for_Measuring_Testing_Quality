@@ -10,4 +10,10 @@ public class ValueDouble extends Values {
 	public String toString() {
 		return Double.toString(value);
 	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "DOUBLE";
+	}
 }

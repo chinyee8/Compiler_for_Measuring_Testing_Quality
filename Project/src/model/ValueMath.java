@@ -11,4 +11,13 @@ public class ValueMath extends Values {
 	public String toString() {
 		return math.toString();
 	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		
+		return "MATH";
+	}
+
+	
 }

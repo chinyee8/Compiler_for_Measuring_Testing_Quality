@@ -1,6 +1,6 @@
 package model;
 
-public class Values extends Expr  {
+public abstract class Values extends Expr  {
 	
-	
+	public abstract String getType();
 }

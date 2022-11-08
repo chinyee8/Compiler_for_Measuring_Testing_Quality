@@ -11,4 +11,10 @@ public class ValueNum extends Values{
 	public String toString() {
 		return Integer.toString(num);
 	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "INT";
+	}
 }

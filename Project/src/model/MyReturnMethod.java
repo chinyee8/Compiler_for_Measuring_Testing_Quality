@@ -1,10 +1,10 @@
 package model;
 
 public class MyReturnMethod extends MethodType {
-	String dataType;
-	Parameter parameter;
-	MyMethodBody method_body;
-	String varName;
+	public String dataType;
+	public Parameter parameter;
+	public MyMethodBody method_body;
+	public String varName;
 	
 	public MyReturnMethod(String dataType,
 			Parameter parameter,

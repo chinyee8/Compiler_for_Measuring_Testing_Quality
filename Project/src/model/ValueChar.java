@@ -10,4 +10,10 @@ public class ValueChar extends Values {
 	public String toString() {
 		return Character.toString(value);
 	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "STRING";
+	}
 }

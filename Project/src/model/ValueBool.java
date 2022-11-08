@@ -10,4 +10,10 @@ public class ValueBool extends Values {
 	public String toString() {
 		return Boolean.toString(value);
 	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "BOOLEAN";
+	}
 }
