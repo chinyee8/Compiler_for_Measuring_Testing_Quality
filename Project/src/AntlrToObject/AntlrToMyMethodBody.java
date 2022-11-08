@@ -5,12 +5,12 @@ import java.util.List;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.MyMethodBodyContext;
+import antlr.exprParser.ReturnMethodCallContext;
 import model.Assignment;
 import model.Declaration;
 import model.IfStatement;
-import model.MethodType;
+import model.MethodCall;
 import model.MyMethodBody;
-import model.MyMethods;
 
 public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public List<String> semanticErrors;
@@ -25,7 +25,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();
 		List<IfStatement> ifstatement = new ArrayList<>();
-		List<MethodType> methodtype = new ArrayList<>();
+		List<MethodCall> methodCall = new ArrayList<>();
 		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors);
@@ -44,9 +44,14 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 			ifstatement.add(ifVisitor.visit(ctx.if_statement(i)));
 		}
 		
-		for(int i = 0; i < ctx.r) // need to separate r_methodcall and v_methodcall in line 38
+		for(int i = 0; i < ctx.getChildCount(); i++) { 
+			if(ctx.getChild(i) instanceof ReturnMethodCallContext 
+					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
+				methodCall.add(methodcallVisitor.visit(ctx.getChild(i)));
+			}
+		}
 		
-		
+		return new MyMethodBody(decl, assi, ifstatement, methodCall);
 		
 	}
 	
