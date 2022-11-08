@@ -21,6 +21,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		String methodName = ctx.METHODNAME().getText();
 		AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors);
 		MethodType methodType = mtVisitor.visit(ctx.method_type());
+		return new MyMethods(methodName, methodType);
 	}
 
 }
