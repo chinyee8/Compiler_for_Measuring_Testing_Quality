@@ -1,8 +1,8 @@
 package model;
 
 public class Assignment {
-	String varName;
-	Expr expr;
+	public String varName;
+	public Expr expr;
 	
 	public Assignment(String varName, Expr expr) {
 		this.varName = varName;
