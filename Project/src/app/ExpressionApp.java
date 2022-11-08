@@ -11,7 +11,8 @@ import AntlrToObject.AntlrToProgram;
 import antlr.exprLexer;
 import antlr.exprParser;
 import appAdd.ErrorListener;
-import appAdd.ExpressionProcessor;
+import appAdd.Evaluator;
+import appAdd.PrettyPrinter;
 import model.Program;
 
 public class ExpressionApp {
@@ -31,10 +32,9 @@ public class ExpressionApp {
 				AntlrToProgram progVisitor = new AntlrToProgram();
 				Program prog = progVisitor.visit(AST);
 				if (progVisitor.semanticErrors.isEmpty()) {
-//					ExpressionProcessor ep = new ExpressionProcessor(prog.expressions);
-//					for(String evaluation: ep.getEvaluationResults()) {
-//						System.out.println(evaluation);
-//					}
+					Evaluator ep = new Evaluator(prog.gameclass);
+					PrettyPrinter printer = new PrettyPrinter(ep);
+					printer.prettyPrint();
 				}
 				else {
 					for(String err: progVisitor.semanticErrors) {
