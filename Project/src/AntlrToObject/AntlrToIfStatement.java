@@ -23,8 +23,8 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		Condition cond = condVisitor.visit(ctx.cond());
 		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors);
 
-		MyMethodBody ifBody = BodyVisitor.visit(ctx.method_body(0));
-		MyMethodBody elseBody = BodyVisitor.visit(ctx.method_body(1));
+		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
+		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 
 		return new IfStatement(cond,ifBody,elseBody);
 
