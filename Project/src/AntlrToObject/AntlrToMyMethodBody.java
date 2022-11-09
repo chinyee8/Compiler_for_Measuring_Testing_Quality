@@ -42,7 +42,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		}
 		
 		for(int i = 0; i < ctx.if_statement().size(); i++){
-			  ifstatement.add(ifVisitor.visit(ctx.getChild(i)));
+			  ifstatement.add(ifVisitor.visit(ctx.if_statement(i)));
 		}
 
 		for(int i = 0; i < ctx.getChildCount(); i++) { 
