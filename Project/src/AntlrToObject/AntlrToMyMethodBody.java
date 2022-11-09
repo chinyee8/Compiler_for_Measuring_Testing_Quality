@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
-import antlr.exprParser.IfStatementContext;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.ReturnMethodCallContext;
 import model.Assignment;

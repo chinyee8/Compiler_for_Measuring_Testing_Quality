@@ -1,6 +1,5 @@
 package AntlrToObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
@@ -8,7 +7,6 @@ import antlr.exprParser.RMethodCallContext;
 import antlr.exprParser.ValuesContext;
 import model.Expr;
 import model.MethodCall;
-import model.ReturnMethodCall;
 import model.Values;
 
 public class AntlrToExpr extends exprBaseVisitor<Expr> {
