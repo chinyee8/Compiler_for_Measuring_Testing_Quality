@@ -1,0 +1,24 @@
+game Mathclass[ ] !
+mymethod MATH DOUBLE [ STRING math , DOUBLE input1, DOUBLE input2 ] !
+addition << STRING
+subtraction << STRING
+multiplication << STRING
+division << STRING
+result << DOUBLE
+addition <- "add"
+subtraction <- "sub"
+multiplication <- "multi"
+division <- "div"
+jackieAsks [ math == addition ] ! result <- input1 + input2
+! elseJackie ! jackieAsks [ math == subtraction ] ! result <- input1 - input2
+! elseJackie ! jackieAsks [ math == multiplication ] ! result <- input1 * input2
+! elseJackie ! jackieAsks [ math == multiplication ] ! result <- input1 / input2
+! elseJackie ! !
+!
+!
+!
+
+jackieReturns result
+!
+
+!

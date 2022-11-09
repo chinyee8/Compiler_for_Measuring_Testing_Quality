@@ -1,0 +1,19 @@
+game Conditiontesting[ ] !
+var_int << INT
+var_int1 << INT
+var_int2 << INT
+var_bool << BOOLEAN
+var_string << STRING
+var_int <- 100
+var_int1 <- 101
+var_bool <- true
+var_string <- "hello"
+mymethod METHOD_1 INT [ ] !
+jackieAsks [ ( 9 > 5 ) == ( true || false ) ] ! vartemp << INT
+vartemp <- 1
+! elseJackie ! !
+
+jackieReturns var2
+!
+
+!
