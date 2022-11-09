@@ -13,8 +13,8 @@ public class PrettyPrinter {
 	
 	public void prettyPrint( ) {
 		 try {
-//	            File h = new File("index.html");
-
+	            File h = new File("index.html");
+	            h.createNewFile();
 //	            if (h.createNewFile()) {
 	                System.out.println("File created");
 	                FileWriter myWriter = new FileWriter("index.html");
