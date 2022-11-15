@@ -8,11 +8,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import AntlrToObject.AntlrToProgram;
+import Operations.ErrorListener;
+import Operations.Evaluator;
+import Operations.PrettyPrinter;
 import antlr.exprLexer;
 import antlr.exprParser;
-import appAdd.ErrorListener;
-import appAdd.Evaluator;
-import appAdd.PrettyPrinter;
 import model.Program;
 
 public class ExpressionApp {
