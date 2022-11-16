@@ -20,6 +20,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors);
 		Condition cond = condVisitor.visit(ctx.cond());
+		
 		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors);
 
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
