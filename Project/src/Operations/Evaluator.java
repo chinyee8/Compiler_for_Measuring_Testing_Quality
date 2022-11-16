@@ -5,7 +5,7 @@ import java.util.List;
 import model.GameClass;
 import model.TestCase;
 
-public class Evaluator implements Visitor{
+public class Evaluator{
 	GameClass gameclass;
 	List<TestCase> testcases;
 	
