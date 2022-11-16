@@ -4,6 +4,7 @@ public class Addition extends Mathematics{
 	Mathematics math1;
 	Mathematics math2;
 	
+	
 	public Addition(Mathematics math1, Mathematics math2) {
 		this.math1 = math1;
 		this.math2 = math2;

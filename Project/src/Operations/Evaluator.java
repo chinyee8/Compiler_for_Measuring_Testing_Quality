@@ -2,11 +2,10 @@ package Operations;
 
 import java.util.List;
 
-import AntlrToObject.AntlrToMathematics;
 import model.GameClass;
 import model.TestCase;
 
-public class Evaluator implements Visitor{
+public class Evaluator{
 	GameClass gameclass;
 	List<TestCase> testcases;
 	
@@ -30,12 +29,6 @@ public class Evaluator implements Visitor{
 			}
 		
 		return result;
-	}
-
-	@Override
-	public void visitAntlrToMathematics(AntlrToMathematics e) {
-		
-		
 	}
 	
 	

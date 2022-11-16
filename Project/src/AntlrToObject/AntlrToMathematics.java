@@ -1,5 +1,7 @@
 package AntlrToObject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import antlr.*;
 import antlr.exprParser.*;
@@ -55,6 +57,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	@Override
 	public Mathematics visitMathVarName(MathVarNameContext ctx) {
 		String strVarName = ctx.getChild(0).getText();
+		AntlrToGameBody.variableMap.get(strVarName);
 		return new MathVarName(strVarName);
 	}
 
