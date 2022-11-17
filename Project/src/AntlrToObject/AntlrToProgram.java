@@ -14,10 +14,13 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 
-	//control flow fields 
+	//control flow fields //store all AntlrTo___ into fields to get line numbers
 	public int[] rangeOfLines;
 	private ArrayList<String>[] tokensMappedToLines;
-
+	public ArrayList<Integer> orderOfFlow;
+	public AntlrToGameClass gController;
+	public ArrayList<AntlrToTestCase> tController;
+	
 	@Override
 	public Program visitProgram(ProgramContext ctx) {
 		Program prog = new Program();
@@ -50,25 +53,29 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		this.rangeOfLines[0]=start.getLine();
 		this.rangeOfLines[1]=end.getLine();
 		this.tokensMappedToLines = new ArrayList [end.getLine()-start.getLine()+1];
-
+		
 		
 		//initialize all arraylists
 		for(int i = 0; i < this.tokensMappedToLines.length; i++) {
 			this.tokensMappedToLines[i] = new ArrayList<String>();
 		}
-		
-		AntlrToGameClass cController = new AntlrToGameClass(this.tokensMappedToLines);
-		AntlrToTestCase tController = new AntlrToTestCase();
+		this.orderOfFlow = new ArrayList<>();
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
+			AntlrToGameClass cController = new AntlrToGameClass(this.tokensMappedToLines, this.orderOfFlow);
 			prog.addGameClass(cController.control((GameClassContext)ctx.getChild(0)));
+			this.gController = cController;
+			
 		}else {
 			for(int i = 0; i < ctx.getChildCount(); i++) {
 				if(i == ctx.getChildCount()-1) {
 
 				}else {
 					if(ctx.getChild(i) instanceof TestCaseContext) {
+						AntlrToTestCase tController = new AntlrToTestCase();
 						prog.addTestCase(tController.control((TestCaseContext)ctx.getChild(i)));	
+						this.tController.add(tController);
+
 					}
 				}
 			}

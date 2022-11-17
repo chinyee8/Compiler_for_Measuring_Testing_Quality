@@ -1,9 +1,12 @@
 package AntlrToObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import antlr.exprBaseVisitor;
+import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.MyMethodsContext;
 import antlr.exprParser.MyReturnMethodContext;
+import model.Declaration;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
@@ -12,7 +15,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
 
-
+	public ArrayList<Integer>orderOfFlow;
+	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
+	public int[] rangeOfLines; 
+	
+	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
+		this.orderOfFlow = o;
+		this.tokensMappedToLines = t;
+	}
+	
 	public AntlrToMyMethods(List<String> semanticError) {
 		this.semanticErrors = semanticError;
 	}
@@ -30,6 +41,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		return new MyMethods(methodName, methodType);
 
 
+	}
+	
+	
+	public MyMethods control(MyMethodsContext ctx) {
+		return null;
 	}
 
 }

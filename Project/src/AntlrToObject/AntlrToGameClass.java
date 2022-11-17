@@ -3,6 +3,9 @@ package AntlrToObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.GameBodyContext;
 import antlr.exprParser.GameClassContext;
@@ -14,11 +17,14 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	
 	//controller fields
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
-		
+	public int[] rangeOfLines;
+	public ArrayList<Integer> orderOfFlow;
+	public AntlrToGameBody gbController;
 	
 	
-	public AntlrToGameClass(ArrayList<String>[] tokenLines) {
+	public AntlrToGameClass(ArrayList<String>[] tokenLines, ArrayList<Integer> order) {
 		this.tokensMappedToLines = tokenLines;
+		this.orderOfFlow = order;
 	}
 	public AntlrToGameClass(List<String> semanticError) {
 		this.semanticErrors = semanticError;
@@ -34,10 +40,26 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	
 	
 	public GameClass control(GameClassContext ctx) {
+		this.rangeOfLines = new int[2];
+		Token start = ctx.getStart();
+		Token end = ctx.getStop();
+		this.rangeOfLines[0]=start.getLine();
+		this.rangeOfLines[1]=end.getLine();
+		for(int i = 0; i < ctx.getChildCount()-1; i++) {
+			if(ctx.getChild(i) instanceof TerminalNode) {
+				this.tokensMappedToLines[start.getLine()].add(ctx.getChild(i).getText());
+			}
+			
+		}
+		//add first line executed to order
+		this.orderOfFlow.add(start.getLine());
+		this.tokensMappedToLines[end.getLine()].add(ctx.getChild(6).getText());
 		String className = ctx.CLASS_NAME().getText();
-		AntlrToGameBody gbController = new AntlrToGameBody(this.tokensMappedToLines);
+		AntlrToGameBody gbController = new AntlrToGameBody(this.tokensMappedToLines, this.orderOfFlow);
 		GameBody gamebody = gbController.control((GameBodyContext)ctx.getChild(5));
-		
+		this.gbController = gbController;
+		//after all the other lines added to order, add last line to close class body
+		this.orderOfFlow.add(end.getLine());
 		return new GameClass(className, gamebody);
 	}
 

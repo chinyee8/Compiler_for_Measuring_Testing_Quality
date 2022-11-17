@@ -13,6 +13,7 @@ import Operations.Evaluator;
 import Operations.PrettyPrinter;
 import antlr.exprLexer;
 import antlr.exprParser;
+import antlr.exprParser.ProgramContext;
 import model.Program;
 
 public class ExpressionApp {
@@ -31,6 +32,9 @@ public class ExpressionApp {
 			else {
 				AntlrToProgram progVisitor = new AntlrToProgram();
 				Program prog = progVisitor.visit(AST);
+				
+				AntlrToProgram progControllor = new AntlrToProgram();
+				Program prog2 = progControllor.control((ProgramContext)AST);
 				if (progVisitor.semanticErrors.isEmpty()) {
 					if(prog.gameclass != null) {
 						Evaluator ep = new Evaluator(prog.gameclass);

@@ -7,7 +7,10 @@ import java.util.List;
 import org.antlr.v4.runtime.Token;
 
 import antlr.exprBaseVisitor;
+import antlr.exprParser.AssignmentContext;
+import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.GameBodyContext;
+import antlr.exprParser.MyMethodsContext;
 import model.Assignment;
 import model.Declaration;
 import model.GameBody;
@@ -24,10 +27,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public static List<MyMethods> mymethod;
 	//controller fields
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
-			
+	public int[] rangeOfLines;
+	public ArrayList<Integer> orderOfFlow;
+	public ArrayList<AntlrToDeclaration> dControllers;
+	public ArrayList<AntlrToAssignment> aControlleres;
+	public ArrayList<AntlrToMyMethods> mmControllers;
 	
-	public AntlrToGameBody(ArrayList<String>[] m) {
+	public AntlrToGameBody(ArrayList<String>[] m, ArrayList<Integer> order) {
 		this.tokensMappedToLines = m;
+		this.orderOfFlow = order;
 	}
 	public AntlrToGameBody(List<String> semanticError) {
 		this.semanticErrors = semanticError;
@@ -145,7 +153,41 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	
 	//control flow underneath
 	public GameBody control(GameBodyContext ctx) {
-		// TODO Auto-generated method stub
+		this.rangeOfLines = new int[2];
+		Token start = ctx.getStart();
+		Token end = ctx.getStop();
+		this.rangeOfLines[0]=start.getLine();
+		this.rangeOfLines[1]=end.getLine();
+		
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		List<MyMethods> mymethod = new ArrayList<>();
+		
+		
+		for(int i = 0; i < ctx.decl().size(); i++) {			
+			this.variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+			//create one Controller for each object to store its lines
+			AntlrToDeclaration declController = new AntlrToDeclaration(this.tokensMappedToLines, this.orderOfFlow);
+			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
+			this.dControllers.add(declController);
+			
+		}
+		
+		
+		for(int i = 0; i < ctx.assi().size(); i++) {
+			AntlrToAssignment assiController = new AntlrToAssignment(this.tokensMappedToLines, this.orderOfFlow);
+			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
+		}
+		
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			AntlrToMyMethods mmController = new AntlrToMyMethods(this.tokensMappedToLines, this.orderOfFlow); 
+			mymethod.add(mmController.control((MyMethodsContext)ctx.mymethod(i)));
+
+		}
+		
+		this.decl = decl;
+		this.assi = assi;
+		this.mymethod = mymethod;
 		return null;
 	}
 }
