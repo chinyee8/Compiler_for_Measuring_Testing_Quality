@@ -112,13 +112,13 @@ cond: 'not' cond        #Negation
     | cond '==' cond    #EqualTo
     | cond '/=' cond    #NotEqualTo
     | BOOL              #CondBool
+	| VAR_NAME          #CondVarName
     | math '==' math    #CondEqual
     | math '/=' math    #CondNotEqual    
     | math '>=' math    #MoreOrEqual
     | math '<=' math    #LessOrEqual    
     | math '>' math     #More    
     | math '<' math     #Less
-    | VAR_NAME          #CondVarName
     ;  
 	
 			 
