@@ -3,6 +3,7 @@ package AntlrToObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -47,7 +48,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
 	}
-	
+
 	@Override
 	public GameBody visitGameBody(GameBodyContext ctx) {
 		List<Declaration> decl = new ArrayList<>();
@@ -57,30 +58,36 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap); 
-		
+
 		for(int i = 0; i < ctx.decl().size(); i++) {			
 			decl.add(declVisitor.visit(ctx.decl(i)));
 			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
 		}
-		
-		
+
+
 		for(int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
-		
+
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			mymethod.add(mmVisitor.visit(ctx.mymethod(i)));
 
 		}
-		
+
 		this.decl = decl;
 		this.assi = assi;
 		this.mymethod = mymethod;
 		//check for semanticerrors:
 		for(Assignment i: assi) {
 			if(variableMap.containsKey(i.varName)) {
+				//At Values to variableMap for both r_method_call and value
 				if(checkIfAssignmentTypeMatchesRHS(i, i.expr, decl)) {
-					variableMap.put(i.varName, callExpr(i.expr));
+					if(i.expr instanceof Values) {
+						variableMap.put(i.varName, ((Values)i.expr).getValues());
+					}else if(i.expr instanceof ReturnMethodCall) {
+//						variableMap.put(i.varName, ((ReturnMethodCall)i.expr));
+						
+					}
 				}
 				else {
 					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
@@ -93,7 +100,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 		return new GameBody(decl, assi, mymethod);
 	}
-	
+
 	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
 		for(MyMethods i: mymethod) {
 			if(i.methodName.equals(r.methodName)) {
@@ -102,7 +109,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 		return false;
 	}
-	
+
 	private boolean checkIfAssignmentTypeMatchesRHS(Assignment a, Expr rhs, List<Declaration> dList) {
 		String decType = "";
 		for(Declaration d: dList) { //find dec type from declarations of game body
@@ -131,6 +138,21 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 				String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
 				for(MyMethods m: this.mymethod) { //grab method from DeclaredMethodsList, find matching method, check for return data type against decType
 					if(m.methodName.equals(rhsMethodName)) {
+
+						List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
+						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+						if(RHSparams.size() != methodparams.size()) {
+							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+						}else {
+							int i = 0;
+							for(Map.Entry<String, String> map: methodparams.entrySet()){
+								if(!(this.variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+									semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
+								}
+								i++;
+							}
+						}
+
 						if(m.methodType instanceof MyReturnMethod) {
 							return ((MyReturnMethod)m.methodType).dataType.equals(decType);
 						}
@@ -149,14 +171,14 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 		else return false;
 	}
-	
+
 	private Values callExpr(Expr r) {
 		//fill in later, step into body of methodcall and create a return type
-		
+
 		return null;
 	}
-	
-	
+
+
 	//control flow underneath
 	public GameBody control(GameBodyContext ctx) {
 		this.rangeOfLines = new int[2];
