@@ -69,9 +69,7 @@ call_parameter: input														#CallParameter
 			;
 
 //Input_List
-input: math																	#CallParamMath
-     | cond																	#CallParamCond
-     | VAR_NAME																#CallParamVarName
+input: VAR_NAME																#CallParamVarName
      | DOUBLE																#CallParamDouble
 	 | NUM																	#CallParamNum
      | CHAR																	#CallParamChar
