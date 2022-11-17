@@ -17,4 +17,5 @@ public class ValueNum extends Values{
 		// TODO Auto-generated method stub
 		return "INT";
 	}
+
 }
