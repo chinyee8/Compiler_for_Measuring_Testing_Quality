@@ -18,4 +18,9 @@ public class ValueNum extends Values{
 		return "INT";
 	}
 
+	@Override
+	public Values getValues() {
+		// TODO Auto-generated method stub
+		return new ValueNum(num);
+	}
 }
