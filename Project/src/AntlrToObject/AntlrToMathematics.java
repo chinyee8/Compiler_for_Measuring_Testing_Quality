@@ -25,6 +25,7 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	public Mathematics visitAddition(AdditionContext ctx) {
 		Mathematics left = visit(ctx.getChild(0));
 		Mathematics right = visit(ctx.getChild(2));
+		
 		return new Addition(left,right);
 	}
 
@@ -57,8 +58,21 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	@Override
 	public Mathematics visitMathVarName(MathVarNameContext ctx) {
 		String strVarName = ctx.getChild(0).getText();
-		AntlrToGameBody.variableMap.get(strVarName);
-		return new MathVarName(strVarName);
+		Values val = null;
+		 
+		
+		if(!AntlrToGameBody.variableMap.containsKey(strVarName)) {
+			this.semanticErrors.add("Error: variable " + strVarName + " is not declared.");
+		}else {
+			val = AntlrToGameBody.variableMap.get(strVarName);
+			if(val.getType().equals("INT") || val.getType().equals("DOUBLE")) {
+				
+			}else {
+				this.semanticErrors.add("Error: variable " + strVarName + " is a " + val.getType() + " type.");
+			}
+		}
+		return new MathVarName(strVarName, val);
+		
 	}
 
 	@Override
