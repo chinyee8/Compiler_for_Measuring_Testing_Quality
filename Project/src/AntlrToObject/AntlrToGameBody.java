@@ -22,7 +22,13 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public static List<Declaration> decl;
 	public static List<Assignment> assi;
 	public static List<MyMethods> mymethod;
+	//controller fields
+	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
+			
 	
+	public AntlrToGameBody(ArrayList<String>[] m) {
+		this.tokensMappedToLines = m;
+	}
 	public AntlrToGameBody(List<String> semanticError) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
@@ -133,6 +139,13 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	private Values callExpr(Expr r) {
 		//fill in later, step into body of methodcall and create a return type
 		
+		return null;
+	}
+	
+	
+	//control flow underneath
+	public GameBody control(GameBodyContext ctx) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

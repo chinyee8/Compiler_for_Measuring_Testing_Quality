@@ -18,7 +18,9 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public AntlrToTestCase(List<String> semanticError) {
 		this.semanticErrors = semanticError;
 	}
-	
+	public AntlrToTestCase() {
+		
+	}
 	
 	
 	@Override
@@ -45,5 +47,11 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		}
 		
 		return new TestCase(testName, decl, assi, t_method_call);
+	}
+	
+	//controlflow
+	public TestCase control(TestCaseContext child) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
