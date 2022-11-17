@@ -1,7 +1,6 @@
 package AntlrToObject;
 
 import java.util.List;
-
 import antlr.exprBaseVisitor;
 import antlr.exprParser.MyMethodsContext;
 import antlr.exprParser.MyReturnMethodContext;
