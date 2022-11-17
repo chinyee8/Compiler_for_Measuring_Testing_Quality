@@ -16,4 +16,8 @@ public class ValueDouble extends Values {
 		// TODO Auto-generated method stub
 		return "DOUBLE";
 	}
+
+	public double getNum() {
+		return value;
+	}
 }
