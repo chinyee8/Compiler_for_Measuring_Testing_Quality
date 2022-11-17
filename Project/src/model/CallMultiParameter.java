@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CallMultiParameter extends Call_Parameter {
@@ -21,5 +22,16 @@ public class CallMultiParameter extends Call_Parameter {
 		}
 		
 		return input.toString() + " " + result;
+	}
+	
+	public List<String> getCallParams(){
+		List<String> callparams = new ArrayList<>();
+		
+		callparams.add(((CallParamVarName)input).varName);
+		for(MultipleInput m: multi_input) {
+			callparams.add(((CallParamVarName)m.input).varName);
+		}
+		
+		return callparams;
 	}
 }
