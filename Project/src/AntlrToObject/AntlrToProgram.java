@@ -16,7 +16,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 
 	//control flow fields //store all AntlrTo___ into fields to get line numbers
 	public int[] rangeOfLines;
-	private ArrayList<String>[] tokensMappedToLines;
+	public ArrayList<String>[] tokensMappedToLines;
 	public ArrayList<Integer> orderOfFlow;
 	public AntlrToGameClass gController;
 	public ArrayList<AntlrToTestCase> tController;
@@ -50,8 +50,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		this.rangeOfLines = new int[2];
 		Token start = ctx.getStart();
 		Token end = ctx.getStop();
-		this.rangeOfLines[0]=start.getLine();
-		this.rangeOfLines[1]=end.getLine();
+		this.rangeOfLines[0]=start.getLine()-1;
+		this.rangeOfLines[1]=end.getLine()-1;
 		this.tokensMappedToLines = new ArrayList [end.getLine()-start.getLine()+1];
 		
 		
