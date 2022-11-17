@@ -1,6 +1,9 @@
 package model;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MultiParam extends Parameter{
 	 Params param;
@@ -20,5 +23,16 @@ public class MultiParam extends Parameter{
 		}
 		
 		return param.toString() + " " + result;
+	}
+	
+	public Map<String, String> getParams() {
+		Map<String, String> params = new LinkedHashMap<>();
+		
+		params.put(param.varName, param.dataType);
+		for(MultiParamChild i : multi_param) {
+			params.put(i.params.varName, i.params.dataType);
+		}
+		
+		return params;
 	}
 }
