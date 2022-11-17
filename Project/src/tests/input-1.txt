@@ -4,9 +4,9 @@ game Mathclass [] !
 	input2 << DOUBLE
 	res << DOUBLE
 	
-	math <- addition
-	input1 <- 1.2
-	input2 <- 3.4
+	math <- "add"
+	input1 <- 1.20
+	input2 <- 3.45
 	res <- MATH [math, input1, input2]
 	
 	
