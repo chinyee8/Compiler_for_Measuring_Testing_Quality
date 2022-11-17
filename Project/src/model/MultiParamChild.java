@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 public class MultiParamChild extends Parameter{
 	Params params;
 
@@ -12,4 +14,6 @@ public class MultiParamChild extends Parameter{
 		
 		return ", " + params.toString();
 	}
+
+	
 }
