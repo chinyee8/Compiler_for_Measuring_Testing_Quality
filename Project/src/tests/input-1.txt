@@ -7,8 +7,8 @@ game Mathclass [] !
 	math <- "add"
 	input1 <- 1.20 + 3.24
 	input2 <- 3.45
-	res <- MATH [math, input1, input2]
-	
+	res <- MATH [math, input1, input2] 	#need to implement this part coz the mymethod part don't have function + if_statement too
+										#and get values of res too
 	
     mymethod MATH DOUBLE [STRING math, DOUBLE input1, DOUBLE input2] !
         addition << STRING
