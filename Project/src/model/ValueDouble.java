@@ -20,4 +20,10 @@ public class ValueDouble extends Values {
 	public double getNum() {
 		return value;
 	}
+
+	@Override
+	public Values getValues() {
+		// TODO Auto-generated method stub
+		return new ValueDouble(value);
+	}
 }
