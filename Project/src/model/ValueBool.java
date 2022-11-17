@@ -16,4 +16,10 @@ public class ValueBool extends Values {
 		// TODO Auto-generated method stub
 		return "BOOLEAN";
 	}
+	
+	@Override
+	public Values getValues() {
+		// TODO Auto-generated method stub
+		return new ValueBool(value);
+	}
 }
