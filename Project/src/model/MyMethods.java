@@ -1,13 +1,13 @@
 package model;
 
+
 public class MyMethods{	
 	public String methodName;
 	
 	/* I made an abstract class to help 
 	* distinguishing method return type
 	*/
-	public MethodType methodType; 
-	
+	public MethodType methodType; 	
 	
 	public MyMethods(String methodName, MyReturnMethod methodType) {
 		this.methodName = methodName;
