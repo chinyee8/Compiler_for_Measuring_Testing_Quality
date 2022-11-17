@@ -1,7 +1,7 @@
 package model;
 
 public class MathParenthesis extends Mathematics{
-	Mathematics math;
+	public Mathematics math;
 	
 	public MathParenthesis(Mathematics math) {
 		this.math = math;
