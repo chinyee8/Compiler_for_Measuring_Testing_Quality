@@ -3,12 +3,14 @@ package AntlrToObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.ReturnMethodCallContext;
+import antlr.exprParser.VoidMethodCallContext;
 import model.Assignment;
 import model.Declaration;
 import model.IfStatement;
@@ -20,9 +22,13 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
+	public Map<String, Values> methodvar;
+
 	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
+		this.methodvar = new HashMap<>();
+
 	}
 
 	@Override
@@ -39,6 +45,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 
 		for(int i = 0; i < ctx.decl().size(); i++) {
 			decl.add(declVisitor.visit(ctx.decl(i)));
+			methodvar.put(decl.get(i).varName, decl.get(i).defaultValue);
 		}
 
 		for(int i = 0; i < ctx.assi().size(); i++) {
@@ -51,7 +58,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 
 		for(int i = 0; i < ctx.getChildCount(); i++) { 
 			 if(ctx.getChild(i) instanceof ReturnMethodCallContext 
-					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
+					|| ctx.getChild(i) instanceof VoidMethodCallContext) {
 				methodCall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}
 		}
