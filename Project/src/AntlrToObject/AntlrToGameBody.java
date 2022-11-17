@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.antlr.v4.runtime.Token;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.GameBodyContext;
 import model.Assignment;
@@ -36,10 +38,11 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors); 
 		
-		for(int i = 0; i < ctx.decl().size(); i++) {
+		for(int i = 0; i < ctx.decl().size(); i++) {			
 			decl.add(declVisitor.visit(ctx.decl(i)));
 			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
 		}
+		
 		
 		for(int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
@@ -47,6 +50,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			mymethod.add(mmVisitor.visit(ctx.mymethod(i)));
+
 		}
 		
 		this.decl = decl;
@@ -90,8 +94,17 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			return false;
 		}
 		else if(rhs instanceof Values) {
-			if(((Values) rhs).getType().equals(decType)) return true; //need to get type for "MATH" -->ValueMath
-			else return false;
+			if(((Values) rhs).getType().equals(decType)) {
+				return true; //need to get type for "MATH" -->ValueMath
+			}else if(((Values)rhs).getType().equals("MATH")) {
+				if(decType.equals("INT") || decType.equals("DOUBLE")) {
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
 		}
 		else if(rhs instanceof ReturnMethodCall) {
 			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, AntlrToGameBody.mymethod)) { //if rhs methodcall is declared 
