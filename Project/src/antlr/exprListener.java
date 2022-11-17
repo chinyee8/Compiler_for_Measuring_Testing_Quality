@@ -286,30 +286,6 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitCallEmptyParameter(exprParser.CallEmptyParameterContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code CallParamMath}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 */
-	void enterCallParamMath(exprParser.CallParamMathContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CallParamMath}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 */
-	void exitCallParamMath(exprParser.CallParamMathContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code CallParamCond}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 */
-	void enterCallParamCond(exprParser.CallParamCondContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CallParamCond}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 */
-	void exitCallParamCond(exprParser.CallParamCondContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code CallParamVarName}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree

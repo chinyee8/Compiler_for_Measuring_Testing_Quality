@@ -174,20 +174,6 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCallEmptyParameter(exprParser.CallEmptyParameterContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code CallParamMath}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCallParamMath(exprParser.CallParamMathContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code CallParamCond}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCallParamCond(exprParser.CallParamCondContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code CallParamVarName}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
