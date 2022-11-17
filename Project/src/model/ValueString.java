@@ -16,4 +16,10 @@ public class ValueString extends Values {
 		// TODO Auto-generated method stub
 		return "STRING";
 	}
+
+	@Override
+	public Values getValues() {
+		// TODO Auto-generated method stub
+		return new ValueString(value);
+	}
 }
