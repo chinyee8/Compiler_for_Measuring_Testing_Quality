@@ -237,19 +237,19 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(exprParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ValueNum}
-	 * labeled alternative in {@link exprParser#value}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitValueNum(exprParser.ValueNumContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ValueDouble}
 	 * labeled alternative in {@link exprParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitValueDouble(exprParser.ValueDoubleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueNum}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueNum(exprParser.ValueNumContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ValueString}
 	 * labeled alternative in {@link exprParser#value}.

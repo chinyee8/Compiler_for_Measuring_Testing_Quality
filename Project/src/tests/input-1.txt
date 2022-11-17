@@ -1,4 +1,15 @@
 game Mathclass [] !
+	math << STRING
+	input1 << DOUBLE
+	input2 << DOUBLE
+	res << DOUBLE
+	
+	math <- addition
+	input1 <- 1.2
+	input2 <- 3.4
+	res <- MATH [math, input1, input2]
+	
+	
     mymethod MATH DOUBLE [STRING math, DOUBLE input1, DOUBLE input2] !
         addition << STRING
         subtraction << STRING

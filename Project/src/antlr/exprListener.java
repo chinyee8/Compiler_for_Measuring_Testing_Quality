@@ -394,18 +394,6 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(exprParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ValueNum}
-	 * labeled alternative in {@link exprParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void enterValueNum(exprParser.ValueNumContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ValueNum}
-	 * labeled alternative in {@link exprParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void exitValueNum(exprParser.ValueNumContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ValueDouble}
 	 * labeled alternative in {@link exprParser#value}.
 	 * @param ctx the parse tree
@@ -417,6 +405,18 @@ public interface exprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValueDouble(exprParser.ValueDoubleContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ValueNum}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueNum(exprParser.ValueNumContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ValueNum}
+	 * labeled alternative in {@link exprParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueNum(exprParser.ValueNumContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ValueString}
 	 * labeled alternative in {@link exprParser#value}.

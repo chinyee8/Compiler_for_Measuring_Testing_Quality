@@ -403,18 +403,6 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValueNum(exprParser.ValueNumContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitValueNum(exprParser.ValueNumContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterValueDouble(exprParser.ValueDoubleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -422,6 +410,18 @@ public class exprBaseListener implements exprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitValueDouble(exprParser.ValueDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueNum(exprParser.ValueNumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueNum(exprParser.ValueNumContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
