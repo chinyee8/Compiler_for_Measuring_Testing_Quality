@@ -1,6 +1,7 @@
 package AntlrToObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
@@ -13,13 +14,16 @@ import model.CallParameter;
 import model.Call_Parameter;
 import model.Input_List;
 import model.MultipleInput;
+import model.Values;
 
 public class AntlrToCall_Parameter extends exprBaseVisitor<Call_Parameter> {
 		public List<String> semanticErrors;
 		public List<Integer> linesCovered;
+		public HashMap<String, Values> variableMap;
 		
-		public AntlrToCall_Parameter(List<String> semanticErrors) {
+		public AntlrToCall_Parameter(List<String> semanticErrors, HashMap<String, Values> variableMap ) {
 			this.semanticErrors = semanticErrors;
+			this.variableMap = variableMap;
 		}
 
 		@Override

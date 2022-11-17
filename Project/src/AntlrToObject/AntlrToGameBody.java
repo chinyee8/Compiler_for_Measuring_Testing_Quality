@@ -54,9 +54,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
 		
-		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors);
-		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors); 
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap); 
 		
 		for(int i = 0; i < ctx.decl().size(); i++) {			
 			decl.add(declVisitor.visit(ctx.decl(i)));

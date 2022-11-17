@@ -33,8 +33,8 @@ public class ExpressionApp {
 				AntlrToProgram progVisitor = new AntlrToProgram();
 				Program prog = progVisitor.visit(AST);
 				
-				AntlrToProgram progControllor = new AntlrToProgram();
-				Program prog2 = progControllor.control((ProgramContext)AST);
+//				AntlrToProgram progControllor = new AntlrToProgram();
+//				Program prog2 = progControllor.control((ProgramContext)AST);
 				if (progVisitor.semanticErrors.isEmpty()) {
 					if(prog.gameclass != null) {
 						Evaluator ep = new Evaluator(prog.gameclass);

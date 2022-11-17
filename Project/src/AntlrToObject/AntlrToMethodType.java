@@ -1,5 +1,6 @@
 package AntlrToObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
@@ -10,14 +11,17 @@ import model.MyMethodBody;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
 import model.Parameter;
+import model.Values;
 
 public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
+	public HashMap<String, Values> variableMap;
 
 
-	public AntlrToMethodType(List<String> semanticError) {
+	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
 	}
 
 	@Override
@@ -26,7 +30,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter parameter = pVisitor.visit(ctx.parameter());
 		
-		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors);
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap);
 		MyMethodBody method_body = method_bodyVisitor.visit(ctx.method_body());
 		
 		String varName = ctx.VAR_NAME().getText();
@@ -39,7 +43,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		String void_type = ctx.VOID_TYPE().getText();
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter parameter = pVisitor.visit(ctx.parameter());
-		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors);
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap);
 		MyMethodBody method_body = method_bodyVisitor.visit(ctx.method_body());
 		return new MyVoidMethod(void_type, parameter, method_body);
 	}

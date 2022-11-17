@@ -1,6 +1,7 @@
 package AntlrToObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
@@ -9,14 +10,16 @@ import model.Assignment;
 import model.Declaration;
 import model.TestCase;
 import model.TestMethodCall;
+import model.Values;
 
 public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
+	public HashMap<String, Values> variableMap;
 	
-	
-	public AntlrToTestCase(List<String> semanticError) {
+	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
 	}
 	public AntlrToTestCase() {
 		
@@ -30,9 +33,9 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		List<Assignment> assi = new ArrayList<>();
 		List<TestMethodCall> t_method_call = new ArrayList<>();
 		
-		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors);
-		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors);
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
 		
 		for(int i = 0; i < ctx.decl().size(); i++) {
 			decl.add(declVisitor.visit(ctx.decl(i)));

@@ -1,6 +1,7 @@
 package AntlrToObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.v4.runtime.Token;
@@ -10,6 +11,7 @@ import antlr.exprParser.GameClassContext;
 import antlr.exprParser.ProgramContext;
 import antlr.exprParser.TestCaseContext;
 import model.Program;
+import model.Values;
 public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
@@ -20,14 +22,16 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public ArrayList<Integer> orderOfFlow;
 	public AntlrToGameClass gController;
 	public ArrayList<AntlrToTestCase> tController;
-	
+	public HashMap<String, Values> variableMap;
+
 	@Override
 	public Program visitProgram(ProgramContext ctx) {
 		Program prog = new Program();
 		semanticErrors = new ArrayList<>();
-
+		this.variableMap = new HashMap<>();
 		AntlrToGameClass cVisitor = new AntlrToGameClass(semanticErrors);
-		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors);
+		this.variableMap = new HashMap<>();
+		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors, this.variableMap);
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
 			prog.addGameClass(cVisitor.visit(ctx.getChild(0)));
