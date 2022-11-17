@@ -331,6 +331,18 @@ public class exprBaseListener implements exprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCallParamDouble(exprParser.CallParamDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCallParamDouble(exprParser.CallParamDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCallParamNum(exprParser.CallParamNumContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -362,18 +374,6 @@ public class exprBaseListener implements exprListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCallParamString(exprParser.CallParamStringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCallParamDouble(exprParser.CallParamDoubleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCallParamDouble(exprParser.CallParamDoubleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

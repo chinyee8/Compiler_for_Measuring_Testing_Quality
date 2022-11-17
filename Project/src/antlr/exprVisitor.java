@@ -195,6 +195,13 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCallParamVarName(exprParser.CallParamVarNameContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code CallParamDouble}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallParamDouble(exprParser.CallParamDoubleContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code CallParamNum}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
@@ -215,13 +222,6 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCallParamString(exprParser.CallParamStringContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code CallParamDouble}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCallParamDouble(exprParser.CallParamDoubleContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MultipleInput}
 	 * labeled alternative in {@link exprParser#multiInput}.

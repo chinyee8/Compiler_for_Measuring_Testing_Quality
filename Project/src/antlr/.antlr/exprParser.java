@@ -23,8 +23,8 @@ public class exprParser extends Parser {
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		T__24=25, T__25=26, T__26=27, T__27=28, VOIDCALL=29, DATA_TYPE=30, VOID_TYPE=31, 
-		BOOL=32, TEST_NAME=33, VAR_NAME=34, CLASS_NAME=35, METHODNAME=36, NUM=37, 
-		CHAR=38, STRING=39, DOUBLE=40, COMMENT=41, WS=42;
+		BOOL=32, TEST_NAME=33, VAR_NAME=34, CLASS_NAME=35, METHODNAME=36, DOUBLE=37, 
+		NUM=38, CHAR=39, STRING=40, COMMENT=41, WS=42;
 	public static final int
 		RULE_prog = 0, RULE_game = 1, RULE_body = 2, RULE_decl = 3, RULE_assi = 4, 
 		RULE_expr = 5, RULE_mymethod = 6, RULE_method_type = 7, RULE_method_body = 8, 
@@ -56,8 +56,8 @@ public class exprParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, "VOIDCALL", "DATA_TYPE", "VOID_TYPE", "BOOL", 
-			"TEST_NAME", "VAR_NAME", "CLASS_NAME", "METHODNAME", "NUM", "CHAR", "STRING", 
-			"DOUBLE", "COMMENT", "WS"
+			"TEST_NAME", "VAR_NAME", "CLASS_NAME", "METHODNAME", "DOUBLE", "NUM", 
+			"CHAR", "STRING", "COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -471,10 +471,10 @@ public class exprParser extends Parser {
 			case T__13:
 			case BOOL:
 			case VAR_NAME:
+			case DOUBLE:
 			case NUM:
 			case CHAR:
 			case STRING:
-			case DOUBLE:
 				_localctx = new ValuesContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
@@ -1380,35 +1380,35 @@ public class exprParser extends Parser {
 				}
 				break;
 			case 4:
-				_localctx = new CallParamNumContext(_localctx);
+				_localctx = new CallParamDoubleContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(215);
-				match(NUM);
+				match(DOUBLE);
 				}
 				break;
 			case 5:
-				_localctx = new CallParamCharContext(_localctx);
+				_localctx = new CallParamNumContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(216);
-				match(CHAR);
+				match(NUM);
 				}
 				break;
 			case 6:
-				_localctx = new CallParamStringContext(_localctx);
+				_localctx = new CallParamCharContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(217);
-				match(STRING);
+				match(CHAR);
 				}
 				break;
 			case 7:
-				_localctx = new CallParamDoubleContext(_localctx);
+				_localctx = new CallParamStringContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(218);
-				match(DOUBLE);
+				match(STRING);
 				}
 				break;
 			}
@@ -2305,12 +2305,12 @@ public class exprParser extends Parser {
 		"\u00e3\7\16\2\2\u00e3\u00e4\7\4\2\2\u00e4\u00e5\5.\30\2\u00e5\u00e6\7"+
 		"\5\2\2\u00e6\u00e7\7\6\2\2\u00e7\u00e8\5\22\n\2\u00e8\u00e9\7\6\2\2\u00e9"+
 		"\u00ea\7\17\2\2\u00ea\u00eb\7\6\2\2\u00eb\u00ec\5\22\n\2\u00ec\u00ed\7"+
-		"\6\2\2\u00ed)\3\2\2\2\u00ee\u00f5\7*\2\2\u00ef\u00f5\7\'\2\2\u00f0\u00f5"+
-		"\7)\2\2\u00f1\u00f5\7(\2\2\u00f2\u00f5\7\"\2\2\u00f3\u00f5\5,\27\2\u00f4"+
+		"\6\2\2\u00ed)\3\2\2\2\u00ee\u00f5\7\'\2\2\u00ef\u00f5\7(\2\2\u00f0\u00f5"+
+		"\7*\2\2\u00f1\u00f5\7)\2\2\u00f2\u00f5\7\"\2\2\u00f3\u00f5\5,\27\2\u00f4"+
 		"\u00ee\3\2\2\2\u00f4\u00ef\3\2\2\2\u00f4\u00f0\3\2\2\2\u00f4\u00f1\3\2"+
 		"\2\2\u00f4\u00f2\3\2\2\2\u00f4\u00f3\3\2\2\2\u00f5+\3\2\2\2\u00f6\u00f7"+
 		"\b\27\1\2\u00f7\u00f8\7\20\2\2\u00f8\u00f9\5,\27\2\u00f9\u00fa\7\21\2"+
-		"\2\u00fa\u00ff\3\2\2\2\u00fb\u00ff\7\'\2\2\u00fc\u00ff\7*\2\2\u00fd\u00ff"+
+		"\2\u00fa\u00ff\3\2\2\2\u00fb\u00ff\7(\2\2\u00fc\u00ff\7\'\2\2\u00fd\u00ff"+
 		"\7$\2\2\u00fe\u00f6\3\2\2\2\u00fe\u00fb\3\2\2\2\u00fe\u00fc\3\2\2\2\u00fe"+
 		"\u00fd\3\2\2\2\u00ff\u010e\3\2\2\2\u0100\u0101\f\t\2\2\u0101\u0102\7\22"+
 		"\2\2\u0102\u010d\5,\27\n\u0103\u0104\f\b\2\2\u0104\u0105\7\23\2\2\u0105"+

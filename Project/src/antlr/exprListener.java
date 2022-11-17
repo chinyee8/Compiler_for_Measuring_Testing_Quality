@@ -322,6 +322,18 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitCallParamVarName(exprParser.CallParamVarNameContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code CallParamDouble}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallParamDouble(exprParser.CallParamDoubleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CallParamDouble}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallParamDouble(exprParser.CallParamDoubleContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code CallParamNum}
 	 * labeled alternative in {@link exprParser#input}.
 	 * @param ctx the parse tree
@@ -357,18 +369,6 @@ public interface exprListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCallParamString(exprParser.CallParamStringContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code CallParamDouble}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 */
-	void enterCallParamDouble(exprParser.CallParamDoubleContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CallParamDouble}
-	 * labeled alternative in {@link exprParser#input}.
-	 * @param ctx the parse tree
-	 */
-	void exitCallParamDouble(exprParser.CallParamDoubleContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MultipleInput}
 	 * labeled alternative in {@link exprParser#multiInput}.

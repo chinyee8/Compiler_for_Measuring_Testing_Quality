@@ -72,10 +72,10 @@ call_parameter: input														#CallParameter
 input: math																	#CallParamMath
      | cond																	#CallParamCond
      | VAR_NAME																#CallParamVarName
-     | NUM																	#CallParamNum
+     | DOUBLE																#CallParamDouble
+	 | NUM																	#CallParamNum
      | CHAR																	#CallParamChar
      | STRING																#CallParamString
-     | DOUBLE																#CallParamDouble
 	 ;    
 	 
 multiInput: ',' input														#MultipleInput
@@ -130,9 +130,9 @@ TEST_NAME: 'test_'[a-zA-Z0-9_]*;
 VAR_NAME:[a-z][a-z0-9_]*;
 CLASS_NAME:[A-Z][a-z]*;
 METHODNAME: [A-Z][A-Z0-9_]*;
+DOUBLE: NUM'.'[0-9][0-9]; //2 decimal point
 NUM: '0' | '-'?[1-9][0-9]*;
 CHAR: '\''[a-z]'\'' | '\''[A-Z]'\'' ;
 STRING: '"'[a-zA-Z0-9][a-zA-Z0-9 ]*'"';
-DOUBLE: NUM'.'[0-9][0-9]; //2 decimal point
 COMMENT: '#' ~[\r\n]* ->skip;
 WS: [ \t\n\r]+ -> skip; 
