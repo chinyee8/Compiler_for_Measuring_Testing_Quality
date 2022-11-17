@@ -21,7 +21,7 @@ public class ValueMath extends Values {
 		return "MATH";
 	}
 	
-	public Values getValue() {
+	public Values getValues() {
 		if(mathType.equals("DOUBLE")) {
 			double d = getDouble(this.math);
 			
@@ -37,32 +37,32 @@ public class ValueMath extends Values {
 		double result = 0.00;
 		if(m instanceof Addition) {
 			Addition a = (Addition) m;
-			double left = getInt(a.math1);
-			double right = getInt(a.math2);
+			double left = getDouble(a.math1);
+			double right = getDouble(a.math2);
 			result = left + right;
 		}else if(m instanceof Subtraction) {
 			Subtraction a = (Subtraction) m;
-			double left = getInt(a.math1);
-			double right = getInt(a.math2);
+			double left = getDouble(a.math1);
+			double right = getDouble(a.math2);
 			result = left - right;
 		}else if(m instanceof Multiplication) {
 			Multiplication a = (Multiplication) m;
-			double left = getInt(a.math1);
-			double right = getInt(a.math2);
+			double left = getDouble(a.math1);
+			double right = getDouble(a.math2);
 			result = left * right;
 		}else if(m instanceof Division) {
 			Division a = (Division) m;
-			double left = getInt(a.math1);
-			double right = getInt(a.math2);
+			double left = getDouble(a.math1);
+			double right = getDouble(a.math2);
 			result = left / right;
 		}else if(m instanceof Division) {
 			Division a = (Division) m;
-			double left = getInt(a.math1);
-			double right = getInt(a.math2);
+			double left = getDouble(a.math1);
+			double right = getDouble(a.math2);
 			result = left / right;
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
-			result = getInt(a.math);
+			result = getDouble(a.math);
 		}else if(m instanceof MathDouble) {
 			MathDouble a = (MathDouble) m;
 			result = a.num;
