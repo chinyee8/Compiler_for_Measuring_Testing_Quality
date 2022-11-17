@@ -1,5 +1,7 @@
 package AntlrToObject;
 import model.*;
+
+import java.util.HashMap;
 import java.util.List;
 
 import antlr.*;
@@ -8,9 +10,11 @@ import antlr.exprParser.*;
 public class AntlrToValue extends exprBaseVisitor<Values> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
+	public HashMap<String, Values> variableMap;
 	
-	public AntlrToValue(List<String> semanticErrors) {
+	public AntlrToValue(List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
 	}
 	
 	@Override
@@ -54,7 +58,7 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 	}
 	@Override
 	public Values visitValueMath(ValueMathContext ctx) {
-		AntlrToMathematics mVisitor = new AntlrToMathematics(semanticErrors);
+		AntlrToMathematics mVisitor = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics m = mVisitor.visit(ctx.getChild(0));
 		
 		String mathType = getMATHTYPE(m);

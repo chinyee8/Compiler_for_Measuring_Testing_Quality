@@ -1,6 +1,7 @@
 package AntlrToObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.DeclarationContext;
@@ -10,10 +11,12 @@ import model.Declaration;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
+import model.Values;
 
 public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
+	public HashMap<String, Values> variableMap;
 
 	public ArrayList<Integer>orderOfFlow;
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
@@ -24,14 +27,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.tokensMappedToLines = t;
 	}
 	
-	public AntlrToMyMethods(List<String> semanticError) {
+	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
 	}
 
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		String methodName = ctx.METHODNAME().getText();
-		AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors);
+		AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap);
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 			MyReturnMethod methodType = (MyReturnMethod) mtVisitor.visit(ctx.getChild(2));

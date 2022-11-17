@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
@@ -21,10 +23,10 @@ import model.*;
 public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
-	public static HashMap<String, Values> variableMap;
-	public static List<Declaration> decl;
-	public static List<Assignment> assi;
-	public static List<MyMethods> mymethod;
+	public HashMap<String, Values> variableMap;
+	public List<Declaration> decl;
+	public List<Assignment> assi;
+	public List<MyMethods> mymethod;
 	//controller fields
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
 	public int[] rangeOfLines;
@@ -36,6 +38,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public AntlrToGameBody(ArrayList<String>[] m, ArrayList<Integer> order) {
 		this.tokensMappedToLines = m;
 		this.orderOfFlow = order;
+		this.variableMap = new HashMap<>();
+		this.dControllers = new ArrayList<>();
+		this.aControlleres = new ArrayList<>();
+		this.mmControllers = new ArrayList<>();
 	}
 	public AntlrToGameBody(List<String> semanticError) {
 		this.semanticErrors = semanticError;
@@ -48,9 +54,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
 		
-		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors);
-		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors); 
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap); 
 		
 		for(int i = 0; i < ctx.decl().size(); i++) {			
 			decl.add(declVisitor.visit(ctx.decl(i)));
@@ -121,9 +127,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			}
 		}
 		else if(rhs instanceof ReturnMethodCall) {
-			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, AntlrToGameBody.mymethod)) { //if rhs methodcall is declared 
+			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.mymethod)) { //if rhs methodcall is declared 
 				String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
-				for(MyMethods m: AntlrToGameBody.mymethod) { //grab method from DeclaredMethodsList, find matching method, check for return data type against decType
+				for(MyMethods m: this.mymethod) { //grab method from DeclaredMethodsList, find matching method, check for return data type against decType
 					if(m.methodName.equals(rhsMethodName)) {
 						if(m.methodType instanceof MyReturnMethod) {
 							return ((MyReturnMethod)m.methodType).dataType.equals(decType);
@@ -156,21 +162,27 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.rangeOfLines = new int[2];
 		Token start = ctx.getStart();
 		Token end = ctx.getStop();
-		this.rangeOfLines[0]=start.getLine();
-		this.rangeOfLines[1]=end.getLine();
+		this.rangeOfLines[0]=start.getLine()-1;
+		this.rangeOfLines[1]=end.getLine()-1;
 		
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
 		
-		
 		for(int i = 0; i < ctx.decl().size(); i++) {			
+			AntlrToDeclaration declController = new AntlrToDeclaration(this.tokensMappedToLines, this.orderOfFlow);
+			this.dControllers.add(declController);
+			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
 			this.variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
 			//create one Controller for each object to store its lines
-			AntlrToDeclaration declController = new AntlrToDeclaration(this.tokensMappedToLines, this.orderOfFlow);
-			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
-			this.dControllers.add(declController);
 			
+			/////////////////writ efunction to get all terminal nodes of one node
+			ArrayList<String> m = new ArrayList<>();
+			m = getTextOfNode(ctx.decl(i), m);
+			for(String j: m) {
+				System.out.println(j + " ");
+			}
+			System.out.println("----");
 		}
 		
 		
@@ -189,5 +201,22 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.assi = assi;
 		this.mymethod = mymethod;
 		return null;
+	}
+	
+	public ArrayList<String> getTextOfNode(ParseTree t, ArrayList<String> result) {
+		if(t instanceof TerminalNode) {
+			result.add(t.getText());
+		}
+		
+		else {
+			for(int i = 0; i < t.getChildCount(); i++) {
+				ArrayList<String> temp = getTextOfNode(t.getChild(i), result);
+				for(String j: temp) {
+					result.add(j);
+				}
+			}
+		}
+		
+		return result;
 	}
 }

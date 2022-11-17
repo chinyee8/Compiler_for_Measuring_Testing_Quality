@@ -1,16 +1,19 @@
 package AntlrToObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.DeclarationContext;
 import model.Declaration;
+import model.Values;
 
 public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
-	
+	public HashMap<String, Values> variableMap;
+
 	
 	public ArrayList<Integer>orderOfFlow;
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
@@ -20,8 +23,9 @@ public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
 	}
-		public AntlrToDeclaration(List<String> semanticErrors) {
+		public AntlrToDeclaration(List<String> semanticErrors,HashMap<String, Values> variableMap ) {
 		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package AntlrToObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.v4.runtime.Token;
@@ -13,13 +14,15 @@ import model.Declaration;
 import model.IfStatement;
 import model.MethodCall;
 import model.MyMethodBody;
+import model.Values;
 
 public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
-
-	public AntlrToMyMethodBody(List<String> semanticErrors) {
+	public HashMap<String, Values> variableMap;
+	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
 	}
 
 	@Override
@@ -29,10 +32,10 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		List<IfStatement> ifstatement = new ArrayList<>();
 		List<MethodCall> methodCall = new ArrayList<>();
 
-		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors);
-		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors);
-		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors);
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap);
+		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
 
 		for(int i = 0; i < ctx.decl().size(); i++) {
 			decl.add(declVisitor.visit(ctx.decl(i)));

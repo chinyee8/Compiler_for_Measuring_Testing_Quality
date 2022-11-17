@@ -10,9 +10,10 @@ import model.*;
 public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
-	
-	public AntlrToMathematics(List<String> semanticErrors) {
+	public HashMap<String, Values> variableMap;
+	public AntlrToMathematics(List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticErrors;
+		this.variableMap  =variableMap;
 	}
 
 	@Override
@@ -61,10 +62,10 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 		Values val = null;
 		 
 		
-		if(!AntlrToGameBody.variableMap.containsKey(strVarName)) {
+		if(!this.variableMap.containsKey(strVarName)) {
 			this.semanticErrors.add("Error: variable " + strVarName + " is not declared.");
 		}else {
-			val = AntlrToGameBody.variableMap.get(strVarName);
+			val = this.variableMap.get(strVarName);
 			if(val.getType().equals("INT") || val.getType().equals("DOUBLE")) {
 				
 			}else {
