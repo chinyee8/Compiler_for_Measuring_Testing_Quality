@@ -36,7 +36,7 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 			}
 		}
 		int temp1 = Integer.parseInt(temp);
-		double res = temp1/100;
+		double res = temp1/100.0;
 		return new ValueDouble(res);
 	}
 	@Override
@@ -111,10 +111,8 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getMATHTYPE(a.math);
 		}else if(m instanceof MathNumber) {
-			MathNumber a = (MathNumber) m;
 			result = "INT";
 		}else if(m instanceof MathDouble) {
-			MathDouble a = (MathDouble) m;
 			result = "DOUBLE";
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
