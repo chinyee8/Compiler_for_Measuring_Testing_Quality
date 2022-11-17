@@ -86,8 +86,8 @@ if_statement: 'jackieAsks' '[' cond ']' '!' method_body '!' 'elseJackie' '!' met
 	 
 //********************** extra ********************** //
 //Value_List
-value: NUM 			#ValueNum
-	 | DOUBLE 		#ValueDouble
+value: DOUBLE 		#ValueDouble
+	 | NUM 			#ValueNum
 	 | STRING 		#ValueString
 	 | CHAR 		#ValueChar
 	 | BOOL 		#ValueBool
