@@ -2,8 +2,6 @@ game Classname[]!
 		var1 << DOUBLE #need to change in docs
 
 		var1 <- -23.45	#negative decimal works / 0.45
-		var1 <- 0
-		var1 <- -12	
 
 	mymethod HFDFS_FDFSF1 BOOLEAN [ INT var1 ] !
 			var2 << CHAR
