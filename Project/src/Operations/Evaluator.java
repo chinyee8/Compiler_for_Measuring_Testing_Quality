@@ -7,31 +7,30 @@ import model.TestCase;
 
 public class Evaluator{
 	GameClass gameclass;
-	List<TestCase> testcases;
-	
+	TestCase testcase;
+
 	public Evaluator(GameClass gameclass) {
 		this.gameclass = gameclass;
 	}
 
-	public Evaluator(List<TestCase> testcases) {
-		this.testcases = testcases;
+	public Evaluator(TestCase testcase) {
+		this.testcase = testcase;
 	}
 
 	public String getEvaluations() {
 		String result = "";
-		
-			if(this.gameclass != null) {
-				result = gameclass.toString();
-			}else if(this.testcases.size() != 0){
-				for(TestCase t: testcases) {
-					result = t.toString() + "<br>";
-				}
-			}
-		
+
+		if(this.gameclass != null) {
+			result = gameclass.toString();
+		}else if(this.testcase != null){
+			result = testcase.toString();
+
+		}
+
 		return result;
 	}
-	
-	
-	
+
+
+
 
 }
