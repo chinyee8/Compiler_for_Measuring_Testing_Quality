@@ -20,22 +20,24 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	public ArrayList<Integer>orderOfFlow;
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
-	public int[] rangeOfLines; 
+	public int[] rangeOfLines;
+	public List<MyMethods> mymethod; 
 	
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
 	}
 	
-	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap) {
+	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
+		this.mymethod = mymethod;
 	}
 
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		String methodName = ctx.METHODNAME().getText();
-		AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap);
+		AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.mymethod);
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 			MyReturnMethod methodType = (MyReturnMethod) mtVisitor.visit(ctx.getChild(2));
