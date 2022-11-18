@@ -1,7 +1,7 @@
 package model;
 
 public class CondVarName extends Condition{
-	String varName;
+	public String varName;
 	
 	public CondVarName(String varName) {
 		this.varName = varName;
