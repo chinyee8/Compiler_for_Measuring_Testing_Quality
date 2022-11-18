@@ -56,7 +56,7 @@ test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCas
 	;
 //********************** method calls ********************** //		   
 	
-t_method_call: CLASS_NAME'.'METHODNAME'[' call_parameter ']'				#TestMethodCall
+t_method_call: METHODNAME'[' call_parameter ']'				#TestMethodCall
 			 ;
 r_method_call: METHODNAME '[' call_parameter ']'							#ReturnMethodCall
 			 ;
