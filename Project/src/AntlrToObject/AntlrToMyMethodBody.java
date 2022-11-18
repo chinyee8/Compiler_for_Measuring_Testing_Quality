@@ -361,8 +361,10 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 			CondVarName e = (CondVarName) c;
 			Values val = local_methodvar.get(e.varName);
 
-			if(!val.getType().equals("MATH")) {
+			if(val.getType().equals("BOOLEAN")) {
 				result = val.getType();
+			}else {
+				semanticErrors.add("Error: " + e.varName + " must be BOOLEAN type");
 			}
 		}
 
