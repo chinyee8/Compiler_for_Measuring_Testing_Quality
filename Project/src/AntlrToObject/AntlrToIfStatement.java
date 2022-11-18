@@ -2,6 +2,7 @@ package AntlrToObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.IfStatementContext;
@@ -14,12 +15,14 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
-	public List<MyMethods> mymethod;
+	public List<MyMethods> global_mymethods;
+	public HashMap<String, Values> local_methodVar;
 	
-	public AntlrToIfStatement(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethod) {
+	public AntlrToIfStatement(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
-		this.mymethod = mymethod;
+		this.global_mymethods = global_mymethods;
+		this.local_methodVar = local_methodVar;
 	}
 	
 	@Override
@@ -28,7 +31,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
 		Condition cond = condVisitor.visit(ctx.cond());
 		
-		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors,this.variableMap, this.mymethod);
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors,this.variableMap, this.global_mymethods, this.local_methodVar);
 
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
