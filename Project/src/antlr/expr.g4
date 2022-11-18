@@ -4,7 +4,7 @@ grammar expr;
 	package antlr;
 }
 
-prog: (game | (test)+) EOF						#Program
+prog: (game | test) EOF						#Program
 	;
 
 //********************** class ********************** //
