@@ -42,4 +42,13 @@ game Mathclass [] !
 
         jackieReturns result
     !
+    
+        mymethod SCIENCE DOUBLE [STRING math, DOUBLE input1, DOUBLE input2] !
+        	getresult << DOUBLE
+        	
+        	getresult <- MATH [math, input1, input2]
+        
+        	jackieReturns result
+        !
+    
 !
