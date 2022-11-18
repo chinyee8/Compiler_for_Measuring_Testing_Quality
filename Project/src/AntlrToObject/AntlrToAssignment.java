@@ -20,7 +20,7 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 	public ArrayList<Integer>orderOfFlow;
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
 	public int[] rangeOfLines;
-	public List<MyMethods> mymethod; 
+	public List<MyMethods> global_mymethods; 
 	
 	
 	public AntlrToAssignment(ArrayList<String>[] t, ArrayList<Integer> o ) {
@@ -28,10 +28,10 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 		this.tokensMappedToLines = t;
 	}
 	
-	public AntlrToAssignment(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethod) {
+	public AntlrToAssignment(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
-		this.mymethod = mymethod;
+		this.global_mymethods = global_mymethods;
 	}
 	
 	@Override
