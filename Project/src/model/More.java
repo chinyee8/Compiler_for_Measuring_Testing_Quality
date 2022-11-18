@@ -1,8 +1,8 @@
 package model;
 
 public class More extends Condition{
-	Mathematics math1;
-	Mathematics math2;
+	public Mathematics math1;
+	public Mathematics math2;
 	
 	public More(Mathematics math1, Mathematics math2) {
 		this.math1 = math1;
