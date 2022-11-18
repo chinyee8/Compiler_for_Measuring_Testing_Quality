@@ -1,9 +1,9 @@
 package model;
 
 public class VoidMethodCall extends MethodCall{
-	String voidcall;
-	String methodname;
-	Call_Parameter call_parameter;
+	public String voidcall;
+	public String methodname;
+	public Call_Parameter call_parameter;
 	
 	public VoidMethodCall(String voidcall,
 						String methodname,
