@@ -18,12 +18,12 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
-	public List<MyMethods> mymethod;
+	public List<MyMethods> global_mymethods;
 
-	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod) {
+	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
-		this.mymethod = mymethod;
+		this.global_mymethods = global_mymethods;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter parameter = pVisitor.visit(ctx.parameter());
 		
-		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.mymethod);
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods);
 		MyMethodBody method_body = method_bodyVisitor.visit(ctx.method_body());
 		
 		String varName = ctx.VAR_NAME().getText();
@@ -45,7 +45,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		String void_type = ctx.VOID_TYPE().getText();
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter parameter = pVisitor.visit(ctx.parameter());
-		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.mymethod);
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods);
 		MyMethodBody method_body = method_bodyVisitor.visit(ctx.method_body());
 		return new MyVoidMethod(void_type, parameter, method_body);
 	}
