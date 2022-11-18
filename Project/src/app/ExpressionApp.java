@@ -40,8 +40,8 @@ public class ExpressionApp {
 						Evaluator ep = new Evaluator(prog.gameclass);
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
-					}else if(prog.testcases.size() != 0) {
-						Evaluator ep = new Evaluator(prog.testcases);
+					}else if(prog.testcase != null) {
+						Evaluator ep = new Evaluator(prog.testcase);
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
 					}
