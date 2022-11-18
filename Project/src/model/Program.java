@@ -5,16 +5,15 @@ import java.util.List;
 
 public class Program{
 	public GameClass gameclass;
-	public List<TestCase> testcases;
+	public TestCase testcase;
 
 	
 	public Program() { // constructor
-		this.testcases = new ArrayList<>();
 	}
  
 	
 	public void addTestCase(TestCase  e) {
-		testcases.add(e);
+		testcase = e;
 	}
 
 
