@@ -28,6 +28,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public List<Declaration> decl;
 	public List<Assignment> assi;
 	public List<MyMethods> mymethod;
+	public List<MyMethods> global_mymethods;
 	//controller fields
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
 	public int[] rangeOfLines;
@@ -47,7 +48,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public AntlrToGameBody(List<String> semanticError) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
-		this.mymethod = new ArrayList<>();
+		this.global_mymethods = new ArrayList<>();
 	}
 
 	@Override
@@ -57,8 +58,8 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<MyMethods> mymethod = new ArrayList<>();
 		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.mymethod);
-		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.mymethod); 
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods); 
 
 		for(int i = 0; i < ctx.decl().size(); i++) {			
 			decl.add(declVisitor.visit(ctx.decl(i)));
@@ -71,13 +72,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			this.global_mymethods.add(mmVisitor.visit(ctx.mymethod(i)));
 			mymethod.add(mmVisitor.visit(ctx.mymethod(i)));
 
 		}
 
 		this.decl = decl;
 		this.assi = assi;
-		this.mymethod.addAll(mymethod);
+		this.mymethod = mymethod;
+		
 		//check for semanticerrors:
 		for(Assignment i: assi) {
 			if(variableMap.containsKey(i.varName)) {
