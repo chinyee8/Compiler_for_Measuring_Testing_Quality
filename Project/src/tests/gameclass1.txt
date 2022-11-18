@@ -1,0 +1,29 @@
+game Mathclass [] !
+	math << STRING
+	input1 << DOUBLE
+	input2 << DOUBLE
+	res << DOUBLE
+	
+	math <- "add"
+	input1 <- 1.20 + 3.24
+	input2 <- 3.45
+	res <- MATH [ input1, input2] 	#need to implement this part coz the mymethod part don't have function + if_statement too
+										#and get values of res too
+	
+    
+    mymethod MATH DOUBLE [DOUBLE input1, DOUBLE input2] !
+        result << DOUBLE
+
+        jackieAsks [TRUE] !
+            result <- input1 + input2
+        ! elseJackie !
+           
+        !
+		
+        jackieReturns result
+    !
+    
+        
+       
+    
+!
