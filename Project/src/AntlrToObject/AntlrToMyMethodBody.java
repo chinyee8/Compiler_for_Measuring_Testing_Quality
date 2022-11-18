@@ -22,12 +22,12 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
-	public Map<String, Values> methodvar;
+	public Map<String, Values> local_methodvar;
 
 	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
-		this.methodvar = new HashMap<>();
+		this.local_methodvar = new HashMap<>();
 
 	}
 
@@ -43,9 +43,12 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap);
 		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
 
+		this.local_methodvar.putAll(variableMap);
+		
 		for(int i = 0; i < ctx.decl().size(); i++) {
 			decl.add(declVisitor.visit(ctx.decl(i)));
-			methodvar.put(decl.get(i).varName, decl.get(i).defaultValue);
+			HashMap<String, Values> methodvar;
+			local_methodvar.put(decl.get(i).varName, decl.get(i).defaultValue);
 		}
 
 		for(int i = 0; i < ctx.assi().size(); i++) {
