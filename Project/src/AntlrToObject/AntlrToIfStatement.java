@@ -30,6 +30,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
 		Condition cond = condVisitor.visit(ctx.cond());
+		//fix condition
 		
 		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors,this.variableMap, this.global_mymethods, this.local_methodVar);
 
