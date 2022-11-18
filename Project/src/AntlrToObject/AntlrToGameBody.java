@@ -47,6 +47,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public AntlrToGameBody(List<String> semanticError) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
+		this.mymethod = new ArrayList<>();
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<MyMethods> mymethod = new ArrayList<>();
 		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.mymethod);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.mymethod); 
 
 		for(int i = 0; i < ctx.decl().size(); i++) {			
@@ -76,7 +77,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 
 		this.decl = decl;
 		this.assi = assi;
-		this.mymethod = mymethod;
+		this.mymethod.addAll(mymethod);
 		//check for semanticerrors:
 		for(Assignment i: assi) {
 			if(variableMap.containsKey(i.varName)) {
