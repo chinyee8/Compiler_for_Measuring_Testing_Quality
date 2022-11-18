@@ -27,15 +27,23 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
-	public Map<String, Values> local_methodvar;
-	public List<MyMethods> mymethod;
+	public HashMap<String, Values> local_methodvar;
+	public List<MyMethods> global_mymethods;
 
-	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethod) {
+	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
-		this.mymethod = mymethod;
+		this.global_mymethods = global_mymethods;
 		this.local_methodvar = new HashMap<>();
 
+	}
+
+	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap,
+			List<MyMethods> global_mymethods, HashMap<String, Values> local_methodVar) {
+		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.local_methodvar = local_methodVar;
 	}
 
 	@Override
@@ -46,8 +54,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		List<MethodCall> methodCall = new ArrayList<>();
 
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.mymethod);
-		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.mymethod);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
 
 		this.local_methodvar.putAll(variableMap);
@@ -61,6 +68,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
 		
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.global_mymethods, local_methodvar);
 		for(int i = 0; i < ctx.if_statement().size(); i++){
 			  ifstatement.add(ifVisitor.visit(ctx.if_statement(i)));
 		}
