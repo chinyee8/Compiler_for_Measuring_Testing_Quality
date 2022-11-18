@@ -39,6 +39,9 @@ public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 	
 	
 	public Declaration control(DeclarationContext ctx) {
-		return null;
+		String varName = ctx.VAR_NAME().getText();
+		String dataType = ctx.DATA_TYPE().getText();
+		
+		return new Declaration(varName, dataType);
 	}
 }

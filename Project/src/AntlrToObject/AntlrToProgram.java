@@ -18,8 +18,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 
 	//control flow fields //store all AntlrTo___ into fields to get line numbers
 	public int[] rangeOfLines;
-	public ArrayList<String>[] tokensMappedToLines;
-	public ArrayList<Integer> orderOfFlow;
+	public ArrayList<String>[] tokensMappedToLines; //raw input text at each line (index correspond to line number - 1) --> to print into html
+	public ArrayList<Integer> orderOfFlow;	//order of which lines are executed in control flow 
 	public AntlrToGameClass gController;
 	public ArrayList<AntlrToTestCase> tController;
 	public HashMap<String, Values> variableMap;
