@@ -1,8 +1,8 @@
 package model;
 
 public class Disjunction extends Condition{
-	Condition cond1;
-	Condition cond2;
+	public Condition cond1;
+	public Condition cond2;
 	
 	public Disjunction(Condition cond1, Condition cond2) {
 		this.cond1 = cond1;
