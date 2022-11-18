@@ -9,7 +9,10 @@ game Mathclass [] !
 	input2 <- 3.45
 	res <- MATH [math, input1, input2] 	#need to implement this part coz the mymethod part don't have function + if_statement too
 										#and get values of res too
-	
+	mymethod DFSD VOID[STRING math, DOUBLE input1, DOUBLE input2]!
+        
+    !
+    
     mymethod MATH DOUBLE [STRING math, DOUBLE input1, DOUBLE input2] !
         addition << STRING
         subtraction << STRING
@@ -39,16 +42,20 @@ game Mathclass [] !
                 !
             !
         !
+		
+		DFSD[math, input1, input2]
 
         jackieReturns result
     !
     
-        mymethod SCIENCE DOUBLE [STRING math, DOUBLE input1, DOUBLE input2] !
-        	getresult << DOUBLE
+     mymethod SCIENCE DOUBLE [STRING math, DOUBLE input1, DOUBLE input2] !
+       	getresult << DOUBLE
         	
-        	getresult <- MATH [math, input1, input2]
+        getresult <- MATH [math, input1, input2]
         
-        	jackieReturns getresult
-        !
+        jackieReturns getresult
+    !
+        
+       
     
 !
