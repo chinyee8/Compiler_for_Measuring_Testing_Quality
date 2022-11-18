@@ -8,6 +8,7 @@ import antlr.exprParser.ReturnMethodCallContext;
 import antlr.exprParser.VoidMethodCallContext;
 import model.Call_Parameter;
 import model.MethodCall;
+import model.MyMethods;
 import model.ReturnMethodCall;
 import model.Values;
 import model.VoidMethodCall;
