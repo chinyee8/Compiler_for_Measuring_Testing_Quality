@@ -1,8 +1,8 @@
 package model;
 
 public class LessOrEqual extends Condition{
-	Mathematics left;
-	Mathematics right;
+	public Mathematics left;
+	public Mathematics right;
 	
 	public LessOrEqual(Mathematics left, Mathematics right) {
 		this.left = left;
