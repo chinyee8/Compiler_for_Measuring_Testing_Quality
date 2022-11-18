@@ -48,7 +48,7 @@ game Mathclass [] !
         	
         	getresult <- MATH [math, input1, input2]
         
-        	jackieReturns result
+        	jackieReturns getresult
         !
     
 !
