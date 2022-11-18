@@ -29,6 +29,9 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 	public HashMap<String, Values> variableMap;
 	public HashMap<String, Values> local_methodvar;
 	public List<MyMethods> global_mymethods;
+	public List<Declaration> decl;
+	public List<Assignment> assi;
+	public List<IfStatement> ifstatement;
 
 	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticErrors;
@@ -80,10 +83,105 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 			}
 		}
 		
+		this.decl = decl;
+		this.assi = assi;
+		this.ifstatement = ifstatement;
+		//methodcall?
 		
+		for(Assignment i: assi) {
+			if(local_methodvar.containsKey(i.varName)) {
+				//At Values to variableMap for both r_method_call and value
+				if(checkIfAssignmentTypeMatchesRHS(i, i.expr, this.local_methodvar)) {
+					if(i.expr instanceof Values) {
+						local_methodvar.put(i.varName, ((Values)i.expr).getValues());
+					}else if(i.expr instanceof ReturnMethodCall) {
+//						local_methodvar.put(i.varName, ((ReturnMethodCall)i.expr));
+						
+					}
+				}
+				else {
+					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
+				}
+			}
+			else {
+				//report semantic error uninitialized var
+				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
+			}
+		}
 
 		return new MyMethodBody(decl, assi, ifstatement, methodCall);
 
+	}
+	
+	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
+		for(MyMethods i: mymethod) {
+			if(i.methodName.equals(r.methodName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkIfAssignmentTypeMatchesRHS(Assignment a, Expr rhs, HashMap<String, Values> var) {
+		String type = "";
+		for(Map.Entry<String, Values> d: var.entrySet()) { //find dec type from declarations of game body
+			if(d.getKey().equals(a.varName)) {
+				type = d.getValue().getType();
+			}
+		}
+		if(rhs instanceof VoidMethodCall ) {
+			return false;
+		}
+		else if(rhs instanceof Values) {
+			if(((Values) rhs).getType().equals(type)) {
+				return true; //need to get type for "MATH" -->ValueMath
+			}else if(((Values)rhs).getType().equals("MATH")) {
+				if(type.equals("INT") || type.equals("DOUBLE")) {
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
+		}
+		else if(rhs instanceof ReturnMethodCall) {
+			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.global_mymethods)) { //if rhs methodcall is declared 
+				String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
+				for(MyMethods m: this.global_mymethods) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
+					if(m.methodName.equals(rhsMethodName)) {
+
+						List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
+						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+						if(RHSparams.size() != methodparams.size()) {
+							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+						}else {
+							int i = 0;
+							for(Map.Entry<String, String> map: methodparams.entrySet()){
+								if(!(this.local_methodvar.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+									semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
+								}
+								i++;
+							}
+						}
+
+						if(m.methodType instanceof MyReturnMethod) {
+							return ((MyReturnMethod)m.methodType).dataType.equals(type);
+						}
+						else { 						//if m.methodType instanceof MyVoidMethod it would have been detected earlier ignore else case
+							System.out.println("void type checking error");
+							return false;
+						}
+					}
+				}
+				return false;
+			}
+			else { //if method not declared
+				this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
+				return false;
+			}
+		}
+		else return false;
 	}
 	
 	
