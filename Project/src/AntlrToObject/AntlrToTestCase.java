@@ -8,6 +8,7 @@ import antlr.exprBaseVisitor;
 import antlr.exprParser.TestCaseContext;
 import model.Assignment;
 import model.Declaration;
+import model.MyMethods;
 import model.TestCase;
 import model.TestMethodCall;
 import model.Values;
@@ -16,10 +17,12 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public List<String> semanticErrors; 
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
+	private List<MyMethods> mymethod;
 	
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
+//		this.mymethod = ;
 	}
 	public AntlrToTestCase() {
 		
@@ -34,7 +37,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		List<TestMethodCall> t_method_call = new ArrayList<>();
 		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
-		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.mymethod);
 		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
 		
 		for(int i = 0; i < ctx.decl().size(); i++) {
