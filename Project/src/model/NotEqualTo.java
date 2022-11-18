@@ -1,8 +1,8 @@
 package model;
 
 public class NotEqualTo extends Condition{
-	Condition left;
-	Condition right;
+	public Condition left;
+	public Condition right;
 	
 	public NotEqualTo(Condition cond1, Condition cond2) {
 		this.left = cond1;
