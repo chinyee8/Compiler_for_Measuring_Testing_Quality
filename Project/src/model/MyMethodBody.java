@@ -11,11 +11,11 @@ public class MyMethodBody{
 	public MyMethodBody(List<Declaration> declList,
 			List<Assignment> assiList,
 			List<IfStatement> ifStatList,
-			List<MethodCall> methodCall) {
+			List<MethodCall> methodcall2) {
 		this.declList = declList;
 		this.assiList = assiList;
 		this.ifStatList = ifStatList;
-		this.methodCall = methodCall;
+		this.methodCall = methodcall2;
 	}
 
 	@Override
