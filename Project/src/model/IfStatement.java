@@ -141,8 +141,6 @@ public class IfStatement{
 			Values val = variableMap.get(e.varName);
 			if(val.getType().equals("BOOLEAN")) {
 				result = ((ValueBool)val.getValues()).value;
-			}else {
-				result = true;
 			}
 		}
 		
