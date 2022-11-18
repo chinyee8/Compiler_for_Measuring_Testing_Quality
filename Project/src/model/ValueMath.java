@@ -119,49 +119,4 @@ public class ValueMath extends Values {
 			
 		return result;
 	}
-
-
-//	public int getResult(Mathematics m) {
-//		int result = 0;
-//		
-//		if(m instanceof Addition) {
-//			Addition a = (Addition) m;
-//			int left = getResult(a.math1);
-//			int right = getResult(a.math2);
-//			result = left + right;
-//		}else if(m instanceof Subtraction) {
-//			Subtraction a = (Subtraction) m;
-//			int left = getResult(a.math1);
-//			int right = getResult(a.math2);
-//			result = left - right;
-//		}else if(m instanceof Multiplication) {
-//			Multiplication a = (Multiplication) m;
-//			int left = getResult(a.math1);
-//			int right = getResult(a.math2);
-//			result = left * right;
-//		}else if(m instanceof Division) {
-//			Division a = (Division) m;
-//			int left = getResult(a.math1);
-//			int right = getResult(a.math2);
-//			result = left / right;
-//		}else if(m instanceof Division) {
-//			Division a = (Division) m;
-//			int left = getResult(a.math1);
-//			int right = getResult(a.math2);
-//			result = left / right;
-//		}else if(m instanceof MathParenthesis) {
-//			MathParenthesis a = (MathParenthesis) m;
-//			result = getResult(a.math);
-//		}else if(m instanceof MathNumber) {
-//			MathNumber a = (MathNumber) m;
-//			result = a.num;
-//		}else if(m instanceof MathVarName) {
-//			MathVarName a = (MathVarName) m;
-//			if(a.val.getType().equals("INT")) {
-//				result = ((ValueNum)a.val).num;
-//			}
-//		}
-//		
-//		return result;
-//	}
 }
