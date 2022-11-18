@@ -1,7 +1,7 @@
 package model;
 
 public class Negation extends Condition{
-	Condition cond;
+	public Condition cond;
 	
 	public Negation(Condition cond) {
 		this.cond = cond;
