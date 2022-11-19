@@ -1,8 +1,8 @@
 package model;
 
 public class TestMethodCall{
-	 String methodName;
-	 Call_Parameter call_parameter;
+	 public String methodName;
+	 public Call_Parameter call_parameter;
 	
 	public TestMethodCall(String methodName,
 						  Call_Parameter call_parameter) {
