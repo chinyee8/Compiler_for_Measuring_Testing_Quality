@@ -2,8 +2,6 @@ package model;
 
 import java.util.HashMap;
 
-import org.antlr.v4.codegen.model.dbg;
-
 public class IfStatement{
 	public Condition cond;
 	MyMethodBody ifBody;
