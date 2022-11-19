@@ -52,19 +52,17 @@ public class ExpressionApp {
 				Program testProg = testVisitor.visit(testAST);
 
 				if (progVisitor.semanticErrors.isEmpty() && testVisitor.semanticErrors.isEmpty()) {
-					AntlrToProgram progControllor = new AntlrToProgram(prog.gameclass.body.myMethodList);
-					Program prog2 = progControllor.control((ProgramContext)progAST);
 					
 					if(prog.gameclass != null && testProg.testcase != null) {
+						AntlrToProgram progControllor = new AntlrToProgram(prog.gameclass.body.myMethodList);
+						Program prog2 = progControllor.control((ProgramContext)progAST);
+						
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
+					}else {
+						System.err.println("Error: please input gameClass file first, before testCase file!");
 					}
-//					else if(prog.testcase != null && testProg.gameclass != null) {
-//						Evaluator ep = new Evaluator(prog.testcase, testProg.gameclass);
-//						PrettyPrinter printer = new PrettyPrinter(ep);
-//						printer.prettyPrint();
-//					}
 
 				}
 				else {
