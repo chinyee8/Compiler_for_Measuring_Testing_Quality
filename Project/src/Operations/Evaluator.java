@@ -17,7 +17,6 @@ public class Evaluator{
 		
 		if(this.gameclass != null){
 			result = gameclass.toString();
-			
 		}
 
 		return result;
