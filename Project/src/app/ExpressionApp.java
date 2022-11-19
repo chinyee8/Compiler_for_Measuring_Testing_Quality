@@ -24,31 +24,34 @@ public class ExpressionApp {
 		else {
 			String fileName = args[0];
 			exprParser parser =getParser(fileName);
-			ParseTree AST = parser.prog();
+			ParseTree progAST = parser.prog();
 			
 			String fileName2 = args[1];
 			exprParser parser2 =getParser(fileName2);
-			ParseTree AST2 = parser2.prog();
+			ParseTree testAST = parser2.prog();
 			
 			if(ErrorListener.hasError) {
 				
 			}
 			else {
 				AntlrToProgram progVisitor = new AntlrToProgram();
-				Program prog = progVisitor.visit(AST);
+				Program prog = progVisitor.visit(progAST);
 				
-				AntlrToProgram progVisitor2 = new AntlrToProgram();
-				Program prog2 = progVisitor2.visit(AST2);
+				AntlrToProgram testVisitor = new AntlrToProgram();
+				Program testProg = testVisitor.visit(testAST);
 				
-				AntlrToProgram progControllor = new AntlrToProgram();
-//				Program prog2 = progControllor.control((ProgramContext)AST);
-				if (progVisitor.semanticErrors.isEmpty() && progVisitor2.semanticErrors.isEmpty()) {
-					if(prog.gameclass != null && prog2.testcase != null) {
-						Evaluator ep = new Evaluator(prog2.testcase, prog.gameclass);
+				AntlrToProgram progControllor = new AntlrToProgram(prog.gameclass.body.myMethodList);
+				
+				
+				Program prog2 = progControllor.control((ProgramContext)progAST);
+				
+				if (progVisitor.semanticErrors.isEmpty() && testVisitor.semanticErrors.isEmpty()) {
+					if(prog.gameclass != null && testProg.testcase != null) {
+						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
-					}else if(prog.testcase != null && prog2.gameclass != null) {
-						Evaluator ep = new Evaluator(prog.testcase, prog2.gameclass);
+					}else if(prog.testcase != null && testProg.gameclass != null) {
+						Evaluator ep = new Evaluator(prog.testcase, testProg.gameclass);
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
 					}
@@ -58,7 +61,7 @@ public class ExpressionApp {
 					for(String err: progVisitor.semanticErrors) {
 						System.out.println(err);
 					}
-					for(String err: progVisitor2.semanticErrors) {
+					for(String err: testVisitor.semanticErrors) {
 						System.out.println(err);
 					}
 				}	
