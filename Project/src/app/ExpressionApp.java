@@ -51,10 +51,10 @@ public class ExpressionApp {
 				AntlrToProgram testVisitor = new AntlrToProgram();
 				Program testProg = testVisitor.visit(testAST);
 
-				AntlrToProgram progControllor = new AntlrToProgram(prog.gameclass.body.myMethodList);
-				Program prog2 = progControllor.control((ProgramContext)progAST);
-
 				if (progVisitor.semanticErrors.isEmpty() && testVisitor.semanticErrors.isEmpty()) {
+					AntlrToProgram progControllor = new AntlrToProgram(prog.gameclass.body.myMethodList);
+					Program prog2 = progControllor.control((ProgramContext)progAST);
+					
 					if(prog.gameclass != null && testProg.testcase != null) {
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 						PrettyPrinter printer = new PrettyPrinter(ep);
@@ -78,8 +78,6 @@ public class ExpressionApp {
 
 
 			}
-
-
 
 
 		}
