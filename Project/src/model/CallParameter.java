@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CallParameter extends Call_Parameter {
 	Input_List input;
 	
@@ -10,5 +13,13 @@ public class CallParameter extends Call_Parameter {
 	@Override
 	public String toString() {
 		return input.toString();
+	}
+	
+	public List<String> getCallParams(){
+		List<String> callparams = new ArrayList<>();
+		
+		callparams.add(((CallParamVarName)input).varName);
+		
+		return callparams;
 	}
 }
