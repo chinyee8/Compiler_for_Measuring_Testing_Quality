@@ -8,6 +8,7 @@ import java.util.Map;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.TestCaseContext;
 import model.Assignment;
+import model.Call_Parameter;
 import model.Declaration;
 import model.Expr;
 import model.MyMethods;
@@ -84,17 +85,27 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			}
 		}
 		
+		for(TestMethodCall t : this.t_method_call) {
+			Call_Parameter c = t.call_parameter;
+			List<String> parameters = c.getCallParams();
+			for(String s: parameters) {
+				if(!variableMap.containsKey(s)) {
+					semanticErrors.add("Error: " + s + " is not declared");
+				}
+			}
+		}
+		
 		return new TestCase(testName, decl, assi, t_method_call);
 	}
 	
-	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
-		for(MyMethods i: mymethod) {
-			if(i.methodName.equals(r.methodName)) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
+//		for(MyMethods i: mymethod) {
+//			if(i.methodName.equals(r.methodName)) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	private boolean checkIfAssignmentTypeMatchesRHS(Assignment a, Expr rhs, List<Declaration> dList) {
 		String decType = "";
