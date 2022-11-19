@@ -61,7 +61,7 @@ public class ExpressionApp {
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
 					}else {
-						System.err.println("Error: please input gameClass file first, before testCase file!");
+						System.err.println("Error: please input game file first, before test file!");
 					}
 
 				}
