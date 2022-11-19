@@ -3,7 +3,7 @@ test test_api01 []!
 	input2 << DOUBLE
 	
 	input1 <- 1.23
-	input2 <- 4.56
+	
 	
 	T_MATH[input1, input2]
 	
