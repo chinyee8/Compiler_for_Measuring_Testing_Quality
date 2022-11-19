@@ -34,6 +34,11 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 		this.global_mymethods = global_mymethods;
 	}
 	
+	public AntlrToAssignment(List<String> semanticErrors, HashMap<String, Values> variableMap) {
+		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
+	}
+
 	@Override
 	public Assignment visitAssignment(AssignmentContext ctx) {
 		String varName = ctx.VAR_NAME().getText();
