@@ -6,19 +6,19 @@ import model.GameClass;
 import model.TestCase;
 
 public class Evaluator{
-	TestCase testcase;
 	GameClass gameclass;
+	TestCase testcase;
 
 	public Evaluator(TestCase testcase, GameClass gameclass) {
-		this.testcase = testcase;
 		this.gameclass = gameclass;
+		this.testcase = testcase;
 	}
 
 	public String getEvaluations() {
 		String result = "";
 		
-		if(this.testcase != null){
-			result = testcase.toString();
+		if(this.gameclass != null){
+			result = gameclass.toString();
 			
 		}
 
