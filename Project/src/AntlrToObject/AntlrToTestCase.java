@@ -71,7 +71,6 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
-			this.allMethodCalls.put(testVisitor.visit(ctx.t_method_call(i)), new HashMap<String, Values>());
 		}
 		
 		this.decl = decl;
@@ -111,29 +110,20 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		for(TestMethodCall t : this.t_method_call) {
 			Call_Parameter c = t.call_parameter;
 			List<String> parameters = c.getCallParams();
+			Map<String, Values> callInputs = new HashMap<>();
 			for(String s: parameters) {
 				if(!variableMap.containsKey(s)) {
 					semanticErrors.add("Error: " + s + " is not declared");
 				}else {
-					Map<String, Values> callInputs = new HashMap<>();
 					callInputs.put(s, variableMap.get(s));
-					this.allMethodCalls.put(t, callInputs);
 				}
 			}
+			this.allMethodCalls.put(t, callInputs);
 		}
 		TestCase temp =new TestCase(testName, decl, assi, t_method_call);
 		temp.addAll(this.allMethodCalls);
 		return temp;
 	}
-	
-//	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
-//		for(MyMethods i: mymethod) {
-//			if(i.methodName.equals(r.methodName)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 	private boolean checkIfAssignmentTypeMatchesRHS(Assignment a, Expr rhs, List<Declaration> dList) {
 		String decType = "";
