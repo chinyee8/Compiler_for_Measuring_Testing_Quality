@@ -1,7 +1,7 @@
 package model;
 
 public class MathDouble extends Mathematics{
-	double num;
+	public double num;
 	
 	public MathDouble(double num) {
 		this.num = num;
