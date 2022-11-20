@@ -1,10 +1,10 @@
 package model;
 
 public class MyVoidMethod extends MethodType{
-	String voidType;
-	Parameter parameter;
-	MyMethodBody method_body;
-	String varName;
+	public String voidType;
+	public Parameter parameter;
+	public MyMethodBody method_body;
+	public String varName;
 	
 	public MyVoidMethod(String voidType, Parameter parameter,
 			MyMethodBody method_body) {
