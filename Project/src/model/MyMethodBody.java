@@ -24,10 +24,13 @@ public class MyMethodBody{
 		this.global_mymethods = global_mymethods;
 		this.vars = new HashMap<>();
 	}
-	
+
 	public void getDeclaredList() {
 		for(Declaration d: declList) {
-			vars.put(d.varName, d.defaultValue);
+			if(!vars.containsKey(d.varName)) {
+				vars.put(d.varName, d.defaultValue);
+			}
+
 		}
 		for(Assignment a : assiList) {
 			if(a.expr instanceof Values) {
@@ -80,10 +83,10 @@ public class MyMethodBody{
 	public Map<String, Values> getValues(Map<String, Values> lists) {
 		this.vars.putAll(lists);
 		getDeclaredList();
-		
+
 		return this.vars;
 	}
-	
+
 	private Values callExpr(ReturnMethodCall r, String varName) {
 		System.out.println(r.toString());
 
@@ -112,7 +115,7 @@ public class MyMethodBody{
 							i++;
 						}
 					}
-					
+
 					if(noerror) {
 						((MyReturnMethod)m.methodType).method_body.getValues(lists);
 					}
@@ -124,10 +127,10 @@ public class MyMethodBody{
 		return vars.get(varName);
 
 	}
-	
+
 	private String getMATHTYPE(Mathematics m) {
 		String result = "";
-		
+
 		if(m instanceof Addition) {
 			Addition a = (Addition) m;
 			String left = getMATHTYPE(a.math1);
@@ -174,10 +177,10 @@ public class MyMethodBody{
 			MathVarName a = (MathVarName) m;
 			result = a.val.getType();
 		}
-		
+
 		return result;
 	}
-	
+
 	private double getDouble(Mathematics m) {
 		double result = 0.00;
 		if(m instanceof Addition) {
@@ -212,13 +215,13 @@ public class MyMethodBody{
 				result = ((ValueDouble)(vars.get(a.varName))).value;
 			}
 		}
-		
+
 		return result;
 	}
 
 	public int getInt(Mathematics m) {
 		int result = 0;
-		
+
 		if(m instanceof Addition) {
 			Addition a = (Addition) m;
 			int left = getInt(a.math1);
@@ -251,7 +254,7 @@ public class MyMethodBody{
 				result = ((ValueNum)(vars.get(a.varName))).num;
 			}
 		}
-			
+
 		return result;
 	}
 }
