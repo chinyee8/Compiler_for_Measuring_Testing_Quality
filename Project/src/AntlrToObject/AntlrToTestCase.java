@@ -28,8 +28,8 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	List<Assignment> assi = new ArrayList<>();
 	List<TestMethodCall> t_method_call = new ArrayList<>();
 	
-	public HashMap<String, Expr> testVarMap = new HashMap<>();
-	public ArrayList<MethodCall> allMethodCalls = new ArrayList<>();
+	public HashMap<String, Values> testVarMap = new HashMap<>();
+	public Map<MethodCall, Map<String, Values>> allMethodCalls = new HashMap<>();
 	
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
@@ -59,9 +59,11 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		
 		for(int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
-			this.testVarMap.put(assi.get(i).varName, ((Values)assi.get(i).expr).getValues());
-			if(assi.get(i).expr instanceof ReturnMethodCall) {
-				this.allMethodCalls.add((ReturnMethodCall)assi.get(i).expr);
+			if(assi.get(i).expr instanceof Values) {
+				this.testVarMap.put(assi.get(i).varName, ((Values)assi.get(i).expr).getValues());
+
+			}else if(assi.get(i).expr instanceof ReturnMethodCall) {
+				this.allMethodCalls.put((ReturnMethodCall)assi.get(i).expr, new HashMap<String, Values>());
 			}
 		}
 		
@@ -69,7 +71,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
-			this.allMethodCalls.add(testVisitor.visit(ctx.t_method_call(i)));
+			this.allMethodCalls.put(testVisitor.visit(ctx.t_method_call(i)), new HashMap<String, Values>());
 		}
 		
 		this.decl = decl;
@@ -83,7 +85,17 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 					if(i.expr instanceof Values) {
 						variableMap.put(i.varName, ((Values)i.expr).getValues());
 					}else if(i.expr instanceof ReturnMethodCall) {
-						semanticErrors.add("Error: " + i.expr.toString() + " cannot be assigned to " + i.varName);
+						ReturnMethodCall rmc = ((ReturnMethodCall) i.expr);
+						List<String> paramaters = rmc.call_parameter.getCallParams();
+						Map<String, Values> callInputs = new HashMap<>();
+						for(String p : paramaters) {
+							if(!testVarMap.containsKey(p)) {
+								semanticErrors.add("Error: " + p + " in " + i.expr.toString() + " does not exist");
+							}else {
+								callInputs.put(p, variableMap.get(p));
+							}
+						}
+						this.allMethodCalls.put(rmc, callInputs);
 					}
 				}
 				else {
@@ -102,6 +114,10 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			for(String s: parameters) {
 				if(!variableMap.containsKey(s)) {
 					semanticErrors.add("Error: " + s + " is not declared");
+				}else {
+					Map<String, Values> callInputs = new HashMap<>();
+					callInputs.put(s, variableMap.get(s));
+					this.allMethodCalls.put(t, callInputs);
 				}
 			}
 		}
@@ -143,7 +159,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			}
 		}
 		else if(rhs instanceof ReturnMethodCall) {			
-			return false;
+			return true;
 		}
 		else return false;
 	}
