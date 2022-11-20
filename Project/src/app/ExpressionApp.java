@@ -3,6 +3,7 @@ package app;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -17,8 +18,10 @@ import Operations.PrettyPrinter;
 import antlr.exprLexer;
 import antlr.exprParser;
 import antlr.exprParser.ProgramContext;
+import model.MethodCall;
 import model.Program;
 import model.TestMethodCall;
+import model.Values;
 
 public class ExpressionApp {
 	public static void main(String[] args) {
@@ -48,8 +51,10 @@ public class ExpressionApp {
 					
 					if(prog.gameclass != null && testProg.testcase != null) {
 						ArrayList<Program> programList = new ArrayList<>();
-						for(int i = 0 ; i < testProg.testcase.t_method_call.size(); i++) {
-							AntlrToProgram progControllor = new AntlrToProgram(testProg.testcase.allMethodCalls.get(i));
+						
+						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
+							
+							AntlrToProgram progControllor = new AntlrToProgram(t.getKey(), t.getValue());
 							Program prog2 = progControllor.control((ProgramContext)progAST);
 							programList.add(prog2);
 						}
