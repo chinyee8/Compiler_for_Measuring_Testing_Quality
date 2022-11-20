@@ -39,6 +39,14 @@ public class IfStatement{
 		}
 	}
 	
+	public MyMethodBody getElseBody() {
+		if(!evaluated(cond)) {
+			return this.ifBody;
+		}else {
+			return this.elseBody;
+		}
+	}
+	
 	public boolean evaluated(Condition c) {
 		boolean result = false;
 		
