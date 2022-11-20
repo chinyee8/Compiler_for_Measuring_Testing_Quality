@@ -55,11 +55,6 @@ public class ValueMath extends Values {
 			double left = getDouble(a.math1);
 			double right = getDouble(a.math2);
 			result = left / right;
-		}else if(m instanceof Division) {
-			Division a = (Division) m;
-			double left = getDouble(a.math1);
-			double right = getDouble(a.math2);
-			result = left / right;
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getDouble(a.math);
@@ -68,8 +63,8 @@ public class ValueMath extends Values {
 			result = a.num;
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
-			if(a.val.getType().equals("INT")) {
-				result = ((ValueNum)a.val).num;
+			if(a.val.getType().equals("DOUBLE")) {
+				result = ((ValueDouble)a.val).value;
 			}
 		}
 		
@@ -94,11 +89,6 @@ public class ValueMath extends Values {
 			int left = getInt(a.math1);
 			int right = getInt(a.math2);
 			result = left * right;
-		}else if(m instanceof Division) {
-			Division a = (Division) m;
-			int left = getInt(a.math1);
-			int right = getInt(a.math2);
-			result = left / right;
 		}else if(m instanceof Division) {
 			Division a = (Division) m;
 			int left = getInt(a.math1);
