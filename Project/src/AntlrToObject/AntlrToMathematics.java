@@ -62,16 +62,16 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 		Values val = null;
 		 
 		
-		if(!this.variableMap.containsKey(strVarName)) {
-			this.semanticErrors.add("Error: variable " + strVarName + " is not declared.");
-		}else {
-			val = this.variableMap.get(strVarName);
-			if(val.getType().equals("INT") || val.getType().equals("DOUBLE")) {
-				
-			}else {
-				this.semanticErrors.add("Error: variable " + strVarName + " is a " + val.getType() + " type.");
-			}
-		}
+//		if(!this.variableMap.containsKey(strVarName)) {
+//			this.semanticErrors.add("Error: variable " + strVarName + " is not declared.");
+//		}else {
+//			val = this.variableMap.get(strVarName);
+//			if(val.getType().equals("INT") || val.getType().equals("DOUBLE")) {
+//				
+//			}else {
+//				this.semanticErrors.add("Error: variable " + strVarName + " is a " + val.getType() + " type.");
+//			}
+//		}
 		return new MathVarName(strVarName, val);
 		
 	}
