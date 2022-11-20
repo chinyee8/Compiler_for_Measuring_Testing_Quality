@@ -10,6 +10,7 @@ import antlr.exprBaseVisitor;
 import antlr.exprParser.GameClassContext;
 import antlr.exprParser.ProgramContext;
 import antlr.exprParser.TestCaseContext;
+import model.MethodCall;
 import model.MyMethods;
 import model.Program;
 import model.TestMethodCall;
@@ -25,12 +26,12 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public AntlrToGameClass gController;
 	public ArrayList<AntlrToTestCase> tController;
 	public HashMap<String, Values> variableMap; //testcase variable map
-	public TestMethodCall t_method_call;
+	public MethodCall t_method_call;
 	
 	public AntlrToProgram() {
 	}
 	
-	public AntlrToProgram(TestMethodCall t) {
+	public AntlrToProgram(MethodCall t) {
 		this.t_method_call = t;
 	}
 
@@ -72,7 +73,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 //		this.orderOfFlow = new ArrayList<>();
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
-			AntlrToGameClass cController = new AntlrToGameClass(this.t_method_call);
+			semanticErrors = new ArrayList<>();
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call);
 			prog.addGameClass(cController.control((GameClassContext)ctx.getChild(0)));
 			this.gController = cController;
 			this.variableMap = new HashMap<>();

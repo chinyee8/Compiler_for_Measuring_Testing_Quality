@@ -21,6 +21,9 @@ public class AntlrToParameter extends exprBaseVisitor<Parameter>{
 	public AntlrToParameter(List<String> semanticErrors) {
 		this.semanticErrors = semanticErrors;
 	}
+	
+	public AntlrToParameter() {
+	}
 
 	@Override
 	public Parameter visitSingleParam(SingleParamContext ctx) {

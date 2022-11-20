@@ -49,7 +49,7 @@ public class ExpressionApp {
 					if(prog.gameclass != null && testProg.testcase != null) {
 						ArrayList<Program> programList = new ArrayList<>();
 						for(int i = 0 ; i < testProg.testcase.t_method_call.size(); i++) {
-							AntlrToProgram progControllor = new AntlrToProgram(testProg.testcase.t_method_call.get(i));
+							AntlrToProgram progControllor = new AntlrToProgram(testProg.testcase.allMethodCalls.get(i));
 							Program prog2 = progControllor.control((ProgramContext)progAST);
 							programList.add(prog2);
 						}

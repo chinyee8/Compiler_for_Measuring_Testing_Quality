@@ -17,4 +17,10 @@ public class VoidMethodCall extends MethodCall{
 	public String toString() {
 		return voidcall + " " + methodname + " [ " + call_parameter.toString() + " ] ";
 	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.methodname;
+	}
 }

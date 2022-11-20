@@ -8,6 +8,7 @@ public class TestCase {
 	public List<Assignment> assi;
 	public List<TestMethodCall> t_method_call;
 	public List<Program> programList;
+	public List<MethodCall> allMethodCalls;
 
 	public TestCase(String testName, List<Declaration> decl, List<Assignment> assi,
 			List<TestMethodCall> t_method_call) {
@@ -48,5 +49,9 @@ public class TestCase {
 		result += "!";
 
 		return result;
+	}
+	
+	public void addAll(List<MethodCall> all) {
+		this.allMethodCalls = all;
 	}
 }

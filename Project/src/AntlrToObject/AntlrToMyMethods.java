@@ -7,7 +7,9 @@ import antlr.exprBaseVisitor;
 import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.MyMethodsContext;
 import antlr.exprParser.MyReturnMethodContext;
+import antlr.exprParser.MyVoidMethodContext;
 import model.Declaration;
+import model.MethodCall;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
@@ -23,7 +25,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
 	public int[] rangeOfLines;
 	public List<MyMethods> mymethod; 
-	public TestMethodCall t_method_call;
+	public MethodCall t_method_call;
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
@@ -35,9 +37,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.mymethod = mymethod;
 	}
 
-	AntlrToMyMethods(TestMethodCall t_method_call) {
+	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod, MethodCall t_method_call) {
 		// TODO Auto-generated constructor stub
 		this.t_method_call = t_method_call;
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.mymethod = mymethod;
 	}
 
 	@Override
@@ -57,7 +62,29 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	
 	
 	public MyMethods control(MyMethodsContext ctx) {
-		return null;
+		String methodName = ctx.METHODNAME().getText();
+		if(methodName.equals(this.t_method_call.getName())) {
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(this.t_method_call);
+			
+			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
+				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.controlR((MyReturnMethodContext) ctx.getChild(2));
+				return new MyMethods(methodName, methodType);
+			}
+			MyVoidMethod methodType = (MyVoidMethod) mtVisitor.controlV((MyVoidMethodContext)ctx.getChild(2));
+			return new MyMethods(methodName, methodType);
+		}
+		else {
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.mymethod);
+
+			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
+				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.visit(ctx.getChild(2));
+				return new MyMethods(methodName, methodType);
+			}
+			MyVoidMethod methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
+			return new MyMethods(methodName, methodType);
+
+
+		}
 	}
 
 }

@@ -32,7 +32,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public ArrayList<AntlrToAssignment> aControlleres;
 	public ArrayList<AntlrToMyMethods> mmControllers;
 	public HashMap<String, Expr> controlVariableMap;
-	public TestMethodCall t_method_call;
+	public MethodCall t_method_call;
 	
 	public AntlrToGameBody() {
 		
@@ -55,10 +55,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.global_mymethods = new ArrayList<>();
 	}
 
-	public AntlrToGameBody(TestMethodCall t_method_call) {
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call) {
 		// TODO Auto-generated constructor stub
 		this.t_method_call = t_method_call;
-		this.variableMap = new HashMap<>();
 		this.variableMap = new HashMap<>();
 		this.dControllers = new ArrayList<>();
 		this.aControlleres = new ArrayList<>();
@@ -67,6 +66,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.decl = new ArrayList<>();
 		this.assi = new ArrayList<>();
 		this.mymethod = new ArrayList<>();
+		
+		this.semanticErrors = semanticError;
+
 
 	}
 	@Override
@@ -226,11 +228,12 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 		
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
-			AntlrToMyMethods mmController = new AntlrToMyMethods(this.t_method_call); 
-			mymethod.add(mmController.control((MyMethodsContext)ctx.mymethod(i)));
+			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call); 
+			MyMethods m = mmController.control((MyMethodsContext)ctx.mymethod(i));
+			mymethod.add(m);
 			
 		}
-
+		
 		
 		return null;
 	}

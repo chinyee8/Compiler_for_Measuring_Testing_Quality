@@ -13,5 +13,11 @@ public class ReturnMethodCall extends MethodCall {
 	public String toString() {
 		return methodName + " [ " + call_parameter.toString() + " ] " ;
 	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.methodName;
+	}
 }
 

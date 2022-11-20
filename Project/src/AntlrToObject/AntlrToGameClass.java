@@ -11,6 +11,7 @@ import antlr.exprParser.GameBodyContext;
 import antlr.exprParser.GameClassContext;
 import model.GameBody;
 import model.GameClass;
+import model.MethodCall;
 import model.TestMethodCall;
 
 public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
@@ -21,7 +22,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public int[] rangeOfLines;
 	public ArrayList<Integer> orderOfFlow;
 	public AntlrToGameBody gbController;
-	public TestMethodCall t_method_call;
+	public MethodCall t_method_call;
 
 	public AntlrToGameClass() {
 		
@@ -34,8 +35,10 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		this.semanticErrors = semanticError;
 	}
 	
-	public AntlrToGameClass(TestMethodCall t_method_call2) {
+	public AntlrToGameClass(List<String> semanticError, MethodCall t_method_call2) {
 		this.t_method_call = t_method_call2;
+		this.semanticErrors = semanticError;
+
 	}
 	@Override
 	public GameClass visitGameClass(GameClassContext ctx) {
@@ -62,7 +65,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 //		this.orderOfFlow.add(start.getLine()-1);
 //		this.tokensMappedToLines[end.getLine()-1].add(ctx.getChild(6).getText());
 		String className = ctx.CLASS_NAME().getText();
-		AntlrToGameBody gbController = new AntlrToGameBody(this.t_method_call);
+		AntlrToGameBody gbController = new AntlrToGameBody(semanticErrors, this.t_method_call);
 		GameBody gamebody = gbController.control((GameBodyContext)ctx.getChild(5));
 		this.gbController = gbController;
 		//after all the other lines added to order, add last line to close class body

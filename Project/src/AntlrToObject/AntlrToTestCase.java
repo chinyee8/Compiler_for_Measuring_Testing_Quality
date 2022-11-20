@@ -11,6 +11,7 @@ import model.Assignment;
 import model.Call_Parameter;
 import model.Declaration;
 import model.Expr;
+import model.MethodCall;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.ReturnMethodCall;
@@ -26,6 +27,9 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	List<Declaration> decl = new ArrayList<>();
 	List<Assignment> assi = new ArrayList<>();
 	List<TestMethodCall> t_method_call = new ArrayList<>();
+	
+	public HashMap<String, Expr> testVarMap = new HashMap<>();
+	public ArrayList<MethodCall> allMethodCalls = new ArrayList<>();
 	
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
@@ -51,14 +55,20 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		for(int i = 0; i < ctx.decl().size(); i++) {
 			decl.add(declVisitor.visit(ctx.decl(i)));
 			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue);
+			this.testVarMap.put(decl.get(i).varName, decl.get(i).defaultValue);
 		}
 		
 		for(int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
+			this.testVarMap.put(assi.get(i).varName, ((Values)assi.get(i).expr).getValues());
+			if(assi.get(i).expr instanceof ReturnMethodCall) {
+				this.allMethodCalls.add((ReturnMethodCall)assi.get(i).expr);
+			}
 		}
 		
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
+			this.allMethodCalls.add(testVisitor.visit(ctx.t_method_call(i)));
 		}
 		
 		this.decl = decl;
@@ -94,8 +104,9 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 				}
 			}
 		}
-		
-		return new TestCase(testName, decl, assi, t_method_call);
+		TestCase temp =new TestCase(testName, decl, assi, t_method_call);
+		temp.addAll(this.allMethodCalls);
+		return temp;
 	}
 	
 //	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
