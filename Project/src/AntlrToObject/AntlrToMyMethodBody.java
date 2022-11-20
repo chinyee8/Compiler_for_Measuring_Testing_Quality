@@ -138,8 +138,14 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		for(IfStatement i : ifstatement) {
 			if(getCondType(i.cond).equals("NO")) {
 				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
-
 					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
+				}
+			}
+			for(Declaration d: i.getIfBody().declList) {
+				if(local_methodvar.containsKey(d.varName)) {
+					if(!semanticErrors.contains("Error: " + d.varName + " has been declared")){
+						semanticErrors.add("Error: " + d.varName + " has been declared");
+					}
 				}
 			}
 		}
