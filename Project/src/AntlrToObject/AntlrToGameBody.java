@@ -124,6 +124,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			}
 		}
 		
+		System.out.println(variableMap);
 		return new GameBody(decl, assi, mymethod);
 	}
 
