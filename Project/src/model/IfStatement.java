@@ -4,15 +4,19 @@ import java.util.HashMap;
 
 public class IfStatement{
 	public Condition cond;
-	MyMethodBody ifBody;
-	MyMethodBody elseBody;
-	HashMap<String, Values> variableMap;
-
+	public MyMethodBody ifBody;
+	public MyMethodBody elseBody;
+	public HashMap<String, Values> variableMap;
+	public boolean ifCovered;
+	public boolean elseCovered;
+	
 	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody, HashMap<String, Values> variableMap) {
 		this.cond = cond;
 		this.ifBody = ifBody;
 		this.elseBody = elseBody;
 		this.variableMap = variableMap;
+		ifCovered = false;
+		elseCovered = false;
 	}
 
 	public String toString() {

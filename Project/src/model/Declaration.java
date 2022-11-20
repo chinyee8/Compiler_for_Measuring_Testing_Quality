@@ -4,11 +4,12 @@ public class Declaration {
 	public String varName;
 	public String dataType;
 	public Values defaultValue;
+	public boolean covered ;
 	
 	public Declaration(String varName, String dataType) {
 		this.varName = varName;
 		this.dataType = dataType;
-		
+		covered = false;
 		if(this.dataType.equals("BOOLEAN")) {
 			this.defaultValue = new ValueBool(false);
 		}

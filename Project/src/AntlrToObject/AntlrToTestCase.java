@@ -138,8 +138,14 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 	
 	//controlflow
-	public TestCase control(TestCaseContext child) {
-		// TODO Auto-generated method stub
+	public TestCase control(TestCaseContext ctx) {
+		String testName = ctx.TEST_NAME().getText();
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		
+		List<TestMethodCall> t_method_call = new ArrayList<>();
+		
+		
 		return null;
 	}
 }

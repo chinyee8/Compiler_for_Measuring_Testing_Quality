@@ -12,6 +12,7 @@ import antlr.exprParser.ProgramContext;
 import antlr.exprParser.TestCaseContext;
 import model.MyMethods;
 import model.Program;
+import model.TestMethodCall;
 import model.Values;
 public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> semanticErrors;
@@ -23,14 +24,14 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public ArrayList<Integer> orderOfFlow;	//order of which lines are executed in control flow 
 	public AntlrToGameClass gController;
 	public ArrayList<AntlrToTestCase> tController;
-	public HashMap<String, Values> variableMap;
-	public List<MyMethods> myMethodList;
+	public HashMap<String, Values> variableMap; //testcase variable map
+	public TestMethodCall t_method_call;
 	
 	public AntlrToProgram() {
 	}
 	
-	public AntlrToProgram(List<MyMethods> myMethodList) {
-		this.myMethodList = myMethodList;
+	public AntlrToProgram(TestMethodCall t) {
+		this.t_method_call = t;
 	}
 
 	
@@ -54,40 +55,44 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	}
 
 	public Program control(ProgramContext ctx) {
+		
 		Program prog = new Program();
-		this.rangeOfLines = new int[2];
-		Token start = ctx.getStart();
-		Token end = ctx.getStop();
-		this.rangeOfLines[0]=start.getLine()-1;
-		this.rangeOfLines[1]=end.getLine()-1;
-		this.tokensMappedToLines = new ArrayList [end.getLine()-start.getLine()+1];
-
-
-		//initialize all arraylists
-		for(int i = 0; i < this.tokensMappedToLines.length; i++) {
-			this.tokensMappedToLines[i] = new ArrayList<String>();
-		}
-		this.orderOfFlow = new ArrayList<>();
+//		this.rangeOfLines = new int[2];
+//		Token start = ctx.getStart();
+//		Token end = ctx.getStop();
+//		this.rangeOfLines[0]=start.getLine()-1;
+//		this.rangeOfLines[1]=end.getLine()-1;
+//		this.tokensMappedToLines = new ArrayList [end.getLine()-start.getLine()+1];
+//
+//
+//		//initialize all arraylists
+//		for(int i = 0; i < this.tokensMappedToLines.length; i++) {
+//			this.tokensMappedToLines[i] = new ArrayList<String>();
+//		}
+//		this.orderOfFlow = new ArrayList<>();
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
-			AntlrToGameClass cController = new AntlrToGameClass(this.tokensMappedToLines, this.orderOfFlow);
+			AntlrToGameClass cController = new AntlrToGameClass(this.t_method_call);
 			prog.addGameClass(cController.control((GameClassContext)ctx.getChild(0)));
 			this.gController = cController;
+			this.variableMap = new HashMap<>();
+			//to be added
 
-		}else {
-			for(int i = 0; i < ctx.getChildCount(); i++) {
-				if(i == ctx.getChildCount()-1) {
-
-				}else {
-					if(ctx.getChild(i) instanceof TestCaseContext) {
-						AntlrToTestCase tController = new AntlrToTestCase();
-						prog.addTestCase(tController.control((TestCaseContext)ctx.getChild(i)));	
-						this.tController.add(tController);
-
-					}
-				}
-			}
 		}
+//		else {
+//			for(int i = 0; i < ctx.getChildCount(); i++) {
+//				if(i == ctx.getChildCount()-1) {
+//
+//				}else {
+//					if(ctx.getChild(i) instanceof TestCaseContext) {
+//						AntlrToTestCase tController = new AntlrToTestCase();
+//						prog.addTestCase(tController.control((TestCaseContext)ctx.getChild(i)));	
+//						this.tController.add(tController);
+//
+//					}
+//				}
+//			}
+//		}
 
 		return prog;
 	}

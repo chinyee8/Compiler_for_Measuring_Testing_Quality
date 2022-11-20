@@ -6,6 +6,8 @@ import java.util.List;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
+import antlr.exprParser.RMethodCallContext;
+import antlr.exprParser.ValuesContext;
 import model.Assignment;
 import model.Expr;
 import model.MyMethods;
@@ -15,7 +17,7 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
-
+	
 	//control flow fields
 	public ArrayList<Integer>orderOfFlow;
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
@@ -39,6 +41,10 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 		this.variableMap = variableMap;
 	}
 
+	public AntlrToAssignment() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public Assignment visitAssignment(AssignmentContext ctx) {
 		String varName = ctx.VAR_NAME().getText();
@@ -52,6 +58,18 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 	//controlller
 	public Assignment control(AssignmentContext ctx) {
 		
-		return null;
+		String varName = ctx.VAR_NAME().getText();
+		AntlrToExpr eVisitor = new AntlrToExpr();
+		Expr expr = null;
+		if(ctx.getChild(2) instanceof RMethodCallContext) {
+			expr = eVisitor.controlR((RMethodCallContext)ctx.getChild(2));
+
+		}
+		else if (ctx.getChild(2) instanceof ValuesContext) {
+			expr = eVisitor.controlV((ValuesContext)ctx.getChild(2));
+
+		}
+			
+		return new Assignment(varName, expr); 
 	}
 }

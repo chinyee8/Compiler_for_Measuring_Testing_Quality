@@ -11,6 +11,7 @@ import model.Declaration;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
+import model.TestMethodCall;
 import model.Values;
 
 public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
@@ -22,7 +23,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
 	public int[] rangeOfLines;
 	public List<MyMethods> mymethod; 
-	
+	public TestMethodCall t_method_call;
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
@@ -32,6 +33,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.mymethod = mymethod;
+	}
+
+	AntlrToMyMethods(TestMethodCall t_method_call) {
+		// TODO Auto-generated constructor stub
+		this.t_method_call = t_method_call;
 	}
 
 	@Override

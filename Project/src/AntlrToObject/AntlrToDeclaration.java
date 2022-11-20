@@ -13,12 +13,16 @@ public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
-
+	public boolean covered;
 	
 	public ArrayList<Integer>orderOfFlow;
 	public ArrayList<String>[] tokensMappedToLines; //index of array + 1 correspond to line number in program 
 	public int[] rangeOfLines; 
 	
+	
+	public AntlrToDeclaration() {
+		
+	}
 	public AntlrToDeclaration(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;

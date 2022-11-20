@@ -1,6 +1,8 @@
 package app;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -16,6 +18,7 @@ import antlr.exprLexer;
 import antlr.exprParser;
 import antlr.exprParser.ProgramContext;
 import model.Program;
+import model.TestMethodCall;
 
 public class ExpressionApp {
 	public static void main(String[] args) {
@@ -44,9 +47,12 @@ public class ExpressionApp {
 				if (progVisitor.semanticErrors.isEmpty() && testVisitor.semanticErrors.isEmpty()) {
 					
 					if(prog.gameclass != null && testProg.testcase != null) {
-						AntlrToProgram progControllor = new AntlrToProgram(prog.gameclass.body.myMethodList);
-						Program prog2 = progControllor.control((ProgramContext)progAST);
-						
+						ArrayList<Program> programList = new ArrayList<>();
+						for(int i = 0 ; i < testProg.testcase.t_method_call.size(); i++) {
+							AntlrToProgram progControllor = new AntlrToProgram(testProg.testcase.t_method_call.get(i));
+							Program prog2 = progControllor.control((ProgramContext)progAST);
+							programList.add(prog2);
+						}
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 						PrettyPrinter printer = new PrettyPrinter(ep);
 						printer.prettyPrint();
