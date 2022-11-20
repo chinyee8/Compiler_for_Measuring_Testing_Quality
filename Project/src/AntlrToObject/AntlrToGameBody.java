@@ -34,6 +34,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public ArrayList<AntlrToMyMethods> mmControllers;
 	public HashMap<String, Expr> controlVariableMap;
 	public MethodCall t_method_call;
+	public Map<String, Values> inputValues;
 
 	public AntlrToGameBody() {
 
@@ -56,9 +57,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.global_mymethods = new ArrayList<>();
 	}
 
-	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call) {
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues) {
 		// TODO Auto-generated constructor stub
 		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
 		this.variableMap = new HashMap<>();
 		this.dControllers = new ArrayList<>();
 		this.aControlleres = new ArrayList<>();
@@ -124,10 +126,44 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			}
 		}
 		
-		System.out.println(variableMap);
+		boolean containsMethod = false;
+		if(this.t_method_call != null) {
+			for(MyMethods m: this.mymethod) {
+				if(m.methodName.equals(this.t_method_call.getName())) {
+					if(m.methodType instanceof MyReturnMethod) {
+						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
+						Map<String, String> methodParameter = ((MyReturnMethod)m.methodType).parameter.getParams();
+						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyReturnMethod)m.methodType).parameter.getParams().size()) {
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							if(containsMethod) {
+								((MyReturnMethod)m.methodType).getValue(inputValues);
+							}
+						}
+					}
+				}
+			}
+		}
+				
+		
 		return new GameBody(decl, assi, mymethod);
 	}
+	
+	
 
+	private boolean checkIfSameParameters(List<String> testMCParameter, Map<String, String> methodParameter) {
+		boolean contains = true;
+		int i = 0;
+		for(Map.Entry<String, Values> in : this.inputValues.entrySet()) {
+			if(!in.getValue().getType().equals(methodParameter.get(i))) {
+				contains = false;
+				semanticErrors.add("Error: dataType of " + testMCParameter.get(i) + "from test_methodcall is not the same as mymethod");
+			}
+				
+			i++;
+		}
+		
+		return contains;
+	}
 	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
 		for(MyMethods i: mymethod) {
 			if(i.methodName.equals(r.methodName)) {
@@ -283,7 +319,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
-			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call); 
+			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call, this.inputValues); 
 			MyMethods m = mmController.control((MyMethodsContext)ctx.mymethod(i));
 			mymethod.add(m);
 		}
