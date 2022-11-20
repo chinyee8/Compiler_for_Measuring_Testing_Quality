@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 public class MyReturnMethod extends MethodType {
 	public String dataType;
 	public Parameter parameter;
@@ -26,4 +28,11 @@ public class MyReturnMethod extends MethodType {
 		
 		return result ;
 	}
+	
+	public Values getValue(Map<String, Values> lists) {
+		Values result = this.method_body.getValues(lists).get(varName);
+		return result;
+	}
+
+	
 }
