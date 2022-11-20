@@ -30,6 +30,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public int[] rangeOfLines;
 	public List<MyMethods> mymethod; 
 	public MethodCall t_method_call;
+	Map<String, Values> inputValues;
+	
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
@@ -41,9 +43,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.mymethod = mymethod;
 	}
 
-	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod, MethodCall t_method_call) {
+	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod, MethodCall t_method_call, Map<String, Values> inputValues) {
 		// TODO Auto-generated constructor stub
 		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.mymethod = mymethod;
