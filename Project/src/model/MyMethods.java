@@ -23,5 +23,6 @@ public class MyMethods{
 	public String toString() {
 		return "mymethod " + methodName + " " + methodType.toString(); 
 	}
+
 }
  
