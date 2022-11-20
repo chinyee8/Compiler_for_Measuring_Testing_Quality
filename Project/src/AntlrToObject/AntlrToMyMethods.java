@@ -3,13 +3,17 @@ package AntlrToObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.MyMethodsContext;
 import antlr.exprParser.MyReturnMethodContext;
 import antlr.exprParser.MyVoidMethodContext;
 import model.Declaration;
+import model.IfStatement;
 import model.MethodCall;
+import model.MyMethodBody;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
@@ -52,12 +56,38 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 			MyReturnMethod methodType = (MyReturnMethod) mtVisitor.visit(ctx.getChild(2));
+			
+			Map <String, String> parameter = ((MyReturnMethod)methodType).parameter.getParams();
+			for(IfStatement i : ((MyReturnMethod)methodType).method_body.ifStatList) {
+					MyMethodBody ifmethod = i.getIfBody();
+					for(Declaration d : ifmethod.declList) {
+						if(parameter.containsKey(d.varName)) {
+							if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
+								semanticErrors.add("Error: " + d.varName + " is a parameter of mymethod");	
+							}
+						}
+					}
+				
+			}
+			
 			return new MyMethods(methodName, methodType);
 		}
 		MyVoidMethod methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
+		Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
+		for(IfStatement i : ((MyVoidMethod)methodType).method_body.ifStatList) {
+				MyMethodBody ifmethod = i.getIfBody();
+				for(Declaration d : ifmethod.declList) {
+					if(parameter.containsKey(d.varName)) {
+						if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
+							semanticErrors.add("Error: " + d.varName + " is a parameter of mymethod");	
+						}
+					}
+				}
+			
+		}
+	
+		
 		return new MyMethods(methodName, methodType);
-
-
 	}
 	
 	
