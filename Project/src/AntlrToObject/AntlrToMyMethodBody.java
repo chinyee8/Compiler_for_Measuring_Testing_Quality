@@ -142,10 +142,6 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
 				}
 			}
-//			else {
-//				MyMethodBody ifbody = i.getIfBody();
-//				
-//			}
 		}
 		
 		List<String> global_methodname = new ArrayList<>();
@@ -173,7 +169,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody>{
 		}
 
 
-		return new MyMethodBody(decl, assi, ifstatement, methodcall);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
 
 	}
 
