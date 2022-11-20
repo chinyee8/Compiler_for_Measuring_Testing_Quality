@@ -1,17 +1,17 @@
 game Mathclass [] !
 	res << DOUBLE
-	input1 << DOUBLE
+	input1 << INT
 	input2 << DOUBLE
 	
-	input1 <- 1.25
+	input1 <- 1
 	input2 <- 3.45
 	res <- MATH[input1, input2]
 										
-    mymethod MATH DOUBLE [DOUBLE input1, DOUBLE input2] !
+    mymethod MATH DOUBLE [INT input1, DOUBLE input2] !
         result << DOUBLE
 
         jackieAsks [TRUE] !
-            result <- input1 + input2
+            
         ! elseJackie !
            
         !
