@@ -3,6 +3,7 @@ package AntlrToObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
 
@@ -27,12 +28,14 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public ArrayList<AntlrToTestCase> tController;
 	public HashMap<String, Values> variableMap; //testcase variable map
 	public MethodCall t_method_call;
+	Map<String, Values> inputValues;
 	
 	public AntlrToProgram() {
 	}
 	
-	public AntlrToProgram(MethodCall t) {
+	public AntlrToProgram(MethodCall t, Map<String, Values> inputValues) {
 		this.t_method_call = t;
+		this.inputValues = inputValues;
 	}
 
 	
@@ -74,7 +77,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
 			semanticErrors = new ArrayList<>();
-			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call);
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues);
 			prog.addGameClass(cController.control((GameClassContext)ctx.getChild(0)));
 			this.gController = cController;
 			this.variableMap = new HashMap<>();
