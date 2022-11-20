@@ -50,7 +50,6 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
-		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
 		
 		for(int i = 0; i < ctx.decl().size(); i++) {
 			decl.add(declVisitor.visit(ctx.decl(i)));
@@ -66,6 +65,8 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			}
 		}
 		
+		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
+
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
 			this.allMethodCalls.add(testVisitor.visit(ctx.t_method_call(i)));
