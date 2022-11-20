@@ -15,6 +15,7 @@ import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.GameBodyContext;
 import antlr.exprParser.MyMethodsContext;
+import antlr.exprParser.MyVoidMethodContext;
 import model.*;
 
 public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
@@ -137,6 +138,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
 							if(containsMethod) {
 								((MyReturnMethod)m.methodType).getValue(inputValues);
+							}
+						}
+					}else if(m.methodType instanceof MyVoidMethod) {
+						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
+						Map<String, String> methodParameter = ((MyVoidMethod)m.methodType).parameter.getParams();
+						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyVoidMethod)m.methodType).parameter.getParams().size()) {
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							if(containsMethod) {
+								//dk what to do wtih this yet
 							}
 						}
 					}
