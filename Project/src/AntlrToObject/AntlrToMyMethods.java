@@ -2,6 +2,7 @@ package AntlrToObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import model.Declaration;
 import model.Disjunction;
 import model.Division;
 import model.EqualTo;
+import model.Expr;
 import model.IfStatement;
 import model.Less;
 import model.LessOrEqual;
@@ -149,14 +151,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 	}
 
-	//	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
-	//		for(MyMethods i: mymethod) {
-	//			if(i.methodName.equals(r.methodName)) {
-	//				return true;
-	//			}
-	//		}
-	//		return false;
-	//	}
+		private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
+			for(MyMethods i: mymethod) {
+				if(i.methodName.equals(r.methodName)) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 	private void checkTestMethodCallParameter(Map<String, String> parameter, MethodType methodtype, String methodName) {
 		if(methodtype instanceof MyReturnMethod) {
@@ -199,6 +201,45 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 			}
 		}
+	}
+	
+	private Values callExpr(ReturnMethodCall r, String varName) {
+		for(MyMethods m : this.mymethod) {
+			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
+				boolean noerror = true;
+				List<String> RHSparams = r.call_parameter.getCallParams();
+				Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
+					boolean contains = true;
+					Map<String, Values> lists = new LinkedHashMap<>();
+					for(String s : RHSparams) {
+						if(!this.variableMap.containsKey(s)) {
+							contains = false;
+						}else {
+							lists.put(s, this.variableMap.get(s));
+						}
+					}
+
+					if(contains) {
+						int i = 0;
+						for(Map.Entry<String, String> map: methodparams.entrySet()){
+							if(!(this.variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+								noerror = false;
+							}
+							i++;
+						}
+					}
+					
+					if(noerror) {
+						return ((MyReturnMethod)m.methodType).getValue(lists);
+					}
+				}
+			}
+
+		}
+
+		return variableMap.get(varName);
+
 	}
 
 	private void checkReturnVar(MyReturnMethod method) {
@@ -244,11 +285,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-					/*
-					 * 
-					 * Deal with return method call for methodbody
-					 * and if the method exist
-					 */
+					if(smtg(a.expr, a)) {
+						variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+					}
 				}else {
 					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
 				}
@@ -256,6 +295,49 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 	}
 
+	private boolean smtg(Expr rhs, Assignment a) {
+		String type = "";
+		for(Map.Entry<String, Values> d: local_variableMap.entrySet()) { //find dec type from declarations of game body
+			if(d.getKey().equals(a.varName)) {
+				type = d.getValue().getType();
+			}
+		}
+		
+		if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.mymethod)) { //if rhs methodcall is declared 
+			String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
+			for(MyMethods m: this.mymethod) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
+				if(m.methodName.equals(rhsMethodName)) {
+
+					List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
+					Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+					if(RHSparams.size() != methodparams.size()) {
+						semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+					}else {
+						int i = 0;
+						for(Map.Entry<String, String> map: methodparams.entrySet()){
+							if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+								semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
+							}
+							i++;
+						}
+					}
+
+					if(m.methodType instanceof MyReturnMethod) {
+						return ((MyReturnMethod)m.methodType).dataType.equals(type);
+					}
+					else { 						//if m.methodType instanceof MyVoidMethod it would have been detected earlier ignore else case
+						System.out.println("void type checking error");
+						return false;
+					}
+				}
+			}
+			return false;
+		}
+		else { //if method not declared
+			this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
+			return false;
+		}
+	}
 
 
 	private void checkMath(ValueMath expr, Assignment a) {
