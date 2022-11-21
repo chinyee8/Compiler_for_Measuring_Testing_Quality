@@ -28,14 +28,16 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public ArrayList<AntlrToTestCase> tController;
 	public HashMap<String, Values> variableMap; //testcase variable map
 	public MethodCall t_method_call;
-	Map<String, Values> inputValues;
-	
+	public Map<String, Values> inputValues;
+	public List<String> methodCallParamOrder;
+
 	public AntlrToProgram() {
 	}
 	
-	public AntlrToProgram(MethodCall t, Map<String, Values> inputValues) {
+	public AntlrToProgram(MethodCall t, Map<String, Values> inputValues, List<String> methodCallParamOrder) {
 		this.t_method_call = t;
 		this.inputValues = inputValues;
+		this.methodCallParamOrder =  methodCallParamOrder;
 	}
 
 	
@@ -77,7 +79,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
 			semanticErrors = new ArrayList<>();
-			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues);
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, this.methodCallParamOrder);
 			prog.addGameClass(cController.control((GameClassContext)ctx.getChild(0)));
 			this.gController = cController;
 			this.variableMap = new HashMap<>();

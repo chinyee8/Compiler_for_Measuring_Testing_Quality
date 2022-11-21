@@ -27,9 +27,9 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	List<Declaration> decl = new ArrayList<>();
 	List<Assignment> assi = new ArrayList<>();
 	List<TestMethodCall> t_method_call = new ArrayList<>();
-	
 	public HashMap<String, Values> testVarMap = new HashMap<>();
 	public Map<MethodCall, Map<String, Values>> allMethodCalls = new HashMap<>();
+	public Map<MethodCall, List<String>> methodMappedToOrderParameter = new HashMap<>();
 	
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
@@ -87,6 +87,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 					}else if(i.expr instanceof ReturnMethodCall) {
 						ReturnMethodCall rmc = ((ReturnMethodCall) i.expr);
 						List<String> paramaters = rmc.call_parameter.getCallParams();
+						this.methodMappedToOrderParameter.put(rmc, paramaters);
 						Map<String, Values> callInputs = new HashMap<>();
 						for(String p : paramaters) {
 							if(!testVarMap.containsKey(p)) {
@@ -123,6 +124,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		}
 		TestCase temp =new TestCase(testName, decl, assi, t_method_call);
 		temp.addAll(this.allMethodCalls);
+		
 		return temp;
 	}
 	

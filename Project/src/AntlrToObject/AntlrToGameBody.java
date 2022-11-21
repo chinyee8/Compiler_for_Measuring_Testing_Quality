@@ -33,10 +33,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public ArrayList<AntlrToDeclaration> dControllers;
 	public ArrayList<AntlrToAssignment> aControlleres;
 	public ArrayList<AntlrToMyMethods> mmControllers;
-	public HashMap<String, Expr> controlVariableMap;
+	public HashMap<String, Expr> controlVariableMap; //var map of gamebody
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
-
+	public List<String> methodCallParamOrder; 
 	public AntlrToGameBody() {
 
 	}
@@ -58,9 +58,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.global_mymethods = new ArrayList<>();
 	}
 
-	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues) {
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, List<String> methodCallParamOrder) {
 		// TODO Auto-generated constructor stub
 		this.t_method_call = t_method_call;
+		this.methodCallParamOrder = methodCallParamOrder;
 		this.inputValues = inputValues;
 		this.variableMap = new HashMap<>();
 		this.dControllers = new ArrayList<>();
@@ -72,7 +73,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.mymethod = new ArrayList<>();
 		
 		this.semanticErrors = semanticError;
-
+		this.controlVariableMap = new HashMap<>();
 
 	}
 	@Override
@@ -328,14 +329,16 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
 		}
 
+		
+		//start here
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
-			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call, this.inputValues); 
+			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call, this.inputValues, this.methodCallParamOrder); 
 			MyMethods m = mmController.control((MyMethodsContext)ctx.mymethod(i));
 			mymethod.add(m);
 		}
 
 
-		return null;
+		return new GameBody(this.decl, this.assi, this.mymethod);
 	}
 
 	public ArrayList<String> getTextOfNode(ParseTree t, ArrayList<String> result) {

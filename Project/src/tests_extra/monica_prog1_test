@@ -1,0 +1,8 @@
+test test_api01 []!
+	input1 << INT
+	
+	input1 <- 9
+	
+	result <- METHOD_ONE[input1, false, "s"]	
+		
+!

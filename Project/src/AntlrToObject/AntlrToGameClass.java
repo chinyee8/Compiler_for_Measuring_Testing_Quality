@@ -25,8 +25,9 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public ArrayList<Integer> orderOfFlow;
 	public AntlrToGameBody gbController;
 	public MethodCall t_method_call;
-	Map<String, Values> inputValues;
-
+	public Map<String, Values> inputValues;
+	public List<String> methodCallParamOrder;
+	
 	public AntlrToGameClass() {
 		
 	}
@@ -38,10 +39,11 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		this.semanticErrors = semanticError;
 	}
 	
-	public AntlrToGameClass(List<String> semanticError, MethodCall t_method_call2, Map<String, Values> inputValues) {
+	public AntlrToGameClass(List<String> semanticError, MethodCall t_method_call2, Map<String, Values> inputValues, List<String> methodCallParamOrder) {
 		this.t_method_call = t_method_call2;
 		this.semanticErrors = semanticError;
 		this.inputValues = inputValues;
+		this.methodCallParamOrder = methodCallParamOrder;
 	}
 	@Override
 	public GameClass visitGameClass(GameClassContext ctx) {
@@ -68,7 +70,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 //		this.orderOfFlow.add(start.getLine()-1);
 //		this.tokensMappedToLines[end.getLine()-1].add(ctx.getChild(6).getText());
 		String className = ctx.CLASS_NAME().getText();
-		AntlrToGameBody gbController = new AntlrToGameBody(semanticErrors, this.t_method_call, this.inputValues);
+		AntlrToGameBody gbController = new AntlrToGameBody(semanticErrors, this.t_method_call, this.inputValues, this.methodCallParamOrder);
 		GameBody gamebody = gbController.control((GameBodyContext)ctx.getChild(5));
 		this.gbController = gbController;
 		//after all the other lines added to order, add last line to close class body

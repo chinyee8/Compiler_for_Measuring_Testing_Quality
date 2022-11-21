@@ -9,7 +9,7 @@ public class TestCase {
 	public List<TestMethodCall> t_method_call;
 	public List<Program> programList;
 	public Map<MethodCall, Map<String, Values>> allMethodCalls;
-
+	public Map<MethodCall, List<String>> methodCallParamOrder;
 	public TestCase(String testName, List<Declaration> decl, List<Assignment> assi,
 			List<TestMethodCall> t_method_call) {
 		this.testName = testName;
@@ -53,5 +53,9 @@ public class TestCase {
 	
 	public void addAll(Map<MethodCall, Map<String, Values>> allMethodCalls2) {
 		this.allMethodCalls = allMethodCalls2;
+	}
+	
+	public void addParamOrder(Map<MethodCall, List<String>> s) {
+		this.methodCallParamOrder = s;
 	}
 }

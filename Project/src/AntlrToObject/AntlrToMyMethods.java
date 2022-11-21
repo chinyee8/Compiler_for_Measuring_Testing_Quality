@@ -30,8 +30,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public int[] rangeOfLines;
 	public List<MyMethods> mymethod; 
 	public MethodCall t_method_call;
-	Map<String, Values> inputValues;
-	
+	public Map<String, Values> inputValues;
+	public List<String> methodCallParamOrder;
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
@@ -43,8 +43,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.mymethod = mymethod;
 	}
 
-	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod, MethodCall t_method_call, Map<String, Values> inputValues) {
+	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod, MethodCall t_method_call, Map<String, Values> inputValues, List<String> methodCallParamOrder) {
 		// TODO Auto-generated constructor stub
+		this.methodCallParamOrder = methodCallParamOrder;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.semanticErrors = semanticError;
@@ -97,7 +98,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public MyMethods control(MyMethodsContext ctx) {
 		String methodName = ctx.METHODNAME().getText();
 		if(methodName.equals(this.t_method_call.getName())) {
-			AntlrToMethodType mtVisitor = new AntlrToMethodType(this.t_method_call);
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(this.t_method_call, this.inputValues, this.methodCallParamOrder);
 			
 			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.controlR((MyReturnMethodContext) ctx.getChild(2));
