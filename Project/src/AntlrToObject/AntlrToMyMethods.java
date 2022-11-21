@@ -392,13 +392,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void checkParameterForErrors(MyMethodBody methodbody , Map<String, String> parameter) {
 		for(IfStatement i : methodbody.ifStatList) {
+			
 			if(getCondType(i.cond).equals("NO")) {
 				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
 					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
 				}
 			}
 
-			MyMethodBody ifmethod = i.getIfBody();
+			MyMethodBody ifmethod = i.getIfBody(local_variableMap);
 			for(Declaration d : ifmethod.declList) {
 				if(parameter.containsKey(d.varName)) {
 					if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
@@ -444,7 +445,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 			}
 
-			MyMethodBody elsemethod = i.getElseBody();
+			MyMethodBody elsemethod = i.getElseBody(variableMap);
 			for(Declaration d : elsemethod.declList) {
 				for(Declaration dl: methodbody.declList) {
 					if(d.varName.equals(dl.varName)) {
@@ -771,5 +772,5 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 		return result;
 	}
-
+	
 }
