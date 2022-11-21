@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class IfStatement{
@@ -10,13 +12,15 @@ public class IfStatement{
 	public HashMap<String, Values> variableMap;
 	public boolean ifCovered;
 	public boolean elseCovered;
+	public List<String> semanticErrors;
 	
-	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody) {
+	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody, List<String> semanticErrors) {
 		this.cond = cond;
 		this.ifBody = ifBody;
 		this.elseBody = elseBody;
 		ifCovered = false;
 		elseCovered = false;
+		this.semanticErrors = semanticErrors;
 	}
 
 	public String toString() {
@@ -30,21 +34,19 @@ public class IfStatement{
 
 		return result;
 	}
-	
-	public MyMethodBody getIfBody(Map<String, Values> map) {
+		
+	public List<MyMethodBody> getIfBody(Map<String, Values> map) {
+		List<MyMethodBody> m = new ArrayList<>();
+		
 		if(evaluated(cond, map)) {
-			return this.ifBody;
+			m.add(ifBody);
+			m.add(elseBody);
 		}else {
-			return this.elseBody;
+			m.add(elseBody);
+			m.add(ifBody);
 		}
-	}
-	
-	public MyMethodBody getElseBody(Map<String, Values> map) {
-		if(!evaluated(cond, map)) {
-			return this.ifBody;
-		}else {
-			return this.elseBody;
-		}
+		
+		return m;
 	}
 	
 	public boolean evaluated(Condition c, Map<String, Values> map) {
@@ -233,12 +235,12 @@ public class IfStatement{
 			Division a = (Division) m;
 			double left = getDouble(a.math1);
 			double right = getDouble(a.math2);
-			result = left / right;
-		}else if(m instanceof Division) {
-			Division a = (Division) m;
-			double left = getDouble(a.math1);
-			double right = getDouble(a.math2);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error: undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
+			
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getDouble(a.math);
@@ -277,12 +279,11 @@ public class IfStatement{
 			Division a = (Division) m;
 			int left = getInt(a.math1);
 			int right = getInt(a.math2);
-			result = left / right;
-		}else if(m instanceof Division) {
-			Division a = (Division) m;
-			int left = getInt(a.math1);
-			int right = getInt(a.math2);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error: undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getInt(a.math);
