@@ -68,7 +68,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public List<String> methodCallParamOrder;
-	private HashMap<String, Values> local_variableMap = new HashMap<>();
+	private HashMap<String, Values> local_variableMap;
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
 		this.tokensMappedToLines = t;
@@ -92,7 +92,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
+		local_variableMap = new HashMap<>();
+		
 		String methodName = ctx.METHODNAME().getText();
+		for(MyMethods m : mymethod) {
+			if(m.methodName.equals(methodName)) {
+				semanticErrors.add("Error: mymethods " + methodName + " already exist");
+			}
+		}
+		
 		AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.mymethod);
 
 		//no global var yet
@@ -110,9 +118,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 			checkDeclAssi(((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
 			checkParameterForErrors(((MyReturnMethod)methodType).method_body, parameter);
-			checkVoidCall();
+			checkVoidCall(((MyReturnMethod)methodType).method_body);
 			checkReturnVar(((MyReturnMethod)methodType));
-
+			System.out.println(local_variableMap.get("result"));
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}
 		MethodType methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
@@ -123,7 +131,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 		checkDeclAssi(((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
 		checkParameterForErrors(((MyVoidMethod)methodType).method_body, parameter);
-		checkVoidCall();
+		checkVoidCall(((MyVoidMethod)methodType).method_body);
 
 
 
@@ -133,7 +141,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	private void declareParameter(Map<String, String> parameter) {
 		for(Map.Entry<String, String> p : parameter.entrySet()) {
 			String dataType = p.getValue();
-			
+
 			if(dataType.equals("BOOLEAN")) {
 				local_variableMap.put(p.getKey(), new ValueBool(false));
 			}
@@ -152,14 +160,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 	}
 
-		private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
-			for(MyMethods i: mymethod) {
-				if(i.methodName.equals(r.methodName)) {
-					return true;
-				}
+	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
+		for(MyMethods i: mymethod) {
+			if(i.methodName.equals(r.methodName)) {
+				return true;
 			}
-			return false;
 		}
+		return false;
+	}
 
 	private void checkTestMethodCallParameter(Map<String, String> parameter, MethodType methodtype, String methodName) {
 		if(methodtype instanceof MyReturnMethod) {
@@ -180,7 +188,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}
 				}
 			}
-	
+
 		}else if(methodtype instanceof MyVoidMethod) {
 			String rhsMethodName = this.t_method_call.getName(); 
 			if(methodName.equals(rhsMethodName)) {
@@ -203,7 +211,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 		}
 	}
-	
+
 	private Values callExpr(ReturnMethodCall r, String varName) {
 		for(MyMethods m : this.mymethod) {
 			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
@@ -214,23 +222,23 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					boolean contains = true;
 					Map<String, Values> lists = new LinkedHashMap<>();
 					for(String s : RHSparams) {
-						if(!this.variableMap.containsKey(s)) {
+						if(!this.local_variableMap.containsKey(s)) {
 							contains = false;
 						}else {
-							lists.put(s, this.variableMap.get(s));
+							lists.put(s, this.local_variableMap.get(s));
 						}
 					}
 
 					if(contains) {
 						int i = 0;
 						for(Map.Entry<String, String> map: methodparams.entrySet()){
-							if(!(this.variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+							if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
 								noerror = false;
 							}
 							i++;
 						}
 					}
-					
+
 					if(noerror) {
 						return ((MyReturnMethod)m.methodType).getValue(lists);
 					}
@@ -239,20 +247,29 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 		}
 
-		return variableMap.get(varName);
+		return this.local_variableMap.get(varName);
 
 	}
 
 	private void checkReturnVar(MyReturnMethod method) {
 		if(!local_variableMap.containsKey(method.varName)) {
 			semanticErrors.add("Error: return variable " + method.varName + " is not declared");
+		}else {
+			if(!local_variableMap.get(method.varName).getType().equals(method.dataType)) {
+				semanticErrors.add("Error: " + method.varName + " should return " + method.dataType + " not " + local_variableMap.get(method.varName).getType());
+			}
 		}
 
 	}
 
-	private void checkVoidCall() {
-		// TODO Auto-generated method stub
+	private void checkVoidCall(MyMethodBody method_body) {
+		for( MethodCall m: method_body.methodCall) {
+			if(m instanceof VoidMethodCall) {
 
+			}else {
+				semanticErrors.add("Error: Only void method call is allowed");
+			}
+		}
 	}
 
 	private void checkDeclAssi(MyMethodBody method_body, Map<String, String> parameter) {
@@ -275,7 +292,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}else {
 				if(a.expr instanceof Values) {
 					if(((Values)a.expr) instanceof ValueMath) {
-						checkMath((ValueMath)a.expr, a);
+						checkMath((ValueMath)a.expr, a, true);
 					}else {
 						if(local_variableMap.containsKey(a.varName)) {
 							if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
@@ -287,7 +304,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
 					if(smtg(a.expr, a)) {
-						variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+						this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 					}
 				}else {
 					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
@@ -303,7 +320,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				type = d.getValue().getType();
 			}
 		}
-		
+
 		if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.mymethod)) { //if rhs methodcall is declared 
 			String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
 			for(MyMethods m: this.mymethod) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
@@ -341,50 +358,51 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	}
 
 
-	private void checkMath(ValueMath expr, Assignment a) {
-		Map<String, Values> list = new HashMap<>();
-		list = getVariableList(expr.math, list);
-		String type = "";
+	private void checkMath(ValueMath expr, Assignment a, boolean allowed) {
+		String type = getMATHTYPE(expr.math);
 
-		if(list.size() >0) {
-			for(Values v: list.values()) {
-				type = v.getType();
-				break;
-			}
-			boolean correctType = true;
-			for(Values v : list.values()) {
-				if(!v.getType().equals(type)) {
-					correctType = false;
-				}
-			}
-			if(correctType) {
-				if(type.equals("INT")) {
-					int i = getMathINT(expr.math);
+		if(type.equals("INT")) {
+			if(allowed) {
+				int i = getMathINT(expr.math);
 
-					if(local_variableMap.containsKey(a.varName)) {
-						if(local_variableMap.get(a.varName).getType().equals("INT")) {
-							local_variableMap.put(a.varName, new ValueNum(i));	
-						}else {
-							semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
-						}
-					}
-
-				}else if(type.equals("DOUBLE")) {
-					double d = getMATHDOUBLE(expr.math);
-
-					if(local_variableMap.containsKey(a.varName)) {
-						if(local_variableMap.get(a.varName).getType().equals("DOUBLE")) {
-							local_variableMap.put(a.varName, new ValueDouble(d));
-						}else {
-							semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
-						}
+				if(local_variableMap.containsKey(a.varName)) {
+					if(local_variableMap.get(a.varName).getType().equals("INT")) {
+						local_variableMap.put(a.varName, new ValueNum(i));	
+					}else {
+						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 					}
 				}
-
 			}else {
-				semanticErrors.add("Error: the LHS datatype and RHS datatype of " + expr.toString() + " must be the same");
-			}		
-		}
+				if(local_variableMap.containsKey(a.varName)) {
+					if(!local_variableMap.get(a.varName).getType().equals("INT")) {
+						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+					}
+				}
+			}
+
+		}else if(type.equals("DOUBLE")) {
+			if(allowed) {
+
+				double d = getMATHDOUBLE(expr.math);
+
+				if(local_variableMap.containsKey(a.varName)) {
+					if(local_variableMap.get(a.varName).getType().equals("DOUBLE")) {
+						local_variableMap.put(a.varName, new ValueDouble(d));
+					}else {
+						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+					}
+				}
+			}else {
+				if(local_variableMap.containsKey(a.varName)) {
+					if(!local_variableMap.get(a.varName).getType().equals("DOUBLE")) {
+						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+					}
+				}
+			}
+		}else if(type.equals("NOT SAME"))  {
+			semanticErrors.add("Error: the LHS datatype and RHS datatype of " + expr.toString() + " must be the same");
+		}		
+
 
 	}
 
@@ -392,14 +410,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void checkParameterForErrors(MyMethodBody methodbody , Map<String, String> parameter) {
 		for(IfStatement i : methodbody.ifStatList) {
-			
+
 			if(getCondType(i.cond).equals("NO")) {
 				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
 					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
 				}
 			}
 
-			MyMethodBody ifmethod = i.getIfBody(local_variableMap);
+			List<MyMethodBody> body = i.getIfBody(local_variableMap);
+			MyMethodBody ifmethod = body.get(0);
 			for(Declaration d : ifmethod.declList) {
 				if(parameter.containsKey(d.varName)) {
 					if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
@@ -423,7 +442,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}else {
 					if(a.expr instanceof Values) {
 						if(((Values)a.expr) instanceof ValueMath) {
-							checkMath((ValueMath)a.expr, a);
+							checkMath((ValueMath)a.expr, a, true);
 						}else {
 							if(local_variableMap.containsKey(a.varName)) {
 								if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
@@ -445,13 +464,55 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 			}
 
-			MyMethodBody elsemethod = i.getElseBody(variableMap);
+			if(ifmethod.ifStatList.size() > 0) {
+				checkParameterForErrors(ifmethod, parameter);
+			}
+
+			if(ifmethod.methodCall.size() > 0) {
+				checkVoidCall(ifmethod);
+			}
+
+			MyMethodBody elsemethod = body.get(1);
 			for(Declaration d : elsemethod.declList) {
 				for(Declaration dl: methodbody.declList) {
 					if(d.varName.equals(dl.varName)) {
 						semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
 					}
 				}
+			}
+
+			for(Assignment a: elsemethod.assiList) {
+				if(!local_variableMap.containsKey(a.varName)) {
+					semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+				}else {
+					if(a.expr instanceof Values) {
+						if(((Values)a.expr) instanceof ValueMath) {
+							checkMath((ValueMath)a.expr, a, false);
+						}else {
+							if(local_variableMap.containsKey(a.varName)) {
+								if(!local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
+									semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+								}
+							}
+						}
+					}else if(a.expr instanceof ReturnMethodCall) {
+						/*
+						 * 
+						 * Deal with return method call for methodbody
+						 * and if the method exist
+						 */
+					}else {
+						this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+					}
+				}
+			}
+
+			if(elsemethod.ifStatList.size() > 0) {
+				checkParameterForErrors(ifmethod, parameter);
+			}
+
+			if(elsemethod.methodCall.size() > 0) {
+				checkVoidCall(elsemethod);
 			}
 
 		}
@@ -462,7 +523,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		String methodName = ctx.METHODNAME().getText();
 		if(methodName.equals(this.t_method_call.getName())) {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(this.t_method_call, this.inputValues, this.methodCallParamOrder);
-			
+
 			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.controlR((MyReturnMethodContext) ctx.getChild(2));
 				return new MyMethods(methodName, methodType);
@@ -482,43 +543,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 
 		}
-	}
-
-	private Map<String, Values> getVariableList(Mathematics m, Map<String, Values> list) {
-
-		if(m instanceof MathParenthesis) {
-			MathParenthesis e = (MathParenthesis) m;
-			list = getVariableList(e.math, list);
-		}else if(m instanceof Addition) {
-			Addition e = (Addition) m;
-			list = getVariableList(e.math1, list);
-			list = getVariableList(e.math2, list);
-		}else if(m instanceof Subtraction) {
-			Subtraction e = (Subtraction) m;
-			list = getVariableList(e.math1, list);
-			list = getVariableList(e.math2, list);
-		}else if(m instanceof Multiplication) {
-			Multiplication e = (Multiplication) m;
-			list = getVariableList(e.math1, list);
-			list = getVariableList(e.math2, list);
-		}else if(m instanceof Division) {
-			Division e = (Division) m;
-			list = getVariableList(e.math1, list);
-			list = getVariableList(e.math2, list);
-		}else if(m instanceof MathNumber) {
-			MathNumber e = (MathNumber) m;
-		}else if(m instanceof MathDouble) {
-			MathDouble e = (MathDouble) m;
-		}else if(m instanceof MathVarName) {
-			MathVarName e = (MathVarName) m;
-			if(!local_variableMap.containsKey(e.varName)) {
-				semanticErrors.add("Error: variable " + e.varName + " is not declared");
-			}else if(local_variableMap.containsKey(e.varName)) {
-				list.put(e.varName, local_variableMap.get(e.varName));
-			}
-		}
-
-		return list;
 	}
 
 	private double getMATHDOUBLE(Mathematics m) {
@@ -542,7 +566,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			Division a = (Division) m;
 			double left = getMATHDOUBLE(a.math1);
 			double right = getMATHDOUBLE(a.math2);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error: undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getMATHDOUBLE(a.math);
@@ -581,7 +609,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			Division a = (Division) m;
 			int left = getMathINT(a.math1);
 			int right = getMathINT(a.math2);
-			result = left / right;
+			if(right == 0) {
+				if(!semanticErrors.contains("Error: undefined. Cannot divide by 0")) {
+					semanticErrors.add("Error: undefined. Cannot divide by 0");
+				}
+			}else {
+				result = left / right;
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getMathINT(a.math);
@@ -708,13 +742,18 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			result = "BOOLEAN";
 		}else if(c instanceof CondVarName) {
 			CondVarName e = (CondVarName) c;
-			Values val = local_variableMap.get(e.varName);
-
-			if(val.getType().equals("BOOLEAN")) {
-				result = val.getType();
+			if(!local_variableMap.containsKey(e.varName)) {
+				semanticErrors.add("Error: variable " + e.varName + " does not exist");
 			}else {
-				semanticErrors.add("Error: " + e.varName + " must be BOOLEAN type");
+				Values val = local_variableMap.get(e.varName);
+
+				if(val.getType().equals("BOOLEAN")) {
+					result = val.getType();
+				}else {
+					semanticErrors.add("Error: " + e.varName + " must be BOOLEAN type");
+				}
 			}
+
 		}
 
 		return result;
@@ -757,6 +796,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(left.equals(right)) {
 				result = left;
 			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+				result = "NOT SAME";
 			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
@@ -767,10 +807,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			result = "DOUBLE";
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
-			result = a.val.getType();
+			if(!local_variableMap.containsKey(a.varName)) {
+				semanticErrors.add("Error: variable " + a.varName + " is not declared");
+			}else if(local_variableMap.containsKey(a.varName)) {
+				result = local_variableMap.get(a.varName).getType();
+			}
 		}
 
 		return result;
 	}
-	
+
 }
