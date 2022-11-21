@@ -26,7 +26,7 @@ public class ConditionCoverage{
 		componentMap = new HashMap<>();
 		htmlPrint = ""; // for pretty printing
 	}
-	// should be called in game part (IfStatement.java?)
+	// should be called when you parse the game class. (AntlrToIfStatement?)
 	public void addComponent(String ifStat, String component) {
 
 		if (!componentMap.containsKey(ifStat)){ // if not exist, make new
@@ -41,7 +41,7 @@ public class ConditionCoverage{
 		}
 	}
 	
-	// should be called in testcase part
+	// should be called when it gets input for the condition parameter
 	// binary form 
   // for example, if there are two components, and first component is true and second conpoenents is false, "01" should be in the parameter
 	public void addResult(String ifStat, String results) { 
