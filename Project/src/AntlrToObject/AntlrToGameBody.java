@@ -370,56 +370,56 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 	}
 	
-	private String getMATHTYPE(Mathematics m) {
-		String result = "";
-		
-		if(m instanceof Addition) {
-			Addition a = (Addition) m;
-			String left = getMATHTYPE(a.math1);
-			String right = getMATHTYPE(a.math2);
-			if(left.equals(right)) {
-				result = left;
-			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-				result = "NOT SAME";
-			}
-		}else if(m instanceof Subtraction) {
-			Subtraction a = (Subtraction) m;
-			String left = getMATHTYPE(a.math1);
-			String right = getMATHTYPE(a.math2);
-			if(left.equals(right)) {
-				result = left;
-			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-				result = "NOT SAME";
-			}
-		}else if(m instanceof Multiplication) {
-			Multiplication a = (Multiplication) m;
-			String left = getMATHTYPE(a.math1);
-			String right = getMATHTYPE(a.math2);
-			if(left.equals(right)) {
-				result = left;
-			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-				result = "NOT SAME";
-			}
-		}else if(m instanceof Division) {
-			Division a = (Division) m;
-			String left = getMATHTYPE(a.math1);
-			String right = getMATHTYPE(a.math2);
-			if(left.equals(right)) {
-				result = left;
-			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-			}
-		}else if(m instanceof MathParenthesis) {
-			MathParenthesis a = (MathParenthesis) m;
-			result = getMATHTYPE(a.math);
-		}else if(m instanceof MathNumber) {
-			result = "INT";
-		}else if(m instanceof MathDouble) {
-			result = "DOUBLE";
-		}else if(m instanceof MathVarName) {
-			MathVarName a = (MathVarName) m;
-			result = a.val.getType();
-		}
-		
-		return result;
-	}
+//	private String getMATHTYPE(Mathematics m) {
+//		String result = "";
+//		
+//		if(m instanceof Addition) {
+//			Addition a = (Addition) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//				result = "NOT SAME";
+//			}
+//		}else if(m instanceof Subtraction) {
+//			Subtraction a = (Subtraction) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//				result = "NOT SAME";
+//			}
+//		}else if(m instanceof Multiplication) {
+//			Multiplication a = (Multiplication) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//				result = "NOT SAME";
+//			}
+//		}else if(m instanceof Division) {
+//			Division a = (Division) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//			}
+//		}else if(m instanceof MathParenthesis) {
+//			MathParenthesis a = (MathParenthesis) m;
+//			result = getMATHTYPE(a.math);
+//		}else if(m instanceof MathNumber) {
+//			result = "INT";
+//		}else if(m instanceof MathDouble) {
+//			result = "DOUBLE";
+//		}else if(m instanceof MathVarName) {
+//			MathVarName a = (MathVarName) m;
+//			result = a.val.getType();
+//		}
+//		
+//		return result;
+//	}
 }
