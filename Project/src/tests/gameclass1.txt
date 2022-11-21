@@ -21,7 +21,7 @@ game Mathclass [] !
         jackieAsks [b] !
             
         ! elseJackie !
-			
+			input1 <- SCIENCE [input1, input2]
         !
 		
         jackieReturns result
