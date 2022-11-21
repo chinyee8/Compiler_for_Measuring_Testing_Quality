@@ -61,7 +61,6 @@ public class AntlrToValue extends exprBaseVisitor<Values> {
 		AntlrToMathematics mVisitor = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics m = mVisitor.visit(ctx.getChild(0));
 		
-		
 		return new ValueMath(m);
 	}
 	
