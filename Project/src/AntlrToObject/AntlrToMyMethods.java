@@ -120,7 +120,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			checkParameterForErrors(((MyReturnMethod)methodType).method_body, parameter);
 			checkVoidCall(((MyReturnMethod)methodType).method_body);
 			checkReturnVar(((MyReturnMethod)methodType));
-			System.out.println(local_variableMap.get("result"));
+			System.out.println(local_variableMap);
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}
 		MethodType methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
@@ -453,11 +453,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 							}
 						}
 					}else if(a.expr instanceof ReturnMethodCall) {
-						/*
-						 * 
-						 * Deal with return method call for methodbody
-						 * and if the method exist
-						 */
+						if(smtg(a.expr, a)) {
+							this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+						}
 					}else {
 						this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
 					}
@@ -496,11 +494,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 							}
 						}
 					}else if(a.expr instanceof ReturnMethodCall) {
-						/*
-						 * 
-						 * Deal with return method call for methodbody
-						 * and if the method exist
-						 */
+						if(smtg(a.expr, a)) {
+							this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+						}
 					}else {
 						this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
 					}
