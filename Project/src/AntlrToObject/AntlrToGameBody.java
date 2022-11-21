@@ -86,13 +86,17 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods); 
 
+		if(ctx.decl().size() > 0) {
+			semanticErrors.add("Error: no declaration is allowed");
+		}
 		for(int i = 0; i < ctx.decl().size(); i++) {			
 //			decl.add(declVisitor.visit(ctx.decl(i)));
-			semanticErrors.add("Error: no global variable are allowed");
 //			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
 		}
 
-
+		if(ctx.assi().size() > 0) {
+			semanticErrors.add("Error: no assignment is allowed");
+		}
 		for(int i = 0; i < ctx.assi().size(); i++) {
 //			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
