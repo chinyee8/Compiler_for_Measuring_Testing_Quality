@@ -6,5 +6,6 @@ test test_api01 []!
 	input1 <- 1.23
 	input2 <- 2.37
 	result <- MATH[input1, input2]	
-		
+	
+	
 !

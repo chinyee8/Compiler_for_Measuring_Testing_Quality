@@ -23,4 +23,8 @@ public class ValueNum extends Values{
 		// TODO Auto-generated method stub
 		return new ValueNum(num);
 	}
+
+	public int getNum() {
+		return num;
+	}
 }

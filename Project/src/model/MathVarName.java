@@ -1,7 +1,7 @@
 package model;
 
 public class MathVarName extends Mathematics{
-	String varName;
+	public String varName;
 	public Values val;
 	
 	public MathVarName(String varName, Values val) {

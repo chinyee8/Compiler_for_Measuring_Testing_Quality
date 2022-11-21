@@ -1,7 +1,7 @@
 package model;
 
 public class MathNumber extends Mathematics{
-	int num;
+	public int num;
 	
 	public MathNumber(int num) {
 		this.num = num;

@@ -87,18 +87,31 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods); 
 
 		for(int i = 0; i < ctx.decl().size(); i++) {			
-			decl.add(declVisitor.visit(ctx.decl(i)));
-			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+//			decl.add(declVisitor.visit(ctx.decl(i)));
+			semanticErrors.add("Error: no global variable are allowed");
+//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
 		}
 
 
 		for(int i = 0; i < ctx.assi().size(); i++) {
-			assi.add(assiVisitor.visit(ctx.assi(i)));
+//			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
-			this.global_mymethods.add(mmVisitor.visit(ctx.mymethod(i)));
-			mymethod.add(mmVisitor.visit(ctx.mymethod(i)));
+			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
+//			if(myMeth.methodType instanceof MyReturnMethod) {
+//				MyMethodBody myMethBody = ((MyReturnMethod)myMeth.methodType).method_body;
+//				for(Assignment a: myMethBody.assiList) {
+//					if(a.expr instanceof ValueMath) {
+//						String mathType = getMATHTYPE(((ValueMath)a.expr).math);
+//						if(mathType.equals("NOT SAME")) {
+//							semanticErrors.add("Error: " + ((ValueMath)a.expr).math.toString() + ", LHS and RHS must have same data type");
+//						}
+//					}
+//				}
+//			}
+			this.global_mymethods.add(myMeth);
+			mymethod.add(myMeth);
 
 		}
 
@@ -359,4 +372,57 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			return temp;
 		}
 	}
+	
+//	private String getMATHTYPE(Mathematics m) {
+//		String result = "";
+//		
+//		if(m instanceof Addition) {
+//			Addition a = (Addition) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//				result = "NOT SAME";
+//			}
+//		}else if(m instanceof Subtraction) {
+//			Subtraction a = (Subtraction) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//				result = "NOT SAME";
+//			}
+//		}else if(m instanceof Multiplication) {
+//			Multiplication a = (Multiplication) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//				result = "NOT SAME";
+//			}
+//		}else if(m instanceof Division) {
+//			Division a = (Division) m;
+//			String left = getMATHTYPE(a.math1);
+//			String right = getMATHTYPE(a.math2);
+//			if(left.equals(right)) {
+//				result = left;
+//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+//			}
+//		}else if(m instanceof MathParenthesis) {
+//			MathParenthesis a = (MathParenthesis) m;
+//			result = getMATHTYPE(a.math);
+//		}else if(m instanceof MathNumber) {
+//			result = "INT";
+//		}else if(m instanceof MathDouble) {
+//			result = "DOUBLE";
+//		}else if(m instanceof MathVarName) {
+//			MathVarName a = (MathVarName) m;
+//			result = a.val.getType();
+//		}
+//		
+//		return result;
+//	}
 }

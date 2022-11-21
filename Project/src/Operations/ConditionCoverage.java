@@ -26,7 +26,7 @@ public class ConditionCoverage{
 		componentMap = new HashMap<>();
 		htmlPrint = ""; // for pretty printing
 	}
-	
+	// should be called in game part (IfStatement.java?)
 	public void addComponent(String ifStat, String component) {
 
 		if (!componentMap.containsKey(ifStat)){ // if not exist, make new
