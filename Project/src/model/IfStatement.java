@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class IfStatement{
 	public Condition cond;
@@ -10,11 +11,10 @@ public class IfStatement{
 	public boolean ifCovered;
 	public boolean elseCovered;
 	
-	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody, HashMap<String, Values> variableMap) {
+	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody) {
 		this.cond = cond;
 		this.ifBody = ifBody;
 		this.elseBody = elseBody;
-		this.variableMap = variableMap;
 		ifCovered = false;
 		elseCovered = false;
 	}
@@ -31,51 +31,51 @@ public class IfStatement{
 		return result;
 	}
 	
-	public MyMethodBody getIfBody() {
-		if(evaluated(cond)) {
+	public MyMethodBody getIfBody(Map<String, Values> map) {
+		if(evaluated(cond, map)) {
 			return this.ifBody;
 		}else {
 			return this.elseBody;
 		}
 	}
 	
-	public MyMethodBody getElseBody() {
-		if(!evaluated(cond)) {
+	public MyMethodBody getElseBody(Map<String, Values> map) {
+		if(!evaluated(cond, map)) {
 			return this.ifBody;
 		}else {
 			return this.elseBody;
 		}
 	}
 	
-	public boolean evaluated(Condition c) {
+	public boolean evaluated(Condition c, Map<String, Values> map) {
 		boolean result = false;
 		
 		if(c instanceof Negation) {
 			Negation e = (Negation) c;
-			result = !(evaluated(e.cond));
+			result = !(evaluated(e.cond, map));
 			
 		}else if(c instanceof CondParenthesis) {
 			CondParenthesis e = (CondParenthesis) c;
-			result = evaluated(e.cond);
+			result = evaluated(e.cond, map);
 		}else if(c instanceof Conjunction) {
 			Conjunction e = (Conjunction) c;
-			boolean left = evaluated(e.cond1);
-			boolean right = evaluated(e.cond2);
+			boolean left = evaluated(e.cond1, map);
+			boolean right = evaluated(e.cond2, map);
 			result = left && right;
 		}else if(c instanceof Disjunction) {
 			Disjunction e = (Disjunction) c;
-			boolean left = evaluated(e.cond1);
-			boolean right = evaluated(e.cond2);
+			boolean left = evaluated(e.cond1, map);
+			boolean right = evaluated(e.cond2, map);
 			result = left || right;
 		}else if(c instanceof EqualTo) {
 			EqualTo e = (EqualTo) c;
-			boolean left = evaluated(e.cond1);
-			boolean right = evaluated(e.cond2);
+			boolean left = evaluated(e.cond1, map);
+			boolean right = evaluated(e.cond2, map);
 			result = left == right;
 		}else if(c instanceof NotEqualTo) {
 			NotEqualTo e = (NotEqualTo) c;
-			boolean left = evaluated(e.left);
-			boolean right = evaluated(e.right);
+			boolean left = evaluated(e.left, map);
+			boolean right = evaluated(e.right, map);
 			result = left != right;
 		}else if(c instanceof CondBool) {
 			CondBool e = (CondBool) c;
@@ -148,9 +148,11 @@ public class IfStatement{
 			}
 		}else if(c instanceof CondVarName) {
 			CondVarName e = (CondVarName) c;
-			Values val = variableMap.get(e.varName);
-			if(val.getType().equals("BOOLEAN")) {
-				result = ((ValueBool)val.getValues()).value;
+			if(map.containsKey(e.varName)) {
+				Values val = map.get(e.varName);
+				if(val.getType().equals("BOOLEAN")) {
+					result = ((ValueBool)val.getValues()).value;
+				}
 			}
 		}
 		
