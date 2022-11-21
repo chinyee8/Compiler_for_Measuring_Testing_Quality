@@ -51,7 +51,7 @@ public class MyMethodBody{
 			}
 		}
 		for(IfStatement i : ifStatList) {
-			MyMethodBody ifbody = i.getIfBody(vars);
+			MyMethodBody ifbody = i.getIfBody(vars).get(0);
 			vars.putAll(ifbody.getValues(vars));
 		}
 	}
