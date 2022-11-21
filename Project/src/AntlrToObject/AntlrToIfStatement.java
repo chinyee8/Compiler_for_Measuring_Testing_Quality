@@ -60,7 +60,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 
-		return new IfStatement(cond,ifBody,elseBody);
+		return new IfStatement(cond,ifBody,elseBody, semanticErrors);
 
 	}
 
