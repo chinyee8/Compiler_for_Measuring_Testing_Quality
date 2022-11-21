@@ -18,7 +18,7 @@ public class MyMethods{
 		this.methodName = methodName;
 		this.methodType = methodType;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "mymethod " + methodName + " " + methodType.toString(); 
