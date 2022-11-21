@@ -1,12 +1,10 @@
 package model;
 
 public class ValueMath extends Values {
-	Mathematics math;
-	String mathType;
+	public Mathematics math;
 	
-	public ValueMath(Mathematics math, String mathType) {
+	public ValueMath(Mathematics math) {
 		this.math = math;
-		this.mathType = mathType;
 	}
 	
 	@Override
@@ -22,14 +20,7 @@ public class ValueMath extends Values {
 	}
 	
 	public Values getValues() {
-		if(mathType.equals("DOUBLE")) {
-			double d = getDouble(this.math);
-			
-			return new ValueDouble(d);
-		}else if(mathType.equals("INT")) {
-			int d = getInt(math);
-			return new ValueNum(d);
-		}
+		
 		return null;
 	}
 	
