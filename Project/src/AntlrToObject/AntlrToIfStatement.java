@@ -26,6 +26,7 @@ import model.MathNumber;
 import model.MathParenthesis;
 import model.MathVarName;
 import model.Mathematics;
+import model.MethodCall;
 import model.More;
 import model.MoreOrEqual;
 import model.Multiplication;
@@ -42,6 +43,15 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public HashMap<String, Values> variableMap;
 	public List<MyMethods> global_mymethods;
 	public HashMap<String, Values> local_methodVar;
+	
+	//DefCoverage
+		public Map<String, Boolean> def;
+		public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
+		public Map<Integer, Map<String, Boolean>> linesDef;
+		public List<Integer> linesUse;
+		public MethodCall t_method_call;
+		public Map<String, Values> inputValues;
+		public List<String> lines;
 
 	public AntlrToIfStatement(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticErrors;
@@ -49,6 +59,22 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		this.global_mymethods = global_mymethods;
 		this.local_methodVar = local_methodVar;
 	}
+	
+	//defCoverage
+	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, HashMap<String, Values> local_methodVar, List<Integer> linesUse, List<String> lines) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
+		this.def = def;
+		this.def_use = def_use;
+		this.linesDef = linesDef;
+		this.local_methodVar = local_methodVar;
+		this.linesUse = linesUse;
+		this.lines = lines;
+	}
+
 
 	@Override
 	public IfStatement visitIfStatement(IfStatementContext ctx) {
@@ -88,6 +114,18 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 			MyMethodBody newElseBody = BodyController.control((MyMethodBodyContext) ctx.getChild(9));
 			return new IfStatement(cond, newElseBody, elseBody, semanticErrors);
 		}
+	}
+
+	public IfStatement defControl(IfStatementContext ctx) {
+		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
+		Condition cond = condVisitor.visit(ctx.cond());
+
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, this.local_methodVar, linesUse, lines);
+
+		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
+		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
+
+		return new IfStatement(cond,ifBody,elseBody, semanticErrors);
 	}
 	
 }
