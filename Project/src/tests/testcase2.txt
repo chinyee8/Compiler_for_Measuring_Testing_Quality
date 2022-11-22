@@ -1,0 +1,13 @@
+test test_api02 []!
+	input1 << DOUBLE
+	input2 << DOUBLE
+	bool1 << BOOL
+	result << DOUBLE
+	
+	input1 <- 1.23
+	input2 <- 2.37
+	bool1 <- FALSE
+	result <- MATH[bool1, input1, input2]	
+	
+	
+!
