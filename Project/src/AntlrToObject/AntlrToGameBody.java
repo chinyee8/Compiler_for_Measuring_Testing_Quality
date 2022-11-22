@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -15,7 +14,6 @@ import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.GameBodyContext;
 import antlr.exprParser.MyMethodsContext;
-import antlr.exprParser.MyVoidMethodContext;
 import model.*;
 
 public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
@@ -36,7 +34,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public HashMap<String, Expr> controlVariableMap; //var map of gamebody
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
-	public List<String> methodCallParamOrder; 
+	public List<String> methodCallParamOrder;
+
+	//Def Coverage
+	public Map<String, Boolean> def;
+	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use; 
+	public Map<Integer, Map<String, Boolean>> linesDef;
+	public List<Integer> linesUse;
+	public List<String> lines;
+
 	public AntlrToGameBody() {
 
 	}
@@ -71,11 +77,26 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.decl = new ArrayList<>();
 		this.assi = new ArrayList<>();
 		this.mymethod = new ArrayList<>();
-		
+
 		this.semanticErrors = semanticError;
 		this.controlVariableMap = new HashMap<>();
 
 	}
+
+	//defCoverage
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>> def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse,  List<String> lines) {
+		this.semanticErrors = semanticError;
+		this.variableMap = new HashMap<>();
+		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
+		this.def = def;
+		this.def_use = def_use;
+		this.linesDef = linesDef;
+		this.global_mymethods = new ArrayList<>();
+		this.linesUse = linesUse;
+		this.lines = lines;
+	}
+
 	@Override
 	public GameBody visitGameBody(GameBodyContext ctx) {
 		List<Declaration> decl = new ArrayList<>();
@@ -90,30 +111,30 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			semanticErrors.add("Error: no declaration is allowed");
 		}
 		for(int i = 0; i < ctx.decl().size(); i++) {			
-//			decl.add(declVisitor.visit(ctx.decl(i)));
-//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+			//			decl.add(declVisitor.visit(ctx.decl(i)));
+			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
 		}
 
 		if(ctx.assi().size() > 0) {
 			semanticErrors.add("Error: no assignment is allowed");
 		}
 		for(int i = 0; i < ctx.assi().size(); i++) {
-//			assi.add(assiVisitor.visit(ctx.assi(i)));
+			//			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
-//			if(myMeth.methodType instanceof MyReturnMethod) {
-//				MyMethodBody myMethBody = ((MyReturnMethod)myMeth.methodType).method_body;
-//				for(Assignment a: myMethBody.assiList) {
-//					if(a.expr instanceof ValueMath) {
-//						String mathType = getMATHTYPE(((ValueMath)a.expr).math);
-//						if(mathType.equals("NOT SAME")) {
-//							semanticErrors.add("Error: " + ((ValueMath)a.expr).math.toString() + ", LHS and RHS must have same data type");
-//						}
-//					}
-//				}
-//			}
+			//			if(myMeth.methodType instanceof MyReturnMethod) {
+			//				MyMethodBody myMethBody = ((MyReturnMethod)myMeth.methodType).method_body;
+			//				for(Assignment a: myMethBody.assiList) {
+			//					if(a.expr instanceof ValueMath) {
+			//						String mathType = getMATHTYPE(((ValueMath)a.expr).math);
+			//						if(mathType.equals("NOT SAME")) {
+			//							semanticErrors.add("Error: " + ((ValueMath)a.expr).math.toString() + ", LHS and RHS must have same data type");
+			//						}
+			//					}
+			//				}
+			//			}
 			this.global_mymethods.add(myMeth);
 			mymethod.add(myMeth);
 
@@ -144,7 +165,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
 			}
 		}
-		
+
 		boolean containsMethod = false;
 		if(this.t_method_call != null) {
 			for(MyMethods m: this.mymethod) {
@@ -171,27 +192,115 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 				}
 			}
 		}
-				
-		
+
+
 		return new GameBody(decl, assi, mymethod);
 	}
-	
-	
+
+	//control flow underneath
+	public GameBody control(GameBodyContext ctx) {
+		//		this.rangeOfLines = new int[2];
+		//		Token start = ctx.getStart();
+		//		Token end = ctx.getStop();
+		//		this.rangeOfLines[0]=start.getLine()-1;
+		//		this.rangeOfLines[1]=end.getLine()-1;
+
+		for(int i = 0; i < ctx.decl().size(); i++) {			
+			AntlrToDeclaration declController = new AntlrToDeclaration();
+			this.dControllers.add(declController);
+			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
+			this.variableMap.put(this.decl.get(i).varName, this.decl.get(i).defaultValue); //store default values for each decl into a map
+
+
+		}
+
+
+		for(int i = 0; i < ctx.assi().size(); i++) {
+			AntlrToAssignment assiController = new AntlrToAssignment();
+			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
+			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
+		}
+
+
+		//start here
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call, this.inputValues, this.methodCallParamOrder); 
+			MyMethods m = mmController.control((MyMethodsContext)ctx.mymethod(i));
+			mymethod.add(m);
+		}
+
+
+		return new GameBody(this.decl, this.assi, this.mymethod);
+	}
+
+	public ArrayList<String> getTextOfNode(ParseTree t, ArrayList<String> result) {
+		if(t instanceof TerminalNode) {
+			ArrayList<String> temp = new ArrayList<>();
+			temp.add(t.getText());
+			return temp;
+		}
+
+		else {
+			ArrayList<String> temp = new ArrayList<>();
+			for(int i = 0; i < t.getChildCount(); i++) {
+				ArrayList<String> temp2 = getTextOfNode(t.getChild(i), result);
+				for(String j: temp2) {
+					temp.add(j);
+				}
+			}
+			return temp;
+		}
+	}
+
+	public GameBody defControl(GameBodyContext ctx) {
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		List<MyMethods> mymethod = new ArrayList<>();
+
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines);
+
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
+			this.global_mymethods.add(myMeth);
+			mymethod.add(myMeth);
+		}
+
+		int i = 0;
+		for(MyMethods m : this.global_mymethods) {
+			MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
+			
+			def_use.put(linesDef, linesUse);
+			def = new HashMap<>();
+			linesDef = new HashMap<>();
+			linesUse = new ArrayList<>();
+			i++;
+		}
+
+		this.decl = decl;
+		this.assi = assi;
+		this.mymethod = mymethod;
+
+		return new GameBody(decl, assi, mymethod);
+	}
 
 	private boolean checkIfSameParameters(List<String> testMCParameter, Map<String, String> methodParameter) {
 		boolean contains = true;
 		int i = 0;
 		for(Map.Entry<String, Values> in : this.inputValues.entrySet()) {
-			if(!in.getValue().getType().equals(methodParameter.get(i))) {
-				contains = false;
-				semanticErrors.add("Error: dataType of " + testMCParameter.get(i) + "from test_methodcall is not the same as mymethod");
+			for(Map.Entry<String, String> mn : methodParameter.entrySet()) {
+
+
+				if(!in.getValue().getType().equals(mn.getValue())) {
+					contains = false;
+					semanticErrors.add("Error: dataType of " + testMCParameter.get(i) + "from test_methodcall is not the same as mymethod");
+				}
 			}
-				
 			i++;
 		}
-		
+
 		return contains;
 	}
+
 	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
 		for(MyMethods i: mymethod) {
 			if(i.methodName.equals(r.methodName)) {
@@ -306,7 +415,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 							i++;
 						}
 					}
-					
+
 					if(noerror) {
 						return ((MyReturnMethod)m.methodType).getValue(lists);
 					}
@@ -320,113 +429,4 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	}
 
 
-
-
-	//control flow underneath
-	public GameBody control(GameBodyContext ctx) {
-		//		this.rangeOfLines = new int[2];
-		//		Token start = ctx.getStart();
-		//		Token end = ctx.getStop();
-		//		this.rangeOfLines[0]=start.getLine()-1;
-		//		this.rangeOfLines[1]=end.getLine()-1;
-
-		for(int i = 0; i < ctx.decl().size(); i++) {			
-			AntlrToDeclaration declController = new AntlrToDeclaration();
-			this.dControllers.add(declController);
-			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
-			this.variableMap.put(this.decl.get(i).varName, this.decl.get(i).defaultValue); //store default values for each decl into a map
-
-
-		}
-
-
-		for(int i = 0; i < ctx.assi().size(); i++) {
-			AntlrToAssignment assiController = new AntlrToAssignment();
-			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
-			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
-		}
-
-		
-		//start here
-		for(int i = 0; i < ctx.mymethod().size(); i++) {
-			AntlrToMyMethods mmController = new AntlrToMyMethods(semanticErrors, variableMap, mymethod, this.t_method_call, this.inputValues, this.methodCallParamOrder); 
-			MyMethods m = mmController.control((MyMethodsContext)ctx.mymethod(i));
-			mymethod.add(m);
-		}
-
-
-		return new GameBody(this.decl, this.assi, this.mymethod);
-	}
-
-	public ArrayList<String> getTextOfNode(ParseTree t, ArrayList<String> result) {
-		if(t instanceof TerminalNode) {
-			ArrayList<String> temp = new ArrayList<>();
-			temp.add(t.getText());
-			return temp;
-		}
-
-		else {
-			ArrayList<String> temp = new ArrayList<>();
-			for(int i = 0; i < t.getChildCount(); i++) {
-				ArrayList<String> temp2 = getTextOfNode(t.getChild(i), result);
-				for(String j: temp2) {
-					temp.add(j);
-				}
-			}
-			return temp;
-		}
-	}
-	
-//	private String getMATHTYPE(Mathematics m) {
-//		String result = "";
-//		
-//		if(m instanceof Addition) {
-//			Addition a = (Addition) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//				result = "NOT SAME";
-//			}
-//		}else if(m instanceof Subtraction) {
-//			Subtraction a = (Subtraction) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//				result = "NOT SAME";
-//			}
-//		}else if(m instanceof Multiplication) {
-//			Multiplication a = (Multiplication) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//				result = "NOT SAME";
-//			}
-//		}else if(m instanceof Division) {
-//			Division a = (Division) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//			}
-//		}else if(m instanceof MathParenthesis) {
-//			MathParenthesis a = (MathParenthesis) m;
-//			result = getMATHTYPE(a.math);
-//		}else if(m instanceof MathNumber) {
-//			result = "INT";
-//		}else if(m instanceof MathDouble) {
-//			result = "DOUBLE";
-//		}else if(m instanceof MathVarName) {
-//			MathVarName a = (MathVarName) m;
-//			result = a.val.getType();
-//		}
-//		
-//		return result;
-//	}
 }
