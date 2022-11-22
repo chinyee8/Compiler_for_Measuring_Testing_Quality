@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Params extends Parameter{
 	String dataType;
-	String varName;
+	public String varName;
 	
 	public Params(String dataType, String varName) {
 		this.dataType = dataType;

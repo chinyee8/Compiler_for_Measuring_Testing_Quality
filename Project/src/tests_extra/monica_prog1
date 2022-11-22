@@ -1,13 +1,5 @@
 game Pika [] !
-	
-	num << INT
-	b << BOOLEAN
-	s << STRING
-	
-	num <- 9
-	b <- false
-	s <- "s"
-	
+
 	mymethod METHOD_ONE INT [INT num, BOOLEAN b, STRING s] !
 		var1 << INT
 		var1<- 5
@@ -15,7 +7,7 @@ game Pika [] !
 			var1 <- num
 		!
 		elseJackie !
-			
+			var1 <- num + 5
 		!
 		
 		jackieReturns var1
@@ -23,3 +15,4 @@ game Pika [] !
 	
 	
 !
+	

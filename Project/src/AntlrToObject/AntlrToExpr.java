@@ -1,5 +1,6 @@
 package AntlrToObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.RMethodCallContext;
+import antlr.exprParser.ReturnMethodCallContext;
 import antlr.exprParser.ValuesContext;
 import model.Expr;
 import model.MethodCall;
@@ -24,8 +26,10 @@ public class AntlrToExpr extends exprBaseVisitor<Expr> {
 	}
 	
 	
-	public AntlrToExpr() {
+	public AntlrToExpr(HashMap<String, Values> m) {
 		// TODO Auto-generated constructor stub
+		this.variableMap = m;
+		this.semanticErrors = new ArrayList<>();
 	}
 
 
@@ -47,16 +51,9 @@ public class AntlrToExpr extends exprBaseVisitor<Expr> {
 
 
 	public Expr controlR(RMethodCallContext ctx) {
-		AntlrToMethodCall mVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
-		MethodCall ReturnMethodCall = mVisitor.visit(ctx.getChild(0)); 
+		AntlrToMethodCall mController = new AntlrToMethodCall(semanticErrors, this.variableMap);
+		MethodCall ReturnMethodCall = mController.controlR((ReturnMethodCallContext)ctx.getChild(0)); 
 		return ReturnMethodCall;
 	}
 	
-	public Expr controlV(ValuesContext ctx) {
-		AntlrToValue vVisitor = new AntlrToValue(semanticErrors, this.variableMap);
-		Values value = vVisitor.visit(ctx.getChild(0));
-		
-				
-		return value;
-	}
 }

@@ -64,11 +64,12 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 			}else if(assi.get(i).expr instanceof ReturnMethodCall) {
 				this.allMethodCalls.put((ReturnMethodCall)assi.get(i).expr, new HashMap<String, Values>());
+				
 			}
 		}
 		
 		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
-
+		
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
 		}
@@ -77,7 +78,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		this.assi = assi;
 		this.t_method_call = t_method_call;
 		
-		for(Assignment i: assi) {
+		for(Assignment i: assi) { //after assignment objects are created, loop through to find semantic errors
 			if(variableMap.containsKey(i.varName)) {
 				//At Values to variableMap for both r_method_call and value
 				if(checkIfAssignmentTypeMatchesRHS(i, i.expr, decl)) {
@@ -85,7 +86,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 						variableMap.put(i.varName, ((Values)i.expr).getValues());
 					}else if(i.expr instanceof ReturnMethodCall) {
 						ReturnMethodCall rmc = ((ReturnMethodCall) i.expr);
-						List<String> paramaters = rmc.call_parameter.getCallParams();
+						List<String> paramaters = rmc.call_parameter.getCallParams(); //this returns an empty list?
 						this.methodMappedToOrderParameter.put(rmc, paramaters);
 						Map<String, Values> callInputs = new HashMap<>();
 						for(String p : paramaters) {
@@ -121,7 +122,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			}
 			this.allMethodCalls.put(t, callInputs);
 		}
-		TestCase temp =new TestCase(testName, decl, assi, t_method_call);
+		TestCase temp =new TestCase(testName, decl, assi, t_method_call, this.methodMappedToOrderParameter);
 		temp.addAll(this.allMethodCalls);
 		
 		return temp;

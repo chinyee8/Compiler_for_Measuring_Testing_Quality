@@ -41,4 +41,23 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
 		return new ReturnMethodCall(methodName, callParam);
 	}
+	
+	public MethodCall controlV(VoidMethodCallContext ctx) { 
+		
+		String voidCall = ctx.VOIDCALL().getText();
+		String methodName = ctx.getChild(1).getText();
+		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
+		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
+		return new VoidMethodCall(voidCall, methodName, callParam);
+		
+	}
+	
+	public MethodCall controlR(ReturnMethodCallContext ctx) {
+		String methodName = ctx.getChild(0).getText();
+		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
+		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
+		return new ReturnMethodCall(methodName, callParam);
+	}
+	
+	
 }

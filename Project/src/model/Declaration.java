@@ -32,5 +32,5 @@ public class Declaration {
 	public String toString() {
 		return varName + " << " + dataType;
 	}
-	
+
 }

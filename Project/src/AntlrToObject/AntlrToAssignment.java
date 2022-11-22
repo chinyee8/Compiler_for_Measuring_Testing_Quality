@@ -59,14 +59,14 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 	public Assignment control(AssignmentContext ctx) {
 		
 		String varName = ctx.VAR_NAME().getText();
-		AntlrToExpr eVisitor = new AntlrToExpr();
+		AntlrToExpr eController = new AntlrToExpr(this.variableMap);
 		Expr expr = null;
 		if(ctx.getChild(2) instanceof RMethodCallContext) {
-			expr = eVisitor.controlR((RMethodCallContext)ctx.getChild(2));
+			expr = eController.controlR((RMethodCallContext)ctx.getChild(2));
 
 		}
 		else if (ctx.getChild(2) instanceof ValuesContext) {
-			expr = eVisitor.controlV((ValuesContext)ctx.getChild(2));
+			expr = eController.visit((ValuesContext)ctx.getChild(2));
 
 		}
 			

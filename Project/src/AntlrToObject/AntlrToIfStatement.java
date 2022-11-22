@@ -6,6 +6,7 @@ import java.util.Map;
 
 import antlr.exprBaseVisitor;
 import antlr.exprParser.IfStatementContext;
+import antlr.exprParser.MyMethodBodyContext;
 import model.Addition;
 import model.CondBool;
 import model.CondEqual;
@@ -64,5 +65,29 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 
 	}
 
+	
+	public IfStatement control(IfStatementContext ctx) {
+		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
+		Condition cond = condVisitor.visit(ctx.cond());
+
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors,this.variableMap, this.global_mymethods, this.local_methodVar);
+
+		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
+		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
+
+		
+		IfStatement temp = new IfStatement(cond,ifBody,elseBody, semanticErrors);
+		boolean ifEvaluator = temp.evaluated(cond, variableMap);
+		if(ifEvaluator) {
+			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
+			MyMethodBody newIfBody = BodyController.control((MyMethodBodyContext) ctx.getChild(5));
+			return new IfStatement(cond, newIfBody, elseBody, semanticErrors);
+		}
+		else {
+			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
+			MyMethodBody newElseBody = BodyController.control((MyMethodBodyContext) ctx.getChild(9));
+			return new IfStatement(cond, newElseBody, elseBody, semanticErrors);
+		}
+	}
 	
 }

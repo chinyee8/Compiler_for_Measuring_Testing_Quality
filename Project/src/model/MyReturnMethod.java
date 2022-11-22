@@ -7,6 +7,7 @@ public class MyReturnMethod extends MethodType {
 	public Parameter parameter;
 	public MyMethodBody method_body;
 	public String varName;
+	public Values returnValue;
 	
 	public MyReturnMethod(String dataType,
 			Parameter parameter,
@@ -17,7 +18,16 @@ public class MyReturnMethod extends MethodType {
 		this.method_body = method_body;
 		this.varName = varName;
 	}
-	
+	public MyReturnMethod(String dataType,
+			Parameter parameter,
+			MyMethodBody method_body,
+			String varName, Values returnValue) {
+		this.dataType = dataType;
+		this.parameter = parameter;
+		this.method_body = method_body;
+		this.varName = varName;
+		this.returnValue = returnValue;
+	}
 	@Override
 	public String toString() {
 		String result = "";

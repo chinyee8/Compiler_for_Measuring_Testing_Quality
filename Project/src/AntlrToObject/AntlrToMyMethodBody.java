@@ -8,6 +8,10 @@ import java.util.Map;
 import org.antlr.v4.runtime.Token;
 
 import antlr.exprBaseVisitor;
+import antlr.exprParser.AssignmentContext;
+import antlr.exprParser.DeclarationContext;
+import antlr.exprParser.IfStatementContext;
+import antlr.exprParser.Method_bodyContext;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.ReturnMethodCallContext;
 import antlr.exprParser.VoidMethodCallContext;
@@ -63,7 +67,8 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	public List<MethodCall> methodcall;
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
-
+	public Values returnValue;
+	
 	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap,
 			List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticErrors;
@@ -81,9 +86,11 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.local_methodvar = local_methodVar;
 	}
 
-	public AntlrToMyMethodBody(MethodCall t_method_call, Map<String, Values> inputValues) {
-		this.t_method_call = t_method_call;
-		this.inputValues = inputValues;
+	public AntlrToMyMethodBody(HashMap<String, Values> variableMap, Values returnValue, List<MyMethods>global_mymethods) {
+		this.variableMap = variableMap;
+		this.returnValue = returnValue;
+		this.global_mymethods = global_mymethods;
+		this.local_methodvar = new HashMap<>();
 }
 
 	@Override
@@ -197,6 +204,55 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 
 		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
 
+	}
+
+	public MyMethodBody control(MyMethodBodyContext ctx) {
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		List<IfStatement> ifstatement = new ArrayList<>();
+		List<MethodCall> methodcall = new ArrayList<>();
+
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
+		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
+
+		this.local_methodvar.putAll(variableMap);
+
+		for (int i = 0; i < ctx.decl().size(); i++) {
+			decl.add(declVisitor.control((DeclarationContext)ctx.decl(i)));
+			decl.get(i).covered = true;
+			this.variableMap.put(decl.get(i).varName, decl.get(i).defaultValue);
+		}
+
+		for (int i = 0; i < ctx.assi().size(); i++) {
+			assi.add(assiVisitor.control((AssignmentContext)ctx.assi(i)));
+			assi.get(i).covered = true;
+			this.variableMap.put(assi.get(i).varName, (Values)assi.get(i).expr);//MONICA_fix later - temporarily add cast for expr, returnmethodcall not accountedfor
+		}
+
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.global_mymethods,
+				local_methodvar);
+		for (int i = 0; i < ctx.if_statement().size(); i++) {
+			ifstatement.add(ifVisitor.control((IfStatementContext) ctx.if_statement(i))); //monica stop1
+		}
+		for(int i = 0; i < ctx.assi().size(); i++) { //add return methodcalls from assign into list of methodcall
+			if(ctx.assi(i).getChild(2) != null && ctx.assi(i).getChild(2) instanceof ReturnMethodCallContext) {
+				methodcall.add(methodcallVisitor.visit(ctx.assi(i).getChild(2)));
+			}
+		}
+		
+		for (int i = 0; i < ctx.getChildCount(); i++) {
+			if (ctx.getChild(i) instanceof VoidMethodCallContext
+					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
+				methodcall.add(methodcallVisitor.visit(ctx.getChild(i))); //add void methodcalls into list of methodcall
+			}
+		}
+
+		this.decl = decl;
+		this.assi = assi;
+		this.ifstatement = ifstatement;
+		this.methodcall = methodcall;
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
 	}
 
 //	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {

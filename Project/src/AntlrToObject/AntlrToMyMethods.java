@@ -120,7 +120,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			checkParameterForErrors(((MyReturnMethod)methodType).method_body, parameter);
 			checkVoidCall(((MyReturnMethod)methodType).method_body);
 			checkReturnVar(((MyReturnMethod)methodType));
-			System.out.println(local_variableMap);
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}
 		MethodType methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
@@ -518,7 +517,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public MyMethods control(MyMethodsContext ctx) {
 		String methodName = ctx.METHODNAME().getText();
 		if(methodName.equals(this.t_method_call.getName())) {
-			AntlrToMethodType mtVisitor = new AntlrToMethodType(this.t_method_call, this.inputValues, this.methodCallParamOrder);
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(this.t_method_call, this.inputValues, this.methodCallParamOrder, this.mymethod, this.variableMap);
 
 			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.controlR((MyReturnMethodContext) ctx.getChild(2));
