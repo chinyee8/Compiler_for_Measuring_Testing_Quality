@@ -2,8 +2,12 @@ package app;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -12,6 +16,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import AntlrToObject.AntlrToProgram;
+import Operations.AllDefCoverage;
 import Operations.ErrorListener;
 import Operations.Evaluator;
 import Operations.PrettyPrinter;
@@ -48,18 +53,53 @@ public class ExpressionApp {
 				Program testProg = testVisitor.visit(testAST);
 
 				if (progVisitor.semanticErrors.isEmpty() && testVisitor.semanticErrors.isEmpty()) {
-					
+
 					if(prog.gameclass != null && testProg.testcase != null) {
 						ArrayList<Program> programList = new ArrayList<>();
-						
+
+						//devCoverage
+						Map<Integer, List<Integer>> defLines = new HashMap<>();
+						Map<Integer, List<Integer>> useLines = new HashMap<>();
+						Map<Integer, List<String>> lines = new HashMap<>();
+
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
-							
+
 							AntlrToProgram progControllor = new AntlrToProgram(t.getKey(), t.getValue(), testProg.testcase.methodCallParamOrder.get(t.getKey())); //pass in methodcall, input parameters, and order of input parameters
-							Program prog2 = progControllor.control((ProgramContext)progAST);
-							programList.add(prog2);
+							//							Program prog2 = progControllor.control((ProgramContext)progAST);
+							//							programList.add(prog2);
+
 						}
+
+						//DefCoverage
+						int i = 0;
+						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
+
+							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), t.getValue());
+							Program defProg = devCoverage.defControl((ProgramContext)progAST);
+							
+							List<Integer> key = new ArrayList<>();
+							List<Integer> value = new ArrayList<>();
+							for(Map.Entry<Map<Integer, Map<String, Boolean>>, List<Integer>> m : devCoverage.def_use.entrySet()) {
+								for(Map.Entry<Integer, Map<String, Boolean>> def : m.getKey().entrySet()) {
+									key.add(def.getKey());
+								}			
+								for(Integer v: m.getValue()) {
+									value.add(v);
+								}
+							}
+								defLines.put(i, key);
+								useLines.put(i, value);
+								lines.put(i, devCoverage.lines);
+							
+							i++;
+						}
+
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
-						PrettyPrinter printer = new PrettyPrinter(ep);
+						
+						AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines);
+						
+						PrettyPrinter printer = new PrettyPrinter(ep, lines, i);
+						printer.addAllDefCoverage(alldef);
 						printer.prettyPrint();
 					}else {
 						System.err.println("Error: please input game file first, before test file!");
