@@ -2,6 +2,7 @@ package AntlrToObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,13 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public List<String> methodCallParamOrder;
+	
+	//defCoverage
+	public Map<String, Boolean> def;
+	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
+	public Map<Integer, Map<String, Boolean>> linesDef;
+	public List<Integer> linesUse;
+	public List<String> lines;
 
 	public AntlrToProgram() {
 	}
@@ -40,7 +48,12 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		this.methodCallParamOrder =  methodCallParamOrder;
 	}
 
-	
+	//defCoverage
+	public AntlrToProgram(MethodCall t, Map<String, Values> inputValues) {
+		this.t_method_call = t;
+		this.inputValues = inputValues;
+	}
+
 	@Override
 	public Program visitProgram(ProgramContext ctx) {
 		Program prog = new Program();
@@ -101,6 +114,26 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 //			}
 //		}
 
+		return prog;
+	}
+
+	//Cy's defCoverage
+	public Program defControl(ProgramContext ctx) {
+		Program prog = new Program();
+		
+		if(ctx.getChild(0) instanceof GameClassContext) {
+			semanticErrors = new ArrayList<>();
+			def = new HashMap<>();
+			def_use = new LinkedHashMap<>();
+			this.variableMap = new HashMap<>();
+			linesDef = new HashMap<>();
+			linesUse = new ArrayList<>();
+			lines = new ArrayList<>();
+
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, def, def_use, linesDef, linesUse, lines);
+			prog.addGameClass(cController.defControl((GameClassContext)ctx.getChild(0)));
+
+		}
 		return prog;
 	}
 
