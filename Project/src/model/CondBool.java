@@ -1,7 +1,7 @@
 package model;
 
 public class CondBool extends Condition{
-	boolean bool;
+	public boolean bool;
 	
 	public CondBool(boolean bool) {
 		this.bool = bool;
