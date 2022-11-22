@@ -31,7 +31,7 @@ public class AllDefCoverage {
 		int i = 0;
 		for(String s : lines.get(testnum)) {
 			if(defLines.get(testnum).contains(i)) {
-				modifiedLines.add("<mark style=\"background-color: green;\">"+s+"</mark><br>");
+				modifiedLines.add("<mark style=\"background-color: #C2DFFF;\">"+s+"</mark><br>");
 			}else if(useLines.get(testnum).contains(i)) {
 				modifiedLines.add("<mark style=\"background-color: yellow;\">"+s+"</mark><br>");
 			}else {
