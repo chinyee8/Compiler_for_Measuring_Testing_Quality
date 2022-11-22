@@ -641,8 +641,16 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
-						if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-							semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)this.t_method_call).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + methodName);
+						int j = 0;
+						for(Map.Entry<String, Values> input: inputValues.entrySet()) {
+							if(i == j) {
+								if(map.getValue().equals(input.getValue().getType())) {
+									this.local_variableMap.put(map.getKey(), input.getValue());
+								}else {
+									semanticErrors.add("Error: " + map.getValue() + " from mymethod does not have the same datatype");
+								}
+							}
+							j++;
 						}
 						i++;
 					}
