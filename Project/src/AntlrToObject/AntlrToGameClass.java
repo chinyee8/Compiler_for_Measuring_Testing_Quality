@@ -27,6 +27,13 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public List<String> methodCallParamOrder;
+
+	//CY's def_coverage
+	public Map<String, Boolean> def; 
+	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
+	public Map<Integer, Map<String, Boolean>> linesDef;
+	public List<Integer> linesUse;
+	public List<String> lines;
 	
 	public AntlrToGameClass() {
 		
@@ -44,6 +51,18 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		this.semanticErrors = semanticError;
 		this.inputValues = inputValues;
 		this.methodCallParamOrder = methodCallParamOrder;
+	}
+	
+	//CY's def_coverage
+	public AntlrToGameClass(List<String> semanticErrors,MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines) {
+		this.semanticErrors = semanticErrors;
+		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
+		this.def = def;
+		this.def_use = def_use;
+		this.linesDef = linesDef;
+		this.linesUse = linesUse;
+		this.lines = lines;
 	}
 	@Override
 	public GameClass visitGameClass(GameClassContext ctx) {
@@ -75,6 +94,16 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		this.gbController = gbController;
 		//after all the other lines added to order, add last line to close class body
 //		this.orderOfFlow.add(end.getLine()-1);
+		return new GameClass(className, gamebody);
+	}
+	
+	//defCoverage
+	public GameClass defControl(GameClassContext ctx) {
+		String className = ctx.CLASS_NAME().getText();
+		lines.add("game " + className + " [] !");
+		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines);
+		GameBody gamebody = gbVisitor.defControl((GameBodyContext) ctx.body());
+		lines.add("!");
 		return new GameClass(className, gamebody);
 	}
 
