@@ -10,16 +10,6 @@ import antlr.exprBaseVisitor;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.MyReturnMethodContext;
 import antlr.exprParser.MyVoidMethodContext;
-import model.Call_Parameter;
-import model.MethodCall;
-import model.MethodType;
-import model.MyMethodBody;
-import model.MyMethods;
-import model.MyReturnMethod;
-import model.MyVoidMethod;
-import model.Parameter;
-import model.SingleParam;
-import model.TestMethodCall;
 import model.*;
 
 public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
@@ -32,6 +22,13 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 	public List<String> methodCallParamOrder; //transform
 	public Values returnValue;
 	
+	//defCoverage
+	public Map<String, Boolean> def;
+	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
+	public Map<Integer, Map<String, Boolean>> linesDef;
+	public List<Integer> linesUse;
+	public List<String> lines;
+
 	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
@@ -46,6 +43,20 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		this.global_mymethods = global_mymethods;
 		this.variableMap = varMap;
 	}
+	
+	//defCoverage
+		public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines) {
+			this.semanticErrors = semanticError;
+			this.variableMap = variableMap;
+			this.global_mymethods = global_mymethods;
+			this.t_method_call = t_method_call;
+			this.inputValues = inputValues;
+			this.def = def;
+			this.def_use = def_use;
+			this.linesDef = linesDef;
+			this.linesUse = linesUse;
+			this.lines = lines;
+		}
 
 	@Override
 	public MethodType visitMyReturnMethod(MyReturnMethodContext ctx) {
@@ -123,6 +134,30 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		
 		return null;
 	}
+
+	public MyReturnMethod defControlR(MyReturnMethodContext ctx) {
+		String dataType = ctx.DATA_TYPE().getText();
+		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
+		Parameter parameter = pVisitor.visit(ctx.parameter());
+		
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines);
+		MyMethodBody method_body = method_bodyVisitor.defControl((MyMethodBodyContext)ctx.method_body());
+		
+		String varName = ctx.VAR_NAME().getText();
+		
+		return new MyReturnMethod(dataType, parameter, method_body, varName);
+	}
+
+	public MyVoidMethod defControlV(MyVoidMethodContext ctx) {
+		String void_type = ctx.VOID_TYPE().getText();
+		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
+		Parameter parameter = pVisitor.visit(ctx.parameter());
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines);
+		MyMethodBody method_body = method_bodyVisitor.defControl((MyMethodBodyContext)ctx.method_body());
+		return new MyVoidMethod(void_type, parameter, method_body);
+	}
+
+	
 	
 	
 
