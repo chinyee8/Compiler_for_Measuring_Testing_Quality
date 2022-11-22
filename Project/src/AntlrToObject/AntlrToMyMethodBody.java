@@ -11,6 +11,7 @@ import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.DeclarationContext;
 import antlr.exprParser.IfStatementContext;
+import antlr.exprParser.If_statementContext;
 import antlr.exprParser.Method_bodyContext;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.ReturnMethodCallContext;
@@ -68,7 +69,14 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public Values returnValue;
-	
+
+	//DefCoverage
+	public Map<String, Boolean> def;
+	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
+	public Map<Integer, Map<String, Boolean>> linesDef;
+	public List<Integer> linesUse;
+	public List<String> lines;
+
 	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap,
 			List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticErrors;
@@ -91,7 +99,37 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.returnValue = returnValue;
 		this.global_mymethods = global_mymethods;
 		this.local_methodvar = new HashMap<>();
-}
+	}
+
+	//defCoverage
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
+		this.def = def;
+		this.def_use = def_use;
+		this.linesDef = linesDef;
+		this.local_methodvar = new HashMap<>();
+		this.linesUse = linesUse;
+		this.lines = lines;
+	}
+
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues,Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, HashMap<String, Values> local_methodVar, List<Integer> linesUse, List<String> lines) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
+		this.def = def;
+		this.def_use = def_use;
+		this.linesDef = linesDef;
+		this.local_methodvar = local_methodVar;
+		this.linesUse = linesUse;
+		this.lines = lines;
+	}
+
 
 	@Override
 	public MyMethodBody visitMyMethodBody(MyMethodBodyContext ctx) {
@@ -133,74 +171,74 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.methodcall = methodcall;
 
 
-//		for(Assignment i: assi) {
-//			if(local_methodvar.containsKey(i.varName)) {
-//				//At Values to variableMap for both r_method_call and value
-//				if(checkIfAssignmentTypeMatchesRHS(i, i.expr, this.local_methodvar)) {
-//					if(i.expr instanceof Values) {
-//						if(((Values)i.expr) instanceof ValueMath) {
-//							
-//							
-//						}else{
-//							local_methodvar.put(i.varName, ((Values)i.expr).getValues());
-//						}
-//					}else if(i.expr instanceof ReturnMethodCall) {
-//						//						local_methodvar.put(i.varName, ((ReturnMethodCall)i.expr));
-//
-//					}
-//				}
-//				else {
-//					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
-//				}
-//			}
-//			else {
-//				//report semantic error uninitialized var
-//				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
-//			}
-//		}
-//
-//		for(IfStatement i : ifstatement) {
-//			if(getCondType(i.cond).equals("NO")) {
-//				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
-//					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
-//				}
-//			}
-//			for(Declaration d: i.getIfBody().declList) {
-//				if(local_methodvar.containsKey(d.varName)) {
-//					if(!semanticErrors.contains("Error: " + d.varName + " has been declared")){
-//						semanticErrors.add("Error: " + d.varName + " has been declared");
-//					}
-//				}
-//			}
-//		}
-//		
-//		if(this.global_mymethods != null) {
-//			List<String> global_methodname = new ArrayList<>();
-//			for(MyMethods m : global_mymethods) {
-//				if(m.methodType instanceof MyVoidMethod) {
-//					global_methodname.add(m.methodName);
-//				}
-//			}
-//			
-//			for(MethodCall v : methodcall) {
-//				if(v instanceof VoidMethodCall) {
-//					if(!global_methodname.contains(((VoidMethodCall)v).methodname)) {
-//						if(!semanticErrors.contains("Error: " + ((VoidMethodCall)v).methodname + " does not exist")){
-//							semanticErrors.add("Error: " + ((VoidMethodCall)v).methodname + " does not exist");
-//						}
-//					}
-//				}else if(v instanceof ReturnMethodCall) {
-//					if(global_methodname.contains(((ReturnMethodCall)v).methodName)) {
-//						if(!semanticErrors.contains("Error: " + ((ReturnMethodCall)v).methodName + " is not a void method call")){
-//							semanticErrors.add("Error: " + ((ReturnMethodCall)v).methodName + " is not a void method call");
-//						}
-//					}
-//				}
-//				
-//			}
-//		}
+		//		for(Assignment i: assi) {
+		//			if(local_methodvar.containsKey(i.varName)) {
+		//				//At Values to variableMap for both r_method_call and value
+		//				if(checkIfAssignmentTypeMatchesRHS(i, i.expr, this.local_methodvar)) {
+		//					if(i.expr instanceof Values) {
+		//						if(((Values)i.expr) instanceof ValueMath) {
+		//							
+		//							
+		//						}else{
+		//							local_methodvar.put(i.varName, ((Values)i.expr).getValues());
+		//						}
+		//					}else if(i.expr instanceof ReturnMethodCall) {
+		//						//						local_methodvar.put(i.varName, ((ReturnMethodCall)i.expr));
+		//
+		//					}
+		//				}
+		//				else {
+		//					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
+		//				}
+		//			}
+		//			else {
+		//				//report semantic error uninitialized var
+		//				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
+		//			}
+		//		}
+		//
+		//		for(IfStatement i : ifstatement) {
+		//			if(getCondType(i.cond).equals("NO")) {
+		//				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
+		//					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
+		//				}
+		//			}
+		//			for(Declaration d: i.getIfBody().declList) {
+		//				if(local_methodvar.containsKey(d.varName)) {
+		//					if(!semanticErrors.contains("Error: " + d.varName + " has been declared")){
+		//						semanticErrors.add("Error: " + d.varName + " has been declared");
+		//					}
+		//				}
+		//			}
+		//		}
+		//		
+		//		if(this.global_mymethods != null) {
+		//			List<String> global_methodname = new ArrayList<>();
+		//			for(MyMethods m : global_mymethods) {
+		//				if(m.methodType instanceof MyVoidMethod) {
+		//					global_methodname.add(m.methodName);
+		//				}
+		//			}
+		//			
+		//			for(MethodCall v : methodcall) {
+		//				if(v instanceof VoidMethodCall) {
+		//					if(!global_methodname.contains(((VoidMethodCall)v).methodname)) {
+		//						if(!semanticErrors.contains("Error: " + ((VoidMethodCall)v).methodname + " does not exist")){
+		//							semanticErrors.add("Error: " + ((VoidMethodCall)v).methodname + " does not exist");
+		//						}
+		//					}
+		//				}else if(v instanceof ReturnMethodCall) {
+		//					if(global_methodname.contains(((ReturnMethodCall)v).methodName)) {
+		//						if(!semanticErrors.contains("Error: " + ((ReturnMethodCall)v).methodName + " is not a void method call")){
+		//							semanticErrors.add("Error: " + ((ReturnMethodCall)v).methodName + " is not a void method call");
+		//						}
+		//					}
+		//				}
+		//				
+		//			}
+		//		}
 
-//		}
+		//		}
 
 		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
 
@@ -240,7 +278,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 				methodcall.add(methodcallVisitor.visit(ctx.assi(i).getChild(2)));
 			}
 		}
-		
+
 		for (int i = 0; i < ctx.getChildCount(); i++) {
 			if (ctx.getChild(i) instanceof VoidMethodCallContext
 					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
@@ -255,252 +293,291 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
 	}
 
-//	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
-//		for(MyMethods i: mymethod) {
-//			if(i.methodName.equals(r.methodName)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	public MyMethodBody defControl(MyMethodBodyContext ctx) {
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		List<IfStatement> ifstatement = new ArrayList<>();
+		List<MethodCall> methodcall = new ArrayList<>();
 
-//	private boolean checkIfAssignmentTypeMatchesRHS(Assignment a, Expr rhs, HashMap<String, Values> var) {
-//		String type = "";
-//		for(Map.Entry<String, Values> d: var.entrySet()) { //find dec type from declarations of game body
-//			if(d.getKey().equals(a.varName)) {
-//				type = d.getValue().getType();
-//			}
-//		}
-//		if(rhs instanceof VoidMethodCall ) {
-//			return false;
-//		}
-//		else if(rhs instanceof Values) {
-//			if(((Values) rhs).getType().equals(type)) {
-//				return true; //need to get type for "MATH" -->ValueMath
-//			}else if(((Values)rhs).getType().equals("MATH")) {
-//				if(type.equals("INT") || type.equals("DOUBLE")) {
-//					return true;
-//				}else {
-//					return false;
-//				}
-//			}else {
-//				return false;
-//			}
-//		}
-//		else if(rhs instanceof ReturnMethodCall) {
-//			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.global_mymethods)) { //if rhs methodcall is declared 
-//				String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
-//				for(MyMethods m: this.global_mymethods) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
-//					if(m.methodName.equals(rhsMethodName)) {
-//
-//						List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
-//						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
-//						if(RHSparams.size() != methodparams.size()) {
-//							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
-//						}else {
-//							int i = 0;
-//							for(Map.Entry<String, String> map: methodparams.entrySet()){
-//								if(!(this.local_methodvar.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-//									semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
-//								}
-//								i++;
-//							}
-//						}
-//
-//						if(m.methodType instanceof MyReturnMethod) {
-//							return ((MyReturnMethod)m.methodType).dataType.equals(type);
-//						}
-//						else { 						//if m.methodType instanceof MyVoidMethod it would have been detected earlier ignore else case
-//							System.out.println("void type checking error");
-//							return false;
-//						}
-//					}
-//				}
-//				return false;
-//			}
-//			else { //if method not declared
-//				this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
-//				return false;
-//			}
-//		}
-//		else return false;
-//	}
-//
-//
-//	private String getCondType(Condition c) {
-//		String result = "";
-//
-//		if(c instanceof Negation) {
-//			Negation e = (Negation) c;
-//			result = getCondType(e.cond);
-//		}else if(c instanceof CondParenthesis) {
-//			CondParenthesis e = (CondParenthesis) c;
-//			result = getCondType(e.cond);
-//		}else if(c instanceof Conjunction) {
-//			Conjunction e = (Conjunction) c;
-//			String left = getCondType(e.cond1);
-//			String right = getCondType(e.cond2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else {
-//				result = "NO";
-//			}
-//		}else if(c instanceof Disjunction) {
-//			Disjunction e = (Disjunction) c;
-//			String left = getCondType(e.cond1);
-//			String right = getCondType(e.cond2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else {
-//				result = "NO";
-//			}
-//		}else if(c instanceof EqualTo) {
-//			EqualTo e = (EqualTo) c;
-//			String left = getCondType(e.cond1);
-//			String right = getCondType(e.cond2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else {
-//				result = "NO";
-//			}		
-//		}else if(c instanceof NotEqualTo) {
-//			NotEqualTo e = (NotEqualTo) c;
-//			String left = getCondType(e.left);
-//			String right = getCondType(e.right);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else {
-//				result = "NO";
-//			}
-//		}else if(c instanceof CondBool) {
-//			CondBool e = (CondBool) c;
-//			result = "BOOLEAN";
-//		}else if(c instanceof CondEqual) {
-//			CondEqual e = (CondEqual) c;
-//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
-//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
-//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
-//			}
-//			result = "BOOLEAN";
-//		}else if(c instanceof CondNotEqual) {
-//			CondNotEqual e = (CondNotEqual) c;
-//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
-//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
-//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
-//			}
-//			result = "BOOLEAN";
-//		}else if(c instanceof MoreOrEqual) {
-//			MoreOrEqual e = (MoreOrEqual) c;
-//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
-//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
-//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
-//			}
-//			result = "BOOLEAN";
-//		}else if(c instanceof LessOrEqual) {
-//			LessOrEqual e = (LessOrEqual) c;
-//			if(getMATHTYPE(e.left).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.left.toString() + " is not the same");
-//			}else if(getMATHTYPE(e.right).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.right.toString() + " is not the same");
-//			}else if(!getMATHTYPE(e.left).equals(getMATHTYPE(e.right))){
-//				semanticErrors.add("Error: " + e.left + " must have the same datatype as " + e.right);
-//			}
-//			result = "BOOLEAN";
-//		}else if(c instanceof More) {
-//			More e = (More) c;
-//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
-//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
-//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
-//			}
-//			result = "BOOLEAN";
-//		}else if(c instanceof Less) {
-//			Less e = (Less) c;
-//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
-//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
-//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
-//			}
-//			result = "BOOLEAN";
-//		}else if(c instanceof CondVarName) {
-//			CondVarName e = (CondVarName) c;
-//			Values val = local_methodvar.get(e.varName);
-//
-//			if(val.getType().equals("BOOLEAN")) {
-//				result = val.getType();
-//			}else {
-//				semanticErrors.add("Error: " + e.varName + " must be BOOLEAN type");
-//			}
-//		}
-//
-//		return result;
-//	}
-//
-//	private String getMATHTYPE(Mathematics m) {
-//		String result = "";
-//
-//		if(m instanceof Addition) {
-//			Addition a = (Addition) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//				result = "NOT SAME";
-//			}
-//		}else if(m instanceof Subtraction) {
-//			Subtraction a = (Subtraction) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//				result = "NOT SAME";
-//			}
-//		}else if(m instanceof Multiplication) {
-//			Multiplication a = (Multiplication) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//				result = "NOT SAME";
-//			}
-//		}else if(m instanceof Division) {
-//			Division a = (Division) m;
-//			String left = getMATHTYPE(a.math1);
-//			String right = getMATHTYPE(a.math2);
-//			if(left.equals(right)) {
-//				result = left;
-//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
-//			}
-//		}else if(m instanceof MathParenthesis) {
-//			MathParenthesis a = (MathParenthesis) m;
-//			result = getMATHTYPE(a.math);
-//		}else if(m instanceof MathNumber) {
-//			result = "INT";
-//		}else if(m instanceof MathDouble) {
-//			result = "DOUBLE";
-//		}else if(m instanceof MathVarName) {
-//			MathVarName a = (MathVarName) m;
-//			result = a.val.getType();
-//		}
-//
-//		return result;
-//	}
-	
-	
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
+		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
+
+		this.local_methodvar.putAll(variableMap);
+
+		for (int i = 0; i < ctx.decl().size(); i++) {
+			decl.add(declVisitor.visit(ctx.decl(i)));
+		}
+
+		for (int i = 0; i < ctx.assi().size(); i++) {
+			assi.add(assiVisitor.visit(ctx.assi(i)));
+		}
+
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, local_methodvar, linesUse, lines);
+		for (int i = 0; i < ctx.if_statement().size(); i++) {
+			ifstatement.add(ifVisitor.defControl((IfStatementContext)ctx.if_statement(i)));
+		}
+
+		for (int i = 0; i < ctx.getChildCount(); i++) {
+			if (ctx.getChild(i) instanceof VoidMethodCallContext
+					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
+				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
+			}
+		}
+
+		this.decl = decl;
+		this.assi = assi;
+		this.ifstatement = ifstatement;
+		this.methodcall = methodcall;
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
+	}
+
+	//	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {
+	//		for(MyMethods i: mymethod) {
+	//			if(i.methodName.equals(r.methodName)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
+
+	//	private boolean checkIfAssignmentTypeMatchesRHS(Assignment a, Expr rhs, HashMap<String, Values> var) {
+	//		String type = "";
+	//		for(Map.Entry<String, Values> d: var.entrySet()) { //find dec type from declarations of game body
+	//			if(d.getKey().equals(a.varName)) {
+	//				type = d.getValue().getType();
+	//			}
+	//		}
+	//		if(rhs instanceof VoidMethodCall ) {
+	//			return false;
+	//		}
+	//		else if(rhs instanceof Values) {
+	//			if(((Values) rhs).getType().equals(type)) {
+	//				return true; //need to get type for "MATH" -->ValueMath
+	//			}else if(((Values)rhs).getType().equals("MATH")) {
+	//				if(type.equals("INT") || type.equals("DOUBLE")) {
+	//					return true;
+	//				}else {
+	//					return false;
+	//				}
+	//			}else {
+	//				return false;
+	//			}
+	//		}
+	//		else if(rhs instanceof ReturnMethodCall) {
+	//			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.global_mymethods)) { //if rhs methodcall is declared 
+	//				String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
+	//				for(MyMethods m: this.global_mymethods) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
+	//					if(m.methodName.equals(rhsMethodName)) {
+	//
+	//						List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
+	//						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+	//						if(RHSparams.size() != methodparams.size()) {
+	//							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+	//						}else {
+	//							int i = 0;
+	//							for(Map.Entry<String, String> map: methodparams.entrySet()){
+	//								if(!(this.local_methodvar.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+	//									semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
+	//								}
+	//								i++;
+	//							}
+	//						}
+	//
+	//						if(m.methodType instanceof MyReturnMethod) {
+	//							return ((MyReturnMethod)m.methodType).dataType.equals(type);
+	//						}
+	//						else { 						//if m.methodType instanceof MyVoidMethod it would have been detected earlier ignore else case
+	//							System.out.println("void type checking error");
+	//							return false;
+	//						}
+	//					}
+	//				}
+	//				return false;
+	//			}
+	//			else { //if method not declared
+	//				this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
+	//				return false;
+	//			}
+	//		}
+	//		else return false;
+	//	}
+	//
+	//
+	//	private String getCondType(Condition c) {
+	//		String result = "";
+	//
+	//		if(c instanceof Negation) {
+	//			Negation e = (Negation) c;
+	//			result = getCondType(e.cond);
+	//		}else if(c instanceof CondParenthesis) {
+	//			CondParenthesis e = (CondParenthesis) c;
+	//			result = getCondType(e.cond);
+	//		}else if(c instanceof Conjunction) {
+	//			Conjunction e = (Conjunction) c;
+	//			String left = getCondType(e.cond1);
+	//			String right = getCondType(e.cond2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else {
+	//				result = "NO";
+	//			}
+	//		}else if(c instanceof Disjunction) {
+	//			Disjunction e = (Disjunction) c;
+	//			String left = getCondType(e.cond1);
+	//			String right = getCondType(e.cond2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else {
+	//				result = "NO";
+	//			}
+	//		}else if(c instanceof EqualTo) {
+	//			EqualTo e = (EqualTo) c;
+	//			String left = getCondType(e.cond1);
+	//			String right = getCondType(e.cond2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else {
+	//				result = "NO";
+	//			}		
+	//		}else if(c instanceof NotEqualTo) {
+	//			NotEqualTo e = (NotEqualTo) c;
+	//			String left = getCondType(e.left);
+	//			String right = getCondType(e.right);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else {
+	//				result = "NO";
+	//			}
+	//		}else if(c instanceof CondBool) {
+	//			CondBool e = (CondBool) c;
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof CondEqual) {
+	//			CondEqual e = (CondEqual) c;
+	//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+	//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+	//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
+	//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+	//			}
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof CondNotEqual) {
+	//			CondNotEqual e = (CondNotEqual) c;
+	//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+	//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+	//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
+	//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+	//			}
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof MoreOrEqual) {
+	//			MoreOrEqual e = (MoreOrEqual) c;
+	//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+	//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+	//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
+	//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+	//			}
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof LessOrEqual) {
+	//			LessOrEqual e = (LessOrEqual) c;
+	//			if(getMATHTYPE(e.left).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.left.toString() + " is not the same");
+	//			}else if(getMATHTYPE(e.right).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.right.toString() + " is not the same");
+	//			}else if(!getMATHTYPE(e.left).equals(getMATHTYPE(e.right))){
+	//				semanticErrors.add("Error: " + e.left + " must have the same datatype as " + e.right);
+	//			}
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof More) {
+	//			More e = (More) c;
+	//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+	//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+	//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
+	//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+	//			}
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof Less) {
+	//			Less e = (Less) c;
+	//			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+	//			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
+	//				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+	//			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
+	//				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+	//			}
+	//			result = "BOOLEAN";
+	//		}else if(c instanceof CondVarName) {
+	//			CondVarName e = (CondVarName) c;
+	//			Values val = local_methodvar.get(e.varName);
+	//
+	//			if(val.getType().equals("BOOLEAN")) {
+	//				result = val.getType();
+	//			}else {
+	//				semanticErrors.add("Error: " + e.varName + " must be BOOLEAN type");
+	//			}
+	//		}
+	//
+	//		return result;
+	//	}
+	//
+	//	private String getMATHTYPE(Mathematics m) {
+	//		String result = "";
+	//
+	//		if(m instanceof Addition) {
+	//			Addition a = (Addition) m;
+	//			String left = getMATHTYPE(a.math1);
+	//			String right = getMATHTYPE(a.math2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+	//				result = "NOT SAME";
+	//			}
+	//		}else if(m instanceof Subtraction) {
+	//			Subtraction a = (Subtraction) m;
+	//			String left = getMATHTYPE(a.math1);
+	//			String right = getMATHTYPE(a.math2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+	//				result = "NOT SAME";
+	//			}
+	//		}else if(m instanceof Multiplication) {
+	//			Multiplication a = (Multiplication) m;
+	//			String left = getMATHTYPE(a.math1);
+	//			String right = getMATHTYPE(a.math2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+	//				result = "NOT SAME";
+	//			}
+	//		}else if(m instanceof Division) {
+	//			Division a = (Division) m;
+	//			String left = getMATHTYPE(a.math1);
+	//			String right = getMATHTYPE(a.math2);
+	//			if(left.equals(right)) {
+	//				result = left;
+	//			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+	//			}
+	//		}else if(m instanceof MathParenthesis) {
+	//			MathParenthesis a = (MathParenthesis) m;
+	//			result = getMATHTYPE(a.math);
+	//		}else if(m instanceof MathNumber) {
+	//			result = "INT";
+	//		}else if(m instanceof MathDouble) {
+	//			result = "DOUBLE";
+	//		}else if(m instanceof MathVarName) {
+	//			MathVarName a = (MathVarName) m;
+	//			result = a.val.getType();
+	//		}
+	//
+	//		return result;
+	//	}
+
+
 }
