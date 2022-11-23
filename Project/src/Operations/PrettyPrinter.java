@@ -112,10 +112,14 @@ public class PrettyPrinter{
 		this.allDef = alldef;
 	}
 
-	public String getCondCoverageString(ConditionCoverage condCov) {
+	public void addCondCoverage(ConditionCoverage condCov) {
 		this.condCov = condCov;
+	}
+	
+	public String getCondCoverageString() {
 		return condCov.getPrint();
 	}
+	
 	public void addAllCUseCoverage(AllCUsesCoverage allc) {
 		this.allC = allc;		
 	}
