@@ -38,6 +38,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public Map<Integer, Map<String, Boolean>> linesDef;
 	public List<Integer> linesUse;
 	public List<String> lines;
+	public int totalNotUsed;
 
 	public AntlrToProgram() {
 	}
@@ -129,10 +130,11 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 			linesDef = new HashMap<>();
 			linesUse = new ArrayList<>();
 			lines = new ArrayList<>();
+			totalNotUsed=0;
 
-			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, def, def_use, linesDef, linesUse, lines);
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
 			prog.addGameClass(cController.defControl((GameClassContext)ctx.getChild(0)));
-
+			totalNotUsed = cController.totalNotUsed;
 		}
 		return prog;
 	}
