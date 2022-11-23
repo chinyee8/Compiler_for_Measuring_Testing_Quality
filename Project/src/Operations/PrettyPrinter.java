@@ -46,10 +46,18 @@ public class PrettyPrinter{
 		result +="<html>\n";
 		//button
 		result += "<button onclick=\"text()\"> Original Code </button><br><br>\n";
+		result += "<button onclick=\"statement()\"> Statement Coverage </button><br><br>\n";
+		result += "<button onclick=\"condition()\"> Condition Coverage </button><br><br>\n";
 		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button><br><br>\n";
 		
 		//original code
 		result += this.getOriginal(0);
+		
+		//for Condition
+//		result += 
+		
+		//for Condition
+//		result += 
 		
 		//all def coverage
 		result += this.allDef.getString(0);
@@ -67,13 +75,19 @@ public class PrettyPrinter{
 		
 		result = "<script>\n";
 		
-		result += "function original(){\n"
-				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"text\").innerHTML;\n"
+		result += "function statement(){\n"
+				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"statement\").innerHTML;\n"
+				+ "}\n";
+		
+		result += "function condition(){\n"
+				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"condition\").innerHTML;\n"
 				+ "}\n";
 		
 		result += "function allDef(){\n"
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allDef\").innerHTML;\n"
 				+ "}\n";
+		
+		
 		
 		result += "</script>";
 		
