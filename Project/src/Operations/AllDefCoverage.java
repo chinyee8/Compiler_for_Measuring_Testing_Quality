@@ -22,19 +22,20 @@ public class AllDefCoverage {
 	public String getString(int testnum) { //testnum 0->infinity
 		String result = "";
 		List<String> modifiedLines = new LinkedList<>();
-		List<Integer> use = useLines.get(testnum);
+		List<Integer> use = new ArrayList<>();
+		use.addAll(this.useLines.get(testnum));
 		
 		for(Integer i : defLines.get(testnum)) {
-			if(useLines.get(testnum).contains(i)) {
+			if(this.useLines.get(testnum).contains(i)) {
 				use.remove(i);
 			}
 		}
 		
-		int i = 0;
+		Integer i = 0;
 		for(String s : lines.get(testnum)) {
 			if(defLines.get(testnum).contains(i)) {
 				modifiedLines.add("<mark style=\"background-color: #C2DFFF;\">"+s+"</mark>\n");
-			}else if(useLines.get(testnum).contains(i)) {
+			}else if(use.contains(i)) {
 				modifiedLines.add("<mark style=\"background-color: yellow;\">"+s+"</mark>\n");
 			}else {
 				modifiedLines.add(s + "\n");
