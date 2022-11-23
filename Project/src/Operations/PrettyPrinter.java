@@ -13,6 +13,7 @@ public class PrettyPrinter{
 	private ConditionCoverage condCov;
 	private Map<Integer, List<String>> lines;
 	private int totalTestNum;
+	private AllCUsesCoverage allC;
 
 
 	public PrettyPrinter(Evaluator ep, Map<Integer, List<String>> lines, int totalTestNum) {
@@ -45,11 +46,23 @@ public class PrettyPrinter{
 		String result ="";
 		
 		result +="<html>\n";
-		result += "<button onclick=\"allDef()\">All-Def</button><br><br>\n";
 		
+		//button
+		result += "<button onclick=\"text()\"> Original Code </button>\n";
+		result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
+		result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
+		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button>\n";
+		result += "<button onclick=\"allCUse()\"> All-C-Uses Coverage </button>\n";
+
+		//original code
 		result += this.getOriginal(0);
 		result += this.allDef.getString(0);
 		
+
+		//all cUse coverage
+		result += this.allC.getString(0);
+		
+		//javascript
 		result += this.getjsScript();
 		
 		result += "</html>";
@@ -64,7 +77,12 @@ public class PrettyPrinter{
 		
 		result += "function allDef(){\n"
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allDef\").innerHTML;\n"
-				+ "}";
+				+ "}\n";
+		
+		result += "function allCUse(){\n"
+				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allCUse\").innerHTML;\n"
+				+ "}\n";
+		
 		
 		result += "</script>";
 		
@@ -91,5 +109,10 @@ public class PrettyPrinter{
 		this.condCov = condCov;
 		return condCov.getPrint();
 	}
+	public void addAllCUseCoverage(AllCUsesCoverage allc) {
+		this.allC = allc;		
+	}
+
+
 
 }
