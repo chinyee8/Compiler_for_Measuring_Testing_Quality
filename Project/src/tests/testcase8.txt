@@ -1,0 +1,13 @@
+test test_api07 []!
+	input1 << INT
+	input2 << STRING
+	bool1 << BOOLEAN
+	result << INT
+	
+	input1 <- 100
+	input2 <- "hi"
+	bool1 <- TRUE
+	
+	result <- METHOD_ONE[input1, bool1, input2]	
+		
+!
