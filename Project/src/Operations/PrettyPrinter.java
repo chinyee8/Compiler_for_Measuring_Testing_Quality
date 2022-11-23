@@ -49,7 +49,6 @@ public class PrettyPrinter{
 		result +="<html>\n";
 		
 		//button
-		result += "<button onclick=\"text()\"> Original Code </button>\n";
 		result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
 		result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
 		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button>\n";
@@ -58,11 +57,12 @@ public class PrettyPrinter{
 		//original code
 		result += this.getOriginal(0);
 		
+		//ControlFlow
 		result += this.statement.getString(0);
-		result += this.allDef.getString(0);
+		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>";
 		
-
-		//all cUse coverage
+		//DataFlow
+		result += this.allDef.getString(0);
 		result += this.allC.getString(0);
 		
 		//javascript
@@ -77,6 +77,10 @@ public class PrettyPrinter{
 		String result = "";
 		
 		result = "<script>\n";
+		
+		result += "function condition(){\n"
+				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"condition\").innerHTML;\n"
+				+ "}\n";
 		
 		result += "function allDef(){\n"
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allDef\").innerHTML;\n"
