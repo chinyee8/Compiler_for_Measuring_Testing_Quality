@@ -34,6 +34,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public Map<Integer, Map<String, Boolean>> linesDef;
 	public List<Integer> linesUse;
 	public List<String> lines;
+	public int totalNotUsed;
 	
 	public AntlrToGameClass() {
 		
@@ -54,7 +55,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	}
 	
 	//CY's def_coverage
-	public AntlrToGameClass(List<String> semanticErrors,MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines) {
+	public AntlrToGameClass(List<String> semanticErrors,MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticErrors;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
@@ -63,6 +64,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		this.linesDef = linesDef;
 		this.linesUse = linesUse;
 		this.lines = lines;
+		this.totalNotUsed = totalNotUsed;
 	}
 	@Override
 	public GameClass visitGameClass(GameClassContext ctx) {
@@ -101,8 +103,9 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public GameClass defControl(GameClassContext ctx) {
 		String className = ctx.CLASS_NAME().getText();
 		lines.add("game " + className + " [] !");
-		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines);
+		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
 		GameBody gamebody = gbVisitor.defControl((GameBodyContext) ctx.body());
+		totalNotUsed = gbVisitor.totalNotUsed;
 		lines.add("!");
 		return new GameClass(className, gamebody);
 	}
