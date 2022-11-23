@@ -50,10 +50,10 @@ public class MyMethodBody{
 				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 			}
 		}
-		for(IfStatement i : ifStatList) {
-			MyMethodBody ifbody = i.getIfBody(vars).get(0);
-			vars.putAll(ifbody.getValues(vars));
-		}
+//		for(IfStatement i : ifStatList) {
+//			MyMethodBody ifbody = i.getIfBody(vars).get(0);
+//			vars.putAll(ifbody.getValues(vars));
+//		}
 	}
 
 	@Override
