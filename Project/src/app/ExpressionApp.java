@@ -160,7 +160,7 @@ public class ExpressionApp {
 						printer.addStatement(st);
 						printer.addAllDefCoverage(alldef);
 						printer.addAllCUseCoverage(allc);
-						printer.getCondCoverageString(tempConCov); // Yeseul- Cond COverage to print
+						printer.getCondCoverage(tempConCov); // Yeseul- Cond COverage to print
 
 						printer.prettyPrint();
 					}else {
