@@ -14,6 +14,7 @@ public class PrettyPrinter{
 	private Map<Integer, List<String>> lines;
 	private int totalTestNum;
 	private AllCUsesCoverage allC;
+	private Statement statement;
 
 
 	public PrettyPrinter(Evaluator ep, Map<Integer, List<String>> lines, int totalTestNum) {
@@ -56,6 +57,8 @@ public class PrettyPrinter{
 
 		//original code
 		result += this.getOriginal(0);
+		
+		result += this.statement.getString(0);
 		result += this.allDef.getString(0);
 		
 
@@ -99,6 +102,10 @@ public class PrettyPrinter{
 		result += "</p><br>";
 		
 		return result;
+	}
+	
+	public void addStatement(Statement s) {
+		this.statement = s;		
 	}
 
 	public void addAllDefCoverage(AllDefCoverage alldef) {
