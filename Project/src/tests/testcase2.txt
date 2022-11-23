@@ -1,7 +1,7 @@
 test test_api02 []!
 	input1 << DOUBLE
 	input2 << DOUBLE
-	bool1 << BOOL
+	bool1 << BOOLEAN
 	result << DOUBLE
 	
 	input1 <- 1.23
