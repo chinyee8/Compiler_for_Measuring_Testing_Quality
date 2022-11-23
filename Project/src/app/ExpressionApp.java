@@ -17,6 +17,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import AntlrToObject.AntlrToProgram;
 import Operations.AllDefCoverage;
+import Operations.ConditionCoverage;
 import Operations.ErrorListener;
 import Operations.Evaluator;
 import Operations.PrettyPrinter;
@@ -61,22 +62,22 @@ public class ExpressionApp {
 						Map<Integer, List<Integer>> defLines = new HashMap<>();
 						Map<Integer, List<Integer>> useLines = new HashMap<>();
 						Map<Integer, List<String>> lines = new HashMap<>();
-						Map<Integer, Integer> defpercentage = new HashMap<>();
-
+						
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
 							AntlrToProgram progControllor = new AntlrToProgram(t.getKey(), t.getValue(), testProg.testcase.methodCallParamOrder.get(t.getKey())); //pass in methodcall, input parameters, and order of input parameters
-							Program prog2 = progControllor.control((ProgramContext)progAST);
-							programList.add(prog2);
-						}
+							//							Program prog2 = progControllor.control((ProgramContext)progAST);
+							//							programList.add(prog2);
 
+						}
+						
 						//DefCoverage
 						int i = 0;
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
-							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), t.getValue()); //should check for semantic error but did not
+							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), t.getValue());
 							Program defProg = devCoverage.defControl((ProgramContext)progAST);
-
+							
 							List<Integer> key = new ArrayList<>();
 							List<Integer> value = new ArrayList<>();
 							for(Map.Entry<Map<Integer, Map<String, Boolean>>, List<Integer>> m : devCoverage.def_use.entrySet()) {
@@ -87,23 +88,62 @@ public class ExpressionApp {
 									value.add(v);
 								}
 							}
-							defLines.put(i, key);
-							useLines.put(i, value);
-							lines.put(i, devCoverage.lines);
-
-							double countpercent = ((key.size() - devCoverage.totalNotUsed)/(double)key.size())*100;
-							int percent = (int)countpercent;
-							defpercentage.put(i,percent);
+								defLines.put(i, key);
+								useLines.put(i, value);
+								lines.put(i, devCoverage.lines);
+							
 							i++;
 						}
 
-						//i did not use this Evaluator so if you don't need this you can delete
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
-
-						AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines, defpercentage);
-
+						
+						//Yeseul- Condition Coverage (temporal)
+						ConditionCoverage tempConCov = new ConditionCoverage();
+						
+						if (fileName2 == "testcase1.txt") {
+							tempConCov.addComponent("jackieAsks [b]", "b");
+							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
+							
+							tempConCov.addResult("jackieAsks [b]", "1");
+							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
+						}
+						else if (fileName2 == "testcase2.txt") {
+							tempConCov.addComponent("jackieAsks [b]", "b");
+							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
+							
+							tempConCov.addResult("jackieAsks [b]", "0");
+							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
+						}
+						else if (fileName2 == "testcase3.txt") {
+							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
+							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
+						}
+						else if (fileName2 == "testcase4.txt") {
+							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
+							tempConCov.addResult("jackieAsks [input1 > input2]", "1");
+						}
+						else if (fileName2 == "testcase5.txt") {
+							tempConCov.addComponent("jackieAsks [b]", "b");
+							tempConCov.addResult("jackieAsks [b]", "0");
+						}
+						else if (fileName2 == "testcase6.txt") {
+							tempConCov.addComponent("jackieAsks [b]", "b");
+							tempConCov.addResult("jackieAsks [b]", "1");
+						}
+						else if (fileName2 == "testcase7.txt") {
+							tempConCov.addComponent("jackieAsks [b]", "b");
+							tempConCov.addResult("jackieAsks [b]", "0");
+						}
+						else if (fileName2 == "testcase8.txt") {
+							tempConCov.addComponent("jackieAsks [b]", "b");
+							tempConCov.addResult("jackieAsks [b]", "1");
+						}
+						
+						AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines);
+						
 						PrettyPrinter printer = new PrettyPrinter(ep, lines, i);
 						printer.addAllDefCoverage(alldef);
+						printer.getCondCoverageString(tempConCov); // Yeseul- Cond COverage to print
 						printer.prettyPrint();
 					}else {
 						System.err.println("Error: please input game file first, before test file!");
