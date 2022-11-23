@@ -3,8 +3,8 @@ test test_api03 []!
 	input2 << DOUBLE
 	result << DOUBLE
 	
-	input1 <- 2.0
-	input2 <- 4.0
+	input1 <- 2.00
+	input2 <- 4.00
 	result <- SCIENCE[input1, input2]	
 	
 	
