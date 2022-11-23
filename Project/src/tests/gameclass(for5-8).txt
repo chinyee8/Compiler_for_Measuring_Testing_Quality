@@ -1,4 +1,4 @@
-game Pika [] !
+game Pika [] ! 
 
 	mymethod METHOD_ONE INT [INT num, BOOLEAN b, STRING s] !
 		var1 << INT
@@ -15,4 +15,3 @@ game Pika [] !
 	
 	
 !
-	
