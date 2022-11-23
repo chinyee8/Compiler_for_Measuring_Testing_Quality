@@ -52,6 +52,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		public MethodCall t_method_call;
 		public Map<String, Values> inputValues;
 		public List<String> lines;
+		public int totalNotUsed;
 
 	public AntlrToIfStatement(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticErrors;
@@ -61,7 +62,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	}
 	
 	//defCoverage
-	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, HashMap<String, Values> local_methodVar, List<Integer> linesUse, List<String> lines) {
+	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, HashMap<String, Values> local_methodVar, List<Integer> linesUse, List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
@@ -73,6 +74,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		this.local_methodVar = local_methodVar;
 		this.linesUse = linesUse;
 		this.lines = lines;
+		this.totalNotUsed = totalNotUsed;
 	}
 
 
@@ -120,7 +122,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
 		Condition cond = condVisitor.visit(ctx.cond());
 
-		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, this.local_methodVar, linesUse, lines);
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, this.local_methodVar, linesUse, lines, totalNotUsed);
 
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
