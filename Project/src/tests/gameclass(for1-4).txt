@@ -1,4 +1,5 @@
 game Mathclass [] !
+
 	mymethod SCIENCE DOUBLE [DOUBLE input1, DOUBLE input2] !
         result << DOUBLE		
         jackieAsks [input1 > input2] !
@@ -7,7 +8,8 @@ game Mathclass [] !
 			result <- 100.00
         !
         jackieReturns result
-    !       									
+    !   
+        									
     mymethod MATH DOUBLE [BOOLEAN b, DOUBLE input1, DOUBLE input2] !
         result << DOUBLE
         input1 <- input1 + 2.45
