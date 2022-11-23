@@ -268,7 +268,9 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		for (int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.control((AssignmentContext)ctx.assi(i)));
 			assi.get(i).covered = true;
-			this.variableMap.put(assi.get(i).varName, (Values)assi.get(i).expr);//MONICA_fix later - temporarily add cast for expr, returnmethodcall not accountedfor
+			if(assi.get(i).expr instanceof Values) {
+				this.variableMap.put(assi.get(i).varName, (Values)assi.get(i).expr);//MONICA_fix later - temporarily add cast for expr, returnmethodcall not accountedfor
+			}
 		}
 
 		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.global_mymethods,
