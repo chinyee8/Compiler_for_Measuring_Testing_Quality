@@ -22,6 +22,7 @@ import Operations.ConditionCoverage;
 import Operations.ErrorListener;
 import Operations.Evaluator;
 import Operations.PrettyPrinter;
+import Operations.Statement;
 import antlr.exprLexer;
 import antlr.exprParser;
 import antlr.exprParser.ProgramContext;
@@ -73,7 +74,6 @@ public class ExpressionApp {
 
 							Program prog2 = progControllor.control((ProgramContext)progAST);
 							programList.add(prog2);
-							System.out.println(prog2.gameclass.toString());
 						}
 
 
@@ -108,6 +108,9 @@ public class ExpressionApp {
 
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 
+						Statement st = new Statement(programList, lines);
+
+						
 						//Yeseul- Condition Coverage (temporal)
 						ConditionCoverage tempConCov = new ConditionCoverage();
 
@@ -154,6 +157,7 @@ public class ExpressionApp {
 						AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
 
 						PrettyPrinter printer = new PrettyPrinter(ep, lines, i);
+						printer.addStatement(st);
 						printer.addAllDefCoverage(alldef);
 						printer.addAllCUseCoverage(allc);
 						printer.getCondCoverageString(tempConCov); // Yeseul- Cond COverage to print
