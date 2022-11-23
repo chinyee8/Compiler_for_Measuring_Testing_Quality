@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import AntlrToObject.AntlrToProgram;
+import Operations.AllCUsesCoverage;
 import Operations.AllDefCoverage;
 import Operations.ConditionCoverage;
 import Operations.ErrorListener;
@@ -30,6 +31,7 @@ import model.TestMethodCall;
 import model.Values;
 
 public class ExpressionApp {
+
 	public static void main(String[] args) {
 		if (args.length != 2) {
 			System.err.print("file name");
@@ -62,22 +64,27 @@ public class ExpressionApp {
 						Map<Integer, List<Integer>> defLines = new HashMap<>();
 						Map<Integer, List<Integer>> useLines = new HashMap<>();
 						Map<Integer, List<String>> lines = new HashMap<>();
-						
+						Map<Integer, Integer> defpercentage = new HashMap<>();
+
+
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
 							AntlrToProgram progControllor = new AntlrToProgram(t.getKey(), t.getValue(), testProg.testcase.methodCallParamOrder.get(t.getKey())); //pass in methodcall, input parameters, and order of input parameters
-							//							Program prog2 = progControllor.control((ProgramContext)progAST);
-							//							programList.add(prog2);
 
+							Program prog2 = progControllor.control((ProgramContext)progAST);
+							programList.add(prog2);
+							System.out.println(prog2.gameclass.toString());
 						}
-						
+
+
+
 						//DefCoverage
 						int i = 0;
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
 							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), t.getValue());
 							Program defProg = devCoverage.defControl((ProgramContext)progAST);
-							
+
 							List<Integer> key = new ArrayList<>();
 							List<Integer> value = new ArrayList<>();
 							for(Map.Entry<Map<Integer, Map<String, Boolean>>, List<Integer>> m : devCoverage.def_use.entrySet()) {
@@ -88,29 +95,33 @@ public class ExpressionApp {
 									value.add(v);
 								}
 							}
-								defLines.put(i, key);
-								useLines.put(i, value);
-								lines.put(i, devCoverage.lines);
+							defLines.put(i, key);
+							useLines.put(i, value);
+							lines.put(i, devCoverage.lines);
 							
+							double countpercent = ((key.size() - devCoverage.totalNotUsed)/(double)key.size())*100;
+							int percent = (int)countpercent;
+							defpercentage.put(i,percent);
+
 							i++;
 						}
 
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
-						
+
 						//Yeseul- Condition Coverage (temporal)
 						ConditionCoverage tempConCov = new ConditionCoverage();
-						
+
 						if (fileName2 == "testcase1.txt") {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
-							
+
 							tempConCov.addResult("jackieAsks [b]", "1");
 							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
 						}
 						else if (fileName2 == "testcase2.txt") {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
-							
+
 							tempConCov.addResult("jackieAsks [b]", "0");
 							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
 						}
@@ -138,12 +149,15 @@ public class ExpressionApp {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addResult("jackieAsks [b]", "1");
 						}
-						
-						AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines);
-						
+
+						AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines, defpercentage);
+						AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
+
 						PrettyPrinter printer = new PrettyPrinter(ep, lines, i);
 						printer.addAllDefCoverage(alldef);
+						printer.addAllCUseCoverage(allc);
 						printer.getCondCoverageString(tempConCov); // Yeseul- Cond COverage to print
+
 						printer.prettyPrint();
 					}else {
 						System.err.println("Error: please input game file first, before test file!");
