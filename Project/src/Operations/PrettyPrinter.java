@@ -58,7 +58,7 @@ public class PrettyPrinter{
 		result += this.getOriginal(0);
 		
 		//ControlFlow
-		result += this.statement.getString(0);
+		result += "<div id=\"statement\" hidden>\n" + this.statement.getString(0) + "</div>";
 		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>";
 		
 		//DataFlow
@@ -77,6 +77,10 @@ public class PrettyPrinter{
 		String result = "";
 		
 		result = "<script>\n";
+		
+		result += "function statement(){\n"
+				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"statement\").innerHTML;\n"
+				+ "}\n";
 		
 		result += "function condition(){\n"
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"condition\").innerHTML;\n"
