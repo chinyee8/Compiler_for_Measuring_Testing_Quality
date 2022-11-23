@@ -114,41 +114,41 @@ public class ExpressionApp {
 						//Yeseul- Condition Coverage (temporal)
 						ConditionCoverage tempConCov = new ConditionCoverage();
 
-						if (fileName2 == "testcase1.txt") {
+						if (fileName2.contains("testcase1.txt")) {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
 
 							tempConCov.addResult("jackieAsks [b]", "1");
 							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
 						}
-						else if (fileName2 == "testcase2.txt") {
+						else if (fileName2.contains("testcase2.txt")) {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
 
 							tempConCov.addResult("jackieAsks [b]", "0");
 							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
 						}
-						else if (fileName2 == "testcase3.txt") {
+						else if (fileName2.contains("testcase3.txt")) {
 							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
 							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
 						}
-						else if (fileName2 == "testcase4.txt") {
+						else if (fileName2.contains("testcase4.txt")) {
 							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
 							tempConCov.addResult("jackieAsks [input1 > input2]", "1");
 						}
-						else if (fileName2 == "testcase5.txt") {
+						else if (fileName2.contains("testcase5.txt")) {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addResult("jackieAsks [b]", "0");
 						}
-						else if (fileName2 == "testcase6.txt") {
+						else if (fileName2.contains("testcase6.txt")) {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addResult("jackieAsks [b]", "1");
 						}
-						else if (fileName2 == "testcase7.txt") {
+						else if (fileName2.contains("testcase7.txt")) {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addResult("jackieAsks [b]", "0");
 						}
-						else if (fileName2 == "testcase8.txt") {
+						else if (fileName2.contains("testcase8.txt")) {
 							tempConCov.addComponent("jackieAsks [b]", "b");
 							tempConCov.addResult("jackieAsks [b]", "1");
 						}
