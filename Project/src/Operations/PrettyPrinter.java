@@ -10,6 +10,7 @@ public class PrettyPrinter{
 
 	Evaluator ep;
 	private AllDefCoverage allDef;
+	private ConditionCoverage condCov;
 	private Map<Integer, List<String>> lines;
 	private int totalTestNum;
 
@@ -44,25 +45,11 @@ public class PrettyPrinter{
 		String result ="";
 		
 		result +="<html>\n";
-		//button
-		result += "<button onclick=\"text()\"> Original Code </button><br><br>\n";
-		result += "<button onclick=\"statement()\"> Statement Coverage </button><br><br>\n";
-		result += "<button onclick=\"condition()\"> Condition Coverage </button><br><br>\n";
-		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button><br><br>\n";
+		result += "<button onclick=\"allDef()\">All-Def</button><br><br>\n";
 		
-		//original code
 		result += this.getOriginal(0);
-		
-		//for Condition
-//		result += 
-		
-		//for Condition
-//		result += 
-		
-		//all def coverage
 		result += this.allDef.getString(0);
 		
-		//javascript
 		result += this.getjsScript();
 		
 		result += "</html>";
@@ -75,19 +62,9 @@ public class PrettyPrinter{
 		
 		result = "<script>\n";
 		
-		result += "function statement(){\n"
-				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"statement\").innerHTML;\n"
-				+ "}\n";
-		
-		result += "function condition(){\n"
-				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"condition\").innerHTML;\n"
-				+ "}\n";
-		
 		result += "function allDef(){\n"
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allDef\").innerHTML;\n"
-				+ "}\n";
-		
-		
+				+ "}";
 		
 		result += "</script>";
 		
@@ -97,11 +74,11 @@ public class PrettyPrinter{
 	public String getOriginal(int testnum) {
 		String result = "";
 		
-		result = "<p id=\"text\">\n";
+		result = "<p id=\"text\">";
 		for(String s: lines.get(testnum)) {
-			result += s +"<br>\n";
+			result += s +"<br>";
 		}
-		result += "</p><br>\n";
+		result += "</p><br>";
 		
 		return result;
 	}
@@ -110,7 +87,9 @@ public class PrettyPrinter{
 		this.allDef = alldef;
 	}
 
-
+	public String getCondCoverageString(ConditionCoverage condCov) {
+		this.condCov = condCov;
+		return condCov.getPrint();
+	}
 
 }
-
