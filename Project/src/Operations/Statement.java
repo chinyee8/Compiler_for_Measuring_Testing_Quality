@@ -19,7 +19,7 @@ public class Statement {
 		String result = "";
 		Program p = programList.get(testnum);
 		
-		System.out.println(p.gameclass.toString());
+		
 		
 		return result; 
 	}
