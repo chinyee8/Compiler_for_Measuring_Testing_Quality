@@ -42,6 +42,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public Map<Integer, Map<String, Boolean>> linesDef;
 	public List<Integer> linesUse;
 	public List<String> lines;
+	public int totalNotUsed;
 
 	public AntlrToGameBody() {
 
@@ -84,7 +85,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	}
 
 	//defCoverage
-	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>> def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse,  List<String> lines) {
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>> def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse,  List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
 		this.t_method_call = t_method_call;
@@ -95,6 +96,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.global_mymethods = new ArrayList<>();
 		this.linesUse = linesUse;
 		this.lines = lines;
+		this.totalNotUsed = totalNotUsed;
 	}
 
 	@Override
@@ -257,7 +259,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
 
-		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
@@ -268,7 +270,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		int i = 0;
 		for(MyMethods m : this.global_mymethods) {
 			MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
-			
+			totalNotUsed += mmVisitor.totalNotUsed;
 			def_use.put(linesDef, linesUse);
 			def = new HashMap<>();
 			linesDef = new HashMap<>();
