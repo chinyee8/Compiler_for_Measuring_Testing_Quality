@@ -44,11 +44,17 @@ public class PrettyPrinter{
 		String result ="";
 		
 		result +="<html>\n";
-		result += "<button onclick=\"allDef()\">All-Def</button><br><br>\n";
+		//button
+		result += "<button onclick=\"text()\"> Original Code </button><br><br>\n";
+		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button><br><br>\n";
 		
+		//original code
 		result += this.getOriginal(0);
+		
+		//all def coverage
 		result += this.allDef.getString(0);
 		
+		//javascript
 		result += this.getjsScript();
 		
 		result += "</html>";
@@ -61,9 +67,13 @@ public class PrettyPrinter{
 		
 		result = "<script>\n";
 		
+		result += "function original(){\n"
+				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"text\").innerHTML;\n"
+				+ "}\n";
+		
 		result += "function allDef(){\n"
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allDef\").innerHTML;\n"
-				+ "}";
+				+ "}\n";
 		
 		result += "</script>";
 		
@@ -73,11 +83,11 @@ public class PrettyPrinter{
 	public String getOriginal(int testnum) {
 		String result = "";
 		
-		result = "<p id=\"text\">";
+		result = "<p id=\"text\">\n";
 		for(String s: lines.get(testnum)) {
-			result += s +"<br>";
+			result += s +"<br>\n";
 		}
-		result += "</p><br>";
+		result += "</p><br>\n";
 		
 		return result;
 	}
