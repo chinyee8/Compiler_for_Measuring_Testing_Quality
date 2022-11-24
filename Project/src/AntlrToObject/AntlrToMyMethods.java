@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.plaf.LabelUI;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.MyMethodsContext;
 import antlr.exprParser.MyReturnMethodContext;
@@ -77,6 +78,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public List<Integer> linesUse;
 	public List<String> lines;
 	public int totalNotUsed;
+	
+	// Condition Coverage member variable
+	public ConditionCoverage condCov;
 
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
@@ -113,6 +117,18 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.totalNotUsed = totalNotUsed;
 	}
 
+	// Condition Coverage
+	public AntlrToMyMethods(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> mymethod, ConditionCoverage condCov) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = mymethod;
+		this.condCov = condCov;
+		if (!condCov.isComponentState()) {
+			this.t_method_call = condCov.getTestMethod().getKey();
+			this.inputValues = condCov.getTestMethod().getValue();
+		}
+	}
+	
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
@@ -158,6 +174,20 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	}
 
+	// Condition Coverage
+	public void visitConditionCoverage(MyMethodsContext ctx) {
+
+		AntlrToMethodType ifVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods, condCov);
+		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
+			ifVisitor.visitConditionCoverage((MyReturnMethodContext)ctx.getChild(2));
+		}
+		else {
+			ifVisitor.visitConditionCoverage((MyVoidMethodContext)ctx.getChild(2));
+		}
+		
+	}
+
+	
 	public MyMethods control(MyMethodsContext ctx) {
 		String methodName = ctx.METHODNAME().getText();
 		if(methodName.equals(this.t_method_call.getName())) {
@@ -184,6 +214,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 	}
 
+
+	
 	//defCoverage
 	public MyMethods defControl(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();

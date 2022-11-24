@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.DeclarationContext;
@@ -78,6 +79,9 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	public List<String> lines;
 	public int totalNotUsed;
 
+	// Condition Coverage
+	public ConditionCoverage condCov;
+	
 	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap,
 			List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticErrors;
@@ -133,6 +137,18 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.totalNotUsed = totalNotUsed;
 	}
 
+	// Condition Coverage
+	public AntlrToMyMethodBody(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, ConditionCoverage condCov) {
+		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.local_methodvar = new HashMap<>();
+		this.condCov = condCov;		
+		if (!condCov.isComponentState()) {
+			this.t_method_call = condCov.getTestMethod().getKey();
+			this.inputValues = condCov.getTestMethod().getValue();
+		}
+	}
 
 	@Override
 	public MyMethodBody visitMyMethodBody(MyMethodBodyContext ctx) {
@@ -268,9 +284,9 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		for (int i = 0; i < ctx.assi().size(); i++) {
 			assi.add(assiVisitor.control((AssignmentContext)ctx.assi(i)));
 			assi.get(i).covered = true;
-			this.variableMap.put(assi.get(i).varName, (Values)assi.get(i).expr);//MONICA_fix later - temporarily add cast for expr, returnmethodcall not accountedfor
-
-
+			if(assi.get(i).expr instanceof Values) {
+				this.variableMap.put(assi.get(i).varName, (Values)assi.get(i).expr);//MONICA_fix later - temporarily add cast for expr, returnmethodcall not accountedfor
+			}
 		}
 
 		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.global_mymethods,
@@ -335,6 +351,56 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
 		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
+	}
+
+	// Condition Coverage
+	public void visitConditionCoverage(MyMethodBodyContext ctx) {
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		List<IfStatement> ifstatement = new ArrayList<>();
+		List<MethodCall> methodcall = new ArrayList<>();
+
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
+		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
+
+		this.local_methodvar.putAll(variableMap);
+
+		for (int i = 0; i < ctx.decl().size(); i++) {
+			decl.add(declVisitor.visit(ctx.decl(i)));
+		}
+
+		for (int i = 0; i < ctx.assi().size(); i++) {
+			assi.add(assiVisitor.visit(ctx.assi(i)));
+		}
+
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.global_mymethods,
+				local_methodvar, condCov);
+		for (int i = 0; i < ctx.if_statement().size(); i++) {
+			ifVisitor.visitConditionCoverage((IfStatementContext) ctx.if_statement(i));
+		}
+
+		for (int i = 0; i < ctx.getChildCount(); i++) {
+			/*
+			if (ctx.getChild(i) instanceof VoidMethodCallContext
+					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
+				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
+			}
+			*/
+
+			if (ctx.getChild(i) instanceof VoidMethodCallContext) {
+				methodcall.add(methodcallVisitor.visitConditionCoverageV((VoidMethodCallContext)ctx.getChild(i)));
+			}
+			else if (ctx.getChild(i) instanceof ReturnMethodCallContext) {
+				methodcall.add(methodcallVisitor.visitConditionCoverageR((ReturnMethodCallContext)ctx.getChild(i)));
+			}
+		}
+
+		this.decl = decl;
+		this.assi = assi;
+		this.ifstatement = ifstatement;
+		this.methodcall = methodcall;
+		
 	}
 
 	//	private boolean checkIfMyMethodContainsReturnMethodCall(ReturnMethodCall r, List<MyMethods> mymethod) {

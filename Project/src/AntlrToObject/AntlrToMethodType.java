@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.MyReturnMethodContext;
@@ -29,6 +30,9 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 	public List<Integer> linesUse;
 	public List<String> lines;
 	public int totalNotUsed;
+	
+	// condition coverage
+	public ConditionCoverage condCov;
 
 	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods) {
 		this.semanticErrors = semanticError;
@@ -43,6 +47,17 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		this.methodCallParamOrder = methodCallParamOrder;
 		this.global_mymethods = global_mymethods;
 		this.variableMap = varMap;
+	}
+	// Condition Coverage
+	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, ConditionCoverage condCov) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.condCov = condCov;
+		if (!condCov.isComponentState()) {
+			this.t_method_call = condCov.getTestMethod().getKey();
+			this.inputValues = condCov.getTestMethod().getValue();
+		}
 	}
 	
 	//defCoverage
@@ -84,6 +99,21 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		return new MyVoidMethod(void_type, parameter, method_body);
 	}
 
+	// Condition Coverage
+	public void visitConditionCoverage(MyReturnMethodContext ctx) {
+
+		AntlrToMyMethodBody ifVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods, condCov);
+		ifVisitor.visitConditionCoverage((MyMethodBodyContext)ctx.method_body());
+	
+	}
+	// Condition Coverage
+	public void visitConditionCoverage(MyVoidMethodContext ctx) {
+
+		AntlrToMyMethodBody ifVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods, condCov);
+		ifVisitor.visitConditionCoverage((MyMethodBodyContext)ctx.method_body());
+
+	}
+	
 	public MyReturnMethod controlR(MyReturnMethodContext ctx) {
 		// TODO Auto-generated method stub
 		String dataType = ctx.DATA_TYPE().getText();

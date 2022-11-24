@@ -9,6 +9,7 @@ import java.util.Map;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.DeclarationContext;
@@ -43,6 +44,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public List<Integer> linesUse;
 	public List<String> lines;
 	public int totalNotUsed;
+	
+	// Condition Coverage member variable
+	public ConditionCoverage condCov;
 
 	public AntlrToGameBody() {
 
@@ -99,6 +103,14 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.totalNotUsed = totalNotUsed;
 	}
 
+	// Condition Coverage
+	public AntlrToGameBody(List<String> semanticError, ConditionCoverage condCov) {
+		this.semanticErrors = semanticError;
+		this.condCov = condCov;
+		this.variableMap = new HashMap<>();
+		this.global_mymethods = new ArrayList<>();
+	}
+	
 	@Override
 	public GameBody visitGameBody(GameBodyContext ctx) {
 		List<Declaration> decl = new ArrayList<>();
@@ -199,6 +211,124 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		return new GameBody(decl, assi, mymethod);
 	}
 
+	
+	// Condition Coverage
+	public void visitConditionCoverage(GameBodyContext ctx) {
+/*
+		AntlrToMyMethods ifVisitor = new AntlrToMyMethods(semanticErrors, condCov); 
+
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			MyMethodsContext m = (MyMethodsContext)ctx.mymethod(i);
+			Map.Entry<MethodCall, Map<String, Values>> testMethod = condCov.getTestMethod();
+			if (!condCov.isComponentState() && testMethod != null
+					&& m.METHODNAME().getText().equals(testMethod.getKey().getName())) {
+				condCov.setCalledMethod(true);
+			}
+			else {
+				condCov.setCalledMethod(false);
+			}
+			ifVisitor.visitConditionCoverage(m);
+		}*/
+		
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		List<MyMethods> mymethod = new ArrayList<>();
+
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods, condCov); 
+
+		if(ctx.decl().size() > 0) {
+			semanticErrors.add("Error: no declaration is allowed");
+		}
+		for(int i = 0; i < ctx.decl().size(); i++) {			
+			//			decl.add(declVisitor.visit(ctx.decl(i)));
+			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+		}
+
+		if(ctx.assi().size() > 0) {
+			semanticErrors.add("Error: no assignment is allowed");
+		}
+		for(int i = 0; i < ctx.assi().size(); i++) {
+			//			assi.add(assiVisitor.visit(ctx.assi(i)));
+		}
+
+		/*
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
+			this.global_mymethods.add(myMeth);
+			mymethod.add(myMeth);
+
+		}
+		*/
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			MyMethodsContext m = (MyMethodsContext)ctx.mymethod(i);
+			Map.Entry<MethodCall, Map<String, Values>> testMethod = condCov.getTestMethod();
+			if (!condCov.isComponentState() && testMethod != null
+					&& m.METHODNAME().getText().equals(testMethod.getKey().getName())) {
+				condCov.setCalledMethod(true);
+			}
+			else {
+				condCov.setCalledMethod(false);
+			}
+			mmVisitor.visitConditionCoverage(m);
+		}
+		
+		this.decl = decl;
+		this.assi = assi;
+		this.mymethod = mymethod;
+
+		//check for semanticerrors:
+		for(Assignment i: assi) {
+			if(variableMap.containsKey(i.varName)) {
+				//At Values to variableMap for both r_method_call and value
+				if(checkIfAssignmentTypeMatchesRHS(i, i.expr, decl)) {
+					if(i.expr instanceof Values) {
+						variableMap.put(i.varName, ((Values)i.expr).getValues());
+					}else if(i.expr instanceof ReturnMethodCall) {
+						variableMap.put(i.varName, callExpr(((ReturnMethodCall)i.expr), i.varName));
+
+					}
+				}
+				else {
+					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
+				}
+			}
+			else {
+				//report semantic error uninitialized var
+				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
+			}
+		}
+
+		boolean containsMethod = false;
+		if(this.t_method_call != null) {
+			for(MyMethods m: this.mymethod) {
+				if(m.methodName.equals(this.t_method_call.getName())) {
+					if(m.methodType instanceof MyReturnMethod) {
+						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
+						Map<String, String> methodParameter = ((MyReturnMethod)m.methodType).parameter.getParams();
+						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyReturnMethod)m.methodType).parameter.getParams().size()) {
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							if(containsMethod) {
+								((MyReturnMethod)m.methodType).getValue(inputValues);
+							}
+						}
+					}else if(m.methodType instanceof MyVoidMethod) {
+						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
+						Map<String, String> methodParameter = ((MyVoidMethod)m.methodType).parameter.getParams();
+						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyVoidMethod)m.methodType).parameter.getParams().size()) {
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							if(containsMethod) {
+								//dk what to do wtih this yet
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
 	//control flow underneath
 	public GameBody control(GameBodyContext ctx) {
 		//		this.rangeOfLines = new int[2];

@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.MethodCall;
+import model.Values;
+
 public class ConditionCoverage{
 	
 	String htmlPrint;
 	Map<String, TestCase> componentMap;
+	boolean isComponentState;
+	String ifStatString;
+	String resultString;
+	Map.Entry<MethodCall, Map<String, Values>> testMethod;
+	boolean calledMethod;
 	
 	public class TestCase{
 
@@ -25,15 +33,59 @@ public class ConditionCoverage{
 	public ConditionCoverage() {
 		componentMap = new HashMap<>();
 		htmlPrint = ""; // for pretty printing
+		isComponentState = true;
+		testMethod = null;
+		calledMethod = false;
 	}
-	// should be called when you parse the game class. (AntlrToIfStatement?)
-	public void addComponent(String ifStat, String component) {
+	
+	
+	public boolean isComponentState() {
+		return isComponentState;
+	}
 
-		if (!componentMap.containsKey(ifStat)){ // if not exist, make new
-			componentMap.put(ifStat, new TestCase());
+
+	public void setComponentState(boolean isComponentState) {
+		this.isComponentState = isComponentState;
+	}
+
+	
+	public String getIfStatString() {
+		return ifStatString;
+	}
+
+	public void setIfStatString(String ifStatString) {
+		this.ifStatString = ifStatString;
+		resetResultString();
+	}
+
+	public void appendResultString(String addedString) {
+		this.resultString += addedString;
+	}
+	
+	public void resetResultString() {
+		this.resultString = "";
+	}
+	
+	public Map.Entry<MethodCall, Map<String, Values>> getTestMethod() {
+		return testMethod;
+	}
+
+
+	public void setTestMethod(Map.Entry<MethodCall, Map<String, Values>> testMethod) {
+		this.testMethod = testMethod;
+	}
+
+	public String getMethodParam(String varName) {
+		return testMethod.getValue().containsKey(varName) ? testMethod.getValue().get(varName).toString() : null;
+	}
+	
+	// should be called when you parse the game class. (AntlrToIfStatement?)
+	public void addComponent(String component) {
+		if (!componentMap.containsKey(ifStatString)){ // if not exist, make new
+			componentMap.put(ifStatString, new TestCase());
 		}
 		
-		TestCase curTestCase = componentMap.get(ifStat);
+		TestCase curTestCase = componentMap.get(ifStatString);
 		
 		if (!curTestCase.components.contains(component)) {
 			curTestCase.components.add(component);
@@ -44,17 +96,26 @@ public class ConditionCoverage{
 	// should be called when it gets input for the condition parameter
 	// binary form 
   // for example, if there are two components, and first component is true and second conpoenents is false, "01" should be in the parameter
-	public void addResult(String ifStat, String results) { 
-		TestCase curTestCase = componentMap.get(ifStat);
+	public void addResult() { 
+		TestCase curTestCase = componentMap.get(ifStatString);
 		
-		if (curTestCase != null) {
-			int n = Integer.parseInt(results, 2);
+		if (curTestCase != null && calledMethod) {
+			int n = Integer.parseInt(this.resultString, 2);
 			int index = (int) Math.pow(2, curTestCase.components.size()) - n - 1;
 			curTestCase.results[index] = true; // Tested
 			curTestCase.resultCount++;
 		}
 	}
 	
+	public void setCalledMethod(boolean b) {
+		this.calledMethod = b;		
+	}
+	
+	public boolean isCalledMethod() {
+		return calledMethod;
+	}
+
+
 	// should be called when html is generated
 	public String getPrint() { 
 		htmlPrint += "<style>table,th,td{border:1px solid black;}</style>"; // for table border
@@ -112,6 +173,9 @@ public class ConditionCoverage{
 		
 		return htmlPrint;
 	}
+
+
+
 
 }
 

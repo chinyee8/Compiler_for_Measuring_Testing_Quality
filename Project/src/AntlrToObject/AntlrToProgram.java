@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.GameClassContext;
 import antlr.exprParser.ProgramContext;
@@ -39,7 +40,11 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<Integer> linesUse;
 	public List<String> lines;
 	public int totalNotUsed;
+	
+	// Condition Coverage member variable
+	public ConditionCoverage condCov;
 
+	
 	public AntlrToProgram() {
 	}
 	
@@ -54,6 +59,17 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		this.t_method_call = t;
 		this.inputValues = inputValues;
 	}
+	
+	// Condition Coverage
+	public AntlrToProgram(ConditionCoverage condCov) {
+		this.condCov = condCov;
+		
+		if (!condCov.isComponentState()) {
+			this.t_method_call = condCov.getTestMethod().getKey();
+			this.inputValues = condCov.getTestMethod().getValue();
+		}
+	}
+
 
 	@Override
 	public Program visitProgram(ProgramContext ctx) {
@@ -137,6 +153,17 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 			totalNotUsed = cController.totalNotUsed;
 		}
 		return prog;
+	}
+	
+	// Condition Coverage
+	public void visitConditionCoverage(ProgramContext ctx) {
+	
+		semanticErrors = new ArrayList<>();
+		AntlrToGameClass ifVisitor = new AntlrToGameClass(condCov);
+
+		if(ctx.getChild(0) instanceof GameClassContext) {
+			ifVisitor.visitConditionCoverage((GameClassContext)ctx.getChild(0));
+		}
 	}
 
 }
