@@ -2,6 +2,7 @@ package AntlrToObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 				this.testVarMap.put(assi.get(i).varName, ((Values)assi.get(i).expr).getValues());
 
 			}else if(assi.get(i).expr instanceof ReturnMethodCall) {
-				this.allMethodCalls.put((ReturnMethodCall)assi.get(i).expr, new HashMap<String, Values>());
+				this.allMethodCalls.put((ReturnMethodCall)assi.get(i).expr, new LinkedHashMap<String, Values>());
 				
 			}
 		}
@@ -88,7 +89,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 						ReturnMethodCall rmc = ((ReturnMethodCall) i.expr);
 						List<String> paramaters = rmc.call_parameter.getCallParams(); //this returns an empty list?
 						this.methodMappedToOrderParameter.put(rmc, paramaters);
-						Map<String, Values> callInputs = new HashMap<>();
+						Map<String, Values> callInputs = new LinkedHashMap<>();
 						for(String p : paramaters) {
 							if(!testVarMap.containsKey(p)) {
 								semanticErrors.add("Error: " + p + " in " + i.expr.toString() + " does not exist");
