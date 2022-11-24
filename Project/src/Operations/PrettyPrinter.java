@@ -62,8 +62,8 @@ public class PrettyPrinter{
 		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>";
 		
 		//DataFlow
-		result += this.allDef.getString(0);
-		result += this.allC.getString(0);
+		result += "<div id=\"allDef\" hidden>\n" + this.allDef.getString(0) + "</div>";
+		result += "<div id=\"allCUse\" hidden>\n" + this.allC.getString(0) + "</div>";
 		
 		//javascript
 		result += this.getjsScript();
