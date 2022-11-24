@@ -118,7 +118,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		else {
 			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
 			MyMethodBody newElseBody = BodyController.control((MyMethodBodyContext) ctx.getChild(9));
-			IfStatement result = new IfStatement(cond, newElseBody, elseBody, semanticErrors);
+			IfStatement result = new IfStatement(cond, ifBody, newElseBody, semanticErrors);
 			result.elseCovered = true;
 			return result;
 		}
