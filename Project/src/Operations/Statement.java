@@ -43,7 +43,7 @@ public class Statement {
 					}
 					i++;
 				}
-				result += "&emsp;mymethod " + mm.methodName + " " + mt.dataType + " [ " + para + " ]!<br>";
+				result += "&emsp;mymethod " + mm.methodName + " " + mt.dataType + " [ " + para + " ] !<br>";
 				
 				for(Declaration d: ((MyReturnMethod)mm.methodType).method_body.declList) {
 					if(d.covered) {
@@ -75,11 +75,11 @@ public class Statement {
 						result += "&emsp;&emsp;&emsp;" +i1.elseBody.toString()+ "<br>";
 
 					}
-					result += "&emsp;&emsp;!<br><br>";
+					result += "&emsp;&emsp;!<br>";
 				}
 				
 				result += "<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieReturns " + mt.varName + "</mark><br>";
-				result += "&emsp;!<br>";
+				result += "&emsp;!<br><br>";
 				//				for(MethodCall v: ((MyReturnMethod)mm.methodType).method_body.methodCall) {
 				//					if(v instanceof VoidMethodCall) {
 				//						if(((VoidMethodCall)v).)
@@ -96,7 +96,7 @@ public class Statement {
 					}
 					i++;
 				}
-				result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [ " + para + " ]!<br>";
+				result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [ " + para + " ] !<br>";
 				
 				for(Declaration d: ((MyVoidMethod)mm.methodType).method_body.declList) {
 					if(d.covered) {
@@ -131,7 +131,7 @@ public class Statement {
 					result += "&emsp;&emsp;!<br>";
 				}
 				
-				result += "&emsp;!<br><br>";
+				result += "&emsp;!<br>";
 			}
 		}
 		result += "!<br>";
