@@ -270,6 +270,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 			assi.get(i).covered = true;
 			this.variableMap.put(assi.get(i).varName, (Values)assi.get(i).expr);//MONICA_fix later - temporarily add cast for expr, returnmethodcall not accountedfor
 
+
 		}
 
 		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, this.variableMap, this.global_mymethods,
