@@ -60,16 +60,18 @@ public class Statement {
 					}
 				}
 				for(IfStatement i1 : ((MyReturnMethod)mm.methodType).method_body.ifStatList) {
-					result+="<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieAsks [ " + i1.cond.toString() + " ] !</mark><br>";
 					if(i1.ifCovered == true) {
+						result+="<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieAsks [ " + i1.cond.toString() + " ] !</mark><br>";
 						result +="&emsp;&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+i1.ifBody.toString()+"</mark><br>";
 						result += "&emsp;&emsp;! elseJackie !<br>";
 						result += "&emsp;&emsp;&emsp;" + i1.elseBody.toString() + "<br>";
 					}else if(i1.elseCovered == true) {
+						result+="<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieAsks [ " + i1.cond.toString() + " ] !</mark><br>";
 						result += "&emsp;&emsp;&emsp;" +i1.ifBody.toString()+ "<br>";
 						result += "&emsp;&emsp;! elseJackie !<br>";
 						result+="&emsp;&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+i1.elseBody.toString()+"</mark><br>";
 					}else {
+						result+="<br>&emsp;&emsp;jackieAsks [ " + i1.cond.toString() + " ] !<br>";
 						result += "&emsp;&emsp;&emsp;" +i1.ifBody.toString()+ "<br>";
 						result += "&emsp;&emsp;! elseJackie !<br>";
 						result += "&emsp;&emsp;&emsp;" +i1.elseBody.toString()+ "<br>";
@@ -78,7 +80,14 @@ public class Statement {
 					result += "&emsp;&emsp;!<br>";
 				}
 				
-				result += "<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieReturns " + mt.varName + "</mark><br>";
+				//change later for jackieReturns by input in the true section
+				if(true) {
+					result += "<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieReturns " + mt.varName + "</mark><br>";
+				}else {
+					result += "<br>&emsp;&emsp;jackieReturns " + mt.varName + "<br>";
+
+				}
+				
 				result += "&emsp;!<br><br>";
 				//				for(MethodCall v: ((MyReturnMethod)mm.methodType).method_body.methodCall) {
 				//					if(v instanceof VoidMethodCall) {
@@ -102,27 +111,29 @@ public class Statement {
 					if(d.covered) {
 						result+=("&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+d.toString()+"</mark><br>");
 					}else {
-						result+=("&emsp;&emsp;"+d.toString()+ "<br>");
+						result+=("&emsp;&emsp;"+d.toString() + "<br>");
 					}
 				}
 				for(Assignment a: ((MyVoidMethod)mm.methodType).method_body.assiList) {
 					if(a.covered) {
-						result+="&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+a.toString()+"</mark><br>";
+						result+=("&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+a.toString()+"</mark><br>");
 					}else {
-						result+="&emsp;&emsp;"+a.toString()+ "<br>";
+						result+=("&emsp;&emsp;"+a.toString()+ "<br>");
 					}
 				}
 				for(IfStatement i1 : ((MyVoidMethod)mm.methodType).method_body.ifStatList) {
-					result+="<br>&emsp;&emsp;jackieAsks [ " + i1.cond.toString() + " ] !<br>";
 					if(i1.ifCovered == true) {
+						result+="<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieAsks [ " + i1.cond.toString() + " ] !</mark><br>";
 						result +="&emsp;&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+i1.ifBody.toString()+"</mark><br>";
 						result += "&emsp;&emsp;! elseJackie !<br>";
 						result += "&emsp;&emsp;&emsp;" + i1.elseBody.toString() + "<br>";
 					}else if(i1.elseCovered == true) {
+						result+="<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieAsks [ " + i1.cond.toString() + " ] !</mark><br>";
 						result += "&emsp;&emsp;&emsp;" +i1.ifBody.toString()+ "<br>";
 						result += "&emsp;&emsp;! elseJackie !<br>";
 						result+="&emsp;&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">"+i1.elseBody.toString()+"</mark><br>";
 					}else {
+						result+="<br>&emsp;&emsp;jackieAsks [ " + i1.cond.toString() + " ] !<br>";
 						result += "&emsp;&emsp;&emsp;" +i1.ifBody.toString()+ "<br>";
 						result += "&emsp;&emsp;! elseJackie !<br>";
 						result += "&emsp;&emsp;&emsp;" +i1.elseBody.toString()+ "<br>";
@@ -131,7 +142,8 @@ public class Statement {
 					result += "&emsp;&emsp;!<br>";
 				}
 				
-				result += "&emsp;!<br>";
+				
+				result += "&emsp;!<br><br>";
 			}
 		}
 		result += "!<br>";
