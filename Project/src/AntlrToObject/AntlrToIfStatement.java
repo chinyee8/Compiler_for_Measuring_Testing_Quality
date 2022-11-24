@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.IfStatementContext;
 import antlr.exprParser.MyMethodBodyContext;
@@ -47,14 +48,17 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public HashMap<String, Values> local_methodVar;
 	
 	//DefCoverage
-		public Map<String, Boolean> def;
-		public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
-		public Map<Integer, Map<String, Boolean>> linesDef;
-		public List<Integer> linesUse;
-		public MethodCall t_method_call;
-		public Map<String, Values> inputValues;
-		public List<String> lines;
-		public int totalNotUsed;
+	public Map<String, Boolean> def;
+	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
+	public Map<Integer, Map<String, Boolean>> linesDef;
+	public List<Integer> linesUse;
+	public MethodCall t_method_call;
+	public Map<String, Values> inputValues;
+	public List<String> lines;
+	public int totalNotUsed;
+	
+	// Condition Coverage
+	public ConditionCoverage condCov;
 
 	public AntlrToIfStatement(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticErrors;
@@ -79,7 +83,34 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		this.totalNotUsed = totalNotUsed;
 	}
 
+	// Condition Coverage
+	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, HashMap<String, Values> local_methodVar, ConditionCoverage condCov) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.local_methodVar = local_methodVar;
+		this.condCov = condCov;
+	}
+	
+	// Condition Coverage
+	public void visitConditionCoverage(IfStatementContext ctx) {
+		AntlrToCondition ifCondVisitor = new AntlrToCondition(semanticErrors, this.variableMap, condCov);
+		String strIfStatement = ctx.getChild(0).getText() + ctx.getChild(1).getText() + ctx.getChild(2).getText() + ctx.getChild(3).getText();
+		condCov.setIfStatString(strIfStatement);
+		
+		if (!condCov.isComponentState() && condCov.isCalledMethod()) {
+			condCov.resetResultString();
+		}
+		ifCondVisitor.visit(ctx.cond());
+		if (!condCov.isComponentState() && condCov.isCalledMethod()) {
+			condCov.addResult();
+		}
+		AntlrToMyMethodBody ifBodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods, condCov);
+		ifBodyVisitor.visitConditionCoverage((MyMethodBodyContext) ctx.getChild(5)); // inside if body
+		ifBodyVisitor.visitConditionCoverage((MyMethodBodyContext) ctx.getChild(9)); // inside else body
 
+	}
+	
 	@Override
 	public IfStatement visitIfStatement(IfStatementContext ctx) {
 
@@ -111,16 +142,12 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		if(ifEvaluator) {
 			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
 			MyMethodBody newIfBody = BodyController.control((MyMethodBodyContext) ctx.getChild(5));
-			IfStatement result = new IfStatement(cond, newIfBody, elseBody, semanticErrors);
-			result.ifCovered = true;
-			return result;
+			return new IfStatement(cond, newIfBody, elseBody, semanticErrors);
 		}
 		else {
 			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
 			MyMethodBody newElseBody = BodyController.control((MyMethodBodyContext) ctx.getChild(9));
-			IfStatement result = new IfStatement(cond, ifBody, newElseBody, semanticErrors);
-			result.elseCovered = true;
-			return result;
+			return new IfStatement(cond, newElseBody, elseBody, semanticErrors);
 		}
 	}
 

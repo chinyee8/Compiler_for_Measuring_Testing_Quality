@@ -4,7 +4,7 @@ import model.*;
 import java.util.HashMap;
 import java.util.List;
 
-
+import Operations.ConditionCoverage;
 import antlr.*;
 import antlr.exprParser.*;
 
@@ -12,11 +12,22 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
+	
+	//Condition Coverage
+	public ConditionCoverage condCov = null;
+	
 	public AntlrToCondition(List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
 	}
 	
+	//Condition Coverage
+	public AntlrToCondition(List<String> semanticErrors, HashMap<String, Values> variableMap, ConditionCoverage condCov) {
+		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
+		this.condCov = condCov;
+	}
+
 	@Override
 	public Condition visitLessOrEqual(LessOrEqualContext ctx) {
 		AntlrToMathematics mVisitorLeft = new AntlrToMathematics(semanticErrors, this.variableMap);
@@ -24,22 +35,130 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(2) instanceof CondVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else {
+					condCov.appendResultString(null); // todo put "0" or "1"
+				}
+			}
+		}
+		
 		return new LessOrEqual(left, right);
 	}
 	@Override
 	public Condition visitNegation(NegationContext ctx) {
 		Condition condition = visit(ctx.getChild(1));
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(1) instanceof CondVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String value = "";
+					if (this.variableMap.containsKey(condition.toString())) {
+						value = this.variableMap.get(condition.toString()).toString();
+					}
+					else {
+						value = condCov.getMethodParam(condition.toString());
+						if (value == null) {
+							value = condition.toString();
+						}
+					}
+					
+					if (!(Boolean.parseBoolean(value))) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new Negation(condition);
 	}
 	@Override
 	public Condition visitNotEqualTo(NotEqualToContext ctx) {
 		Condition left = visit(ctx.getChild(0));
 		Condition right = visit(ctx.getChild(2));
+		
+		//Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (Boolean.parseBoolean(leftValue) != Boolean.parseBoolean(rightValue) 
+							|| Double.parseDouble(leftValue) != Double.parseDouble(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new NotEqualTo(left, right);
 	}
 	@Override
 	public Condition visitCondVarName(CondVarNameContext ctx) {
 		String varName = ctx.getChild(0).getText();
+		// Condition Coverage
+		if (condCov != null) {
+			
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			}
+			else if (condCov.isCalledMethod()) {
+				String value = "";
+				if (this.variableMap.containsKey(varName.toString())) {
+					value = this.variableMap.get(varName.toString()).toString();
+				}
+				else {
+					value = condCov.getMethodParam(varName.toString());
+					if (value == null) {
+						value = varName.toString();
+					}
+				}
+				
+				if ((Boolean.parseBoolean(value))) {
+					condCov.appendResultString("1"); // in case of true
+				}
+				else {
+					condCov.appendResultString("0"); // in case of false
+				}
+				
+			}
+		}
+		
 		return new CondVarName(varName);
 	}
 	@Override
@@ -48,13 +167,89 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
-		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (leftValue.equals(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new CondEqual(left, right);
 	}
 	@Override
 	public Condition visitEqualTo(EqualToContext ctx) {
 		Condition left = visit(ctx.getChild(0));
 		Condition right = visit(ctx.getChild(2));
+		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (leftValue.equals(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new EqualTo(left, right);
 	}
 	@Override
@@ -64,12 +259,89 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (Double.parseDouble(leftValue) > Double.parseDouble(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
+		
 		return new More(left, right);
 	}
 	@Override
 	public Condition visitDisjunction(DisjunctionContext ctx) {
 		Condition left = visit(ctx.getChild(0));
 		Condition right = visit(ctx.getChild(2));
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext  
+					|| ctx.getChild(2) instanceof CondVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (Boolean.parseBoolean(leftValue) || Boolean.parseBoolean(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new Disjunction(left, right);
 	}
 	@Override
@@ -82,6 +354,7 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		else if (temp.equals("FALSE")) {
 			res = false;
 		}
+		
 		return new CondBool(res);
 	}
 	@Override
@@ -90,7 +363,44 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
-		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (Double.parseDouble(leftValue) >= Double.parseDouble(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new MoreOrEqual(left, right);
 	}
 	@Override
@@ -99,13 +409,88 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
-		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (!(leftValue.equals(rightValue))) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new CondNotEqual(left, right);
 	}
 	@Override
 	public Condition visitConjunction(ConjunctionContext ctx) {
 		Condition left = visit(ctx.getChild(0));
 		Condition right = visit(ctx.getChild(2));
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (Boolean.parseBoolean(leftValue) && Boolean.parseBoolean(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new Conjunction(left, right);
 	}
 	@Override
@@ -119,11 +504,46 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics left = mVisitorLeft.visit(ctx.getChild(0));
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
-		
+		// Condition Coverage
+		if (condCov != null) {
+			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
+					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
+				if (condCov.isComponentState()) {
+					condCov.addComponent(ctx.getText());
+				} 
+				else if (condCov.isCalledMethod()) {
+					String leftValue = "";
+					String rightValue = "";
+					if (this.variableMap.containsKey(left.toString())) {
+						leftValue = this.variableMap.get(left.toString()).toString();
+					}
+					else {
+						leftValue = condCov.getMethodParam(left.toString());
+						if (leftValue == null) {
+							leftValue = left.toString();
+						}
+					}
+					if (this.variableMap.containsKey(right.toString())) {
+						rightValue = this.variableMap.get(right.toString()).toString();
+					}
+					else {
+						rightValue = condCov.getMethodParam(right.toString());
+						if (rightValue == null) {
+							rightValue = right.toString();
+						}
+					}
+					if (Double.parseDouble(leftValue) < Double.parseDouble(rightValue)) {
+						condCov.appendResultString("1"); // in case of true
+					}
+					else {
+						condCov.appendResultString("0"); // in case of false
+					}
+					
+				}
+			}
+		}
 		return new Less(left, right);
 	}
-
-	
 	
 	
 }

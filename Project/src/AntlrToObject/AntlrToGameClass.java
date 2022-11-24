@@ -7,6 +7,7 @@ import java.util.Map;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.GameBodyContext;
 import antlr.exprParser.GameClassContext;
@@ -35,6 +36,9 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public List<Integer> linesUse;
 	public List<String> lines;
 	public int totalNotUsed;
+	
+	// Condition Coverage member variable
+	public ConditionCoverage condCov;
 	
 	public AntlrToGameClass() {
 		
@@ -66,6 +70,16 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		this.lines = lines;
 		this.totalNotUsed = totalNotUsed;
 	}
+	
+	// Condition Coverage 
+	public AntlrToGameClass(ConditionCoverage condCov) {
+		this.condCov = condCov;
+		if (!condCov.isComponentState()) {
+			this.t_method_call = condCov.getTestMethod().getKey();
+			this.inputValues = condCov.getTestMethod().getValue();
+		}
+	}
+	
 	@Override
 	public GameClass visitGameClass(GameClassContext ctx) {
 		String className = ctx.CLASS_NAME().getText();
@@ -108,6 +122,18 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 		totalNotUsed = gbVisitor.totalNotUsed;
 		lines.add("!");
 		return new GameClass(className, gamebody);
+	}
+	
+	// ConditionCoverage
+	public void visitConditionCoverage(GameClassContext ctx) {
+		AntlrToGameBody ifVisitor = new AntlrToGameBody(semanticErrors, condCov);
+		ifVisitor.visitConditionCoverage((GameBodyContext) ctx.body());		
+		/*
+		String className = ctx.CLASS_NAME().getText();
+		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors);
+		GameBody gamebody = gbVisitor.visit(ctx.body());
+		return new GameClass(className, gamebody);
+		*/
 	}
 
 }
