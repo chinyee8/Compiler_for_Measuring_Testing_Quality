@@ -33,7 +33,6 @@ public class AllCUsesCoverage {
 			i++;
 		}
 		
-		result += "<p id=\"allCUse\" hidden>\n";
 		for(String s: modifiedLines) {
 			result += s  + "<br>";
 		}
@@ -41,7 +40,6 @@ public class AllCUsesCoverage {
 //		result+= "<div style=\"font-size:2rem; border-bottom:1px solid red; position:relative;\">";
 		result+= "<br><mark style=\"background-color: red;\">"  + percentage.get(testnum) + "% </mark>\n";
 			
-		result += "</p><br>\n";
 		
 		return result;
 	}
