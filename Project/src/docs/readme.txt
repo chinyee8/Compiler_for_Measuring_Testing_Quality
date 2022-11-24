@@ -1,7 +1,15 @@
 How to run tool:
 	1. go to "src" file
 	2. run the command below in terminal
-			java -jar my-compiler.jar \tests\input-1.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass1-4.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase1.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass1-4.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase2.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass1-4.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase3.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass1-4.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase4.txt
+
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass5-8.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase5.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass5-8.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase6.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass5-8.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase7.txt
+			java -jar my-compiler.jar /Users/cy/Downloads/4302Project/Project/src/tests/gameclass5-8.txt /Users/cy/Downloads/4302Project/Project/src/tests/testcase8.txt
 
 Expected output: 
 	a single HTML file named => index.html
