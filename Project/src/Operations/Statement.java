@@ -30,7 +30,7 @@ public class Statement {
 		String result = "";
 		Program p = programList.get(testnum);
 
-		result += "game " + p.gameclass.className + " [ ] !<br><br>";
+		result += "game " + p.gameclass.className + " [] !<br><br>";
 
 		for(MyMethods mm : p.gameclass.body.myMethodList) {
 			if( mm.methodType instanceof MyReturnMethod) {
@@ -75,10 +75,10 @@ public class Statement {
 						result += "&emsp;&emsp;&emsp;" +i1.elseBody.toString()+ "<br>";
 
 					}
-					result += "&emsp;&emsp;!<br>";
+					result += "&emsp;&emsp;!<br><br>";
 				}
 				
-				result += "<br>&emsp;&emsp;jackieReturns " + mt.varName + "<br>";
+				result += "<br>&emsp;&emsp;<mark style=\"background-color: #C2DFFF;\">jackieReturns " + mt.varName + "</mark><br>";
 				result += "&emsp;!<br>";
 				//				for(MethodCall v: ((MyReturnMethod)mm.methodType).method_body.methodCall) {
 				//					if(v instanceof VoidMethodCall) {
@@ -131,12 +131,11 @@ public class Statement {
 					result += "&emsp;&emsp;!<br>";
 				}
 				
-				result += "&emsp;!<br>";
+				result += "&emsp;!<br><br>";
 			}
 		}
-		result += "!";
+		result += "!<br>";
 
-		System.out.println(result);
 
 		return result; 
 	}
