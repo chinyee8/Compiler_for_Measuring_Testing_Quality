@@ -106,52 +106,30 @@ public class ExpressionApp {
 							i++;
 						}
 
+						// Condition Coverage
+						ConditionCoverage condCov = new ConditionCoverage();
+
+						AntlrToProgram progCondComp = new AntlrToProgram(condCov);
+						progCondComp.visitConditionCoverage((ProgramContext)progAST); // for addCompoenent
+
+						condCov.setComponentState(false); // now adding result state
+						
+						//temp
+						//condCov.appendResultString("0");
+						//condCov.addResult();
+						
+						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
+							//AntlrToProgram progCond = new AntlrToProgram(t.getKey(), t.getValue(), condCov);
+							condCov.setTestMethod(t);
+							AntlrToProgram progCond = new AntlrToProgram(condCov);
+							progCond.visitConditionCoverage((ProgramContext)progAST);	 // for addResult						
+						}
+						
 						Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 
 						Statement st = new Statement(programList, lines);
 
 						
-						//Yeseul- Condition Coverage (temporal)
-						ConditionCoverage tempConCov = new ConditionCoverage();
-
-//						if (fileName2.contains("testcase1.txt")) {
-//							tempConCov.addComponent("jackieAsks [b]", "b");
-//							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
-//
-//							tempConCov.addResult("jackieAsks [b]", "1");
-//							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
-//						}
-//						else if (fileName2.contains("testcase2.txt")) {
-//							tempConCov.addComponent("jackieAsks [b]", "b");
-//							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
-//
-//							tempConCov.addResult("jackieAsks [b]", "0");
-//							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
-//						}
-//						else if (fileName2.contains("testcase3.txt")) {
-//							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
-//							tempConCov.addResult("jackieAsks [input1 > input2]", "0");
-//						}
-//						else if (fileName2.contains("testcase4.txt")) {
-//							tempConCov.addComponent("jackieAsks [input1 > input2]", "input1 > input2");
-//							tempConCov.addResult("jackieAsks [input1 > input2]", "1");
-//						}
-//						else if (fileName2.contains("testcase5.txt")) {
-//							tempConCov.addComponent("jackieAsks [b]", "b");
-//							tempConCov.addResult("jackieAsks [b]", "0");
-//						}
-//						else if (fileName2.contains("testcase6.txt")) {
-//							tempConCov.addComponent("jackieAsks [b]", "b");
-//							tempConCov.addResult("jackieAsks [b]", "1");
-//						}
-//						else if (fileName2.contains("testcase7.txt")) {
-//							tempConCov.addComponent("jackieAsks [b]", "b");
-//							tempConCov.addResult("jackieAsks [b]", "0");
-//						}
-//						else if (fileName2.contains("testcase8.txt")) {
-//							tempConCov.addComponent("jackieAsks [b]", "b");
-//							tempConCov.addResult("jackieAsks [b]", "1");
-//						}
 
 						AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines, defpercentage);
 						AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
@@ -160,7 +138,7 @@ public class ExpressionApp {
 						printer.addStatement(st);
 						printer.addAllDefCoverage(alldef);
 						printer.addAllCUseCoverage(allc);
-						printer.addCondCoverage(tempConCov); // Yeseul- Cond COverage to print
+						printer.addCondCoverage(condCov);
 
 						printer.prettyPrint();
 					}else {
