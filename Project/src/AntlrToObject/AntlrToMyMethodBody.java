@@ -296,10 +296,12 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		List<Assignment> assi = new ArrayList<>();
 		List<IfStatement> ifstatement = new ArrayList<>();
 		List<MethodCall> methodcall = new ArrayList<>();
+		List<Loop> loops = new ArrayList<>();
 
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
+		AntlrToLoop loopVisitor = new AntlrToLoop(semanticErrors, this.variableMap, this.global_mymethods);
 
 		this.local_methodvar.putAll(variableMap);
 
@@ -321,13 +323,18 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}
+			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
+				Loop lo = loopVisitor.control((Deterministic_LoopContext) ctx.getChild(i));
+				loops.add(lo);
+			}
 		}
 
 		this.decl = decl;
 		this.assi = assi;
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, this.loops);
+		this.loops = loops;
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
 	}
 
 	// Condition Coverage
