@@ -13,6 +13,7 @@ public class IfStatement{
 	public boolean ifCovered;
 	public boolean elseCovered;
 	public List<String> semanticErrors;
+	public boolean CondEvaluatedTo;
 	
 	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody, List<String> semanticErrors) {
 		this.cond = cond;
@@ -21,6 +22,7 @@ public class IfStatement{
 		ifCovered = false;
 		elseCovered = false;
 		this.semanticErrors = semanticErrors;
+		this.CondEvaluatedTo = false;
 	}
 
 	public String toString() {
@@ -33,6 +35,11 @@ public class IfStatement{
 		result += "!";
 
 		return result;
+	}
+
+	public void setCond(boolean evaluated) {
+		this.CondEvaluatedTo = evaluated;
+		
 	}
 		
 //	public List<MyMethodBody> getIfBody(Map<String, Values> map) {
