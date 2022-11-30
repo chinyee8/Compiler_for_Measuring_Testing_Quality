@@ -49,7 +49,7 @@ public class Statement {
 
 				result += "<br>";
 
-				result += "&emsp;&emsp;jackieReturns " + mt.varName + "<br>";
+				result += "&emsp;&emsp;"+ "<mark style=\"background-color: yellow;\">" + "jackieReturns " + mt.varName + "</mark>" + "<br>";
 				result += "&emsp;!<br>";
 
 			}else if(mm.methodType instanceof MyVoidMethod) {
