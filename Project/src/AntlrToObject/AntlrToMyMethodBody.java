@@ -36,10 +36,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	List<Loop> loops;
 
 	//DefCoverage
-	public Map<String, Boolean> def;
-	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
-	public Map<Integer, Map<String, Boolean>> linesDef;
-	public List<Integer> linesUse;
+	public Map<String, String> def;
 	public List<String> lines;
 	public int totalNotUsed;
 
@@ -71,32 +68,26 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	}
 
 	//defCoverage
-	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines, int totalNotUsed) {
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, String> def, List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.def = def;
-		this.def_use = def_use;
-		this.linesDef = linesDef;
 		this.local_methodvar = new HashMap<>();
-		this.linesUse = linesUse;
 		this.lines = lines;
 		this.totalNotUsed = totalNotUsed;
 	}
 
-	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues,Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, HashMap<String, Values> local_methodVar, List<Integer> linesUse, List<String> lines, int totalNotUsed) {
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues,Map<String, String> def, HashMap<String, Values> local_methodVar, List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.def = def;
-		this.def_use = def_use;
-		this.linesDef = linesDef;
 		this.local_methodvar = local_methodVar;
-		this.linesUse = linesUse;
 		this.lines = lines;
 		this.totalNotUsed = totalNotUsed;
 	}
@@ -313,7 +304,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
 
-		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, local_methodvar, linesUse, lines, totalNotUsed);
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def,local_methodvar, lines, totalNotUsed);
 		for (int i = 0; i < ctx.if_statement().size(); i++) {
 			ifstatement.add(ifVisitor.defControl((IfStatementContext)ctx.if_statement(i)));
 		}
