@@ -38,7 +38,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	public List<String> methodCallParamOrder;
 
 	//Def Coverage
-	public Map<String, Boolean> def;
+	public Map<String, String> def;
 	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use; 
 	public Map<Integer, Map<String, Boolean>> linesDef;
 	public List<Integer> linesUse;
@@ -63,10 +63,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.assi = new ArrayList<>();
 		this.mymethod = new ArrayList<>();
 	}
-	public AntlrToGameBody(List<String> semanticError) {
+	public AntlrToGameBody(List<String> semanticError, List<MyMethods> global_methods) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
-		this.global_mymethods = new ArrayList<>();
+		this.global_mymethods = global_methods;
 	}
 
 	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, List<String> methodCallParamOrder) {
@@ -89,16 +89,13 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	}
 
 	//defCoverage
-	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>> def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse,  List<String> lines, int totalNotUsed) {
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, List<MyMethods>global_methods, Map<String, String> def, List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.def = def;
-		this.def_use = def_use;
-		this.linesDef = linesDef;
-		this.global_mymethods = new ArrayList<>();
-		this.linesUse = linesUse;
+		this.global_mymethods = global_methods;
 		this.lines = lines;
 		this.totalNotUsed = totalNotUsed;
 	}
@@ -389,19 +386,20 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
 
-		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues,  def, lines, totalNotUsed);
 
-		for(int i = 0; i < ctx.mymethod().size(); i++) {
-			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
-			this.global_mymethods.add(myMeth);
-			mymethod.add(myMeth);
-		}
+//		for(int i = 0; i < ctx.mymethod().size(); i++) {
+//			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
+//			this.global_mymethods.add(myMeth);
+//			mymethod.add(myMeth);
+//		}
 
 		int i = 0;
 		for(MyMethods m : this.global_mymethods) {
 			MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
+			mymethod.add(myMeth);
 			totalNotUsed += mmVisitor.totalNotUsed;
-			def_use.put(linesDef, linesUse);
+//			def_use.put(linesDef, linesUse);
 			def = new HashMap<>();
 			linesDef = new HashMap<>();
 			linesUse = new ArrayList<>();
