@@ -21,6 +21,7 @@ import Operations.AllDefCoverage;
 import Operations.ConditionCoverage;
 import Operations.ErrorListener;
 import Operations.Evaluator;
+import Operations.Original;
 import Operations.PrettyPrinter;
 import Operations.Statement;
 import antlr.exprLexer;
@@ -62,10 +63,11 @@ public class ExpressionApp {
 						ArrayList<Program> programList = new ArrayList<>();
 
 						//devCoverage
-						Map<Integer, List<Integer>> defLines = new HashMap<>();
-						Map<Integer, List<Integer>> useLines = new HashMap<>();
-						Map<Integer, List<String>> lines = new HashMap<>();
-						Map<Integer, Integer> defpercentage = new HashMap<>();
+//						Map<Integer, List<Integer>> defLines = new HashMap<>();
+//						Map<Integer, List<Integer>> useLines = new HashMap<>();
+//						Map<Integer, List<String>> lines = new HashMap<>();
+//						Map<Integer, Integer> defpercentage = new HashMap<>();
+						ArrayList<Program> defProgram = new ArrayList<>();
 						List<String> errors = new ArrayList<>();
 						boolean containErrors = false;
 
@@ -84,35 +86,36 @@ public class ExpressionApp {
 
 
 						//DefCoverage
-						int i = 0;
+//						int i = 0;
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
-							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), t.getValue());
+							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), progVisitor.global_methods, t.getValue());
 							Program defProg = devCoverage.defControl((ProgramContext)progAST);
+							defProgram.add(defProg);
 							if(devCoverage.semanticErrors.size()>0) {
 								containErrors = true;
 								errors.addAll(devCoverage.semanticErrors);
 							}
 
-							List<Integer> key = new ArrayList<>();
-							List<Integer> value = new ArrayList<>();
-							for(Map.Entry<Map<Integer, Map<String, Boolean>>, List<Integer>> m : devCoverage.def_use.entrySet()) {
-								for(Map.Entry<Integer, Map<String, Boolean>> def : m.getKey().entrySet()) {
-									key.add(def.getKey());
-								}			
-								for(Integer v: m.getValue()) {
-									value.add(v);
-								}
-							}
-							defLines.put(i, key);
-							useLines.put(i, value);
-							lines.put(i, devCoverage.lines);
-							
-							double countpercent = ((key.size() - devCoverage.totalNotUsed)/(double)key.size())*100;
-							int percent = (int)countpercent;
-							defpercentage.put(i,percent);
-
-							i++;
+//							List<Integer> key = new ArrayList<>();
+//							List<Integer> value = new ArrayList<>();
+//							for(Map.Entry<Map<Integer, Map<String, Boolean>>, List<Integer>> m : devCoverage.def_use.entrySet()) {
+//								for(Map.Entry<Integer, Map<String, Boolean>> def : m.getKey().entrySet()) {
+//									key.add(def.getKey());
+//								}			
+//								for(Integer v: m.getValue()) {
+//									value.add(v);
+//								}
+//							}
+//							defLines.put(i, key);
+//							useLines.put(i, value);
+//							lines.put(i, devCoverage.lines);
+//							
+//							double countpercent = ((key.size() - devCoverage.totalNotUsed)/(double)key.size())*100;
+//							int percent = (int)countpercent;
+//							defpercentage.put(i,percent);
+//
+//							i++;
 						}
 
 						if(containErrors) {
@@ -141,17 +144,17 @@ public class ExpressionApp {
 							
 							Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
 
-							Statement st = new Statement(programList, lines);
+							Original ori = new Original(programList);
+							Statement st = new Statement(programList);
 
-							
+							AllDefCoverage alldef = new AllDefCoverage(defProgram);
+//							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
 
-							AllDefCoverage alldef = new AllDefCoverage(defLines, useLines, lines, defpercentage);
-							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
-
-							PrettyPrinter printer = new PrettyPrinter(ep, lines, i);
+							PrettyPrinter printer = new PrettyPrinter(ep, 0);
+							printer.addOriginal(ori);
 							printer.addStatement(st);
 							printer.addAllDefCoverage(alldef);
-							printer.addAllCUseCoverage(allc);
+//							printer.addAllCUseCoverage(allc);
 							printer.addCondCoverage(condCov);
 
 							printer.prettyPrint();
