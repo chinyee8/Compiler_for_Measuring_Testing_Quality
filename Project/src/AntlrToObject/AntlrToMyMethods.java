@@ -10,6 +10,7 @@ import javax.swing.plaf.LabelUI;
 
 import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
+import antlr.exprParser.Deterministic_LoopContext;
 import antlr.exprParser.MyMethodsContext;
 import antlr.exprParser.MyReturnMethodContext;
 import antlr.exprParser.MyVoidMethodContext;
@@ -30,6 +31,7 @@ import model.Expr;
 import model.IfStatement;
 import model.Less;
 import model.LessOrEqual;
+import model.Loop;
 import model.MathDouble;
 import model.MathNumber;
 import model.MathParenthesis;
@@ -70,7 +72,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public List<String> methodCallParamOrder;
-	private HashMap<String, Values> local_variableMap;
+	public HashMap<String, Values> local_variableMap;
 	//def Coverage
 	public Map<String, Boolean> def;
 	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
@@ -78,7 +80,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public List<Integer> linesUse;
 	public List<String> lines;
 	public int totalNotUsed;
-	
+
 	// Condition Coverage member variable
 	public ConditionCoverage condCov;
 
@@ -128,7 +130,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			this.inputValues = condCov.getTestMethod().getValue();
 		}
 	}
-	
+
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
@@ -152,8 +154,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			Map <String, String> parameter = ((MyReturnMethod)methodType).parameter.getParams();
 
 			declareParameter(parameter);
+			if(t_method_call instanceof ReturnMethodCall) {
+				checkTestMethodCallParameter(parameter, methodType, methodName);
+			}
 			checkDeclAssi(((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
 			checkParameterForErrors(((MyReturnMethod)methodType).method_body, parameter);
+			checkLoop(((MyReturnMethod)methodType).method_body, parameter);
 			checkVoidCall(((MyReturnMethod)methodType).method_body);
 			checkReturnVar(((MyReturnMethod)methodType));
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
@@ -165,8 +171,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
 
 			declareParameter(parameter);
+			if(t_method_call instanceof ReturnMethodCall) {
+				checkTestMethodCallParameter(parameter, methodType, methodName);
+			}
 			checkDeclAssi(((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
 			checkParameterForErrors(((MyVoidMethod)methodType).method_body, parameter);
+			checkLoop(((MyVoidMethod)methodType).method_body, parameter);
 			checkVoidCall(((MyVoidMethod)methodType).method_body);
 
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
@@ -184,10 +194,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		else {
 			ifVisitor.visitConditionCoverage((MyVoidMethodContext)ctx.getChild(2));
 		}
-		
+
 	}
 
-	
+
 	public MyMethods control(MyMethodsContext ctx) {
 		String methodName = ctx.METHODNAME().getText();
 		if(methodName.equals(this.t_method_call.getName())) {
@@ -215,7 +225,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	}
 
 
-	
+
 	//defCoverage
 	public MyMethods defControl(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
@@ -253,7 +263,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 
 			getDefCoverage(((MyReturnMethod)methodType).method_body);
-			
+
 			lines.add("<br>&emsp;&emsp;jackieReturns " + ((MyReturnMethod)methodType).varName);
 			boolean contains = false;
 			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
@@ -267,7 +277,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(contains) {
 				linesUse.add(lines.size()-1);
 			}
-			
+
 			List<Integer> keyToRemove = new ArrayList<>();
 			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
 				boolean got = false;
@@ -282,11 +292,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					keyToRemove.add(ld.getKey());
 				}
 			}
-			
+
 			for(Integer key : keyToRemove) {
 				linesDef.remove(key);
 			}
-			
+
 			lines.add("&emsp;!");
 
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
@@ -317,7 +327,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 
 			getDefCoverage(((MyVoidMethod)methodType).method_body);			
-			
+
 			List<Integer> keyToRemove = new ArrayList<>();
 			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
 				boolean got = false;
@@ -332,11 +342,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					keyToRemove.add(ld.getKey());
 				}
 			}
-			
+
 			for(Integer key : keyToRemove) {
 				linesDef.remove(key);
 			}
-			
+
 			lines.add("&emsp;!");
 
 
@@ -346,6 +356,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void getDefCoverage(MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
+			local_variableMap.put(d.varName, d.defaultValue);
 			def.put(d.varName, false);
 			lines.add("&emsp;&emsp;"+ d.varName + " << " + d.dataType);
 			linesDef.put(lines.size()-1, def);
@@ -360,6 +371,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
+					checkMath((ValueMath)a.expr, a, true);
+
 					List<String> list  = new ArrayList<>();
 					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
 
@@ -375,9 +388,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					if(contains) {
 						linesUse.add(lines.size()-1);
 					}
+				}else {
+					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
+				if(smtg(a.expr, a)) {
+					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				}
+
 				List<String> params = ((ReturnMethodCall)a.expr).call_parameter.getCallParams();
 				boolean contains = false;
 				for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
@@ -395,6 +414,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 
 		defCheckIf(method_body);
+		defCheckLoop(method_body);
 		defCheckVoid(method_body);
 
 	}
@@ -410,9 +430,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 				i++;
 			}
-			
+
 			lines.add("<br>&emsp;&emsp;"+((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [ " + parameter + " ]");
-			
+
 			boolean contains = false;
 			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
 				for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
@@ -425,6 +445,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(contains) {
 				linesUse.add(lines.size()-1);
 			}	
+		}
+	}
+	
+	private void defCheckLoop(MyMethodBody method_body) {
+		for(Loop lo : method_body.loops) {
+			for(MyMethodBody loopbody : lo.myMethodBodyList) {
+				getForIfBody(loopbody);
+			}
 		}
 	}
 
@@ -467,6 +495,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	}
 	private void getForIfBody(MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
+			if(!local_variableMap.containsKey(d.varName)) {
+				local_variableMap.put(d.varName, d.defaultValue);
+			}
 			def.put(d.varName, false);
 			lines.add("&emsp;&emsp;&emsp;"+d.varName + " << " + d.dataType);
 			linesDef.put(lines.size()-1, def);
@@ -481,6 +512,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
+					checkMath((ValueMath)a.expr, a, true);
+
 					List<String> list  = new ArrayList<>();
 					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
 
@@ -496,9 +529,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					if(contains) {
 						linesUse.add(lines.size()-1);
 					}
+				}else {
+					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
+				if(smtg(a.expr, a)) {
+					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				}
+
 				List<String> params = ((ReturnMethodCall)a.expr).call_parameter.getCallParams();
 				boolean contains = false;
 				for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
@@ -518,6 +557,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		if(method_body.ifStatList.size() > 0) {
 			defCheckIf(method_body);
 		}
+		
+		if(method_body.loops.size() > 0) {
+			defCheckLoop(method_body);
+		}
 
 		if(method_body.methodCall.size() > 0) {
 			defCheckVoid(method_body);
@@ -534,7 +577,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 				i++;
 			}
-			
+
 			lines.add(((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [ " + parameter + " ]");
 		}
 	}
@@ -551,13 +594,25 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		if(method_body.ifStatList.size() > 0) {
 			defCheckElse(method_body);
 		}
+		
+		if(method_body.loops.size() > 0) {
+			defCheckElseLoop(method_body);
+		}
 
 		if(method_body.methodCall.size() > 0) {
 			getVoidForElseBody(method_body);
 		}
 
 	}
-	
+
+	private void defCheckElseLoop(MyMethodBody method_body) {
+		for(Loop lo : method_body.loops) {
+			for(MyMethodBody loopbody : lo.myMethodBodyList) {
+				getForElseBody(loopbody);
+			}
+		}		
+	}
+
 	private void defCheckElse(MyMethodBody method_body) {
 		for(IfStatement ifs: method_body.ifStatList) {
 			MyMethodBody ifBody = ifs.ifBody;
@@ -1012,6 +1067,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			checkParameterForErrors(elsemethod, parameter);
 		}
 
+		if(elsemethod.loops.size() > 0) {
+			checkLoop(elsemethod, parameter);
+		}
+
 		if(elsemethod.methodCall.size() > 0) {
 			checkVoidCall(elsemethod);
 		}		
@@ -1065,9 +1124,66 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			checkParameterForErrors(ifBody, parameter);
 		}
 
+		if(ifBody.loops.size() > 0) {
+			checkLoop(ifBody, parameter);
+		}
+
 		if(ifBody.methodCall.size() > 0) {
 			checkVoidCall(ifBody);
 		}		
+	}
+
+	private void checkLoop(MyMethodBody method_body, Map<String, String> parameter) {
+		for(Loop l : method_body.loops) {
+			for(MyMethodBody loopbody : l.myMethodBodyList) {
+				for(Declaration d : loopbody.declList) {
+					if(local_variableMap.containsKey(d.varName)) {
+						semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
+					}else {
+						local_variableMap.put(d.varName, d.defaultValue);	
+					}
+
+				}
+
+				for(Assignment a: loopbody.assiList) {
+					if(!local_variableMap.containsKey(a.varName)) {
+						semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+					}else {
+						if(a.expr instanceof Values) {
+							if(((Values)a.expr) instanceof ValueMath) {
+								checkMath((ValueMath)a.expr, a, true);
+							}else {
+								if(local_variableMap.containsKey(a.varName)) {
+									if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
+										local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
+									}else {
+										semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+									}
+								}
+							}
+						}else if(a.expr instanceof ReturnMethodCall) {
+							if(smtg(a.expr, a)) {
+								this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+							}
+						}else {
+							this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+						}
+					}
+				}
+
+				if(loopbody.ifStatList.size() > 0) {
+					checkParameterForErrors(loopbody, parameter);
+				}
+
+				if(loopbody.loops.size() > 0) {
+					checkLoop(loopbody, parameter);
+				}
+
+				if(loopbody.methodCall.size() > 0) {
+					checkVoidCall(loopbody);
+				}	
+			}
+		}
 	}
 
 	private double getMATHDOUBLE(Mathematics m) {
