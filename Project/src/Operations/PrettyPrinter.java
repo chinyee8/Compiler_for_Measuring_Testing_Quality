@@ -11,15 +11,14 @@ public class PrettyPrinter{
 	Evaluator ep;
 	private AllDefCoverage allDef;
 	private ConditionCoverage condCov;
-	private Map<Integer, List<String>> lines;
 	private int totalTestNum;
 	private AllCUsesCoverage allC;
 	private Statement statement;
+	private Original ori;
 
 
-	public PrettyPrinter(Evaluator ep, Map<Integer, List<String>> lines, int totalTestNum) {
+	public PrettyPrinter(Evaluator ep, int totalTestNum) {
 		this.ep = ep;
-		this.lines = lines;
 		this.totalTestNum = totalTestNum;
 	}
 
@@ -55,7 +54,7 @@ public class PrettyPrinter{
 		result += "<button onclick=\"allCUse()\"> All-C-Uses Coverage </button>\n";
 
 		//original code
-		result += this.getOriginal(0);
+		result += "<div id=\"text\">\n" + this.ori.getString() + "</div>";
 		
 		//ControlFlow
 		result += "<div id=\"statement\" hidden>\n" + this.statement.getString(0) + "</div>";
@@ -63,7 +62,7 @@ public class PrettyPrinter{
 		
 		//DataFlow
 		result += "<div id=\"allDef\" hidden>\n" + this.allDef.getString(0) + "</div>";
-		result += "<div id=\"allCUse\" hidden>\n" + this.allC.getString(0) + "</div>";
+//		result += "<div id=\"allCUse\" hidden>\n" + this.allC.getString(0) + "</div>";
 		
 		//javascript
 		result += this.getjsScript();
@@ -99,18 +98,7 @@ public class PrettyPrinter{
 		
 		return result;
 	}
-	
-	public String getOriginal(int testnum) {
-		String result = "";
-		
-		result = "<p id=\"text\">";
-		for(String s: lines.get(testnum)) {
-			result += s +"<br>";
-		}
-		result += "</p><br>";
-		
-		return result;
-	}
+
 	
 	public void addStatement(Statement s) {
 		this.statement = s;		
@@ -130,6 +118,10 @@ public class PrettyPrinter{
 	
 	public void addAllCUseCoverage(AllCUsesCoverage allc) {
 		this.allC = allc;		
+	}
+
+	public void addOriginal(Original ori) {
+		this.ori = ori;
 	}
 
 
