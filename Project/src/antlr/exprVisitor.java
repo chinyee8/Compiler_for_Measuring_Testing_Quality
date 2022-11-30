@@ -90,6 +90,13 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMyMethodBody(exprParser.MyMethodBodyContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Deterministic_Loop}
+	 * labeled alternative in {@link exprParser#loop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeterministic_Loop(exprParser.Deterministic_LoopContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code SingleParam}
 	 * labeled alternative in {@link exprParser#parameter}.
 	 * @param ctx the parse tree

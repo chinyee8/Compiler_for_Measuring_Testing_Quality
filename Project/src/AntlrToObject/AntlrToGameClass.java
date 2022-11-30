@@ -106,7 +106,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 //		this.tokensMappedToLines[end.getLine()-1].add(ctx.getChild(6).getText());
 		String className = ctx.CLASS_NAME().getText();
 		AntlrToGameBody gbController = new AntlrToGameBody(semanticErrors, this.t_method_call, this.inputValues, this.methodCallParamOrder);
-		GameBody gamebody = gbController.control((GameBodyContext)ctx.getChild(5));
+		GameBody gamebody = gbController.control((GameBodyContext)ctx.getChild(3));
 		this.gbController = gbController;
 		//after all the other lines added to order, add last line to close class body
 //		this.orderOfFlow.add(end.getLine()-1);

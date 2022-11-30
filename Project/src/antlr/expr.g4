@@ -8,13 +8,13 @@ prog: (game | test) EOF						#Program
 	;
 
 //********************** class ********************** //
-game: 'game' CLASS_NAME '[' ']' '!' body '!'	#GameClass
+game: 'game' CLASS_NAME '!' body '!'	#GameClass
 	;
 
-body: (decl)* (assi)* (mymethod)*				#GameBody
+body: (mymethod)*				#GameBody
 	;
 
-decl: VAR_NAME '<<' DATA_TYPE					#Declaration
+decl: VAR_NAME '<<' DATA_TYPE 					#Declaration
 	;
 
 assi: VAR_NAME '<-' expr						#Assignment
@@ -30,14 +30,15 @@ mymethod: 'mymethod' METHODNAME method_type															#MyMethods
 		;
 	
 //MethodType
-method_type: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME '!'				#MyReturnMethod
+method_type: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAME  '!'				#MyReturnMethod
 		   | VOID_TYPE '[' parameter ']' '!' method_body '!'										#MyVoidMethod
 		   ;  
 	
 
-method_body: (decl)* (assi)* (if_statement)* (r_method_call|v_method_call)*					 					#MyMethodBody
+method_body: (decl)* (assi)* (if_statement|v_method_call|loop)*					 					#MyMethodBody
 		   ;
-
+loop: 'loop' '(' NUM ')' '!' method_body '!'													#Deterministic_Loop
+;
 //Parameter	   
 parameter: param							#SingleParam
     	 | param (multi_param)+				#MultiParam
@@ -52,7 +53,7 @@ multi_param: ',' param						#MultiParamChild
            ; 
 		   
 //********************** test method ********************** //		   
-test: 'test' TEST_NAME '[' ']''!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
+test: 'test' TEST_NAME '!' (decl)* (assi)* (t_method_call)* '!'		#TestCase
 	;
 //********************** method calls ********************** //		   
 	
@@ -119,7 +120,6 @@ cond: 'not' cond        #Negation
     | math '<' math     #Less
     ;  
 	
-			 
 VOIDCALL: 'void_';
 DATA_TYPE:'INT'|'DOUBLE'|'BOOLEAN'|'STRING'|'CHAR';
 VOID_TYPE:'VOID';

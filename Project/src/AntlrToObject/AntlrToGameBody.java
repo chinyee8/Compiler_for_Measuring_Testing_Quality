@@ -121,20 +121,20 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods); 
 
-		if(ctx.decl().size() > 0) {
-			semanticErrors.add("Error: no declaration is allowed");
-		}
-		for(int i = 0; i < ctx.decl().size(); i++) {			
-			//			decl.add(declVisitor.visit(ctx.decl(i)));
-			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
-		}
-
-		if(ctx.assi().size() > 0) {
-			semanticErrors.add("Error: no assignment is allowed");
-		}
-		for(int i = 0; i < ctx.assi().size(); i++) {
-			//			assi.add(assiVisitor.visit(ctx.assi(i)));
-		}
+//		if(ctx.decl().size() > 0) {
+//			semanticErrors.add("Error: no declaration is allowed");
+//		}
+//		for(int i = 0; i < ctx.decl().size(); i++) {			
+//			//			decl.add(declVisitor.visit(ctx.decl(i)));
+//			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+//		}
+//
+//		if(ctx.assi().size() > 0) {
+//			semanticErrors.add("Error: no assignment is allowed");
+//		}
+//		for(int i = 0; i < ctx.assi().size(); i++) {
+//			//			assi.add(assiVisitor.visit(ctx.assi(i)));
+//		}
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
@@ -238,20 +238,20 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods, condCov); 
 
-		if(ctx.decl().size() > 0) {
-			semanticErrors.add("Error: no declaration is allowed");
-		}
-		for(int i = 0; i < ctx.decl().size(); i++) {			
-			//			decl.add(declVisitor.visit(ctx.decl(i)));
-			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
-		}
-
-		if(ctx.assi().size() > 0) {
-			semanticErrors.add("Error: no assignment is allowed");
-		}
-		for(int i = 0; i < ctx.assi().size(); i++) {
-			//			assi.add(assiVisitor.visit(ctx.assi(i)));
-		}
+//		if(ctx.decl().size() > 0) {
+//			semanticErrors.add("Error: no declaration is allowed");
+//		}
+//		for(int i = 0; i < ctx.decl().size(); i++) {			
+//			//			decl.add(declVisitor.visit(ctx.decl(i)));
+//			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+//		}
+//
+//		if(ctx.assi().size() > 0) {
+//			semanticErrors.add("Error: no assignment is allowed");
+//		}
+//		for(int i = 0; i < ctx.assi().size(); i++) {
+//			//			assi.add(assiVisitor.visit(ctx.assi(i)));
+//		}
 
 		/*
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
@@ -337,21 +337,21 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		//		this.rangeOfLines[0]=start.getLine()-1;
 		//		this.rangeOfLines[1]=end.getLine()-1;
 
-		for(int i = 0; i < ctx.decl().size(); i++) {			
-			AntlrToDeclaration declController = new AntlrToDeclaration();
-			this.dControllers.add(declController);
-			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
-			this.variableMap.put(this.decl.get(i).varName, this.decl.get(i).defaultValue); //store default values for each decl into a map
-
-
-		}
-
-
-		for(int i = 0; i < ctx.assi().size(); i++) {
-			AntlrToAssignment assiController = new AntlrToAssignment();
-			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
-			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
-		}
+//		for(int i = 0; i < ctx.decl().size(); i++) {			
+//			AntlrToDeclaration declController = new AntlrToDeclaration();
+//			this.dControllers.add(declController);
+//			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
+//			this.variableMap.put(this.decl.get(i).varName, this.decl.get(i).defaultValue); //store default values for each decl into a map
+//
+//
+//		}
+//
+//
+//		for(int i = 0; i < ctx.assi().size(); i++) {
+//			AntlrToAssignment assiController = new AntlrToAssignment();
+//			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
+//			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
+//		}
 
 
 		//start here

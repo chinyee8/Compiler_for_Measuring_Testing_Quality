@@ -10,19 +10,21 @@ public class MyMethodBody{
 	public List<Assignment> assiList;
 	public List<IfStatement> ifStatList;
 	public List<MethodCall> methodCall;
+	public List<Loop> loops;
 	List<MyMethods> global_mymethods;
 	private Map<String, Values> vars;
 
 	public MyMethodBody(List<Declaration> declList,
 			List<Assignment> assiList,
 			List<IfStatement> ifStatList,
-			List<MethodCall> methodcall2, List<MyMethods> global_mymethods) {
+			List<MethodCall> methodcall2, List<MyMethods> global_mymethods, List<Loop> loops) {
 		this.declList = declList;
 		this.assiList = assiList;
 		this.ifStatList = ifStatList;
 		this.methodCall = methodcall2;
 		this.global_mymethods = global_mymethods;
 		this.vars = new HashMap<>();
+		this.loops = loops;
 	}
 
 	public void getDeclaredList() {

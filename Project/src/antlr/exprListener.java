@@ -142,6 +142,18 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitMyMethodBody(exprParser.MyMethodBodyContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Deterministic_Loop}
+	 * labeled alternative in {@link exprParser#loop}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeterministic_Loop(exprParser.Deterministic_LoopContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Deterministic_Loop}
+	 * labeled alternative in {@link exprParser#loop}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeterministic_Loop(exprParser.Deterministic_LoopContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code SingleParam}
 	 * labeled alternative in {@link exprParser#parameter}.
 	 * @param ctx the parse tree

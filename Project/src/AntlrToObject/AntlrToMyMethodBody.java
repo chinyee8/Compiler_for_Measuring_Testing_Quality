@@ -11,51 +11,14 @@ import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.DeclarationContext;
+import antlr.exprParser.Deterministic_LoopContext;
 import antlr.exprParser.IfStatementContext;
 import antlr.exprParser.If_statementContext;
 import antlr.exprParser.Method_bodyContext;
 import antlr.exprParser.MyMethodBodyContext;
 import antlr.exprParser.ReturnMethodCallContext;
 import antlr.exprParser.VoidMethodCallContext;
-import model.Addition;
-import model.Assignment;
-import model.CondBool;
-import model.CondEqual;
-import model.CondNotEqual;
-import model.CondParenthesis;
-import model.CondVarName;
-import model.Condition;
-import model.Conjunction;
-import model.Declaration;
-import model.Disjunction;
-import model.Division;
-import model.EqualTo;
-import model.Expr;
-import model.IfStatement;
-import model.Less;
-import model.LessOrEqual;
-import model.MathDouble;
-import model.MathNumber;
-import model.MathParenthesis;
-import model.MathVarName;
-import model.Mathematics;
-import model.MethodCall;
-import model.More;
-import model.MoreOrEqual;
-import model.Multiplication;
-import model.MyMethodBody;
-import model.MyMethods;
-import model.MyReturnMethod;
-import model.MyVoidMethod;
-import model.Negation;
-import model.NotEqualTo;
-import model.ReturnMethodCall;
-import model.Subtraction;
-import model.ValueDouble;
-import model.ValueMath;
-import model.ValueNum;
-import model.Values;
-import model.VoidMethodCall;
+import model.*;
 
 public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	public List<String> semanticErrors;
@@ -70,6 +33,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public Values returnValue;
+	List<Loop> loops;
 
 	//DefCoverage
 	public Map<String, Boolean> def;
@@ -156,11 +120,12 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		List<Assignment> assi = new ArrayList<>();
 		List<IfStatement> ifstatement = new ArrayList<>();
 		List<MethodCall> methodcall = new ArrayList<>();
-
+		List<Loop> loops = new ArrayList<>();
+		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
-
+		AntlrToLoop loopVisitor = new AntlrToLoop(semanticErrors, this.variableMap, this.global_mymethods);
 		this.local_methodvar.putAll(variableMap);
 
 		for (int i = 0; i < ctx.decl().size(); i++) {
@@ -182,12 +147,17 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}
+			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
+				Loop lo = loopVisitor.visit(ctx.getChild(i));
+				loops.add(lo);
+			}
 		}
 
 		this.decl = decl;
 		this.assi = assi;
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
+		this.loops = loops;
 
 
 		//		for(Assignment i: assi) {
@@ -259,7 +229,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 
 		//		}
 
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
 
 	}
 
@@ -268,10 +238,12 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		List<Assignment> assi = new ArrayList<>();
 		List<IfStatement> ifstatement = new ArrayList<>();
 		List<MethodCall> methodcall = new ArrayList<>();
-
+		List<Loop> loops = new ArrayList<>();
+		
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
+		AntlrToLoop loopVisitor = new AntlrToLoop(semanticErrors, this.variableMap, this.global_mymethods);
 
 		this.local_methodvar.putAll(variableMap);
 
@@ -305,13 +277,18 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 					|| ctx.getChild(i) instanceof ReturnMethodCallContext) {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i))); //add void methodcalls into list of methodcall
 			}
+			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
+				Loop lo = loopVisitor.control((Deterministic_LoopContext) ctx.getChild(i));
+				loops.add(lo);
+			}
 		}
 
 		this.decl = decl;
 		this.assi = assi;
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
+		this.loops = loops;
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
 	}
 
 	public MyMethodBody defControl(MyMethodBodyContext ctx) {
@@ -350,7 +327,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.assi = assi;
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, this.loops);
 	}
 
 	// Condition Coverage
