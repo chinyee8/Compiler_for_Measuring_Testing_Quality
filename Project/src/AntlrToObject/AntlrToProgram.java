@@ -21,6 +21,7 @@ import model.Values;
 public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> semanticErrors;
 	public List<Integer> linesCovered;
+	public List<MyMethods> global_methods;
 
 	//control flow fields //store all AntlrTo___ into fields to get line numbers
 	public int[] rangeOfLines;
@@ -34,10 +35,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public List<String> methodCallParamOrder;
 	
 	//defCoverage
-	public Map<String, Boolean> def;
-	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
-	public Map<Integer, Map<String, Boolean>> linesDef;
-	public List<Integer> linesUse;
+	public Map<String, String> def;
 	public List<String> lines;
 	public int totalNotUsed;
 	
@@ -55,9 +53,10 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	}
 
 	//defCoverage
-	public AntlrToProgram(MethodCall t, Map<String, Values> inputValues) {
+	public AntlrToProgram(MethodCall t, List<MyMethods> global_methods, Map<String, Values> inputValues) {
 		this.t_method_call = t;
 		this.inputValues = inputValues;
+		this.global_methods = global_methods;
 	}
 	
 	// Condition Coverage
@@ -76,7 +75,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		Program prog = new Program();
 		semanticErrors = new ArrayList<>();
 		this.variableMap = new HashMap<>();
-		AntlrToGameClass cVisitor = new AntlrToGameClass(semanticErrors);
+		this.global_methods = new ArrayList<>();
+		AntlrToGameClass cVisitor = new AntlrToGameClass(semanticErrors, global_methods);
 		this.variableMap = new HashMap<>();
 		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors, this.variableMap);
 
@@ -141,14 +141,11 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		if(ctx.getChild(0) instanceof GameClassContext) {
 			semanticErrors = new ArrayList<>();
 			def = new HashMap<>();
-			def_use = new LinkedHashMap<>();
 			this.variableMap = new HashMap<>();
-			linesDef = new HashMap<>();
-			linesUse = new ArrayList<>();
 			lines = new ArrayList<>();
 			totalNotUsed=0;
 
-			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, global_methods, def, lines, totalNotUsed);
 			prog.addGameClass(cController.defControl((GameClassContext)ctx.getChild(0)));
 			totalNotUsed = cController.totalNotUsed;
 		}
