@@ -44,5 +44,8 @@ public class MyReturnMethod extends MethodType {
 		return result;
 	}
 
+	public void putReturnValue(Values v) {
+		this.returnValue = v;
+	}
 	
 }
