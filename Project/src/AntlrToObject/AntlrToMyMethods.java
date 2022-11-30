@@ -74,10 +74,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public List<String> methodCallParamOrder;
 	public HashMap<String, Values> local_variableMap;
 	//def Coverage
-	public Map<String, Boolean> def;
-	public Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use;
-	public Map<Integer, Map<String, Boolean>> linesDef;
-	public List<Integer> linesUse;
+	public Map<String, String> def;
 	public List<String> lines;
 	public int totalNotUsed;
 
@@ -105,16 +102,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	}
 
 	//defCoverage
-	public AntlrToMyMethods(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues,Map<String, Boolean> def, Map<Map<Integer, Map<String, Boolean>>, List<Integer>>  def_use,Map<Integer, Map<String, Boolean>> linesDef, List<Integer> linesUse, List<String> lines, int totalNotUsed) {
+	public AntlrToMyMethods(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, String> def, List<String> lines, int totalNotUsed) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.def = def;
-		this.def_use = def_use;
-		this.linesDef = linesDef;
-		this.linesUse = linesUse;
 		this.lines = lines;
 		this.totalNotUsed = totalNotUsed;
 	}
@@ -141,11 +135,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				semanticErrors.add("Error: mymethods " + methodName + " already exist");
 			}
 		}
-
-		//no global var yet
-		//		if(variableMap != null) {
-		//			this.local_methodvar.putAll(variableMap);
-		//		}
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods);
@@ -231,31 +220,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		local_variableMap = new HashMap<>();
 		String methodName = ctx.METHODNAME().getText();
 
-		//no global var yet
-		//		if(variableMap != null) {
-		//			this.local_methodvar.putAll(variableMap);
-		//		}
-
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
-			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, lines, totalNotUsed);
 
 			MethodType methodType = (MyReturnMethod)mtVisitor.defControlR((MyReturnMethodContext)ctx.getChild(2));
 			Map <String, String> parameter = ((MyReturnMethod)methodType).parameter.getParams();
-
-			String paramsList = ""; int i = 0;
-			for(Map.Entry<String, String> p : parameter.entrySet()) {
-				def.put(p.getKey(), false);
-
-				paramsList += p.getValue() + " " + p.getKey();
-				if(i < parameter.size()-1) {
-					paramsList += ", ";
-				}
-				i++;
-			}
-
-			lines.add("<br>&emsp;mymethod " + methodName + " " + ((MyReturnMethod)methodType).dataType + " [ " + paramsList + " ] !");
-			linesDef.put(lines.size()-1, def);
-			def = new HashMap<>();
 
 			declareParameter(parameter);
 			if(t_method_call instanceof ReturnMethodCall) {
@@ -264,62 +233,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			getDefCoverage(((MyReturnMethod)methodType).method_body);
 
-			lines.add("<br>&emsp;&emsp;jackieReturns " + ((MyReturnMethod)methodType).varName);
-			boolean contains = false;
-			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-				for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-					if(((MyReturnMethod)methodType).varName.equals(d.getKey())) {
-						d.setValue(true);
-						contains = true;
-					}
-				}
-			}
-			if(contains) {
-				linesUse.add(lines.size()-1);
-			}
-
-			List<Integer> keyToRemove = new ArrayList<>();
-			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-				boolean got = false;
-				for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-					if(d.getValue() == true) {
-						got = true;
-					}else {
-						totalNotUsed++;
-					}
-				}
-				if(!got) {
-					keyToRemove.add(ld.getKey());
-				}
-			}
-
-			for(Integer key : keyToRemove) {
-				linesDef.remove(key);
-			}
-
-			lines.add("&emsp;!");
-
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}else {
-			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, def_use, linesDef, linesUse, lines, totalNotUsed);
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, lines, totalNotUsed);
 
 			MethodType methodType = (MyVoidMethod) mtVisitor.defControlV((MyVoidMethodContext)ctx.getChild(2));
 			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
-
-			String paramsList = ""; int i = 0;
-			for(Map.Entry<String, String> p : parameter.entrySet()) {
-				def.put(p.getKey(), false);
-
-				paramsList += p.getValue() + " " + p.getKey();
-				if(i < parameter.size()-1) {
-					paramsList += ", ";
-				}
-				i++;
-			}
-
-			lines.add("<br>&emsp;mymethod " + methodName + " " + ((MyVoidMethod)methodType).voidType + " [ " + paramsList + " ] !");
-			linesDef.put(lines.size()-1, def);
-			def = new HashMap<>();
 
 			declareParameter(parameter);
 			if(t_method_call instanceof VoidMethodCall) {
@@ -328,28 +247,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			getDefCoverage(((MyVoidMethod)methodType).method_body);			
 
-			List<Integer> keyToRemove = new ArrayList<>();
-			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-				boolean got = false;
-				for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-					if(d.getValue() == true) {
-						got = true;
-					}else {
-						totalNotUsed++;
-					}
-				}
-				if(!got) {
-					keyToRemove.add(ld.getKey());
-				}
-			}
-
-			for(Integer key : keyToRemove) {
-				linesDef.remove(key);
-			}
-
-			lines.add("&emsp;!");
-
-
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
 		}
 	}
@@ -357,37 +254,17 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	private void getDefCoverage(MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
 			local_variableMap.put(d.varName, d.defaultValue);
-			def.put(d.varName, false);
-			lines.add("&emsp;&emsp;"+ d.varName + " << " + d.dataType);
-			linesDef.put(lines.size()-1, def);
-			def = new HashMap<>();
 		}
 
 		for(Assignment a: method_body.assiList) {
-			lines.add("&emsp;&emsp;"+a.varName + " <- " + a.expr);
-			def.put(a.varName, false);
-			linesDef.put(lines.size()-1, def);
-			def = new HashMap<>();
 
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
 					checkMath((ValueMath)a.expr, a, true);
 
-					List<String> list  = new ArrayList<>();
-					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
+//					List<String> list  = new ArrayList<>();
+//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
 
-					boolean contains = false;
-					for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-						for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-							if(list.contains(d.getKey())) {
-								d.setValue(true);
-								contains = true;
-							}
-						}
-					}
-					if(contains) {
-						linesUse.add(lines.size()-1);
-					}
 				}else {
 					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
@@ -397,19 +274,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 
-				List<String> params = ((ReturnMethodCall)a.expr).call_parameter.getCallParams();
-				boolean contains = false;
-				for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-					for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-						if(params.contains(d.getKey())) {
-							d.setValue(true);
-							contains = true;
-						}
-					}
-				}
-				if(contains) {
-					linesUse.add(lines.size()-1);
-				}
 			}
 		}
 
@@ -430,30 +294,96 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 				i++;
 			}
-
-			lines.add("<br>&emsp;&emsp;"+((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [ " + parameter + " ]");
-
-			boolean contains = false;
-			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-				for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-					if(params.contains(d.getKey())) {
-						d.setValue(true);
-						contains = true;
-					}
-				}
-			}
-			if(contains) {
-				linesUse.add(lines.size()-1);
-			}	
 		}
 	}
-	
+
 	private void defCheckLoop(MyMethodBody method_body) {
 		for(Loop lo : method_body.loops) {
+			getDefLoop(lo.myMethodBodyList.get(0));
 			for(MyMethodBody loopbody : lo.myMethodBodyList) {
-				getForIfBody(loopbody);
+//				evaluateLoop(loopbody);
 			}
 		}
+	}
+
+	private void getDefLoop(MyMethodBody method_body) {
+		for(Declaration d: method_body.declList) {
+			if(!local_variableMap.containsKey(d.varName)) {
+				local_variableMap.put(d.varName, d.defaultValue);
+			}
+		}
+
+		for(Assignment a: method_body.assiList) {
+
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					checkMath((ValueMath)a.expr, a, true);
+
+//					List<String> list  = new ArrayList<>();
+//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
+
+				}else {
+					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
+				}
+
+			}else if(a.expr instanceof ReturnMethodCall) {
+				if(smtg(a.expr, a)) {
+					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				}
+			}
+		}
+
+		if(method_body.ifStatList.size() > 0) {
+			defCheckIf(method_body);
+		}
+
+		if(method_body.loops.size() > 0) {
+			getDefLoop(method_body);
+		}
+
+		if(method_body.methodCall.size() > 0) {
+			defCheckVoid(method_body);
+		}				
+	}
+
+	private void evaluateLoop(MyMethodBody loopbody) {
+		for(Declaration d: loopbody.declList) {
+			if(!local_variableMap.containsKey(d.varName)) {
+				local_variableMap.put(d.varName, d.defaultValue);
+			}
+		}
+
+		for(Assignment a: loopbody.assiList) {
+
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					checkMath((ValueMath)a.expr, a, true);
+
+//					List<String> list  = new ArrayList<>();
+//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
+
+				}else {
+					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
+				}
+
+			}else if(a.expr instanceof ReturnMethodCall) {
+				if(smtg(a.expr, a)) {
+					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				}
+			}
+		}
+
+		if(loopbody.ifStatList.size() > 0) {
+			defCheckIf(loopbody);
+		}
+
+		if(loopbody.loops.size() > 0) {
+			evaluateLoop(loopbody);
+		}
+
+		if(loopbody.methodCall.size() > 0) {
+			defCheckVoid(loopbody);
+		}		
 	}
 
 	private void defCheckIf(MyMethodBody method_body) {
@@ -461,33 +391,17 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			MyMethodBody ifBody = ifs.ifBody;
 			MyMethodBody elseBody = ifs.elseBody;
 
-			lines.add("<br>&emsp;&emsp;jackieAsks [ " + ifs.cond.toString() + " ] !");
 
 			List<String> list = new ArrayList<>();
 			list = getCondVariableList(ifs.cond, list);
-			boolean got = false;
-			for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-				for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-					if(list.contains(d.getKey())) {
-						d.setValue(true);
-						got = true;
-					}
-				}
-			}
-			if(got) {
-				linesUse.add(lines.size()-1);
-			}
 
+			ifs.setCond(evaluated(ifs.cond, local_variableMap));
 			if(evaluated(ifs.cond, local_variableMap)) {
 				getForIfBody(ifBody);
-				lines.add("<br>&emsp;&emsp;! elseJackie !");
 				getForElseBody(elseBody);
-				lines.add("<br>&emsp;&emsp;!");
 			}else {
 				getForElseBody(ifBody);
-				lines.add("<br>&emsp;&emsp;! elseJackie !");
 				getForIfBody(elseBody);
-				lines.add("<br>&emsp;&emsp;!");
 			}
 
 		}
@@ -498,17 +412,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(!local_variableMap.containsKey(d.varName)) {
 				local_variableMap.put(d.varName, d.defaultValue);
 			}
-			def.put(d.varName, false);
-			lines.add("&emsp;&emsp;&emsp;"+d.varName + " << " + d.dataType);
-			linesDef.put(lines.size()-1, def);
-			def = new HashMap<>();
 		}
 
 		for(Assignment a: method_body.assiList) {
-			lines.add("&emsp;&emsp;&emsp;"+a.varName + " <- " + a.expr);
-			def.put(a.varName, false);
-			linesDef.put(lines.size()-1, def);
-			def = new HashMap<>();
 
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -517,18 +423,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					List<String> list  = new ArrayList<>();
 					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
 
-					boolean contains = false;
-					for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-						for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-							if(list.contains(d.getKey())) {
-								d.setValue(true);
-								contains = true;
-							}
-						}
-					}
-					if(contains) {
-						linesUse.add(lines.size()-1);
-					}
 				}else {
 					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
@@ -538,26 +432,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 
-				List<String> params = ((ReturnMethodCall)a.expr).call_parameter.getCallParams();
-				boolean contains = false;
-				for(Map.Entry<Integer, Map<String, Boolean>> ld: linesDef.entrySet()) {
-					for(Map.Entry<String, Boolean> d: ld.getValue().entrySet()) {
-						if(params.contains(d.getKey())) {
-							d.setValue(true);
-							contains = true;
-						}
-					}
-				}
-				if(contains) {
-					linesUse.add(lines.size()-1);
-				}
+
 			}
 		}
 
 		if(method_body.ifStatList.size() > 0) {
 			defCheckIf(method_body);
 		}
-		
+
 		if(method_body.loops.size() > 0) {
 			defCheckLoop(method_body);
 		}
@@ -578,23 +460,20 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				i++;
 			}
 
-			lines.add(((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [ " + parameter + " ]");
 		}
 	}
 
 	private void getForElseBody(MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
-			lines.add("&emsp;&emsp;&emsp;"+d.varName + " << " + d.dataType);
 		}
 
 		for(Assignment a: method_body.assiList) {
-			lines.add("&emsp;&emsp;&emsp;"+a.varName + " <- " + a.expr.toString());			
 		}
 
 		if(method_body.ifStatList.size() > 0) {
 			defCheckElse(method_body);
 		}
-		
+
 		if(method_body.loops.size() > 0) {
 			defCheckElseLoop(method_body);
 		}
@@ -618,18 +497,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			MyMethodBody ifBody = ifs.ifBody;
 			MyMethodBody elseBody = ifs.elseBody;
 
-			lines.add("<br>&emsp;&emsp;jackieAsks [ " + ifs.cond.toString() + " ] !");
 
 			if(evaluated(ifs.cond, local_variableMap)) {
 				getForElseBody(ifBody);
-				lines.add("<br>&emsp;&emsp;! elseJackie !");
 				getForElseBody(elseBody);
-				lines.add("<br>&emsp;&emsp;!");
 			}else {
 				getForElseBody(ifBody);
-				lines.add("<br>&emsp;&emsp;! elseJackie !");
 				getForElseBody(elseBody);
-				lines.add("<br>&emsp;&emsp;!");
 			}
 
 		}
@@ -855,6 +729,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}else {
 			if(!local_variableMap.get(method.varName).getType().equals(method.dataType)) {
 				semanticErrors.add("Error: " + method.varName + " should return " + method.dataType + " not " + local_variableMap.get(method.varName).getType());
+			}else {
+				method.putReturnValue(local_variableMap.get(method.varName));
 			}
 		}
 
