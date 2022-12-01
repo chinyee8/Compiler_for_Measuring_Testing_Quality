@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class PrettyPrinter{
 
-	Evaluator ep;
 	private AllDefCoverage allDef;
 	private ConditionCoverage condCov;
 	private int totalTestNum;
@@ -17,8 +16,7 @@ public class PrettyPrinter{
 	private Original ori;
 
 
-	public PrettyPrinter(Evaluator ep, int totalTestNum) {
-		this.ep = ep;
+	public PrettyPrinter(int totalTestNum) {
 		this.totalTestNum = totalTestNum;
 	}
 
