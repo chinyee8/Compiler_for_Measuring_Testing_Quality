@@ -76,12 +76,13 @@ public class PrettyPrinter{
 		result += "<div id=\"text\">\n" + this.ori.getString() + "</div>";
 		
 		//ControlFlow
-//		result += "<div id=\"statement\" hidden>\n" + this.statement.getString(0) + "</div>";
-//		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>";
+		result += "<div id=\"statement\" hidden>\n" + this.statement.getString(0) + "</div>";
+		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>";
 		
 		//DataFlow
-		result += "<div id=\"allDef\" hidden>\n" + this.allDef.getString(0) + "</div>\n";
-		for(String s: this.allDef.getDifferentResult()) {
+		this.allDef.computeAllDef();
+		result += "<div id=\"allDef\" hidden>\n" + this.allDef.resultString.get(0) + "</div>\n";
+		for(String s: this.allDef.different.get(0)) {
 			result+= s + "\n";
 		}
 //		result += "<div id=\"allCUse\" hidden>\n" + this.allC.getString(0) + "</div>";
@@ -115,7 +116,7 @@ public class PrettyPrinter{
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allCUse\").innerHTML;\n"
 				+ "}\n";
 		
-		for(String s: this.allDef.getJavaScript()) {
+		for(String s: this.allDef.javascript.get(0)) {
 			result += s;
 		}
 		
