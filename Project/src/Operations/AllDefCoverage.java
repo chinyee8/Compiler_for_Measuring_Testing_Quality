@@ -2,6 +2,7 @@ package Operations;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,8 +41,9 @@ public class AllDefCoverage {
 	private int countUse;
 	private List<String> returnMethodCall;
 	private List<String> voidMethodCall;
-	private List<String> different;
-	private List<String> javascript;
+	public Map<Integer, String> resultString;
+	public Map<Integer,List<String>> different;
+	public Map<Integer, List<String>> javascript;
 
 	//	public AllDefCoverage(Map<Integer, List<Integer>> defLines, Map<Integer, List<Integer>> useLines,
 	//			Map<Integer, List<String>> lines, Map<Integer, Integer> percentage) {
@@ -57,69 +59,69 @@ public class AllDefCoverage {
 		this.countUse = 0;
 		this.returnMethodCall = new ArrayList<>();
 		this.voidMethodCall = new ArrayList<>();
-		this.different = new ArrayList<>();
-		this.javascript = new ArrayList<>();
+		this.resultString = new HashMap<>();
+		this.different = new HashMap<>();
+		this.javascript = new HashMap<>();
+	}
+	
+	public void computeAllDef() {
+		getString();
 	}
 
-	public String getString(int testnum) {
-		String result = "";
-		Program p = null;
-		MethodCall methodcall = null;
-
+	public void getString() {
 		int i = 0;
 		for(Map.Entry<Program, MethodCall> prog : defProgram.entrySet()) {
-			if(i == testnum) {
-				p = prog.getKey();
-				methodcall = prog.getValue();
-			}
-			i++;
-		}
+			Program p = prog.getKey();
+			MethodCall methodcall = prog.getValue();
+			String result = "";
+
+			result += "game " + p.gameclass.className + " !<br><br>";
+
+			for(MyMethods mm : p.gameclass.body.myMethodList) {
+
+				if( mm.methodType instanceof MyReturnMethod) {
+					MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+
+					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName)) {
+						result += getUnderLinedReturn(mm.methodName, mt);
+						
+					}else {
+						result += getNotUnderLinedReturn(mm.methodName, mt);
+					}
 
 
-		result += "game " + p.gameclass.className + " !<br><br>";
 
-		for(MyMethods mm : p.gameclass.body.myMethodList) {
+				}else if(mm.methodType instanceof MyVoidMethod) {
 
-			if( mm.methodType instanceof MyReturnMethod) {
-				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+					MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
 
-				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName)) {
-					result += getUnderLinedReturn(mm.methodName, mt);
-					
-				}else {
-					result += getNotUnderLinedReturn(mm.methodName, mt);
+					if(methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) {
+						result += getUnderLinedVoid(mm.methodName, mt);
+					}else if(this.returnMethodCall.contains(mm.methodName)) {
+						result += getUnderLinedVoid(mm.methodName, mt);
+					}else {
+						result += getNotUnderLinedVoid(mm.methodName, mt);
+					}		  
 				}
-
-
-
-			}else if(mm.methodType instanceof MyVoidMethod) {
-
-				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-
-				if(methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) {
-					result += getUnderLinedVoid(mm.methodName, mt);
-				}else if(this.returnMethodCall.contains(mm.methodName)) {
-					result += getUnderLinedVoid(mm.methodName, mt);
-				}else {
-					result += getNotUnderLinedVoid(mm.methodName, mt);
-				}		  
 			}
+			result += "!<br>";
+			
+			result += "<br>" +  ((int)((countUse / (double) countDef)*100)) + "%";
+			
+			this.resultString.put(i, result);
+
+			List<String> tempdiff = new ArrayList<>();
+			List<String> tempJS = new ArrayList<>();
+			
+			for(String d: def) {
+				tempdiff.add("<div id=\"" + d + "ans\" hidden>" +getResultString(p, methodcall, d) + "<br>" +  ((int)((countUse / (double) countDef)*100)) + "%"+ "</div>" );
+				tempJS.add("function "+ d +"(){\n"
+						+ "document.getElementById(\"text\").innerHTML = document.getElementById(\""+d+"ans\").innerHTML;\n"
+						+ "}");
+			}
+			this.different.put(i, tempdiff);
+			this.javascript.put(i, tempJS); 
 		}
-		result += "!<br>";
-		
-		result += "<br>" +  ((int)((countUse / (double) countDef)*100)) + "%";
-
-
-		for(String d: def) {
-			this.different.add("<div id=\"" + d + "ans\" hidden>" +getResultString(p, methodcall, d) + "<br>" +  ((int)((countUse / (double) countDef)*100)) + "%"+ "</div>" );
-			this.javascript.add("function "+ d +"(){\n"
-					+ "document.getElementById(\"text\").innerHTML = document.getElementById(\""+d+"ans\").innerHTML;\n"
-					+ "}");
-		}
-
-		
-		
-		return result; 
 	}
 	
 	public String getResultString(Program p, MethodCall methodcall, String d) {
@@ -750,14 +752,6 @@ public class AllDefCoverage {
 		}
 
 		return result;
-	}
-
-	public List<String> getJavaScript() {
-		return this.javascript;
-	}
-
-	public List<String> getDifferentResult() {
-		return this.different;
 	}
 
 
