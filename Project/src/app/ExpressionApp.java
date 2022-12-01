@@ -61,11 +61,7 @@ public class ExpressionApp {
 						ArrayList<Program> programList = new ArrayList<>();
 
 						//devCoverage
-//						Map<Integer, List<Integer>> defLines = new HashMap<>();
-//						Map<Integer, List<Integer>> useLines = new HashMap<>();
-//						Map<Integer, List<String>> lines = new HashMap<>();
-//						Map<Integer, Integer> defpercentage = new HashMap<>();
-						ArrayList<Program> defProgram = new ArrayList<>();
+						Map<Program, MethodCall> defProgram = new LinkedHashMap<>();
 						List<String> errors = new ArrayList<>();
 						boolean containErrors = false;
 
@@ -84,36 +80,15 @@ public class ExpressionApp {
 
 
 						//DefCoverage
-//						int i = 0;
 						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
 							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), progVisitor.global_methods, t.getValue());
 							Program defProg = devCoverage.defControl((ProgramContext)progAST);
-							defProgram.add(defProg);
+							defProgram.put(defProg, t.getKey());
 							if(devCoverage.semanticErrors.size()>0) {
 								containErrors = true;
 								errors.addAll(devCoverage.semanticErrors);
 							}
-
-//							List<Integer> key = new ArrayList<>();
-//							List<Integer> value = new ArrayList<>();
-//							for(Map.Entry<Map<Integer, Map<String, Boolean>>, List<Integer>> m : devCoverage.def_use.entrySet()) {
-//								for(Map.Entry<Integer, Map<String, Boolean>> def : m.getKey().entrySet()) {
-//									key.add(def.getKey());
-//								}			
-//								for(Integer v: m.getValue()) {
-//									value.add(v);
-//								}
-//							}
-//							defLines.put(i, key);
-//							useLines.put(i, value);
-//							lines.put(i, devCoverage.lines);
-//							
-//							double countpercent = ((key.size() - devCoverage.totalNotUsed)/(double)key.size())*100;
-//							int percent = (int)countpercent;
-//							defpercentage.put(i,percent);
-//
-//							i++;
 						}
 
 						if(containErrors) {
@@ -128,10 +103,6 @@ public class ExpressionApp {
 							progCondComp.visitConditionCoverage((ProgramContext)progAST); // for addCompoenent
 
 							condCov.setComponentState(false); // now adding result state
-							
-							//temp
-							//condCov.appendResultString("0");
-							//condCov.addResult();
 							
 							for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 								//AntlrToProgram progCond = new AntlrToProgram(t.getKey(), t.getValue(), condCov);
