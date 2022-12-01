@@ -1,28 +1,41 @@
 package Operations;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import model.Addition;
 import model.Assignment;
 import model.Declaration;
+import model.Division;
 import model.IfStatement;
 import model.Loop;
+import model.MathDouble;
+import model.MathNumber;
+import model.MathParenthesis;
+import model.MathVarName;
+import model.Mathematics;
 import model.MethodCall;
+import model.Multiplication;
 import model.MyMethodBody;
 import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
 import model.Program;
+import model.ReturnMethodCall;
+import model.Subtraction;
+import model.ValueMath;
+import model.Values;
 import model.VoidMethodCall;
 
 public class AllDefCoverage {
-	private Map<Integer, List<Integer>> defLines;
-	private Map<Integer, List<Integer>> useLines;
-	private Map<Integer, List<String>> lines;
-	private Map<Integer, Integer> percentage;
 	private ArrayList<Program> defProgram;
+	private List<String> def;
+	private List<String> use;
+	private int countDef;
+	private int countUse;
 
 //	public AllDefCoverage(Map<Integer, List<Integer>> defLines, Map<Integer, List<Integer>> useLines,
 //			Map<Integer, List<String>> lines, Map<Integer, Integer> percentage) {
@@ -34,8 +47,11 @@ public class AllDefCoverage {
 	
 	public AllDefCoverage(ArrayList<Program> defProgram) {
 		this.defProgram = defProgram;
+		this.countDef = 0;
+		this.countUse = 0;
 	}
-
+	
+	
 	public String getString(int testnum) {
 		String result = "";
 		Program p = defProgram.get(testnum);
@@ -45,6 +61,13 @@ public class AllDefCoverage {
 		for(MyMethods mm : p.gameclass.body.myMethodList) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+				
+				this.def = new ArrayList<>();
+				this.use = new ArrayList<>();
+				getAllVariable(mt);
+				this.countDef += this.def.size();
+				this.countUse += this.use.size();
+
 				String para = ""; int i = 0;
 				for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
 					para += p1.getValue()+ " " + p1.getKey();
@@ -67,23 +90,7 @@ public class AllDefCoverage {
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				String para = ""; int i = 0;
-				for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
-					para += p1.getValue()+ " " + p1.getKey();
-					if(i < mt.parameter.getParams().size()-1) {
-						para+= ", ";
-					}
-					i++;
-				}
-				result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [ " + para + " ] !<br>";
-
-				result += "<br>";
-				
-				result += getMethodBodyString(mt.method_body, "&emsp;");
-				
-				result += "<br>";
-
-				result += "&emsp;!<br>";
+//				  
 			}
 		}
 		result += "!<br>";
@@ -156,6 +163,108 @@ public class AllDefCoverage {
 
 		return result;
 	}
+	
+	public void getAllVariable(MyReturnMethod mt) {
+		
+		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
+			if(!def.contains(p.getKey())) {
+				def.add(p.getKey());
+			}
+		}
+		
+		if(!use.contains(mt.varName)) {
+			use.add(mt.varName);
+		}
+		
+		getMethodVar(mt.method_body);
+		
+	
+	}
+
+	private void getMethodVar(MyMethodBody mb) {
+		
+		for(Assignment a: mb.assiList) {
+			if(!def.contains(a.varName)) {
+				def.add(a.varName);
+			}
+			
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					List<String> list  = new ArrayList<>();
+					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
+					
+					for(String s : list) {
+						if(!use.contains(s)) {
+							use.add(s);
+						}
+					}
+				}
+			}else if(a.expr instanceof ReturnMethodCall) {
+				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
+					if(!use.contains(s)) {
+						use.add(s);
+					}
+				}
+			}
+		}
+		
+		for(IfStatement i1 : mb.ifStatList) {
+			if(i1.CondEvaluatedTo) {
+				getMethodVar(i1.ifBody);
+			}else {
+				getMethodVar(i1.elseBody);
+			}
+		}
+
+
+		for(Loop lo : mb.loops) {
+			getMethodVar(lo.myMethodBodyList.get(0));
+		}
+		
+		for(MethodCall v: mb.methodCall) {
+			if(v instanceof VoidMethodCall) {
+				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
+					if(!use.contains(s)) {
+						use.add(s);
+					}
+				}
+			}
+		}
+	}
+	
+	private List<String> getVariables(Mathematics m, List<String> list) {
+		if(m instanceof Addition) {
+			Addition a = (Addition) m;
+			list= getVariables(a.math1, list);
+			list = getVariables(a.math2, list);
+		}else if(m instanceof Subtraction) {
+			Subtraction a = (Subtraction) m;
+			list = getVariables(a.math1, list);
+			list = getVariables(a.math2, list);
+		}else if(m instanceof Multiplication) {
+			Multiplication a = (Multiplication) m;
+			list = getVariables(a.math1, list);
+			list = getVariables(a.math2, list);
+		}else if(m instanceof Division) {
+			Division a = (Division) m;
+			list = getVariables(a.math1, list);
+			list = getVariables(a.math2, list);
+		}else if(m instanceof MathParenthesis) {
+			MathParenthesis a = (MathParenthesis) m;
+		}else if(m instanceof MathDouble) {
+			MathDouble a = (MathDouble) m;
+		}else if(m instanceof MathNumber) {
+			MathNumber a = (MathNumber) m;
+		}else if(m instanceof MathVarName) {
+			MathVarName a = (MathVarName) m;
+			if(!list.contains(a.varName)) {
+				list.add(a.varName);
+			}
+		}
+
+		return list;
+	}
+
 
 //	public String getString(int testnum) { //testnum 0->infinity
 //		String result = "";
