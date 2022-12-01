@@ -146,11 +146,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(t_method_call instanceof ReturnMethodCall) {
 				checkTestMethodCallParameter(parameter, methodType, methodName);
 			}
-			checkDeclAssi(((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
-			checkParameterForErrors(((MyReturnMethod)methodType).method_body, parameter);
-			checkLoop(((MyReturnMethod)methodType).method_body, parameter);
-			checkVoidCall(((MyReturnMethod)methodType).method_body);
+			
+			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter);
 			checkReturnVar(((MyReturnMethod)methodType));
+			
+			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
+
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 
 		} else {
@@ -163,10 +164,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(t_method_call instanceof ReturnMethodCall) {
 				checkTestMethodCallParameter(parameter, methodType, methodName);
 			}
-			checkDeclAssi(((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
-			checkParameterForErrors(((MyVoidMethod)methodType).method_body, parameter);
-			checkLoop(((MyVoidMethod)methodType).method_body, parameter);
-			checkVoidCall(((MyVoidMethod)methodType).method_body);
+			
+			checkMethodBody(methodName, ((MyVoidMethod)methodType).method_body, parameter);
 
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
 		}
@@ -231,7 +230,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				checkTestMethodCallParameter(parameter, methodType, methodName);
 			}
 
-			getDefCoverage(((MyReturnMethod)methodType).method_body);
+			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
+			
+			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
 
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}else {
@@ -245,42 +246,281 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				checkTestMethodCallParameter(parameter, methodType, methodName);
 			}
 
-			getDefCoverage(((MyVoidMethod)methodType).method_body);			
+			getDefCoverage(methodName,((MyVoidMethod)methodType).method_body);			
 
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
 		}
 	}
+	
+	private void checkMethodBody(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
+		checkDeclaration(method_body, parameter); 
+		checkAssignment(method_body, parameter); 
+		checkIfStatement(methodName, method_body, parameter);
+		checkLoop(methodName,method_body, parameter);
+		checkVoidCall(method_body);		
+	}
+	
+	private void checkDeclaration(MyMethodBody method_body, Map<String, String> parameter){
+		for(Declaration d : method_body.declList) {
+			if(parameter.containsKey(d.varName)) {
+				semanticErrors.add("Error: variable " + d.varName + " already exist in the parameters");
+			}else {
+				if(local_variableMap.containsKey(d.varName)) {
+					semanticErrors.add("Error: variable " + d.varName + " already declared");
+				}else {
+					local_variableMap.put(d.varName, d.defaultValue);	
+				}
+			}
+		}
+	}
+	
+	private void checkAssignment(MyMethodBody method_body, Map<String, String> parameter) {
+		for(Assignment a: method_body.assiList) {
+			if(!local_variableMap.containsKey(a.varName)) {
+				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+			}else {
+				if(a.expr instanceof Values) {
+					if(((Values)a.expr) instanceof ValueMath) {
+						checkMath((ValueMath)a.expr, a, true);
+					}else {
+						if(local_variableMap.containsKey(a.varName)) {
+							if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
+								local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
+							}else {
+								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+							}
+						}
+					}
+				}else if(a.expr instanceof ReturnMethodCall) {
+					
+				}else {
+					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+				}
+			}
+		}
+	}
+	
+	private void checkIfStatement(String methodName, MyMethodBody methodbody , Map<String, String> parameter) {
+		for(IfStatement i : methodbody.ifStatList) {
+			if(getCondType(i.cond).equals("NO")) {
+				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
+					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
+				}
+			}
 
-	private void getDefCoverage(MyMethodBody method_body) {
+			MyMethodBody ifBody = i.ifBody;
+			MyMethodBody elseBody = i.elseBody;
+
+			if(evaluated(i.cond, local_variableMap)) {
+				checkIfBody(methodName,ifBody, methodbody, parameter);
+
+				checkElseBody(methodName,elseBody, methodbody, parameter);
+
+			}else {
+				checkElseBody(methodName,ifBody, methodbody, parameter);
+
+				checkIfBody(methodName,elseBody, methodbody, parameter);
+
+			}	
+
+		}
+
+	}
+	
+	private void checkIfBody(String methodName,MyMethodBody ifBody, MyMethodBody methodbody , Map<String, String> parameter) {
+		for(Declaration d : ifBody.declList) {
+			if(parameter.containsKey(d.varName)) {
+				if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
+					semanticErrors.add("Error: " + d.varName + " is a parameter of mymethod");	
+				}
+			}
+		}
+	
+		checkDeclaration(ifBody, parameter);
+
+		checkAssignment(ifBody, parameter);
+
+		if(ifBody.ifStatList.size() > 0) {
+			checkIfStatement(methodName,ifBody, parameter);
+		}
+
+		if(ifBody.loops.size() > 0) {
+			checkLoop(methodName,ifBody, parameter);
+		}
+
+		if(ifBody.methodCall.size() > 0) {
+			checkVoidCall(ifBody);
+		}		
+	}
+	
+	private void checkElseBody(String methodName,MyMethodBody elsemethod, MyMethodBody methodbody, Map<String, String> parameter) {
+		for(Declaration d : elsemethod.declList) {
+			for(Declaration dl: methodbody.declList) {
+				if(d.varName.equals(dl.varName)) {
+					semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
+				}
+			}
+		}
+
+		for(Assignment a: elsemethod.assiList) {
+			if(!local_variableMap.containsKey(a.varName)) {
+				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+			}else {
+				if(a.expr instanceof Values) {
+					if(((Values)a.expr) instanceof ValueMath) {
+						checkMath((ValueMath)a.expr, a, false);
+					}else {
+						if(local_variableMap.containsKey(a.varName)) {
+							if(!local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
+								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+							}
+						}
+					}
+				}else if(a.expr instanceof ReturnMethodCall) {
+					if(smtg(methodName,a.expr, a)) {
+
+					}
+				}else {
+					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+				}
+			}
+		}
+
+		if(elsemethod.ifStatList.size() > 0) {
+			checkIfStatement(methodName,elsemethod, parameter);
+		}
+
+		if(elsemethod.loops.size() > 0) {
+			checkLoop(methodName,elsemethod, parameter);
+		}
+
+		if(elsemethod.methodCall.size() > 0) {
+			checkVoidCall(elsemethod);
+		}		
+	}
+	
+	private void checkLoop(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
+		for(Loop l : method_body.loops) {
+			for(MyMethodBody loopbody : l.myMethodBodyList) {
+				checkDeclaration(method_body, parameter);
+
+				checkAssignment(method_body, parameter);
+
+				if(loopbody.ifStatList.size() > 0) {
+					checkIfStatement(methodName,loopbody, parameter);
+				}
+
+				if(loopbody.loops.size() > 0) {
+					checkLoop(methodName,loopbody, parameter);
+				}
+
+				if(loopbody.methodCall.size() > 0) {
+					checkVoidCall(loopbody);
+				}	
+			}
+		}
+	}
+	
+	private void checkVoidCall(MyMethodBody method_body) {
+		for( MethodCall m: method_body.methodCall) {
+			if(m instanceof VoidMethodCall) {
+
+			}else {
+				semanticErrors.add("Error: Only void method call is allowed");
+			}
+		}
+	}
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private void getDefCoverage(String methodName,MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
 			local_variableMap.put(d.varName, d.defaultValue);
 		}
 
 		for(Assignment a: method_body.assiList) {
-
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
 					checkMath((ValueMath)a.expr, a, true);
-
-//					List<String> list  = new ArrayList<>();
-//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
-
 				}else {
 					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(a.expr, a)) {
+				if(smtg(methodName,a.expr, a)) {
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 
 			}
 		}
-
-		defCheckIf(method_body);
-		defCheckLoop(method_body);
+		
+		defCheckIf(methodName,method_body);
+		defCheckLoop(methodName,method_body);
 		defCheckVoid(method_body);
 
+	}
+	
+	private void defCheckIf(String methodName, MyMethodBody method_body) {
+		for(IfStatement ifs: method_body.ifStatList) {
+			MyMethodBody ifBody = ifs.ifBody;
+			MyMethodBody elseBody = ifs.elseBody;
+
+
+			List<String> list = new ArrayList<>();
+			list = getCondVariableList(ifs.cond, list);
+
+			ifs.setCond(evaluated(ifs.cond, local_variableMap));
+			if(evaluated(ifs.cond, local_variableMap)) {
+				getForIfBody(methodName, ifBody);
+			}else {
+				getForIfBody(methodName, elseBody);
+			}
+
+		}
+
+	}
+	
+	private void getForIfBody(String methodName, MyMethodBody method_body) {
+		for(Declaration d: method_body.declList) {
+			if(!local_variableMap.containsKey(d.varName)) {
+				local_variableMap.put(d.varName, d.defaultValue);
+			}
+		}
+
+		for(Assignment a: method_body.assiList) {
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					checkMath((ValueMath)a.expr, a, true);
+				}else {
+					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
+				}
+
+			}else if(a.expr instanceof ReturnMethodCall) {
+				if(smtg(methodName, a.expr, a)) {
+					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				}
+			}
+		}
+
+		if(method_body.ifStatList.size() > 0) {
+			defCheckIf(methodName,method_body);
+		}
+
+		if(method_body.loops.size() > 0) {
+			defCheckLoop(methodName,method_body);
+		}
+
+		if(method_body.methodCall.size() > 0) {
+			defCheckVoid(method_body);
+		}
+	}
+	
+	private void defCheckLoop(String methodName, MyMethodBody method_body) {
+		for(Loop lo : method_body.loops) {
+			for(MyMethodBody loopbody : lo.myMethodBodyList) {
+				evaluateLoop(methodName, loopbody);
+			}
+		}
 	}
 
 	private void defCheckVoid(MyMethodBody method_body) {
@@ -297,56 +537,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 	}
 
-	private void defCheckLoop(MyMethodBody method_body) {
-		for(Loop lo : method_body.loops) {
-			getDefLoop(lo.myMethodBodyList.get(0));
-			for(MyMethodBody loopbody : lo.myMethodBodyList) {
-//				evaluateLoop(loopbody);
-			}
-		}
-	}
-
-	private void getDefLoop(MyMethodBody method_body) {
-		for(Declaration d: method_body.declList) {
-			if(!local_variableMap.containsKey(d.varName)) {
-				local_variableMap.put(d.varName, d.defaultValue);
-			}
-		}
-
-		for(Assignment a: method_body.assiList) {
-
-			if(a.expr instanceof Values) {
-				if(((Values)a.expr) instanceof ValueMath) {
-					checkMath((ValueMath)a.expr, a, true);
-
-//					List<String> list  = new ArrayList<>();
-//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
-
-				}else {
-					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
-				}
-
-			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(a.expr, a)) {
-					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
-				}
-			}
-		}
-
-		if(method_body.ifStatList.size() > 0) {
-			defCheckIf(method_body);
-		}
-
-		if(method_body.loops.size() > 0) {
-			getDefLoop(method_body);
-		}
-
-		if(method_body.methodCall.size() > 0) {
-			defCheckVoid(method_body);
-		}				
-	}
-
-	private void evaluateLoop(MyMethodBody loopbody) {
+	private void evaluateLoop(String methodName, MyMethodBody loopbody) {
 		for(Declaration d: loopbody.declList) {
 			if(!local_variableMap.containsKey(d.varName)) {
 				local_variableMap.put(d.varName, d.defaultValue);
@@ -358,158 +549,28 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
 					checkMath((ValueMath)a.expr, a, true);
-
-//					List<String> list  = new ArrayList<>();
-//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
-
 				}else {
 					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
-
 			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(a.expr, a)) {
+				if(smtg(methodName, a.expr, a)) {
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 			}
 		}
 
 		if(loopbody.ifStatList.size() > 0) {
-			defCheckIf(loopbody);
+			defCheckIf(methodName, loopbody);
 		}
 
 		if(loopbody.loops.size() > 0) {
-			evaluateLoop(loopbody);
+			defCheckLoop(methodName, loopbody);
 		}
 
 		if(loopbody.methodCall.size() > 0) {
 			defCheckVoid(loopbody);
 		}		
 	}
-
-	private void defCheckIf(MyMethodBody method_body) {
-		for(IfStatement ifs: method_body.ifStatList) {
-			MyMethodBody ifBody = ifs.ifBody;
-			MyMethodBody elseBody = ifs.elseBody;
-
-
-			List<String> list = new ArrayList<>();
-			list = getCondVariableList(ifs.cond, list);
-
-			ifs.setCond(evaluated(ifs.cond, local_variableMap));
-			if(evaluated(ifs.cond, local_variableMap)) {
-				getForIfBody(ifBody);
-				getForElseBody(elseBody);
-			}else {
-				getForElseBody(ifBody);
-				getForIfBody(elseBody);
-			}
-
-		}
-
-	}
-	private void getForIfBody(MyMethodBody method_body) {
-		for(Declaration d: method_body.declList) {
-			if(!local_variableMap.containsKey(d.varName)) {
-				local_variableMap.put(d.varName, d.defaultValue);
-			}
-		}
-
-		for(Assignment a: method_body.assiList) {
-
-			if(a.expr instanceof Values) {
-				if(((Values)a.expr) instanceof ValueMath) {
-					checkMath((ValueMath)a.expr, a, true);
-
-					List<String> list  = new ArrayList<>();
-					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
-
-				}else {
-					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
-				}
-
-			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(a.expr, a)) {
-					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
-				}
-
-
-			}
-		}
-
-		if(method_body.ifStatList.size() > 0) {
-			defCheckIf(method_body);
-		}
-
-		if(method_body.loops.size() > 0) {
-			defCheckLoop(method_body);
-		}
-
-		if(method_body.methodCall.size() > 0) {
-			defCheckVoid(method_body);
-		}
-	}
-
-	private void getVoidForElseBody(MyMethodBody method_body) {
-		for(MethodCall v: method_body.methodCall) {
-			String parameter = ""; int i = 0;
-			for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
-				parameter+= s;
-				if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
-					parameter += ", ";
-				}
-				i++;
-			}
-
-		}
-	}
-
-	private void getForElseBody(MyMethodBody method_body) {
-		for(Declaration d: method_body.declList) {
-		}
-
-		for(Assignment a: method_body.assiList) {
-		}
-
-		if(method_body.ifStatList.size() > 0) {
-			defCheckElse(method_body);
-		}
-
-		if(method_body.loops.size() > 0) {
-			defCheckElseLoop(method_body);
-		}
-
-		if(method_body.methodCall.size() > 0) {
-			getVoidForElseBody(method_body);
-		}
-
-	}
-
-	private void defCheckElseLoop(MyMethodBody method_body) {
-		for(Loop lo : method_body.loops) {
-			for(MyMethodBody loopbody : lo.myMethodBodyList) {
-				getForElseBody(loopbody);
-			}
-		}		
-	}
-
-	private void defCheckElse(MyMethodBody method_body) {
-		for(IfStatement ifs: method_body.ifStatList) {
-			MyMethodBody ifBody = ifs.ifBody;
-			MyMethodBody elseBody = ifs.elseBody;
-
-
-			if(evaluated(ifs.cond, local_variableMap)) {
-				getForElseBody(ifBody);
-				getForElseBody(elseBody);
-			}else {
-				getForElseBody(ifBody);
-				getForElseBody(elseBody);
-			}
-
-		}
-
-	}
-
 
 	private List<String> getCondVariableList(Condition c, List<String> list) {
 		if(c instanceof Negation) {
@@ -712,6 +773,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}
 
 					if(noerror) {
+//						for(MyMethods gm : this.global_mymethods) {
+//							if(gm.methodName.equals(r.methodName)) {
+//								if(gm.methodType instanceof MyReturnMethod) {
+//
+//								}
+//							}
+//						}
 						return ((MyReturnMethod)m.methodType).getValue(lists);
 					}
 				}
@@ -736,17 +804,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	}
 
-	private void checkVoidCall(MyMethodBody method_body) {
-		for( MethodCall m: method_body.methodCall) {
-			if(m instanceof VoidMethodCall) {
-
-			}else {
-				semanticErrors.add("Error: Only void method call is allowed");
-			}
-		}
-	}
-
-	private void checkDeclAssi(MyMethodBody method_body, Map<String, String> parameter) {
+	private void checkDeclAssi2(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
 
 		for(Declaration d : method_body.declList) {
 			if(parameter.containsKey(d.varName)) {
@@ -777,7 +835,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-					if(smtg(a.expr, a)) {
+					if(smtg(methodName, a.expr, a)) {
 						this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 					}
 				}else {
@@ -786,8 +844,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 		}
 	}
+	
+	
 
-	private boolean smtg(Expr rhs, Assignment a) {
+	private boolean smtg(String methodName, Expr rhs, Assignment a) {
 		String type = "";
 		for(Map.Entry<String, Values> d: local_variableMap.entrySet()) { //find dec type from declarations of game body
 			if(d.getKey().equals(a.varName)) {
@@ -823,6 +883,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}
 				}
 			}
+			return false;
+		}else if(((ReturnMethodCall)rhs).methodName.equals(methodName)){
+			this.semanticErrors.add("StackOverflowError: mymethod " + methodName + " cannot call itself : " + rhs.toString());
 			return false;
 		}
 		else { //if method not declared
@@ -877,190 +940,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}		
 
 
-	}
-
-	private void checkParameterForErrors(MyMethodBody methodbody , Map<String, String> parameter) {
-		for(IfStatement i : methodbody.ifStatList) {
-			if(getCondType(i.cond).equals("NO")) {
-				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
-					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
-				}
-			}
-
-			MyMethodBody ifBody = i.ifBody;
-			MyMethodBody elseBody = i.elseBody;
-
-			if(evaluated(i.cond, local_variableMap)) {
-				checkIfBody(ifBody, methodbody, parameter);
-
-				checkElseBody(elseBody, methodbody, parameter);
-
-			}else {
-				checkElseBody(ifBody, methodbody, parameter);
-
-				checkIfBody(elseBody, methodbody, parameter);
-
-			}	
-
-		}
-
-	}
-
-	private void checkElseBody(MyMethodBody elsemethod, MyMethodBody methodbody, Map<String, String> parameter) {
-		for(Declaration d : elsemethod.declList) {
-			for(Declaration dl: methodbody.declList) {
-				if(d.varName.equals(dl.varName)) {
-					semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
-				}
-			}
-		}
-
-		for(Assignment a: elsemethod.assiList) {
-			if(!local_variableMap.containsKey(a.varName)) {
-				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
-			}else {
-				if(a.expr instanceof Values) {
-					if(((Values)a.expr) instanceof ValueMath) {
-						checkMath((ValueMath)a.expr, a, false);
-					}else {
-						if(local_variableMap.containsKey(a.varName)) {
-							if(!local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
-								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
-							}
-						}
-					}
-				}else if(a.expr instanceof ReturnMethodCall) {
-					if(smtg(a.expr, a)) {
-						this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
-					}
-				}else {
-					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
-				}
-			}
-		}
-
-		if(elsemethod.ifStatList.size() > 0) {
-			checkParameterForErrors(elsemethod, parameter);
-		}
-
-		if(elsemethod.loops.size() > 0) {
-			checkLoop(elsemethod, parameter);
-		}
-
-		if(elsemethod.methodCall.size() > 0) {
-			checkVoidCall(elsemethod);
-		}		
-	}
-
-	private void checkIfBody(MyMethodBody ifBody, MyMethodBody methodbody , Map<String, String> parameter) {
-		for(Declaration d : ifBody.declList) {
-			if(parameter.containsKey(d.varName)) {
-				if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
-					semanticErrors.add("Error: " + d.varName + " is a parameter of mymethod");	
-				}
-			}
-		}
-		for(Declaration d : ifBody.declList) {
-			for(Declaration dl: methodbody.declList) {
-				if(d.varName.equals(dl.varName)) {
-					semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
-				}else {
-					local_variableMap.put(d.varName, d.defaultValue);	
-				}
-			}
-		}
-
-		for(Assignment a: ifBody.assiList) {
-			if(!local_variableMap.containsKey(a.varName)) {
-				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
-			}else {
-				if(a.expr instanceof Values) {
-					if(((Values)a.expr) instanceof ValueMath) {
-						checkMath((ValueMath)a.expr, a, true);
-					}else {
-						if(local_variableMap.containsKey(a.varName)) {
-							if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
-								local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
-							}else {
-								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
-							}
-						}
-					}
-				}else if(a.expr instanceof ReturnMethodCall) {
-					if(smtg(a.expr, a)) {
-						this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
-					}
-				}else {
-					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
-				}
-			}
-		}
-
-		if(ifBody.ifStatList.size() > 0) {
-			checkParameterForErrors(ifBody, parameter);
-		}
-
-		if(ifBody.loops.size() > 0) {
-			checkLoop(ifBody, parameter);
-		}
-
-		if(ifBody.methodCall.size() > 0) {
-			checkVoidCall(ifBody);
-		}		
-	}
-
-	private void checkLoop(MyMethodBody method_body, Map<String, String> parameter) {
-		for(Loop l : method_body.loops) {
-			for(MyMethodBody loopbody : l.myMethodBodyList) {
-				for(Declaration d : loopbody.declList) {
-					if(local_variableMap.containsKey(d.varName)) {
-						semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
-					}else {
-						local_variableMap.put(d.varName, d.defaultValue);	
-					}
-
-				}
-
-				for(Assignment a: loopbody.assiList) {
-					if(!local_variableMap.containsKey(a.varName)) {
-						semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
-					}else {
-						if(a.expr instanceof Values) {
-							if(((Values)a.expr) instanceof ValueMath) {
-								checkMath((ValueMath)a.expr, a, true);
-							}else {
-								if(local_variableMap.containsKey(a.varName)) {
-									if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
-										local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
-									}else {
-										semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
-									}
-								}
-							}
-						}else if(a.expr instanceof ReturnMethodCall) {
-							if(smtg(a.expr, a)) {
-								this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
-							}
-						}else {
-							this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
-						}
-					}
-				}
-
-				if(loopbody.ifStatList.size() > 0) {
-					checkParameterForErrors(loopbody, parameter);
-				}
-
-				if(loopbody.loops.size() > 0) {
-					checkLoop(loopbody, parameter);
-				}
-
-				if(loopbody.methodCall.size() > 0) {
-					checkVoidCall(loopbody);
-				}	
-			}
-		}
-	}
+	}	
 
 	private double getMATHDOUBLE(Mathematics m) {
 		double result = 0.00;
@@ -1444,5 +1324,34 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 
 		return result;
+	}
+
+	public MyMethods visit2(MyMethodsContext ctx) {
+		local_variableMap = new HashMap<>();
+
+		String methodName = ctx.METHODNAME().getText();
+
+		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods);
+
+			MethodType methodType = (MyReturnMethod)mtVisitor.visit(ctx.getChild(2));
+			Map <String, String> parameter = ((MyReturnMethod)methodType).parameter.getParams();
+
+			declareParameter(parameter);
+			checkDeclAssi2(methodName, ((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
+			
+			return new MyMethods(methodName, (MyReturnMethod)methodType);
+
+		} else {
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods);
+
+			MethodType methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
+			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
+
+			declareParameter(parameter);
+			checkDeclAssi2(methodName,((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
+			
+			return new MyMethods(methodName, (MyVoidMethod)methodType);
+		}
 	}
 }
