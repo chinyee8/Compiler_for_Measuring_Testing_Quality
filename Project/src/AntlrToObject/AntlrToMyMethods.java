@@ -401,10 +401,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	
 	private void checkLoop(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
 		for(Loop l : method_body.loops) {
+			int i = 0; 
 			for(MyMethodBody loopbody : l.myMethodBodyList) {
-				checkDeclaration(method_body, parameter);
-
-				checkAssignment(method_body, parameter);
+				if(i == 0) {
+					checkDeclaration(loopbody, parameter);
+				}
+				
+				checkAssignment(loopbody, parameter);
 
 				if(loopbody.ifStatList.size() > 0) {
 					checkIfStatement(methodName,loopbody, parameter);
@@ -417,6 +420,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				if(loopbody.methodCall.size() > 0) {
 					checkVoidCall(loopbody);
 				}	
+				
+				i++;
 			}
 		}
 	}
