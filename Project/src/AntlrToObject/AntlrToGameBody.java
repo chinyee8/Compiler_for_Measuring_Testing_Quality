@@ -150,6 +150,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			mymethod.add(myMeth);
 
 		}
+		
+		for(int i = 0; i < ctx.mymethod().size(); i++) {
+			MyMethods myMeth = mmVisitor.visit2((MyMethodsContext)ctx.mymethod(i));
+		}
 
 		this.decl = decl;
 		this.assi = assi;
