@@ -318,10 +318,10 @@ public class AllDefCoverage {
 				expr = ((ReturnMethodCall)a.expr).methodName + " [" + para + "]";
 			}
 
-			if(def.contains(a.varName)) {
+			if(d.equals(a.varName)) {
 				result += space + "<mark style=\"background-color: lime;\">" + a.varName + "</mark>" + " <- " + expr + "<br>";
 			}else {
-				result += space + "<mark style=\"background-color: lime;\">" + a.varName + "</mark>" + " <- " + expr + "<br>";
+				result += space + a.varName + " <- " + expr + "<br>";
 			}
 		}
 
