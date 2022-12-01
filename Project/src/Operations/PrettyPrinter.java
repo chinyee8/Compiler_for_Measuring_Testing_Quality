@@ -40,16 +40,37 @@ public class PrettyPrinter{
 		
 	}
 	
+	public String getStyle() {
+		String result = "";
+		result += "<style>\n";
+		
+		result += "p{\n"
+				+ "display: inline;\n"
+				+ "}\n";
+		
+		result += " u{\n"
+				+ " color: red;\n"
+				+ "}\n";
+		
+		result += "</style>\n";
+		
+		return result;
+	}
+	
 	public String getFunction() {
 		String result ="";
 		
 		result +="<html>\n";
+		
+		result += getStyle();
 		
 		//button
 		result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
 		result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
 		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button>\n";
 		result += "<button onclick=\"allCUse()\"> All-C-Uses Coverage </button>\n";
+		
+		result += "<br>";
 
 		//original code
 		result += "<div id=\"text\">\n" + this.ori.getString() + "</div>";
