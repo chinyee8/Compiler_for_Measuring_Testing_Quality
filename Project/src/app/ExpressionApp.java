@@ -20,7 +20,6 @@ import Operations.AllCUsesCoverage;
 import Operations.AllDefCoverage;
 import Operations.ConditionCoverage;
 import Operations.ErrorListener;
-import Operations.Evaluator;
 import Operations.Original;
 import Operations.PrettyPrinter;
 import Operations.Statement;
@@ -29,7 +28,6 @@ import antlr.exprParser;
 import antlr.exprParser.ProgramContext;
 import model.MethodCall;
 import model.Program;
-import model.TestMethodCall;
 import model.Values;
 
 public class ExpressionApp {
@@ -142,15 +140,13 @@ public class ExpressionApp {
 								progCond.visitConditionCoverage((ProgramContext)progAST);	 // for addResult						
 							}
 							
-							Evaluator ep = new Evaluator(testProg.testcase, prog.gameclass);
-
 							Original ori = new Original(programList);
 							Statement st = new Statement(programList);
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
 //							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
 
-							PrettyPrinter printer = new PrettyPrinter(ep, 0);
+							PrettyPrinter printer = new PrettyPrinter(0);
 							printer.addOriginal(ori);
 							printer.addStatement(st);
 							printer.addAllDefCoverage(alldef);
