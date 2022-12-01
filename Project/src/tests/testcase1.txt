@@ -1,4 +1,4 @@
-test test_api01 []!
+test test_api01 !
 	input1 << DOUBLE
 	input2 << DOUBLE
 	bool1 << BOOLEAN
