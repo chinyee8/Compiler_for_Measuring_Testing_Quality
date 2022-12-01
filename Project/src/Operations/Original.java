@@ -40,7 +40,7 @@ public class Original {
 					}
 					i++;
 				}
-				result += "&emsp;mymethod " + mm.methodName + " " + mt.dataType + " [ " + para + " ] !<br>";
+				result += "&emsp;mymethod " + mm.methodName + " " + mt.dataType + " [" + para + "] !<br>";
 
 				result += "<br>";
 				
@@ -62,7 +62,7 @@ public class Original {
 					}
 					i++;
 				}
-				result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [ " + para + " ] !<br>";
+				result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [" + para + "] !<br>";
 
 				result += "<br>";
 				
