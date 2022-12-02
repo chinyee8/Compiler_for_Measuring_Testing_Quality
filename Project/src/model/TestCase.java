@@ -7,9 +7,9 @@ public class TestCase {
 	public List<Declaration> decl;
 	public List<Assignment> assi;
 	public List<TestMethodCall> t_method_call;
-	public List<Program> programList;
 	public Map<MethodCall, Map<String, Values>> allMethodCalls;
 	public Map<MethodCall, List<String>> methodCallParamOrder;
+	public Values testValue;
 	
 	public TestCase(String testName, List<Declaration> decl, List<Assignment> assi,
 			List<TestMethodCall> t_method_call, Map<MethodCall, List<String>> methodCallParamOrder) {
@@ -17,17 +17,15 @@ public class TestCase {
 		this.decl = decl;
 		this.assi = assi;
 		this.t_method_call = t_method_call;
-		programList = new ArrayList<Program>();
 		this.methodCallParamOrder = methodCallParamOrder;
 	}
 
 	public TestCase(String testName, List<Declaration> decl, List<Assignment> assi,
-			List<TestMethodCall> t_method_call, List<Program> p) {
+			List<TestMethodCall> t_method_call) {
 		this.testName = testName;
 		this.decl = decl;
 		this.assi = assi;
 		this.t_method_call = t_method_call;
-		programList = p;
 	}
 
 	@Override
@@ -59,5 +57,9 @@ public class TestCase {
 	
 	public void addParamOrder(Map<MethodCall, List<String>> s) {
 		this.methodCallParamOrder = s;
+	}
+
+	public void putTestValue(Values testValue) {
+		this.testValue = testValue;
 	}
 }
