@@ -36,6 +36,7 @@ public class PrettyPrinter{
 			myWriter.close();
 
 			this.allDef.computeAllDef(); 
+			this.allC.computeAllDef(); 
 			
 			for(int i = 0; i < this.allMethodCalls.size() ; i++) {
 				File game = new File("game" + i + ".html");
@@ -46,12 +47,14 @@ public class PrettyPrinter{
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-
+	
+	/*
+	 * Test Case
+	 */
 	public String getTestStyle() {
 		String result = "";
 		
@@ -86,8 +89,6 @@ public class PrettyPrinter{
 		return result;
 	}
 
-	
-
 	private String getTestJS() {
 		String result = "";
 
@@ -100,6 +101,10 @@ public class PrettyPrinter{
 		return result;
 	}
 
+	
+	/*
+	 * Game Class
+	 */
 	public String getGameStyle() {
 		String result = "";
 		result += "<style>\n";
@@ -146,8 +151,11 @@ public class PrettyPrinter{
 		}
 		
 		
-		//		result += "<div id=\"allCUse\" hidden>\n" + this.allC.getString(0) + "</div>";
-
+		result += "<div id=\"allCUse\" hidden>\n" + this.allC.resultString.get(i) + "</div>\n"; //allC
+		for(String s: this.allC.different.get(i)) {
+			result+= s + "\n";
+		}
+		
 		//javascript
 		result += this.getGameJS(i);
 
@@ -180,6 +188,11 @@ public class PrettyPrinter{
 		for(String s: this.allDef.javascript.get(i)) {
 			result += s;
 		}
+		
+		for(String s: this.allC.javascript.get(i)) {
+			result += s;
+		}
+
 
 		result += "</script>";
 
