@@ -8,6 +8,7 @@ test test_api01 !
 	input2 <- 2.37
 	bool1 <- TRUE
 	result <- MATH[bool1, input1, input2]	
-	input2 <- SCIENCE[input1, input2]
 	input2 <- HISTORY[input1, input2]
+	input2 <- SCIENCE[input1, input2]
+	
 !
