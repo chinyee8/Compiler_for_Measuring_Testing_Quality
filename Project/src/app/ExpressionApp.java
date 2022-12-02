@@ -114,9 +114,8 @@ public class ExpressionApp {
 								System.out.println(err);
 							}
 						}else {
-							// Condition Coverage
-							ConditionCoverage condCov = new ConditionCoverage();
-
+							// Condition coverage
+							ConditionCoverage condCov = new ConditionCoverage();							
 							AntlrToProgram progCondComp = new AntlrToProgram(condCov);
 							progCondComp.visitConditionCoverage((ProgramContext)progAST); // for addCompoenent
 
@@ -125,10 +124,20 @@ public class ExpressionApp {
 							for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 								//AntlrToProgram progCond = new AntlrToProgram(t.getKey(), t.getValue(), condCov);
 								condCov.setTestMethod(t);
+								
+								ArrayList<String> list = new ArrayList<>();
+								for(Entry<MethodCall, List<String>> e : testProg.testcase.methodCallParamOrder.entrySet()) {
+									if(e.getKey().getName().equals(t.getKey().getName())) {
+										list.addAll(e.getValue());
+									}
+								}
+								condCov.setMethodCallParamOrder(list);
+
 								AntlrToProgram progCond = new AntlrToProgram(condCov);
 								progCond.visitConditionCoverage((ProgramContext)progAST);	 // for addResult						
 							}
-
+							// End of Condition Coverage
+							
 							Original ori = new Original(programList);
 							Testcase test = new Testcase(testProg);
 							Statement st = new Statement(programList2);
