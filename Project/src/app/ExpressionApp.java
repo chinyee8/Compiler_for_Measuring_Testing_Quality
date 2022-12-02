@@ -83,7 +83,7 @@ public class ExpressionApp {
 						
 
 						AntlrToProgram testV1 = new AntlrToProgram();
-						Program testp1 = testV1.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "", testProg.testcase.methodCallParamOrder);
+						Program testp1 = testV1.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "statement", testProg.testcase.methodCallParamOrder);
 
 						int i = 0;
 						for(Program p : testV1.progReturn) {
