@@ -31,20 +31,21 @@ public class Testcase {
 			result += "<br>";
 		}
 		
-		 int total = 0;
-		for(Assignment a: t.assi) {
-			if(a.expr instanceof ReturnMethodCall) {
-				total++;
-			}
-		}
+//		 int total = 0;
+//		for(Assignment a: t.assi) {
+//			if(a.expr instanceof ReturnMethodCall) {
+//				total++;
+//			}
+//		}
 		
-		int i = total-1;
+//		int i = total-1;
+		int i = 0;
 		for(Assignment a : t.assi) {
 			if(a.expr instanceof Values) {
 				result += "&emsp;" + a.varName + " <- " + a.expr + "<br>";
 			}else if(a.expr instanceof ReturnMethodCall) {
 				result += "&emsp;" + a.varName + " <- " + "<a href=\"game"+i+".html\"><p><mark \" style=\"background-color: yellow;\">" + a.expr + "</mark></p></a>" + "<br>";
-				i--;
+				i++;
 			}
 		}
 		
