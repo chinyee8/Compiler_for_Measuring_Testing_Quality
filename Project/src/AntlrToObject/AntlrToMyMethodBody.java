@@ -36,9 +36,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	List<Loop> loops;
 
 	//DefCoverage
-	public Map<String, String> def;
-	public List<String> lines;
-	public int totalNotUsed;
+
 
 	// Condition Coverage
 	public ConditionCoverage condCov;
@@ -68,28 +66,22 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 	}
 
 	//defCoverage
-	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, String> def, List<String> lines, int totalNotUsed) {
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
-		this.def = def;
 		this.local_methodvar = new HashMap<>();
-		this.lines = lines;
-		this.totalNotUsed = totalNotUsed;
 	}
 
-	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues,Map<String, String> def, HashMap<String, Values> local_methodVar, List<String> lines, int totalNotUsed) {
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
-		this.def = def;
 		this.local_methodvar = local_methodVar;
-		this.lines = lines;
-		this.totalNotUsed = totalNotUsed;
 	}
 
 	// Condition Coverage
@@ -304,7 +296,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
 
-		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def,local_methodvar, lines, totalNotUsed);
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues,local_methodvar);
 		for (int i = 0; i < ctx.if_statement().size(); i++) {
 			ifstatement.add(ifVisitor.defControl((IfStatementContext)ctx.if_statement(i)));
 		}
