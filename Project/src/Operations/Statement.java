@@ -13,22 +13,29 @@ import model.MyMethods;
 import model.MyReturnMethod;
 import model.MyVoidMethod;
 import model.Program;
+import model.ReturnMethodCall;
 import model.VoidMethodCall;
 
 public class Statement {
-	private ArrayList<Program> programList;
+	private Map<Program, MethodCall> programList;
 
-	public Statement(ArrayList<Program> programList) {
-		this.programList = programList;
+	public Statement(Map<Program, MethodCall> programList2) {
+		this.programList = programList2;
 	}
 
 	public String getString(int testnum) {
-		String result = "";
-		Program p = programList.get(testnum);
+		String result = ""; int tempnum = 0;
+		Program p = null;
+		MethodCall methodcall = null;
+		for(Map.Entry<Program, MethodCall> map: programList.entrySet()) {
+			if(testnum == tempnum) {
+				p = map.getKey();
+				methodcall = map.getValue();
+			}
+			tempnum ++;
+		}
 
 		result += "game " + p.gameclass.className + " !<br><br>";
-
-		//		<mark style=\"background-color: #C2DFFF;\">" +  + "</mark>
 
 		for(MyMethods mm : p.gameclass.body.myMethodList) {
 			if( mm.methodType instanceof MyReturnMethod) {
@@ -45,12 +52,22 @@ public class Statement {
 
 				result += "<br>";
 
-				result += Covered(mt.method_body, "&emsp;");
+				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) {
+					result += Covered(mt.method_body, "&emsp;");
+					result += "<br>";
 
-				result += "<br>";
+					result += "&emsp;&emsp;"+ "<mark style=\"background-color: yellow;\">" + "jackieReturns " + mt.varName + "</mark>" + "<br>";
+					result += "&emsp;!<br>";
+					
+				}else {
+					result += NotCovered(mt.method_body, "&emsp;");
+					result += "<br>";
 
-				result += "&emsp;&emsp;"+ "<mark style=\"background-color: yellow;\">" + "jackieReturns " + mt.varName + "</mark>" + "<br>";
-				result += "&emsp;!<br>";
+					result += "&emsp;&emsp;"+ "jackieReturns " + mt.varName  + "<br>";
+					result += "&emsp;!<br>";
+				}
+
+				
 
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
@@ -67,7 +84,12 @@ public class Statement {
 
 				result += "<br>";
 
-				result += Covered(mt.method_body, "&emsp;");
+				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) {
+					result += Covered(mt.method_body, "&emsp;");
+					
+				}else {
+					result += NotCovered(mt.method_body, "&emsp;");
+				}
 
 				result += "<br>";
 
