@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -228,7 +229,13 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		Values result = null;
 		
 		if(check.equals("statement")) {
-			AntlrToProgram progControllor = new AntlrToProgram(rm, callInputs, methodCallParamOrder2.get(rm)); //pass in methodcall, input parameters, and order of input parameters
+			ArrayList<String> list = new ArrayList<>();
+			for(Entry<MethodCall, List<String>> e : methodCallParamOrder2.entrySet()) {
+				if(e.getKey().getName().equals(rm.methodName)) {
+					list.addAll(e.getValue());
+				}
+			}
+			AntlrToProgram progControllor = new AntlrToProgram(rm, callInputs, list); //pass in methodcall, input parameters, and order of input parameters
 			Program prog2 = progControllor.control((ProgramContext)progAST);
 			this.progReturn.add(prog2);
 			result = progControllor.testValue;
