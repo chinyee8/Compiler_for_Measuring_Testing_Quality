@@ -48,6 +48,8 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
+
+		this.methodCallParamOrder = condCov.getMethodCallParamOrder();
 		this.condCov = condCov;
 		if (!condCov.isComponentState()) {
 			this.t_method_call = condCov.getTestMethod().getKey();
@@ -94,10 +96,12 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		String dataType = ctx.DATA_TYPE().getText();
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter arguments = pVisitor.visit(ctx.parameter());
-		
-		HashMap<String, Values> parameterTransformation = transform(arguments);
-		this.variableMap.putAll(parameterTransformation);
-		
+	
+		if(!condCov.isComponentState()) {
+			HashMap<String, Values> parameterTransformation = transform(arguments);
+			this.variableMap.putAll(parameterTransformation);
+		}
+
 		AntlrToMyMethodBody ifVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods, condCov);
 		ifVisitor.visitConditionCoverage((MyMethodBodyContext)ctx.method_body());
 		
