@@ -2,6 +2,7 @@ package Operations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import model.MethodCall;
@@ -16,6 +17,9 @@ public class ConditionCoverage{
 	String resultString;
 	Map.Entry<MethodCall, Map<String, Values>> testMethod;
 	boolean calledMethod;
+	public List<String> methodCallParamOrder;
+
+	//private Original gameClassCode;
 	
 	public class TestCase{
 
@@ -115,10 +119,21 @@ public class ConditionCoverage{
 		return calledMethod;
 	}
 
+	public List<String> getMethodCallParamOrder() {
+		return methodCallParamOrder;
+	}
+
+
+	public void setMethodCallParamOrder(List<String> methodCallParamOrder) {
+		this.methodCallParamOrder = methodCallParamOrder;
+	}
+
 
 	// should be called when html is generated
 	public String getPrint() { 
-		htmlPrint += "<style>table,th,td{border:1px solid black;}</style>"; // for table border
+		//htmlPrint += gameClassCode.getString();
+		//return htmlPrint;
+	htmlPrint += "<style>table,th,td{border:1px solid black;}</style>"; // for table border
 		htmlPrint += "<h2>Condition Coverage</h2>"; // for condition coverage header
 		
 		for (String curIfStat : componentMap.keySet()) { // iterate for all if statements
