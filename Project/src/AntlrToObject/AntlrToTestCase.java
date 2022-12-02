@@ -3,10 +3,14 @@ package AntlrToObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+
 import antlr.exprBaseVisitor;
+import antlr.exprParser.ProgramContext;
 import antlr.exprParser.TestCaseContext;
 import model.Assignment;
 import model.Call_Parameter;
@@ -15,6 +19,7 @@ import model.Expr;
 import model.MethodCall;
 import model.MyMethods;
 import model.MyReturnMethod;
+import model.Program;
 import model.ReturnMethodCall;
 import model.TestCase;
 import model.TestMethodCall;
@@ -31,10 +36,13 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public HashMap<String, Values> testVarMap = new HashMap<>();
 	public Map<MethodCall, Map<String, Values>> allMethodCalls = new HashMap<>();
 	public Map<MethodCall, List<String>> methodMappedToOrderParameter = new HashMap<>();
+	public List<Program> progReturn;
+	public List<MethodCall> testKey = new LinkedList<>();
 	
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
+		this.progReturn = new LinkedList<>();
 //		this.mymethod = ;
 	}
 	public AntlrToTestCase() {
@@ -169,5 +177,86 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		
 		
 		return null;
+	}
+	
+	public TestCase testcontrol(TestCaseContext ctx, ParseTree progAST, List<MyMethods> global_methods2, String check, Map<MethodCall, List<String>> methodCallParamOrder2) {
+		String testName = ctx.TEST_NAME().getText();
+		List<Declaration> decl = new ArrayList<>();
+		List<Assignment> assi = new ArrayList<>();
+		
+		List<TestMethodCall> t_method_call = new ArrayList<>();
+		
+		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
+		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap);
+		
+		for(int i = 0; i < ctx.decl().size(); i++) {
+			decl.add(declVisitor.visit(ctx.decl(i)));
+			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue);
+			this.testVarMap.put(decl.get(i).varName, decl.get(i).defaultValue);
+		}
+		
+		for(int i = 0; i < ctx.assi().size(); i++) {
+			assi.add(assiVisitor.visit(ctx.assi(i)));
+			if(assi.get(i).expr instanceof Values) {
+				this.testVarMap.put(assi.get(i).varName, ((Values)assi.get(i).expr).getValues());
+
+			}else if(assi.get(i).expr instanceof ReturnMethodCall) {
+				Map<String, Values> callInputs = new LinkedHashMap<>();
+				List<String> paramaters = ((ReturnMethodCall)assi.get(i).expr).call_parameter.getCallParams(); //this returns an empty list?
+				for(String p : paramaters) {
+					callInputs.put(p, testVarMap.get(p));
+					
+				}
+				this.testKey.add(((ReturnMethodCall)assi.get(i).expr));
+				this.testVarMap.put(assi.get(i).varName, getTestValue((ReturnMethodCall)assi.get(i).expr, progAST, global_methods2, callInputs, check, methodCallParamOrder2));
+			}
+		}
+		
+		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
+		
+		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
+			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
+		}
+		
+		this.decl = decl;
+		this.assi = assi;
+		this.t_method_call = t_method_call;
+		return new TestCase(testName, decl, assi, t_method_call, null);
+	}
+	
+	private Values getTestValue(ReturnMethodCall rm, ParseTree progAST, List<MyMethods> global_methods2, Map<String, Values> callInputs, String check, Map<MethodCall, List<String>> methodCallParamOrder2) {
+		Values result = null;
+		
+		if(check.equals("statement")) {
+			AntlrToProgram progControllor = new AntlrToProgram(rm, callInputs, methodCallParamOrder2.get(rm)); //pass in methodcall, input parameters, and order of input parameters
+			Program prog2 = progControllor.control((ProgramContext)progAST);
+			this.progReturn.add(prog2);
+			result = progControllor.testValue;
+		
+		}else {
+			AntlrToProgram devCoverage = new AntlrToProgram(rm, global_methods2, callInputs);
+			Program defProg = devCoverage.defControl((ProgramContext)progAST);
+			this.progReturn.add(defProg);
+			result = devCoverage.testValue;
+			
+			if(devCoverage.semanticErrors.size()>0) {
+				for(String s: devCoverage.semanticErrors) {
+					if(!this.semanticErrors.contains(s)) {
+						this.semanticErrors.add(s);
+					}
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	
+	public List<Program> getProgReturn(){
+		return this.progReturn;
+	}
+	
+	public List<MethodCall> getTestKey(){
+		return this.testKey;
 	}
 }
