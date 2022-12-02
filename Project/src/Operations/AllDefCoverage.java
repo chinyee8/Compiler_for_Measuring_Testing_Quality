@@ -59,9 +59,9 @@ public class AllDefCoverage {
 		this.countUse = 0;
 		this.returnMethodCall = new ArrayList<>();
 		this.voidMethodCall = new ArrayList<>();
-		this.resultString = new HashMap<>();
-		this.different = new HashMap<>();
-		this.javascript = new HashMap<>();
+		this.resultString = new LinkedHashMap<>();
+		this.different = new LinkedHashMap<>();
+		this.javascript = new LinkedHashMap<>();
 	}
 	
 	public void computeAllDef() {
@@ -121,6 +121,7 @@ public class AllDefCoverage {
 			}
 			this.different.put(i, tempdiff);
 			this.javascript.put(i, tempJS); 
+			i++;
 		}
 	}
 	
