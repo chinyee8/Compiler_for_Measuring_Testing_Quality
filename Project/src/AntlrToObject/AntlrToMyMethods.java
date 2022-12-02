@@ -74,12 +74,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public List<String> methodCallParamOrder;
 	public HashMap<String, Values> local_variableMap;
 	//def Coverage
-	public Map<String, String> def;
-	public List<String> lines;
-	public int totalNotUsed;
+	public Values testValue;
 
 	// Condition Coverage member variable
 	public ConditionCoverage condCov;
+	
 
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
@@ -102,15 +101,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	}
 
 	//defCoverage
-	public AntlrToMyMethods(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, String> def, List<String> lines, int totalNotUsed) {
+	public AntlrToMyMethods(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Values testValue) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
-		this.def = def;
-		this.lines = lines;
-		this.totalNotUsed = totalNotUsed;
+		this.testValue = testValue;
 	}
 
 	// Condition Coverage
@@ -220,7 +217,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		String methodName = ctx.METHODNAME().getText();
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
-			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, lines, totalNotUsed);
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
 
 			MethodType methodType = (MyReturnMethod)mtVisitor.defControlR((MyReturnMethodContext)ctx.getChild(2));
 			Map <String, String> parameter = ((MyReturnMethod)methodType).parameter.getParams();
@@ -233,10 +230,16 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
 			
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
-
+			
+			if(t_method_call instanceof ReturnMethodCall) {
+				if(t_method_call.getName().equals(methodName)){
+					this.testValue = local_variableMap.get(((MyReturnMethod)methodType).varName);
+				}
+			}
+			
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}else {
-			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, lines, totalNotUsed);
+			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
 
 			MethodType methodType = (MyVoidMethod) mtVisitor.defControlV((MyVoidMethodContext)ctx.getChild(2));
 			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
