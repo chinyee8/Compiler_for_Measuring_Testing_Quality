@@ -90,14 +90,27 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 
 	// Condition Coverage
 	public void visitConditionCoverage(MyReturnMethodContext ctx) {
-
+		
+		String dataType = ctx.DATA_TYPE().getText();
+		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
+		Parameter arguments = pVisitor.visit(ctx.parameter());
+		
+		HashMap<String, Values> parameterTransformation = transform(arguments);
+		this.variableMap.putAll(parameterTransformation);
+		
 		AntlrToMyMethodBody ifVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods, condCov);
 		ifVisitor.visitConditionCoverage((MyMethodBodyContext)ctx.method_body());
-	
+		
 	}
 	// Condition Coverage
 	public void visitConditionCoverage(MyVoidMethodContext ctx) {
-
+		String void_type = ctx.VOID_TYPE().getText();
+		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
+		Parameter arguments = pVisitor.visit(ctx.parameter());
+		
+		HashMap<String, Values> parameterTransformation = transform(arguments);
+		this.variableMap.putAll(parameterTransformation);
+		
 		AntlrToMyMethodBody ifVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods, condCov);
 		ifVisitor.visitConditionCoverage((MyMethodBodyContext)ctx.method_body());
 
