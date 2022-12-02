@@ -82,7 +82,7 @@ public class AllDefCoverage {
 				if( mm.methodType instanceof MyReturnMethod) {
 					MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 
-					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName)) {
+					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
 						result += getUnderLinedReturn(mm.methodName, mt);
 						
 					}else {
