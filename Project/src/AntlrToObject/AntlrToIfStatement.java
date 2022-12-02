@@ -65,16 +65,13 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	}
 	
 	//defCoverage
-	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Map<String, String> def, HashMap<String, Values> local_methodVar, List<String> lines, int totalNotUsed) {
+	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
-		this.def = def;
 		this.local_methodVar = local_methodVar;
-		this.lines = lines;
-		this.totalNotUsed = totalNotUsed;
 	}
 
 	// Condition Coverage
@@ -153,7 +150,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
 		Condition cond = condVisitor.visit(ctx.cond());
 
-		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, def, this.local_methodVar, lines, totalNotUsed);
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, this.local_methodVar);
 
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
