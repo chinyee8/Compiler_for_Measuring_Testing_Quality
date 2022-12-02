@@ -22,4 +22,15 @@ game Mathclass !
         !
         jackieReturns result
     ! 
+    
+     mymethod HISTORY DOUBLE [DOUBLE input1, DOUBLE input2] !
+        result << DOUBLE	
+        input2 <- 1.23	
+        jackieAsks [input1 > input2] !
+            result <- 10.00
+        ! elseJackie !
+			result <- 100.00
+        !
+        jackieReturns result
+    ! 
 !
