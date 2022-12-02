@@ -23,6 +23,7 @@ import Operations.ErrorListener;
 import Operations.Original;
 import Operations.PrettyPrinter;
 import Operations.Statement;
+import Operations.Testcase;
 import antlr.exprLexer;
 import antlr.exprParser;
 import antlr.exprParser.ProgramContext;
@@ -59,6 +60,7 @@ public class ExpressionApp {
 
 					if(prog.gameclass != null && testProg.testcase != null) {
 						ArrayList<Program> programList = new ArrayList<>();
+						Map<Program, MethodCall> programList2 = new LinkedHashMap<>();
 
 						//devCoverage
 						Map<Program, MethodCall> defProgram = new LinkedHashMap<>();
@@ -75,6 +77,7 @@ public class ExpressionApp {
 								
 							}
 							programList.add(prog2);
+							programList2.put(prog2, t.getKey());
 						}
 
 
@@ -112,17 +115,19 @@ public class ExpressionApp {
 							}
 							
 							Original ori = new Original(programList);
-							Statement st = new Statement(programList);
+							Testcase test = new Testcase(testProg);
+							Statement st = new Statement(programList2);
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
 //							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
 
-							PrettyPrinter printer = new PrettyPrinter(0);
+							PrettyPrinter printer = new PrettyPrinter(testProg.testcase.allMethodCalls);
 							printer.addOriginal(ori);
 							printer.addStatement(st);
 							printer.addAllDefCoverage(alldef);
 //							printer.addAllCUseCoverage(allc);
 							printer.addCondCoverage(condCov);
+							printer.addTest(test);
 
 							printer.prettyPrint();
 						}
