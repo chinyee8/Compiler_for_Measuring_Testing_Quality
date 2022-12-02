@@ -67,31 +67,47 @@ public class ExpressionApp {
 						List<String> errors = new ArrayList<>();
 						boolean containErrors = false;
 
-						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
+						//						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
+						//
+						//							AntlrToProgram progControllor = new AntlrToProgram(t.getKey(), t.getValue(), testProg.testcase.methodCallParamOrder.get(t.getKey())); //pass in methodcall, input parameters, and order of input parameters
+						//
+						//							Program prog2 = progControllor.control((ProgramContext)progAST);
+						//							if(progControllor.semanticErrors.size()>0) {
+						//								containErrors = true;
+						//
+						//							}
+						//							programList.add(prog2);
+						//							programList2.put(prog2, t.getKey());
+						//						}
 
-							AntlrToProgram progControllor = new AntlrToProgram(t.getKey(), t.getValue(), testProg.testcase.methodCallParamOrder.get(t.getKey())); //pass in methodcall, input parameters, and order of input parameters
+						
 
-							Program prog2 = progControllor.control((ProgramContext)progAST);
-							if(progControllor.semanticErrors.size()>0) {
-								containErrors = true;
-								
+						AntlrToProgram testV1 = new AntlrToProgram();
+						Program testp1 = testV1.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "", testProg.testcase.methodCallParamOrder);
+
+						int i = 0;
+						for(Program p : testV1.progReturn) {
+							if(i == 0) {
+								programList.add(p);
 							}
-							programList.add(prog2);
-							programList2.put(prog2, t.getKey());
+							programList2.put(p, testV1.testKey.get(i));
+							i++;
 						}
 
 
-
 						//DefCoverage
-						for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 
-							AntlrToProgram devCoverage = new AntlrToProgram(t.getKey(), progVisitor.global_methods, t.getValue());
-							Program defProg = devCoverage.defControl((ProgramContext)progAST);
-							defProgram.put(defProg, t.getKey());
-							if(devCoverage.semanticErrors.size()>0) {
+						AntlrToProgram testV = new AntlrToProgram();
+						Program testp = testV.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "", testProg.testcase.methodCallParamOrder);
+
+						 i = 0;
+						for(Program p : testV.progReturn) {
+							defProgram.put(p, testV.testKey.get(i));
+							if(testV.semanticErrors.size()>0) {
 								containErrors = true;
-								errors.addAll(devCoverage.semanticErrors);
+								errors.addAll(testV.semanticErrors);
 							}
+							i++;
 						}
 
 						if(containErrors) {
@@ -106,32 +122,32 @@ public class ExpressionApp {
 							progCondComp.visitConditionCoverage((ProgramContext)progAST); // for addCompoenent
 
 							condCov.setComponentState(false); // now adding result state
-							
+
 							for(Map.Entry<MethodCall, Map<String, Values>> t : testProg.testcase.allMethodCalls.entrySet()) {
 								//AntlrToProgram progCond = new AntlrToProgram(t.getKey(), t.getValue(), condCov);
 								condCov.setTestMethod(t);
 								AntlrToProgram progCond = new AntlrToProgram(condCov);
 								progCond.visitConditionCoverage((ProgramContext)progAST);	 // for addResult						
 							}
-							
+
 							Original ori = new Original(programList);
 							Testcase test = new Testcase(testProg);
 							Statement st = new Statement(programList2);
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
-//							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
+							//							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
 
 							PrettyPrinter printer = new PrettyPrinter(testProg.testcase.allMethodCalls);
 							printer.addOriginal(ori);
 							printer.addStatement(st);
 							printer.addAllDefCoverage(alldef);
-//							printer.addAllCUseCoverage(allc);
+							//							printer.addAllCUseCoverage(allc);
 							printer.addCondCoverage(condCov);
 							printer.addTest(test);
 
 							printer.prettyPrint();
 						}
-						
+
 					}else {
 						System.err.println("Error: please input game file first, before test file!");
 					}
