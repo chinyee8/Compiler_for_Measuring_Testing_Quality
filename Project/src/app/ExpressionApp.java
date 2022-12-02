@@ -80,8 +80,8 @@ public class ExpressionApp {
 						//							programList2.put(prog2, t.getKey());
 						//						}
 
-						
 
+						//Statement Coverage
 						AntlrToProgram testV1 = new AntlrToProgram();
 						Program testp1 = testV1.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "statement", testProg.testcase.methodCallParamOrder);
 
@@ -96,11 +96,10 @@ public class ExpressionApp {
 
 
 						//DefCoverage
-
 						AntlrToProgram testV = new AntlrToProgram();
 						Program testp = testV.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "", testProg.testcase.methodCallParamOrder);
 
-						 i = 0;
+						i = 0;
 						for(Program p : testV.progReturn) {
 							defProgram.put(p, testV.testKey.get(i));
 							if(testV.semanticErrors.size()>0) {
@@ -135,13 +134,13 @@ public class ExpressionApp {
 							Statement st = new Statement(programList2);
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
-							//							AllCUsesCoverage allc = new AllCUsesCoverage(defLines, useLines, lines, defpercentage);
+							AllCUsesCoverage allc = new AllCUsesCoverage(defProgram);
 
 							PrettyPrinter printer = new PrettyPrinter(testProg.testcase.allMethodCalls);
 							printer.addOriginal(ori);
 							printer.addStatement(st);
 							printer.addAllDefCoverage(alldef);
-							//							printer.addAllCUseCoverage(allc);
+							printer.addAllCUseCoverage(allc);
 							printer.addCondCoverage(condCov);
 							printer.addTest(test);
 
