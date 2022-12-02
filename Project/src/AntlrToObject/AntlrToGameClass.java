@@ -32,9 +32,7 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	public List<String> methodCallParamOrder;
 
 	//CY's def_coverage
-	public Map<String, String> def; 
-	public List<String> lines;
-	public int totalNotUsed;
+	public Values testValue;
 	
 	// Condition Coverage member variable
 	public ConditionCoverage condCov;
@@ -57,14 +55,13 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	}
 	
 	//CY's def_coverage
-	public AntlrToGameClass(List<String> semanticErrors,MethodCall t_method_call, Map<String, Values> inputValues, List<MyMethods> global_methods, Map<String, String> def, List<String> lines, int totalNotUsed) {
+	public AntlrToGameClass(List<String> semanticErrors,MethodCall t_method_call, Map<String, Values> inputValues, List<MyMethods> global_methods, Values testValue) {
 		this.semanticErrors = semanticErrors;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.global_methods = global_methods;
-		this.def = def;
-		this.lines = lines;
-		this.totalNotUsed = totalNotUsed;
+		this.testValue = testValue;
+	
 	}
 	
 	// Condition Coverage 
@@ -112,9 +109,9 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	//defCoverage
 	public GameClass defControl(GameClassContext ctx) {
 		String className = ctx.CLASS_NAME().getText();
-		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors, t_method_call, inputValues, global_methods, def, lines, totalNotUsed);
+		AntlrToGameBody gbVisitor = new AntlrToGameBody(semanticErrors, t_method_call, inputValues, global_methods, testValue);
 		GameBody gamebody = gbVisitor.defControl((GameBodyContext) ctx.body());
-		totalNotUsed = gbVisitor.totalNotUsed;
+		this.testValue = gbVisitor.testValue;
 		return new GameClass(className, gamebody);
 	}
 	
