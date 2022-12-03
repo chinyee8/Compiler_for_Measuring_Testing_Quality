@@ -81,27 +81,30 @@ public class ExpressionApp {
 						//						}
 
 
-						//Statement Coverage
-						AntlrToProgram testV1 = new AntlrToProgram();
-						Program testp1 = testV1.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "statement", testProg.testcase.methodCallParamOrder);
-
-						int i = 0;
-						for(Program p : testV1.progReturn) {
-							if(i == 0) {
-								programList.add(p);
-							}
-							programList2.put(p, testV1.testKey.get(i));
-							i++;
-						}
+//						//Statement Coverage
+//						AntlrToProgram testV1 = new AntlrToProgram();
+//						Program testp1 = testV1.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "statement", testProg.testcase.methodCallParamOrder);
+//
+//						int i = 0;
+//						for(Program p : testV1.progReturn) {
+//							if(i == 0) {
+//								programList.add(p);
+//							}
+//							programList2.put(p, testV1.testKey.get(i));
+//							i++;
+//						}
 
 
 						//DefCoverage
 						AntlrToProgram testV = new AntlrToProgram();
 						Program testp = testV.testControl((ProgramContext)testAST, progAST, progVisitor.global_methods, "", testProg.testcase.methodCallParamOrder);
 
-						i = 0;
+						int i = 0;
 						for(Program p : testV.progReturn) {
 							defProgram.put(p, testV.testKey.get(i));
+							if(i == 0) {
+								programList.add(p);
+							}
 							if(testV.semanticErrors.size()>0) {
 								containErrors = true;
 								errors.addAll(testV.semanticErrors);
@@ -141,7 +144,7 @@ public class ExpressionApp {
 							
 							Original ori = new Original(programList);
 							Testcase test = new Testcase(testProg);
-							Statement st = new Statement(programList2);
+							Statement st = new Statement(defProgram);
 							condCov.setProgramList(programList); // condition coverage for html
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
