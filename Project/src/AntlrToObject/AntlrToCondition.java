@@ -172,7 +172,7 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
 					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
 				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
+					condCov.addComponent(condCov.getCurMethod() + "." + ctx.getText());
 				} 
 				else if (condCov.isCalledMethod()) {
 					String leftValue = "";
