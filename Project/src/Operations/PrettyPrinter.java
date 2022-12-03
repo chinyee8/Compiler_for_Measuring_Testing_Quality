@@ -36,7 +36,7 @@ public class PrettyPrinter{
 			myWriter.close();
 
 			this.allDef.computeAllDef(); 
-			this.allC.computeAllDef(); 
+			this.allC.computeAllC(); 
 			
 			for(int i = 0; i < this.allMethodCalls.size() ; i++) {
 				File game = new File("game" + i + ".html");
@@ -105,18 +105,16 @@ public class PrettyPrinter{
 	/*
 	 * Game Class
 	 */
-	public String getGameStyle() {
+	public String getGameStyle(int i) {
 		String result = "";
 		result += "<style>\n";
 
 		result += "p{\n"
 				+ "display: inline;\n"
 				+ "}\n";
-
-		result += " u{\n"
-				+ " color: red;\n"
-				+ "}\n";
-
+		
+		result += this.defCSS(i);
+		
 		result += "</style>\n";
 
 		return result;
@@ -128,7 +126,7 @@ public class PrettyPrinter{
 		result +="<html>\n";
 
 		//css
-		result += getGameStyle();
+		result += getGameStyle(i);
 
 		//html
 		result += "<h1>Game Class</h1>";
@@ -145,16 +143,32 @@ public class PrettyPrinter{
 		result += "<div id=\"statement\" hidden>\n" + this.statement.getString(i) + "</div>"; //statement
 		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>"; //condition
 
-		result += "<div id=\"allDef\" hidden>\n" + this.allDef.resultString.get(i) + "</div>\n"; //alldef
+		String tmp ="";
+		for(String s: this.allDef.lines.get(i)) {
+			tmp += s + "\n";
+		}
+		String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use</div>";
+		result += "<div id=\"allDef\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.allDef.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //alldef
 		for(String s: this.allDef.different.get(i)) {
 			result+= s + "\n";
 		}
+
+//		
+//		result += "<div id=\"allCUse\" hidden>\n" + this.allC.resultString.get(i) + "</div>\n"; //allC
+//		for(String s: this.allC.different.get(i)) {
+//			result+= s + "\n";
+//		}
 		
-		
-		result += "<div id=\"allCUse\" hidden>\n" + this.allC.resultString.get(i) + "</div>\n"; //allC
+		tmp ="";
+		for(String s: this.allC.lines.get(i)) {
+			tmp += s + "\n";
+		}
+		note = "<br><br><br><br><div class=\"note\"><u>Note:</u> "+ "<br><u class=\"paragraph_underline\"> &emsp; </u> &emsp;underline => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use</div>";
+		result += "<div id=\"allCUse\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.allC.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //allC
 		for(String s: this.allC.different.get(i)) {
 			result+= s + "\n";
 		}
+		
 		
 		//javascript
 		result += this.getGameJS(i);
@@ -206,6 +220,64 @@ public class PrettyPrinter{
 
 	public void addAllDefCoverage(AllDefCoverage alldef) {
 		this.allDef = alldef;
+	}
+	
+	public String defCSS(int i) {
+		String result = "";
+		
+		for(String s: this.allDef.css.get(i)) {
+			result += s;
+		}
+		
+		for(String s: this.allC.css.get(i)) {
+			result += s;
+		}
+		
+		result += ".allDefcolumn{\n"
+				+ "    float:left;\n"
+				+ "    width:50%;\n"
+				+ "}\n"
+				+ "\n"
+				+ "#allDef:after{\n"
+				+ "    content : \"\";\n"
+				+ "    display: table;\n"
+				+ "    clear: both;\n"
+				+ "}";
+		
+		result += ".allDefsubcolumn{\n"
+				+ "    float:left;\n"
+				+ "    width:50%;\n"
+				+ "}\n"
+				+ "\n"
+				+ "#allDefcolumn:after{\n"
+				+ "    content : \"\";\n"
+				+ "    display: table;\n"
+				+ "    clear: both;\n"
+				+ "}";
+		
+		result += "ul{\n"
+				+ "    list-style-type: none;\n"
+				+ "    margin: 0;\n"
+				+ "    padding: 0;\n"
+				+ "    width: 300px;\n"
+				+ "    background-color: #F0F8FF;\n"
+				+ "}\n"
+				+ "li .varList{\n"
+				+ "    display: block;\n"
+				+ "    color: #000;\n"
+				+ "    padding: 8px 16px;\n"
+				+ "    text-decoration: none;\n"
+				+ "}\n"
+				+ "li .varList:hover{\n"
+				+ "    background-color: blue;\n"
+				+ "    color: white;\n"
+				+ "}";
+		
+		result += ".paragraph_underline{color:red;}";
+		
+		result += ".note{width: 200px; padding:0;border: 3px dotted grey;}";
+		
+		return result;
 	}
 
 	public void addCondCoverage(ConditionCoverage condCov) {
