@@ -95,6 +95,8 @@ public class AllCUsesCoverage {
 			String result = "";
 
 			result += "game " + p.gameclass.className + " !<br><br>";
+			
+			checkMethodCall(p.gameclass.body.myMethodList, methodcall);
 
 			for(MyMethods mm : p.gameclass.body.myMethodList) {
 				this.def = new ArrayList<>();
@@ -103,8 +105,8 @@ public class AllCUsesCoverage {
 				if( mm.methodType instanceof MyReturnMethod) {
 					MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 
-					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName) ) {
-						getAllVariableReturn(mt, true);
+					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
+						getAllVariableReturn(mt, false);
 						result += getUnderLinedReturn(mm.methodName, mt);
 
 
@@ -123,8 +125,8 @@ public class AllCUsesCoverage {
 				}else if(mm.methodType instanceof MyVoidMethod) {
 
 					MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName) ) {
-						getAllVariableVoid(mt, true);
+					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
+						getAllVariableVoid(mt, false);
 						result += getUnderLinedVoid(mm.methodName, mt);
 
 
@@ -215,6 +217,47 @@ public class AllCUsesCoverage {
 		}
 	}
 
+	
+
+	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
+		for(MyMethods mm : l) {
+			if( mm.methodType instanceof MyReturnMethod) {
+				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
+					this.returnMethodCall.add(methodcall.getName());
+					getTestMethodCall( mt.method_body);
+				}
+
+			}else if(mm.methodType instanceof MyVoidMethod) {
+				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
+					this.voidMethodCall.add(methodcall.getName());
+					getTestMethodCall( mt.method_body);
+				}
+			}
+		}	
+	
+		checkAllMethodCall(l, methodcall);
+	}
+
+	private void checkAllMethodCall(List<MyMethods> l, MethodCall methodcall) {
+		for(MyMethods mm : l) {
+			if( mm.methodType instanceof MyReturnMethod) {
+				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+				if(this.returnMethodCall.size()>0 && this.returnMethodCall.contains(mm.methodName)) {
+					getTestMethodCall(mt.method_body);
+				}
+
+			}else if(mm.methodType instanceof MyVoidMethod) {
+				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+				if(this.voidMethodCall.size()>0 && this.voidMethodCall.contains(mm.methodName)) {
+					getTestMethodCall(mt.method_body);
+				}
+			}
+		}		
+	}
+	
+
 	public String getResultString(Program p, MethodCall methodcall, String d) {
 		String result = "";
 
@@ -227,7 +270,7 @@ public class AllCUsesCoverage {
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
 				getAllVariableReturn(mt, false);
-				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName)) {
+				if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName)) {
 					result += this.getResult(mm.methodName, mt.method_body, mt.parameter, mt.dataType, mt.varName, d);
 				}else {
 					result += getNotUnderLinedReturn(mm.methodName, mt);
@@ -239,7 +282,7 @@ public class AllCUsesCoverage {
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
 				getAllVariableVoid(mt, false);
-				if(methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName) || this.voidMethodCall.contains(mm.methodName)) {
+				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName)) {
 					result += this.getResultVoid(mm.methodName, mt.method_body, mt.parameter, mt.voidType, d);
 				}else {
 					result += getNotUnderLinedVoid(mm.methodName, mt);
@@ -870,6 +913,37 @@ public class AllCUsesCoverage {
 			}
 		}
 		
+	}
+	
+	private void getTestMethodCall( MyMethodBody mb) {
+		
+		for(Assignment a: mb.assiList) {
+			if(a.expr instanceof ReturnMethodCall) {
+				if(!this.returnMethodCall.contains(((ReturnMethodCall)a.expr).methodName)){
+					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
+				}
+			}
+		}
+		
+		for(IfStatement i1 : mb.ifStatList) {
+			if(i1.CondEvaluatedTo) {
+				getTestMethodCall( i1.ifBody);
+			}else {
+				getTestMethodCall( i1.elseBody);
+			}
+		}
+		
+		for(Loop lo : mb.loops) {
+			getTestMethodCall( lo.myMethodBodyList.get(0));
+		}
+		
+		for(MethodCall v: mb.methodCall) {
+			if(v instanceof VoidMethodCall) {
+				if(!this.voidMethodCall.contains(((VoidMethodCall)v).methodname)) {
+					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
+				}
+			}
+		}
 	}
 
 	private List<String> getVariables(Mathematics m, List<String> list) {
