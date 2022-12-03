@@ -90,6 +90,7 @@ public class AllDefCoverage {
 			Program p = prog.getKey();
 			MethodCall methodcall = prog.getValue();
 			String result = "";
+			this.totaldef = new ArrayList<>();
 
 			result += "game " + p.gameclass.className + " !<br><br>";
 
@@ -105,19 +106,9 @@ public class AllDefCoverage {
 					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
 						getAllVariableReturn(mt, false);
 						result += getNotUnderLinedReturn(mm.methodName, mt);
-
-
-						//						result += getUnderLinedReturn(mm.methodName, mt);
-						//						
-						//					}else {
 					}else {
-						getAllVariableReturn(mt, false);
 						result += getNotUnderLinedReturn(mm.methodName, mt);
 					}
-					
-					//					}
-
-
 
 				}else if(mm.methodType instanceof MyVoidMethod) {
 
@@ -125,16 +116,9 @@ public class AllDefCoverage {
 					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
 						getAllVariableVoid(mt, false);
 						result += getNotUnderLinedVoid(mm.methodName, mt);
-
-
-						//						result += getUnderLinedReturn(mm.methodName, mt);
-						//						
-						//					}else {
 					}else {
-						getAllVariableVoid(mt, false);
 						result += getNotUnderLinedVoid(mm.methodName, mt);
-					}
-					//					}		  
+					}	  
 				}
 				
 				for(String s : def) {
@@ -261,10 +245,11 @@ public class AllDefCoverage {
 
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				this.def = new ArrayList<>();
-				this.use = new ArrayList<>();
-				getAllVariableReturn(mt, false);
+				
 				if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName)) {
+					this.def = new ArrayList<>();
+					this.use = new ArrayList<>();
+					getAllVariableReturn(mt, false);
 					result += this.getResult(mm.methodName, mt.method_body, mt.parameter, mt.dataType, mt.varName, d);
 				}else {
 					result += getNotUnderLinedReturn(mm.methodName, mt);
@@ -273,10 +258,11 @@ public class AllDefCoverage {
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				this.def = new ArrayList<>();
-				this.use = new ArrayList<>();
-				getAllVariableVoid(mt, false);
+				
 				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName)) {
+					this.def = new ArrayList<>();
+					this.use = new ArrayList<>();
+					getAllVariableVoid(mt, false);
 					result += this.getResultVoid(mm.methodName, mt.method_body, mt.parameter, mt.voidType, d);
 				}else {
 					result += getNotUnderLinedVoid(mm.methodName, mt);
