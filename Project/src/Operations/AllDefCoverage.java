@@ -100,13 +100,17 @@ public class AllDefCoverage {
 					MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 
 					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName) ) {
-						getAllVariableReturn(mt);
+						getAllVariableReturn(mt, true);
+						result += getNotUnderLinedReturn(mm.methodName, mt);
+
 
 						//						result += getUnderLinedReturn(mm.methodName, mt);
 						//						
 						//					}else {
+					}else {
+						getAllVariableReturn(mt, false);
+						result += getNotUnderLinedReturn(mm.methodName, mt);
 					}
-					result += getNotUnderLinedReturn(mm.methodName, mt);
 					//					}
 
 
@@ -114,11 +118,18 @@ public class AllDefCoverage {
 				}else if(mm.methodType instanceof MyVoidMethod) {
 
 					MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-					getAllVariableVoid(mt);
-					//					if(methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName) || this.voidMethodCall.contains(mm.methodName)) {
-					//						result += getUnderLinedVoid(mm.methodName, mt);
-					//					}else {
-					result += getNotUnderLinedVoid(mm.methodName, mt);
+					if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName) ) {
+						getAllVariableVoid(mt, true);
+						result += getNotUnderLinedVoid(mm.methodName, mt);
+
+
+						//						result += getUnderLinedReturn(mm.methodName, mt);
+						//						
+						//					}else {
+					}else {
+						getAllVariableVoid(mt, false);
+						result += getNotUnderLinedVoid(mm.methodName, mt);
+					}
 					//					}		  
 				}
 				
@@ -210,7 +221,7 @@ public class AllDefCoverage {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
-				getAllVariableReturn(mt);
+				getAllVariableReturn(mt, false);
 				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) || this.returnMethodCall.contains(mm.methodName)) {
 					result += this.getResult(mm.methodName, mt.method_body, mt.parameter, mt.dataType, mt.varName, d);
 				}else {
@@ -222,7 +233,7 @@ public class AllDefCoverage {
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
-				getAllVariableVoid(mt);
+				getAllVariableVoid(mt, false);
 				if(methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName) || this.voidMethodCall.contains(mm.methodName)) {
 					result += this.getResultVoid(mm.methodName, mt.method_body, mt.parameter, mt.voidType, d);
 				}else {
@@ -368,6 +379,8 @@ public class AllDefCoverage {
 		for(Assignment a: mm.assiList) {
 			if(def.contains(a.varName)) {
 				result += space + "<p id=\"" + a.varName + "\" onclick=\"" + a.varName + "()\"><u>" + a.varName + "</u></p>" + " <- " + a.expr.toString() + "<br>";
+			}else {
+				result += space +  a.varName + " <- " + a.expr.toString() + "<br>";
 			}
 		}
 
@@ -680,7 +693,7 @@ public class AllDefCoverage {
 
 
 
-	public void getAllVariableReturn(MyReturnMethod mt) {
+	public void getAllVariableReturn(MyReturnMethod mt, boolean yes) {
 
 		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
 			if(!def.contains(p.getKey())) {
@@ -694,12 +707,12 @@ public class AllDefCoverage {
 		}
 		this.countUse++;
 
-		getMethodVar(mt.method_body);
+		getMethodVar(mt.method_body, yes);
 
 
 	}
 
-	public void getAllVariableVoid(MyVoidMethod mt) {
+	public void getAllVariableVoid(MyVoidMethod mt, boolean yes) {
 
 		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
 			if(!def.contains(p.getKey())) {
@@ -714,12 +727,12 @@ public class AllDefCoverage {
 		this.countUse++;
 
 
-		getMethodVar(mt.method_body);
+		getMethodVar(mt.method_body, yes);
 
 
 	}
 
-	private void getMethodVar(MyMethodBody mb) {
+	private void getMethodVar(MyMethodBody mb, boolean yes) {
 
 		for(Assignment a: mb.assiList) {
 			if(!def.contains(a.varName)) {
@@ -740,7 +753,10 @@ public class AllDefCoverage {
 					}
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
+				if(yes) {
+					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
+				}
+				
 				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
 					if(!use.contains(s)) {
 						use.add(s);
@@ -762,20 +778,22 @@ public class AllDefCoverage {
 			}
 
 			if(i1.CondEvaluatedTo) {
-				getMethodVar(i1.ifBody);
+				getMethodVar(i1.ifBody, yes);
 			}else {
-				getMethodVar(i1.elseBody);
+				getMethodVar(i1.elseBody, yes);
 			}
 		}
 
 
 		for(Loop lo : mb.loops) {
-			getMethodVar(lo.myMethodBodyList.get(0));
+			getMethodVar(lo.myMethodBodyList.get(0), yes);
 		}
 
 		for(MethodCall v: mb.methodCall) {
 			if(v instanceof VoidMethodCall) {
-				this.voidMethodCall.add(((VoidMethodCall)v).methodname);
+				if(yes) {
+					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
+				}
 
 				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
 					if(!use.contains(s)) {
