@@ -5,12 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.Assignment;
+import model.Declaration;
+import model.IfStatement;
+import model.Loop;
 import model.MethodCall;
+import model.MyMethodBody;
+import model.MyMethods;
+import model.MyReturnMethod;
+import model.MyVoidMethod;
+import model.Program;
 import model.Values;
+import model.VoidMethodCall;
 
 public class ConditionCoverage{
 	
-	String htmlPrint;
+	//String htmlPrint;
 	Map<String, TestCase> componentMap;
 	boolean isComponentState;
 	String ifStatString;
@@ -18,8 +28,11 @@ public class ConditionCoverage{
 	Map.Entry<MethodCall, Map<String, Values>> testMethod;
 	boolean calledMethod;
 	public List<String> methodCallParamOrder;
-
-	//private Original gameClassCode;
+	
+	//for html
+	List<Program> programList;
+	int hoverIndex;
+	List<String> tableHTMLList;
 	
 	public class TestCase{
 
@@ -36,10 +49,14 @@ public class ConditionCoverage{
 	
 	public ConditionCoverage() {
 		componentMap = new HashMap<>();
-		htmlPrint = ""; // for pretty printing
+		//htmlPrint = ""; // for pretty printing
 		isComponentState = true;
 		testMethod = null;
 		calledMethod = false;
+		
+		programList = new ArrayList<>();
+		hoverIndex = 0;
+		tableHTMLList = new ArrayList<>();
 	}
 	
 	
@@ -99,7 +116,7 @@ public class ConditionCoverage{
 	
 	// should be called when it gets input for the condition parameter
 	// binary form 
-  // for example, if there are two components, and first component is true and second conpoenents is false, "01" should be in the parameter
+	// for example, if there are two components, and first component is true and second conpoenents is false, "01" should be in the parameter
 	public void addResult() { 
 		TestCase curTestCase = componentMap.get(ifStatString);
 		
@@ -128,34 +145,234 @@ public class ConditionCoverage{
 		this.methodCallParamOrder = methodCallParamOrder;
 	}
 
+	public List<Program> getProgramList() {
+		return programList;
+	}
 
+
+	public void setProgramList(List<Program> programList) {
+		this.programList = programList;
+	}
+
+	public String hoverStyle() {
+		if (hoverIndex >= tableHTMLList.size()) {
+			return "";
+		}
+		String hoverStyle = "";
+		hoverStyle += "<style> .popup {\n"
+				+ "  position: absolute;\n"
+				+ "  display: inline-block;\n"
+				+ "  cursor: pointer;\n"
+				+ "  -webkit-user-select: none;\n"
+				+ "  -moz-user-select: none;\n"
+				+ "  -ms-user-select: none;\n"
+				+ "  user-select: none;\n"
+				+ "}"
+				+ ".popuptext {  visibility: hidden;\n"
+				+ "  width: 160px;\n"
+				+ "  background-color: yellow;\n"
+				+ "  color: black;\n"
+				+ "  text-align: center;\n"
+				+ "  border-radius: 6px;\n"
+				+ "  padding: 8px 0;\n"
+				+ "  position: relative;\n"
+				+ "  z-index: 1;\n"
+				+ "  bottom: 125%;\n"
+				+ "  left: 50%;\n"
+				+ "  margin-left: -80px;}"
+				+ " .popup .show {\n"
+				+ "  visibility: visible;\n"
+				+ "}</style>"; // pop up style & hide
+		return hoverStyle;
+	}
+	public String hoverScript(String curCondString) {
+		
+		if (hoverIndex >= tableHTMLList.size()) {
+			return "";
+		}
+		
+		String hoverScript = ""; 
+
+		hoverScript += " <script> function showTable" + hoverIndex + "() { var popup = document.getElementById(\"Popup" + hoverIndex + "\"); popup.classList.toggle(\"show\");}</script>";
+		
+		return hoverScript;
+		
+	}
+	
+	public String hoverButton(String curCondString) {
+		
+		// match if statement and it's table
+		if (hoverIndex >= tableHTMLList.size()) {
+			return "";
+		}
+		String hoverButton = "";
+		hoverButton += "<a" + hoverIndex + " class =\"popup\" onmouseover=\"showTable" + hoverIndex + "()\"> ☞ See Coverage" ;
+		hoverButton +=  " <span id=\"Popup" + hoverIndex + "\" class=\"popuptext\">" + tableHTMLList.get(hoverIndex) + "</span>  </a" + hoverIndex + ">";
+		hoverIndex++;
+		return hoverButton;
+		
+	}
+	
 	// should be called when html is generated
 	public String getPrint() { 
-		//htmlPrint += gameClassCode.getString();
-		//return htmlPrint;
-	htmlPrint += "<style>table,th,td{border:1px solid black;}</style>"; // for table border
-		htmlPrint += "<h2>Condition Coverage</h2>"; // for condition coverage header
+		setTableHTMLList();
 		
+		hoverIndex = 0;
+		String result = "";
+		
+		Program p = programList.get(0);
+
+		result += "game " + p.gameclass.className + " !<br><br>";
+
+		for(MyMethods mm : p.gameclass.body.myMethodList) {
+			if( mm.methodType instanceof MyReturnMethod) {
+				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+				String para = ""; int i = 0;
+				for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
+					para += p1.getValue()+ " " + p1.getKey();
+					if(i < mt.parameter.getParams().size()-1) {
+						para+= ", ";
+					}
+					i++;
+				}
+				result += "&emsp;mymethod " + mm.methodName + " " + mt.dataType + " [" + para + "] !<br>";
+
+				result += "<br>";
+				
+				result += getMethodBodyString(mt.method_body, "&emsp;");
+				
+				result += "<br>";
+
+				result += "&emsp;&emsp;jackieReturns " + mt.varName + "<br>";
+				result += "&emsp;!<br>";
+
+			}else if(mm.methodType instanceof MyVoidMethod) {
+
+				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+				String para = ""; int i = 0;
+				for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
+					para += p1.getValue()+ " " + p1.getKey();
+					if(i < mt.parameter.getParams().size()-1) {
+						para+= ", ";
+					}
+					i++;
+				}
+				result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [" + para + "] !<br>";
+
+				result += "<br>";
+				
+				result += getMethodBodyString(mt.method_body, "&emsp;");
+				
+				result += "<br>";
+
+				result += "&emsp;!<br>";
+			}
+		}
+		result += "!<br>";
+
+		return result;
+
+	}
+
+	public String getMethodBodyString(MyMethodBody mm, String space) {
+		String result = "";
+		space = space + "&emsp;&emsp;";
+		
+		for(Declaration d: mm.declList) {
+			result+=(space + d.toString() + "<br>");
+		}
+		
+		if(mm.declList.size()>0 && mm.assiList.size()>0) {
+			result += "<br>";
+		}
+		
+		for(Assignment a: mm.assiList) {
+			result+=(space + a.toString()+ "<br>");
+		}
+		
+		if(mm.assiList.size()>0 && mm.ifStatList.size()>0) {
+			result += "<br>";
+		}else if(mm.declList.size()>0 && mm.ifStatList.size()>0 && mm.assiList.size()==0) {
+			result += "<br>";
+		}
+		
+		for(IfStatement i1 : mm.ifStatList) {
+			result += hoverStyle(); // css
+			result += hoverScript(i1.cond.toString()) + "<br>"; // js
+			result += space + "jackieAsks [ " + i1.cond.toString() + " ] !" + hoverButton(i1.cond.toString()) + "<br>"; // hover button
+			result += getMethodBodyString( i1.ifBody, space);
+			result += space + "! elseJackie !<br>";
+			result += getMethodBodyString(i1.elseBody, space);
+			result += space + "!<br>";
+		}
+		
+		if(mm.loops.size()>0) {
+			result += "<br>";
+		}
+
+		for(Loop lo : mm.loops) {
+			result += space + "loop (" + lo.iterationGoal + ") !<br>";
+			result += getMethodBodyString(lo.myMethodBodyList.get(0), space);
+			result += space + "!<br>";
+		}
+
+		if(mm.methodCall.size()>0) {
+			result += "<br>";
+		}
+		
+		for(MethodCall v: mm.methodCall) {
+			if(v instanceof VoidMethodCall) {
+				
+				String params = ""; int i = 0; 
+				for(String p: ((VoidMethodCall)v).call_parameter.getCallParams()) {
+					params += p;
+					
+					if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
+						params += ", ";
+					}
+					i++;
+				}
+				
+				result += space + ((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [" + params + "]<br>";
+			}
+		}
+
+		return result;
+	}
+
+	public void setTableHTMLList() {
+
 		for (String curIfStat : componentMap.keySet()) { // iterate for all if statements
-			htmlPrint += "<div>";
-			htmlPrint += "<p>" + curIfStat + "</p>"; // current if statement
-			htmlPrint += "<table style=\"width:100%\">"; // for table format
+			String curTableHTML = ""; 
+			curTableHTML += "<style>table,th,td{border:1px solid black;}</style>";
+			curTableHTML += "<div>";
+			curTableHTML += "<p>" + curIfStat + "</p>"; // current if statement
+			curTableHTML += "<table style=\"width:100%\">"; // for table format
 			
 			// table column header
-			htmlPrint += "<tr>";
-			htmlPrint += "<th>" + "possible case #" + "</th>";
+			curTableHTML += "<tr>";
+			curTableHTML += "<th>" + "possible case #" + "</th>";
 			for (String curComp : componentMap.get(curIfStat).components) { 
-				htmlPrint += "<th>" + curComp + "</th>";
+				if (curComp.contains("<")) {
+					curTableHTML += "<th>" + curComp.substring(0,curComp.indexOf("<")) + "&lt" + curComp.substring(curComp.indexOf("<") + 1) + "</th>";
+				}
+				else if (curComp.contains(">")) {
+					curTableHTML += "<th>" + curComp.substring(0,curComp.indexOf(">")) + "&gt" + curComp.substring(curComp.indexOf("<") + 1) + "</th>";
+					
+				}
+				else{
+					curTableHTML += "<th>" + curComp + "</th>";
+				}
 			}
-			htmlPrint += "<th>" + "is tested?" + "</th>";
-			htmlPrint += "</tr>";
+			curTableHTML += "<th>" + "is tested?" + "</th>";
+			curTableHTML += "</tr>";
 			
 			//table contents (each row)
 			int componentNum = componentMap.get(curIfStat).components.size();
 			int possibleCaseNum = (int) Math.pow(2, componentNum); // 2^n (componenet Num)
 			for (int i = 0; i < possibleCaseNum ; i++) {
-				htmlPrint += "<tr>";
-				htmlPrint += "<th>" + (i + 1) + "</th>"; // possible case column
+				curTableHTML += "<tr>";
+				curTableHTML += "<th>" + (i + 1) + "</th>"; // possible case column
 				
 				for (int j = 0; j < componentNum; j++) { 
 					
@@ -163,34 +380,34 @@ public class ConditionCoverage{
 					int flag = (int)(i / repeatNum) % 2;
 					
 					if (flag == 0) {
-						htmlPrint += "<th>" + "T" + "</th>";
+						curTableHTML += "<th>" + "T" + "</th>";
 					}
 					else {
-						htmlPrint += "<th>" + "F" + "</th>";
+						curTableHTML += "<th>" + "F" + "</th>";
 					}
 					
 				}
 				
 				// is tested?
 				if (componentMap.get(curIfStat).results[i] == true) {
-					htmlPrint += "<th>" + "V" + "</th>";
+					curTableHTML += "<th>" + "✔" + "</th>";
 				}
 				else {
-					htmlPrint += "<th>" + "" + "</th>";
+					curTableHTML += "<th>" + "" + "</th>";
 				}
 				
-				htmlPrint += "</tr>";
+				curTableHTML += "</tr>";
 			}
-			htmlPrint += "</table></div>";
+			curTableHTML += "</table></div>";
 			double coveragePercent = (((double)componentMap.get(curIfStat).resultCount / (double)possibleCaseNum) * 100);
-			htmlPrint += "<p2> Condition Coverage percentage:" + String.format("%.2f", coveragePercent) + "% <p2>";
+			curTableHTML += "<p2>" + String.format("%.2f", coveragePercent) + "% covered! <p2>";
+			
+			tableHTMLList.add(curTableHTML); //add into list
+			
 		}
-		
-		return htmlPrint;
+
 	}
-
-
-
+	
 
 }
 
