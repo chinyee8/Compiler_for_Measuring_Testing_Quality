@@ -35,6 +35,7 @@ public class PrettyPrinter{
 			myWriter.write(getTest());
 			myWriter.close();
 
+			this.statement.getString();
 			this.allDef.computeAllDef(); 
 			this.allC.computeAllC(); 
 			
@@ -140,7 +141,16 @@ public class PrettyPrinter{
 
 		result += "<div id=\"text\">\n" + this.ori.getString() + "</div>"; //original code
 
-		result += "<div id=\"statement\" hidden>\n" + this.statement.getString(i) + "</div>"; //statement
+		
+//		String tmp = "";
+//		for(String s: this.statement.statementcoverage.get(i)) {
+//			tmp+= s + "\n";
+//		}
+		result += "<div id=\"statement\" hidden>\n" +this.statement.resultString.get(i) + "</div>\n"; //statement
+		for(String s: this.statement.statementcoverage.get(i)) {
+			result+= s + "\n";
+		}
+		
 		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>"; //condition
 
 		String tmp ="";
@@ -152,12 +162,6 @@ public class PrettyPrinter{
 		for(String s: this.allDef.different.get(i)) {
 			result+= s + "\n";
 		}
-
-//		
-//		result += "<div id=\"allCUse\" hidden>\n" + this.allC.resultString.get(i) + "</div>\n"; //allC
-//		for(String s: this.allC.different.get(i)) {
-//			result+= s + "\n";
-//		}
 		
 		tmp ="";
 		for(String s: this.allC.lines.get(i)) {
@@ -199,6 +203,10 @@ public class PrettyPrinter{
 				+ "document.getElementById(\"text\").innerHTML = document.getElementById(\"allCUse\").innerHTML;\n"
 				+ "}\n";
 
+		for(String s: this.statement.javascript.get(i)) {
+			result += s;
+		}
+		
 		for(String s: this.allDef.javascript.get(i)) {
 			result += s;
 		}
@@ -224,6 +232,25 @@ public class PrettyPrinter{
 	
 	public String defCSS(int i) {
 		String result = "";
+		
+		result+= ".statementmc{\n"
+				+ "    background-color: 	#7B68EE;\n"
+				+ "}\n"
+				+ "\n"
+				+ ".statementmc:hover{\n"
+				+ "    background-color: #6A5ACD;\n"
+				+ "    color: white;\n"
+				+ "}";
+		
+		result+= "#statementcov{\n"
+				+ "    background-color: #F0F8FF;\n"
+				+ "	   width: max-content;"
+				+ "}";
+		
+		
+		for(String s: this.statement.css.get(i)) {
+			result += s;
+		}
 		
 		for(String s: this.allDef.css.get(i)) {
 			result += s;
