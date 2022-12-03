@@ -97,7 +97,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter arguments = pVisitor.visit(ctx.parameter());
 	
-		if(!condCov.isComponentState()) {
+		if(!condCov.isComponentState() && condCov.isCalledMethod()) {
 			HashMap<String, Values> parameterTransformation = transform(arguments);
 			this.variableMap.putAll(parameterTransformation);
 		}
