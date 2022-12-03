@@ -26,13 +26,14 @@ public class ConditionCoverage{
 	String ifStatString;
 	String resultString;
 	Map.Entry<MethodCall, Map<String, Values>> testMethod;
-	boolean calledMethod;
+	String calledMethod;
 	public List<String> methodCallParamOrder;
+	String curMethod;
 	
 	//for html
 	List<Program> programList;
 	int hoverIndex;
-	List<String> tableHTMLList;
+	Map<String, String> tableHTMLMap;
 	
 	public class TestCase{
 
@@ -52,11 +53,11 @@ public class ConditionCoverage{
 		//htmlPrint = ""; // for pretty printing
 		isComponentState = true;
 		testMethod = null;
-		calledMethod = false;
+		calledMethod = "";
 		
 		programList = new ArrayList<>();
 		hoverIndex = 0;
-		tableHTMLList = new ArrayList<>();
+		tableHTMLMap = new HashMap<>();
 	}
 	
 	
@@ -75,7 +76,7 @@ public class ConditionCoverage{
 	}
 
 	public void setIfStatString(String ifStatString) {
-		this.ifStatString = ifStatString;
+		this.ifStatString = this.curMethod + "." + ifStatString;
 		resetResultString();
 	}
 
@@ -120,7 +121,7 @@ public class ConditionCoverage{
 	public void addResult() { 
 		TestCase curTestCase = componentMap.get(ifStatString);
 		
-		if (curTestCase != null && calledMethod) {
+		if (curTestCase != null && isCalledMethod()) {
 			int n = Integer.parseInt(this.resultString, 2);
 			int index = (int) Math.pow(2, curTestCase.components.size()) - n - 1;
 			curTestCase.results[index] = true; // Tested
@@ -128,12 +129,12 @@ public class ConditionCoverage{
 		}
 	}
 	
-	public void setCalledMethod(boolean b) {
-		this.calledMethod = b;		
+	public void setCalledMethod(String curMethod) {
+		this.calledMethod = curMethod;		
 	}
 	
 	public boolean isCalledMethod() {
-		return calledMethod;
+		return calledMethod.equals(testMethod.getKey().getName());
 	}
 
 	public List<String> getMethodCallParamOrder() {
@@ -154,8 +155,18 @@ public class ConditionCoverage{
 		this.programList = programList;
 	}
 
+	
+	public String getCurMethod() {
+		return curMethod;
+	}
+
+	public void setCurMethod(String curMethod) {
+		this.curMethod = curMethod;
+	}
+
+
 	public String hoverStyle() {
-		if (hoverIndex >= tableHTMLList.size()) {
+		if (hoverIndex >= tableHTMLMap.size()) {
 			return "";
 		}
 		String hoverStyle = "";
@@ -187,7 +198,7 @@ public class ConditionCoverage{
 	}
 	public String hoverScript(String curCondString) {
 		
-		if (hoverIndex >= tableHTMLList.size()) {
+		if (hoverIndex >= tableHTMLMap.size()) {
 			return "";
 		}
 		
@@ -202,12 +213,12 @@ public class ConditionCoverage{
 	public String hoverButton(String curCondString) {
 		
 		// match if statement and it's table
-		if (hoverIndex >= tableHTMLList.size()) {
+		if (hoverIndex >= tableHTMLMap.size()) {
 			return "";
 		}
 		String hoverButton = "";
 		hoverButton += "<a" + hoverIndex + " class =\"popup\" onmouseover=\"showTable" + hoverIndex + "()\"> ☞ See Coverage" ;
-		hoverButton +=  " <span id=\"Popup" + hoverIndex + "\" class=\"popuptext\">" + tableHTMLList.get(hoverIndex) + "</span>  </a" + hoverIndex + ">";
+		hoverButton +=  " <span id=\"Popup" + hoverIndex + "\" class=\"popuptext\">" + tableHTMLMap.get( curCondString.replace(" ", "")) + "</span>  </a" + hoverIndex + ">";
 		hoverIndex++;
 		return hoverButton;
 		
@@ -215,7 +226,7 @@ public class ConditionCoverage{
 	
 	// should be called when html is generated
 	public String getPrint() { 
-		setTableHTMLList();
+		settableHTMLMap();
 		
 		hoverIndex = 0;
 		String result = "";
@@ -223,7 +234,7 @@ public class ConditionCoverage{
 		Program p = programList.get(0);
 
 		result += "game " + p.gameclass.className + " !<br><br>";
-
+		
 		for(MyMethods mm : p.gameclass.body.myMethodList) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
@@ -239,7 +250,7 @@ public class ConditionCoverage{
 
 				result += "<br>";
 				
-				result += getMethodBodyString(mt.method_body, "&emsp;");
+				result += getMethodBodyString(mt.method_body, "&emsp;", mm.methodName);
 				
 				result += "<br>";
 
@@ -261,7 +272,7 @@ public class ConditionCoverage{
 
 				result += "<br>";
 				
-				result += getMethodBodyString(mt.method_body, "&emsp;");
+				result += getMethodBodyString(mt.method_body, "&emsp;", mm.methodName);
 				
 				result += "<br>";
 
@@ -274,7 +285,7 @@ public class ConditionCoverage{
 
 	}
 
-	public String getMethodBodyString(MyMethodBody mm, String space) {
+	public String getMethodBodyString(MyMethodBody mm, String space, String methodName) {
 		String result = "";
 		space = space + "&emsp;&emsp;";
 		
@@ -296,13 +307,15 @@ public class ConditionCoverage{
 			result += "<br>";
 		}
 		
+
 		for(IfStatement i1 : mm.ifStatList) {
+			String tempIfSt = "jackieAsks [ " + i1.cond.toString() + " ]";
 			result += hoverStyle(); // css
 			result += hoverScript(i1.cond.toString()) + "<br>"; // js
-			result += space + "jackieAsks [ " + i1.cond.toString() + " ] !" + hoverButton(i1.cond.toString()) + "<br>"; // hover button
-			result += getMethodBodyString( i1.ifBody, space);
+			result += space + tempIfSt + " !" + hoverButton(methodName + "." + tempIfSt) + "<br>"; // hover button
+			result += getMethodBodyString(i1.ifBody, space, methodName);
 			result += space + "! elseJackie !<br>";
-			result += getMethodBodyString(i1.elseBody, space);
+			result += getMethodBodyString(i1.elseBody, space, methodName);
 			result += space + "!<br>";
 		}
 		
@@ -312,7 +325,7 @@ public class ConditionCoverage{
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getMethodBodyString(lo.myMethodBodyList.get(0), space);
+			result += getMethodBodyString(lo.myMethodBodyList.get(0), space, methodName);
 			result += space + "!<br>";
 		}
 
@@ -340,7 +353,7 @@ public class ConditionCoverage{
 		return result;
 	}
 
-	public void setTableHTMLList() {
+	public void settableHTMLMap() {
 
 		for (String curIfStat : componentMap.keySet()) { // iterate for all if statements
 			String curTableHTML = ""; 
@@ -352,17 +365,19 @@ public class ConditionCoverage{
 			// table column header
 			curTableHTML += "<tr>";
 			curTableHTML += "<th>" + "possible case #" + "</th>";
-			for (String curComp : componentMap.get(curIfStat).components) { 
+			for (String curComp : componentMap.get(curIfStat).components) {
+				curTableHTML += "<th>" + curComp.replace("<", "&lt").replace(">", "&gt") + "</th>";
+				/*
 				if (curComp.contains("<")) {
-					curTableHTML += "<th>" + curComp.substring(0,curComp.indexOf("<")) + "&lt" + curComp.substring(curComp.indexOf("<") + 1) + "</th>";
+					curTableHTML += "<th>" + curComp.substring(curComp.indexOf("."), curComp.indexOf("<")) + "&lt" + curComp.substring(curComp.indexOf("<") + 1) + "</th>";
 				}
 				else if (curComp.contains(">")) {
-					curTableHTML += "<th>" + curComp.substring(0,curComp.indexOf(">")) + "&gt" + curComp.substring(curComp.indexOf("<") + 1) + "</th>";
+					curTableHTML += "<th>" + curComp.substring(curComp.indexOf("."), curComp.indexOf(">")) + "&gt" + curComp.substring(curComp.indexOf(">") + 1) + "</th>";
 					
 				}
 				else{
-					curTableHTML += "<th>" + curComp + "</th>";
-				}
+					
+				}*/
 			}
 			curTableHTML += "<th>" + "is tested?" + "</th>";
 			curTableHTML += "</tr>";
@@ -402,7 +417,7 @@ public class ConditionCoverage{
 			double coveragePercent = (((double)componentMap.get(curIfStat).resultCount / (double)possibleCaseNum) * 100);
 			curTableHTML += "<p2>" + String.format("%.2f", coveragePercent) + "% covered! <p2>";
 			
-			tableHTMLList.add(curTableHTML); //add into list
+			tableHTMLMap.put(curIfStat.replace(" ", ""), curTableHTML); //add into list
 			
 		}
 
