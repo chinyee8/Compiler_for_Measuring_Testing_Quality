@@ -8,5 +8,4 @@ test test_api02 !
 	input2 <- 2.37
 	bool1 <- FALSE
 	result <- MATH[bool1, input1, input2]	
-	
 !

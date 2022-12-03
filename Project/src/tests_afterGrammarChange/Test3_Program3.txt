@@ -1,0 +1,18 @@
+test test_Aclass !
+	re1 << INT
+	re2 << INT
+	re3 << INT
+	re4 << INT
+	re5 << INT
+	re6 << INT
+	re_1 << INT
+	
+	re1 <- DIGIT_CHECKER[1] 
+	re2 <- DIGIT_CHECKER[56]
+	re3 <- DIGIT_CHECKER[141]
+	re4 <- DIGIT_CHECKER[3125]
+	re5 <- DIGIT_CHECKER[52356]
+	re6 <- DIGIT_CHECKER[562349]
+	re_1 <- DIGIT_CHECKER[-1]
+	
+!
