@@ -113,7 +113,8 @@ public class ExpressionApp {
 							for(String err: errors) {
 								System.out.println(err);
 							}
-						}else {
+						}
+						else {
 							// Condition coverage
 							ConditionCoverage condCov = new ConditionCoverage();							
 							AntlrToProgram progCondComp = new AntlrToProgram(condCov);
@@ -141,6 +142,7 @@ public class ExpressionApp {
 							Original ori = new Original(programList);
 							Testcase test = new Testcase(testProg);
 							Statement st = new Statement(programList2);
+							condCov.setProgramList(programList); // condition coverage for html
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
 							AllCUsesCoverage allc = new AllCUsesCoverage(defProgram);
