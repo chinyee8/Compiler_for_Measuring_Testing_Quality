@@ -15,6 +15,7 @@ game Mathclass !
     mymethod SCIENCE DOUBLE [DOUBLE input1, DOUBLE input2] !
         result << DOUBLE	
         input2 <- 1.23	
+        result <- HISTORY [input1, input2]
         jackieAsks [input1 > input2] !
             result <- 10.00
         ! elseJackie !
