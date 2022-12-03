@@ -113,7 +113,7 @@ public class AllDefCoverage {
 				}else if(mm.methodType instanceof MyVoidMethod) {
 
 					MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
+					if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName) ) {
 						getAllVariableVoid(mt, false);
 						result += getNotUnderLinedVoid(mm.methodName, mt);
 					}else {
@@ -209,7 +209,7 @@ public class AllDefCoverage {
 
 			}else if(mm.methodType instanceof MyVoidMethod) {
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
+				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName) ) {
 					this.voidMethodCall.add(methodcall.getName());
 					getTestMethodCall( mt.method_body);
 				}
