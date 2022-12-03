@@ -311,7 +311,7 @@ public class ConditionCoverage{
 		for(IfStatement i1 : mm.ifStatList) {
 			String tempIfSt = "jackieAsks [ " + i1.cond.toString() + " ]";
 			result += hoverStyle(); // css
-			result += hoverScript(i1.cond.toString()) + "<br>"; // js
+			result += hoverScript(i1.cond.toString()) ; // js
 			result += space + tempIfSt + " !" + hoverButton(methodName + "." + tempIfSt) + "<br>"; // hover button
 			result += getMethodBodyString(i1.ifBody, space, methodName);
 			result += space + "! elseJackie !<br>";
