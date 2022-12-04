@@ -9,4 +9,9 @@ public abstract class Call_Parameter {
 		return null;
 
 	}
+	
+	public List<Input_List> getTestCallParams() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
