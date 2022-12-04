@@ -4,10 +4,12 @@ public class Assignment {
 	public String varName;
 	public Expr expr;
 	public boolean covered;
+	public int line;
 	
-	public Assignment(String varName, Expr expr) {
+	public Assignment(String varName, Expr expr, int line) {
 		this.varName = varName;
 		this.expr = expr;
+		this.line = line;
 		covered = false;
 	}
 	

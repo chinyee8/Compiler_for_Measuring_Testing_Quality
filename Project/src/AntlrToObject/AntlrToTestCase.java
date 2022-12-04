@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import antlr.exprBaseVisitor;
@@ -65,6 +66,8 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 	@Override
 	public TestCase visitTestCase(TestCaseContext ctx) {
+		Token token = ctx.TEST_NAME().getSymbol();
+		int line = token.getLine();
 		String testName = ctx.TEST_NAME().getText();
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();
@@ -116,7 +119,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 							if(p instanceof CallParamVarName) {
 								CallParamVarName a = (CallParamVarName) p;
 								if(!testVarMap.containsKey(a.varName)) {
-									semanticErrors.add("Error: " + a.varName + " in " + i.expr.toString() + " does not exist");
+									semanticErrors.add("Error [Line:" + i.line +"]: " +  a.varName + " in " + i.expr.toString() + " does not exist");
 								}else {
 									callInputs.put("" + num, testVarMap.get(a.varName));
 								}
@@ -143,12 +146,12 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 					}
 				}
 				else {
-					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
+					this.semanticErrors.add("Error [Line:" + i.line +"]: " + " variable " + i.varName + " return type does not match expression return type.");
 				}
 			}
 			else {
 				//report semantic error uninitialized var
-				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
+				this.semanticErrors.add("Error [Line:" + i.line +"]: " + i.varName + " is not declared.");
 			}
 		}
 
@@ -158,14 +161,14 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			Map<String, Values> callInputs = new HashMap<>();
 			for(String s: parameters) {
 				if(!testVarMap.containsKey(s)) {
-					semanticErrors.add("Error: " + s + " is not declared");
+					semanticErrors.add("Error [Line:" + t.line +"]: " + s + " is not declared");
 				}else {
 					callInputs.put(s, testVarMap.get(s));
 				}
 			}
 			this.allMethodCalls.put(t, callInputs);
 		}
-		TestCase temp =new TestCase(testName, decl, assi, t_method_call, this.methodMappedToOrderParameter);
+		TestCase temp =new TestCase(testName, decl, assi, t_method_call, this.methodMappedToOrderParameter, line);
 		temp.addAll(this.allMethodCalls);
 
 		return temp;
@@ -214,6 +217,8 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	}
 
 	public TestCase testcontrol(TestCaseContext ctx, ParseTree progAST, List<MyMethods> global_methods2, String check, Map<MethodCall, List<String>> methodCallParamOrder2) {
+		Token token = ctx.TEST_NAME().getSymbol();
+		int line = token.getLine();
 		String testName = ctx.TEST_NAME().getText();
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();
@@ -277,7 +282,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 		this.decl = decl;
 		this.assi = assi;
 		this.t_method_call = t_method_call;
-		return new TestCase(testName, decl, assi, t_method_call, null);
+		return new TestCase(testName, decl, assi, t_method_call, line);
 	}
 
 	private Values getTestValue(ReturnMethodCall rm, ParseTree progAST, List<MyMethods> global_methods2, Map<String, Values> callInputs, String check, Map<MethodCall, List<String>> methodCallParamOrder2) {

@@ -3,6 +3,8 @@ package AntlrToObject;
 import java.util.HashMap;
 import java.util.List;
 
+import org.antlr.v4.runtime.Token;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.TestMethodCallContext;
 import model.Call_Parameter;
@@ -21,10 +23,12 @@ public class AntlrToTestMethodCall extends exprBaseVisitor<TestMethodCall> {
 
 	@Override
 	public TestMethodCall visitTestMethodCall(TestMethodCallContext ctx) {
+		Token token = ctx.METHODNAME().getSymbol();
+		int line = token.getLine();
 		String methodName = ctx.getChild(0).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.getChild(2));
-		return new TestMethodCall(methodName, callParam);
+		return new TestMethodCall(methodName, callParam, line);
 		
 	}
 	

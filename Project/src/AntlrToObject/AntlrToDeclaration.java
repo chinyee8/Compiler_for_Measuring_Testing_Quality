@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.antlr.v4.runtime.Token;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.DeclarationContext;
 import model.Declaration;
@@ -34,10 +36,12 @@ public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 	
 	@Override
 	public Declaration visitDeclaration(DeclarationContext ctx) {
+		Token tokenvar = ctx.VAR_NAME().getSymbol();
+		int line = tokenvar.getLine();
 		String varName = ctx.VAR_NAME().getText();
 		String dataType = ctx.DATA_TYPE().getText();
 		
-		return new Declaration(varName, dataType);
+		return new Declaration(varName, dataType, line);
 	}
 	
 	
@@ -46,6 +50,6 @@ public class AntlrToDeclaration extends exprBaseVisitor<Declaration>{
 		String varName = ctx.VAR_NAME().getText();
 		String dataType = ctx.DATA_TYPE().getText();
 		
-		return new Declaration(varName, dataType);
+		return new Declaration(varName, dataType, 0);
 	}
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.Token;
+
 import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.IfStatementContext;
@@ -104,7 +106,8 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	
 	@Override
 	public IfStatement visitIfStatement(IfStatementContext ctx) {
-
+		Token token = ctx.start;
+		int line = token.getLine();
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
 		Condition cond = condVisitor.visit(ctx.cond());
 
@@ -113,7 +116,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 
-		return new IfStatement(cond,ifBody,elseBody, semanticErrors);
+		return new IfStatement(cond,ifBody,elseBody, semanticErrors, line);
 
 	}
 
@@ -128,19 +131,19 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 
 		
-		IfStatement temp = new IfStatement(cond,ifBody,elseBody, semanticErrors);
+		IfStatement temp = new IfStatement(cond,ifBody,elseBody, semanticErrors, 0);
 		boolean ifEvaluator = evaluated(cond, variableMap);
 		if(ifEvaluator) {
 			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
 			MyMethodBody newIfBody = BodyController.control((MyMethodBodyContext) ctx.getChild(5));
-			IfStatement result = new IfStatement(cond, newIfBody, elseBody, semanticErrors);
+			IfStatement result = new IfStatement(cond, newIfBody, elseBody, semanticErrors, 0);
 			result.ifCovered = true;
 			return result;
 		}
 		else {
 			AntlrToMyMethodBody BodyController = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.local_methodVar);
 			MyMethodBody newElseBody = BodyController.control((MyMethodBodyContext) ctx.getChild(9));
-			IfStatement result = new IfStatement(cond, ifBody, newElseBody, semanticErrors);
+			IfStatement result = new IfStatement(cond, ifBody, newElseBody, semanticErrors, 0);
 			result.elseCovered = true;
 			return result;
 		}
@@ -155,7 +158,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 
-		return new IfStatement(cond,ifBody,elseBody, semanticErrors);
+		return new IfStatement(cond,ifBody,elseBody, semanticErrors, 0);
 	}
 	
 	private double getMATHDOUBLE(Mathematics m) {

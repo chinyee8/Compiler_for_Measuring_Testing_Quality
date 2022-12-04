@@ -10,22 +10,25 @@ public class TestCase {
 	public Map<MethodCall, Map<String, Values>> allMethodCalls;
 	public Map<MethodCall, List<String>> methodCallParamOrder;
 	public Values testValue;
+	public int line;
 	
 	public TestCase(String testName, List<Declaration> decl, List<Assignment> assi,
-			List<TestMethodCall> t_method_call, Map<MethodCall, List<String>> methodCallParamOrder) {
+			List<TestMethodCall> t_method_call, Map<MethodCall, List<String>> methodCallParamOrder, int line) {
 		this.testName = testName;
 		this.decl = decl;
 		this.assi = assi;
 		this.t_method_call = t_method_call;
 		this.methodCallParamOrder = methodCallParamOrder;
+		this.line = line;
 	}
 
 	public TestCase(String testName, List<Declaration> decl, List<Assignment> assi,
-			List<TestMethodCall> t_method_call) {
+			List<TestMethodCall> t_method_call, int line) {
 		this.testName = testName;
 		this.decl = decl;
 		this.assi = assi;
 		this.t_method_call = t_method_call;
+		this.line = line;
 	}
 
 	@Override

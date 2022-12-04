@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.Token;
+
 import antlr.*;
 import antlr.exprParser.*;
 import model.*;
@@ -58,6 +60,8 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 
 	@Override
 	public Mathematics visitMathVarName(MathVarNameContext ctx) {
+		Token token = ctx.VAR_NAME().getSymbol();
+		int line  = token.getLine();
 		String strVarName = ctx.getChild(0).getText();
 		Values val = null;
 		 
@@ -72,14 +76,16 @@ public class AntlrToMathematics extends exprBaseVisitor<Mathematics> {
 //				this.semanticErrors.add("Error: variable " + strVarName + " is a " + val.getType() + " type.");
 //			}
 //		}
-		return new MathVarName(strVarName, val);
+		return new MathVarName(strVarName, val, line);
 		
 	}
 
 	@Override
 	public Mathematics visitDivision(DivisionContext ctx) {
+		Token token = ctx.start;
+		int line = token.getLine();
 		Mathematics left = visit(ctx.getChild(0));
 		Mathematics right = visit(ctx.getChild(2));
-		return new Division(left,right);
+		return new Division(left,right, line);
 	}	
 }

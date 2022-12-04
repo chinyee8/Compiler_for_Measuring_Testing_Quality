@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.antlr.v4.runtime.Token;
+
 import antlr.exprBaseVisitor;
 import antlr.exprParser.AssignmentContext;
 import antlr.exprParser.RMethodCallContext;
@@ -47,11 +49,13 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 
 	@Override
 	public Assignment visitAssignment(AssignmentContext ctx) {
+		Token vartoken = ctx.VAR_NAME().getSymbol();
+		int line = vartoken.getLine();
 		String varName = ctx.VAR_NAME().getText();
 		AntlrToExpr eVisitor = new AntlrToExpr(semanticErrors, this.variableMap);
 		Expr expr = eVisitor.visit(ctx.getChild(2));
 		
-		return new Assignment(varName, expr); 
+		return new Assignment(varName, expr, line); 
 	}
 	
 	
@@ -70,6 +74,6 @@ public class AntlrToAssignment extends exprBaseVisitor<Assignment>{
 
 		}
 			
-		return new Assignment(varName, expr); 
+		return new Assignment(varName, expr, 0); 
 	}
 }

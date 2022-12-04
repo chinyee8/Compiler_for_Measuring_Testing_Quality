@@ -5,10 +5,12 @@ public class Declaration {
 	public String dataType;
 	public Values defaultValue;
 	public boolean covered ;
+	public int line;
 	
-	public Declaration(String varName, String dataType) {
+	public Declaration(String varName, String dataType, int line) {
 		this.varName = varName;
 		this.dataType = dataType;
+		this.line = line;
 		covered = false;
 		if(this.dataType.equals("BOOLEAN")) {
 			this.defaultValue = new ValueBool(false);

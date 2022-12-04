@@ -3,6 +3,8 @@ package AntlrToObject;
 import java.util.HashMap;
 import java.util.List;
 
+import org.antlr.v4.runtime.Token;
+
 import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.ReturnMethodCallContext;
@@ -35,21 +37,24 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 	
 	@Override
 	public MethodCall visitVoidMethodCall(VoidMethodCallContext ctx) { 
-		
+		Token token = ctx.VOIDCALL().getSymbol();
+		int line = token.getLine();
 		String voidCall = ctx.VOIDCALL().getText();
 		String methodName = ctx.getChild(1).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
-		return new VoidMethodCall(voidCall, methodName, callParam);
+		return new VoidMethodCall(voidCall, methodName, callParam, line);
 		
 	}
 	
 	@Override
 	public MethodCall visitReturnMethodCall(ReturnMethodCallContext ctx) {
+		Token token = ctx.METHODNAME().getSymbol();
+		int line = token.getLine();
 		String methodName = ctx.getChild(0).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
-		return new ReturnMethodCall(methodName, callParam);
+		return new ReturnMethodCall(methodName, callParam, line);
 	}
 	
 	//Condition Coverage
@@ -59,7 +64,7 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 		String methodName = ctx.getChild(1).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
-		return new VoidMethodCall(voidCall, methodName, callParam);
+		return new VoidMethodCall(voidCall, methodName, callParam, 0);
 		
 	}
 	//Condition Coverage
@@ -67,7 +72,7 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 		String methodName = ctx.getChild(0).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
-		return new ReturnMethodCall(methodName, callParam);
+		return new ReturnMethodCall(methodName, callParam, 0);
 	}
 	
 	public MethodCall controlV(VoidMethodCallContext ctx) { 
@@ -76,7 +81,7 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 		String methodName = ctx.getChild(1).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
-		return new VoidMethodCall(voidCall, methodName, callParam);
+		return new VoidMethodCall(voidCall, methodName, callParam, 0);
 		
 	}
 	
@@ -84,7 +89,7 @@ public class AntlrToMethodCall extends exprBaseVisitor<MethodCall> {
 		String methodName = ctx.getChild(0).getText();
 		AntlrToCall_Parameter callParamVisitor = new AntlrToCall_Parameter(semanticErrors, this.variableMap);
 		Call_Parameter callParam = callParamVisitor.visit(ctx.call_parameter());
-		return new ReturnMethodCall(methodName, callParam);
+		return new ReturnMethodCall(methodName, callParam, 0);
 	}
 	
 	

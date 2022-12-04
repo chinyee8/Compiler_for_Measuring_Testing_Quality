@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.swing.plaf.LabelUI;
 
+import org.antlr.v4.runtime.Token;
+
 import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.Deterministic_LoopContext;
@@ -132,11 +134,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
-
+		
+		Token token = ctx.METHODNAME().getSymbol();
+		int line = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
 		for(MyMethods m : global_mymethods) {
 			if(m.methodName.equals(methodName)) {
-				semanticErrors.add("Error: mymethods " + methodName + " already exist");
+				semanticErrors.add("Error[Line:" + m.line +"]: " + " mymethods " + methodName + " already exist");
 			}
 		}
 
@@ -148,12 +152,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			if(t_method_call instanceof ReturnMethodCall) {
-				checkTestMethodCallParameter(parameter, methodType, methodName);
+				checkTestMethodCallParameter(parameter, methodType, methodName, line);
 			}
 
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
 
-			return new MyMethods(methodName, (MyReturnMethod)methodType);
+			return new MyMethods(methodName, (MyReturnMethod)methodType, line);
 
 		} else {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods);
@@ -161,7 +165,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			MethodType methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
 			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
 
-			return new MyMethods(methodName, (MyVoidMethod)methodType);
+			return new MyMethods(methodName, (MyVoidMethod)methodType, line);
 		}
 
 	}
@@ -187,20 +191,20 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.controlR((MyReturnMethodContext) ctx.getChild(2));
-				return new MyMethods(methodName, methodType);
+				return new MyMethods(methodName, methodType, 0);
 			}
 			MyVoidMethod methodType = (MyVoidMethod) mtVisitor.controlV((MyVoidMethodContext)ctx.getChild(2));
-			return new MyMethods(methodName, methodType);
+			return new MyMethods(methodName, methodType, 0);
 		}
 		else {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods);
 
 			if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 				MyReturnMethod methodType = (MyReturnMethod) mtVisitor.visit(ctx.getChild(2));
-				return new MyMethods(methodName, methodType);
+				return new MyMethods(methodName, methodType, 0);
 			}
 			MyVoidMethod methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
-			return new MyMethods(methodName, methodType);
+			return new MyMethods(methodName, methodType, 0);
 
 
 		}
@@ -211,6 +215,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	//defCoverage
 	public MyMethods defControl(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
+		Token token = ctx.METHODNAME().getSymbol();
+		int line  = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
@@ -221,7 +227,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			if(t_method_call instanceof ReturnMethodCall) {
-				checkTestMethodCallParameter(parameter, methodType, methodName);
+				checkTestMethodCallParameter(parameter, methodType, methodName, line);
 			}
 
 			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
@@ -234,7 +240,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 			}
 
-			return new MyMethods(methodName, (MyReturnMethod)methodType);
+			return new MyMethods(methodName, (MyReturnMethod)methodType, 0);
 		}else {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
 
@@ -243,12 +249,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			if(t_method_call instanceof VoidMethodCall) {
-				checkTestMethodCallParameter(parameter, methodType, methodName);
+				checkTestMethodCallParameter(parameter, methodType, methodName, line);
 			}
 
 			getDefCoverage(methodName,((MyVoidMethod)methodType).method_body);			
 
-			return new MyMethods(methodName, (MyVoidMethod)methodType);
+			return new MyMethods(methodName, (MyVoidMethod)methodType, 0);
 		}
 	}
 
@@ -263,10 +269,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	private void checkDeclaration(MyMethodBody method_body, Map<String, String> parameter){
 		for(Declaration d : method_body.declList) {
 			if(parameter.containsKey(d.varName)) {
-				semanticErrors.add("Error: variable " + d.varName + " already exist in the parameters");
+				semanticErrors.add("Error [Line:" + d.line +"]: " + " variable " + d.varName + " already exist in the parameters");
 			}else {
 				if(local_variableMap.containsKey(d.varName)) {
-					semanticErrors.add("Error: variable " + d.varName + " already declared");
+					semanticErrors.add("Error [Line:" + d.line +"]: " + " variable " + d.varName + " already declared");
 				}else {
 					local_variableMap.put(d.varName, d.defaultValue);	
 				}
@@ -277,7 +283,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	private void checkAssignment(MyMethodBody method_body, Map<String, String> parameter) {
 		for(Assignment a: method_body.assiList) {
 			if(!local_variableMap.containsKey(a.varName)) {
-				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+				semanticErrors.add("Error [Line:" + a.line +"]: " + " variable " + a.varName + " is not declared yet");
 			}else {
 				if(a.expr instanceof Values) {
 					if(((Values)a.expr) instanceof ValueMath) {
@@ -287,14 +293,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 							if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
 								local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 							}else {
-								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+								semanticErrors.add("Error [Line:" + a.line +"]: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 							}
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
 
 				}else {
-					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+					this.semanticErrors.add("Error [Line:" + a.line +"]: " + " variable " + a.varName + " return type does not match expression return type.");
 				}
 			}
 		}
@@ -303,8 +309,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	private void checkIfStatement(String methodName, MyMethodBody methodbody , Map<String, String> parameter, boolean needCheck) {
 		for(IfStatement i : methodbody.ifStatList) {
 			if(getCondType(i.cond).equals("NO")) {
-				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
-					semanticErrors.add("Error: condition " + i.cond.toString() + " error. LHS and RHS must match");
+				if(!semanticErrors.contains("Error [Line:" + i.line +"]: " + " condition " + i.cond.toString() + " error. LHS and RHS must match")){
+					semanticErrors.add("Error [Line:" + i.line +"]: " + " condition " + i.cond.toString() + " error. LHS and RHS must match");
 				}
 			}
 
@@ -330,8 +336,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	private void checkIfBody(String methodName,MyMethodBody ifBody, MyMethodBody methodbody , Map<String, String> parameter, boolean needCheck) {
 		for(Declaration d : ifBody.declList) {
 			if(parameter.containsKey(d.varName)) {
-				if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
-					semanticErrors.add("Error: " + d.varName + " is a parameter of mymethod");	
+				if(!semanticErrors.contains("Error [Line:" + d.line +"]: " + d.varName + " is a parameter of mymethod")) {
+					semanticErrors.add("Error [Line:" + d.line +"]: " + d.varName + " is a parameter of mymethod");	
 				}
 			}
 		}
@@ -357,14 +363,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		for(Declaration d : elsemethod.declList) {
 			for(Declaration dl: methodbody.declList) {
 				if(d.varName.equals(dl.varName)) {
-					semanticErrors.add("Error: " + d.varName + " already been declared in mymethod");
+					semanticErrors.add("Error [Line:" + d.line +"]: " + d.varName + " already been declared in mymethod");
 				}
 			}
 		}
 
 		for(Assignment a: elsemethod.assiList) {
 			if(!local_variableMap.containsKey(a.varName)) {
-				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+				semanticErrors.add("Error [Line:" + a.line +"]: " + " variable " + a.varName + " is not declared yet");
 			}else {
 				if(a.expr instanceof Values) {
 					if(((Values)a.expr) instanceof ValueMath) {
@@ -372,7 +378,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}else {
 						if(local_variableMap.containsKey(a.varName)) {
 							if(!local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
-								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+								semanticErrors.add("Error [Line:" + a.line +"]: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 							}
 						}
 					}
@@ -381,7 +387,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 					}
 				}else {
-					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+					this.semanticErrors.add("Error [Line:" + a.line +"]: " + " variable " + a.varName + " return type does not match expression return type.");
 				}
 			}
 		}
@@ -431,7 +437,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(m instanceof VoidMethodCall) {
 
 			}else {
-				semanticErrors.add("Error: Only void method call is allowed");
+				semanticErrors.add("Error [Line:" + ((ReturnMethodCall)m).line +"]: " + " Only void method call is allowed");
 			}
 		}
 	}
@@ -699,7 +705,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		return false;
 	}
 
-	private void checkTestMethodCallParameter(Map<String, String> parameter, MethodType methodtype, String methodName) {
+	private void checkTestMethodCallParameter(Map<String, String> parameter, MethodType methodtype, String methodName, int line) {
 		if(methodtype instanceof MyReturnMethod) {
 			String rhsMethodName = this.t_method_call.getName(); 
 			if(methodName.equals(rhsMethodName)) {
@@ -707,7 +713,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				List<Input_List> RHSparams = ((ReturnMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
-					semanticErrors.add("Error: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					semanticErrors.add("Error [Line:" + line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -717,7 +723,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 								if(map.getValue().equals(input.getValue().getType())) {
 									this.local_variableMap.put(map.getKey(), input.getValue());
 								}else {
-									semanticErrors.add("Error: " + map.getValue() + " from mymethod does not have the same datatype");
+									semanticErrors.add("Error [Line:" + line +"]: " + map.getValue() + " from mymethod does not have the same datatype");
 								}
 							}
 							j++;
@@ -734,7 +740,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				List<Input_List> RHSparams = ((VoidMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
-					semanticErrors.add("Error: " + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					semanticErrors.add("Error  [Line:" + line +"]: "  + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -820,27 +826,27 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	}
 
-	private void checkReturnVar(MyReturnMethod method) {
-		if(!local_variableMap.containsKey(method.varName)) {
-			semanticErrors.add("Error: return variable " + method.varName + " is not declared");
-		}else {
-			if(!local_variableMap.get(method.varName).getType().equals(method.dataType)) {
-				semanticErrors.add("Error: " + method.varName + " should return " + method.dataType + " not " + local_variableMap.get(method.varName).getType());
-			}else {
-				method.putReturnValue(local_variableMap.get(method.varName));
-			}
-		}
-
-	}
+//	private void checkReturnVar(MyReturnMethod method) {
+//		if(!local_variableMap.containsKey(method.varName)) {
+//			semanticErrors.add("Error  [Line:" + method.line +"]: " +" return variable " + method.varName + " is not declared");
+//		}else {
+//			if(!local_variableMap.get(method.varName).getType().equals(method.dataType)) {
+//				semanticErrors.add("Error: " + method.varName + " should return " + method.dataType + " not " + local_variableMap.get(method.varName).getType());
+//			}else {
+//				method.putReturnValue(local_variableMap.get(method.varName));
+//			}
+//		}
+//
+//	}
 
 	private void checkDeclAssi2(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
 
 		for(Declaration d : method_body.declList) {
 			if(parameter.containsKey(d.varName)) {
-				semanticErrors.add("Error: variable " + d.varName + " already exist in the parameters");
+				semanticErrors.add("Error [Line:" + d.line +"]: variable " + d.varName + " already exist in the parameters");
 			}else {
 				if(local_variableMap.containsKey(d.varName)) {
-					semanticErrors.add("Error: variable " + d.varName + " already declared");
+					semanticErrors.add("Error [Line:" + d.line +"]: variable " + d.varName + " already declared");
 				}else {
 					local_variableMap.put(d.varName, d.defaultValue);	
 				}
@@ -849,7 +855,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 		for(Assignment a: method_body.assiList) {
 			if(!local_variableMap.containsKey(a.varName)) {
-				semanticErrors.add("Error: variable " + a.varName + " is not declared yet");
+				semanticErrors.add("Error [Line:" + a.line +"]: variable " + a.varName + " is not declared yet");
 			}else {
 				if(a.expr instanceof Values) {
 					if(((Values)a.expr) instanceof ValueMath) {
@@ -859,7 +865,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 							if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
 								local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 							}else {
-								semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+								semanticErrors.add("Error [Line:" + a.line +"]: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 							}
 						}
 					}
@@ -868,7 +874,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 					}
 				}else {
-					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
+					this.semanticErrors.add("Error [Line:" + a.line +"]: variable " + a.varName + " return type does not match expression return type.");
 				}
 			}
 		}
@@ -893,7 +899,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						List<Input_List> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getTestCallParams();
 						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 						if(RHSparams.size() != methodparams.size()) {
-							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+							semanticErrors.add("Error [Line:" + m.line +"]: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
 						}else {
 							Map<String, Values> callInputs = new LinkedHashMap<>();
 							int i = 0;
@@ -904,7 +910,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 										if(p instanceof CallParamVarName) {
 											CallParamVarName a1 = (CallParamVarName) p;
 											if(!this.local_variableMap.containsKey(a1.varName)) {
-												semanticErrors.add("Error: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
+												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
 											}else {
 												callInputs.put("" + i, this.local_variableMap.get(a1.varName));
 											}
@@ -942,11 +948,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 				return false;
 			}else if(((ReturnMethodCall)rhs).methodName.equals(methodName)){
-				this.semanticErrors.add("StackOverflowError: mymethod " + methodName + " cannot call itself : " + rhs.toString());
+				this.semanticErrors.add("StackOverflowError [Line:" + ((ReturnMethodCall)rhs).line +"]: mymethod " + methodName + " cannot call itself : " + rhs.toString());
 				return false;
 			}
 			else { //if method not declared
-				this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
+				this.semanticErrors.add("Error [Line:" + ((ReturnMethodCall)rhs).line +"]: Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
 				return false;
 			}
 		}else {
@@ -965,13 +971,13 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					if(local_variableMap.get(a.varName).getType().equals("INT")) {
 						local_variableMap.put(a.varName, new ValueNum(i));	
 					}else {
-						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+						semanticErrors.add("Error [Line:" + a.line +"]: "+ ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 					}
 				}
 			}else {
 				if(local_variableMap.containsKey(a.varName)) {
 					if(!local_variableMap.get(a.varName).getType().equals("INT")) {
-						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+						semanticErrors.add("Error [Line:" + a.line +"]: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 					}
 				}
 			}
@@ -985,18 +991,18 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					if(local_variableMap.get(a.varName).getType().equals("DOUBLE")) {
 						local_variableMap.put(a.varName, new ValueDouble(d));
 					}else {
-						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+						semanticErrors.add("Error [Line:" + a.line +"]: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 					}
 				}
 			}else {
 				if(local_variableMap.containsKey(a.varName)) {
 					if(!local_variableMap.get(a.varName).getType().equals("DOUBLE")) {
-						semanticErrors.add("Error: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
+						semanticErrors.add("Error [Line:" + a.line +"]: " + ((Values)a.expr).getValues() + " is not the same datatype as " + a.varName + " which is declared as " + local_variableMap.get(a.varName).getType());
 					}
 				}
 			}
 		}else if(type.equals("NOT SAME"))  {
-			semanticErrors.add("Error: the LHS datatype and RHS datatype of " + expr.toString() + " must be the same");
+			semanticErrors.add("Error  [Line:" + a.line +"]: the LHS datatype and RHS datatype of " + expr.toString() + " must be the same");
 		}		
 
 
@@ -1024,7 +1030,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			double left = getMATHDOUBLE(a.math1);
 			double right = getMATHDOUBLE(a.math2);
 			if(right == 0) {
-				semanticErrors.add("Error: undefined. Cannot divide by 0");
+				semanticErrors.add("Error [Line:" + a.line +"]: undefined. Cannot divide by 0");
 			}else {
 				result = left / right;
 			}
@@ -1067,8 +1073,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			int left = getMathINT(a.math1);
 			int right = getMathINT(a.math2);
 			if(right == 0) {
-				if(!semanticErrors.contains("Error: undefined. Cannot divide by 0")) {
-					semanticErrors.add("Error: undefined. Cannot divide by 0");
+				if(!semanticErrors.contains("Error [Line:" + a.line +"]: undefined. Cannot divide by 0")) {
+					semanticErrors.add("Error [Line:" + a.line +"]: undefined. Cannot divide by 0");
 				}
 			}else {
 				result = left / right;
@@ -1140,74 +1146,74 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}else if(c instanceof CondEqual) {
 			CondEqual e = (CondEqual) c;
 			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math1.toString() + " is not the same");
 			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math2.toString() + " is not the same");
 			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+				semanticErrors.add("Error [Line:" + e.line +"]: " + e.math1 + " must have the same datatype as " + e.math2);
 			}
 			result = "BOOLEAN";
 		}else if(c instanceof CondNotEqual) {
 			CondNotEqual e = (CondNotEqual) c;
 			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math1.toString() + " is not the same");
 			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math2.toString() + " is not the same");
 			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+				semanticErrors.add("Error [Line:" + e.line +"]: " + e.math1 + " must have the same datatype as " + e.math2);
 			}
 			result = "BOOLEAN";
 		}else if(c instanceof MoreOrEqual) {
 			MoreOrEqual e = (MoreOrEqual) c;
 			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math1.toString() + " is not the same");
 			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math2.toString() + " is not the same");
 			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+				semanticErrors.add("Error [Line:" + e.line +"]: " + e.math1 + " must have the same datatype as " + e.math2);
 			}
 			result = "BOOLEAN";
 		}else if(c instanceof LessOrEqual) {
 			LessOrEqual e = (LessOrEqual) c;
 			if(getMATHTYPE(e.left).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.left.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.left.toString() + " is not the same");
 			}else if(getMATHTYPE(e.right).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.right.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.right.toString() + " is not the same");
 			}else if(!getMATHTYPE(e.left).equals(getMATHTYPE(e.right))){
-				semanticErrors.add("Error: " + e.left + " must have the same datatype as " + e.right);
+				semanticErrors.add("Error [Line:" + e.line +"]: " + e.left + " must have the same datatype as " + e.right);
 			}
 			result = "BOOLEAN";
 		}else if(c instanceof More) {
 			More e = (More) c;
 			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math1.toString() + " is not the same");
 			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math2.toString() + " is not the same");
 			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+				semanticErrors.add("Error [Line:" + e.line +"]: " + e.math1 + " must have the same datatype as " + e.math2);
 			}
 			result = "BOOLEAN";
 		}else if(c instanceof Less) {
 			Less e = (Less) c;
 			if(getMATHTYPE(e.math1).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math1.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math1.toString() + " is not the same");
 			}else if(getMATHTYPE(e.math2).equals("NOT SAME")) {
-				semanticErrors.add("Error: the LHS and RHS of " + e.math2.toString() + " is not the same");
+				semanticErrors.add("Error [Line:" + e.line +"]: the LHS and RHS of " + e.math2.toString() + " is not the same");
 			}else if(!getMATHTYPE(e.math1).equals(getMATHTYPE(e.math2))){
-				semanticErrors.add("Error: " + e.math1 + " must have the same datatype as " + e.math2);
+				semanticErrors.add("Error [Line:" + e.line +"]: " + e.math1 + " must have the same datatype as " + e.math2);
 			}
 			result = "BOOLEAN";
 		}else if(c instanceof CondVarName) {
 			CondVarName e = (CondVarName) c;
 			if(!local_variableMap.containsKey(e.varName)) {
-				semanticErrors.add("Error: variable " + e.varName + " does not exist");
+				semanticErrors.add("Error [Line:" + e.line +"]: variable " + e.varName + " does not exist");
 			}else {
 				Values val = local_variableMap.get(e.varName);
 
 				if(val.getType().equals("BOOLEAN")) {
 					result = val.getType();
 				}else {
-					semanticErrors.add("Error: " + e.varName + " must be BOOLEAN type");
+					semanticErrors.add("Error [Line:" + e.line +"]: " + e.varName + " must be BOOLEAN type");
 				}
 			}
 
@@ -1265,7 +1271,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
 			if(!local_variableMap.containsKey(a.varName)) {
-				semanticErrors.add("Error: variable " + a.varName + " is not declared");
+				semanticErrors.add("Error [Line:" + a.line +"]: variable " + a.varName + " is not declared");
 			}else if(local_variableMap.containsKey(a.varName)) {
 				result = local_variableMap.get(a.varName).getType();
 			}
@@ -1389,6 +1395,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	public MyMethods visit2(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
 
+		Token token = ctx.METHODNAME().getSymbol();
+		int line = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
 
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
@@ -1400,7 +1408,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			declareParameter(parameter);
 			checkDeclAssi2(methodName, ((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
 
-			return new MyMethods(methodName, (MyReturnMethod)methodType);
+			return new MyMethods(methodName, (MyReturnMethod)methodType, line);
 
 		} else {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, this.variableMap, this.global_mymethods);
@@ -1411,7 +1419,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			declareParameter(parameter);
 			checkDeclAssi2(methodName,((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
 
-			return new MyMethods(methodName, (MyVoidMethod)methodType);
+			return new MyMethods(methodName, (MyVoidMethod)methodType, line);
 		}
 	}
 }

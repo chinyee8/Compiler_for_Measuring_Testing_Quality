@@ -14,8 +14,9 @@ public class IfStatement{
 	public boolean elseCovered;
 	public List<String> semanticErrors;
 	public boolean CondEvaluatedTo;
+	public int line;
 	
-	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody, List<String> semanticErrors) {
+	public IfStatement(Condition cond, MyMethodBody ifBody, MyMethodBody elseBody, List<String> semanticErrors, int line) {
 		this.cond = cond;
 		this.ifBody = ifBody;
 		this.elseBody = elseBody;
@@ -23,6 +24,7 @@ public class IfStatement{
 		elseCovered = false;
 		this.semanticErrors = semanticErrors;
 		this.CondEvaluatedTo = false;
+		this.line = line;
 	}
 
 	public String toString() {

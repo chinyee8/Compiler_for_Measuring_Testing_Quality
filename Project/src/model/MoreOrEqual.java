@@ -3,10 +3,12 @@ package model;
 public class MoreOrEqual extends Condition{
 	public Mathematics math1;
 	public Mathematics math2;
+	public int line;
 	
-	public MoreOrEqual(Mathematics math1, Mathematics math2) {
+	public MoreOrEqual(Mathematics math1, Mathematics math2, int line) {
 		this.math1 = math1;
 		this.math2 = math2;
+		this.line = line;
 	}
 	
 	@Override

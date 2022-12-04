@@ -8,15 +8,18 @@ public class MyMethods{
 	* distinguishing method return type
 	*/
 	public MethodType methodType; 	
+	public int line;
 	
-	public MyMethods(String methodName, MyReturnMethod methodType) {
+	public MyMethods(String methodName, MyReturnMethod methodType2, int line) {
 		this.methodName = methodName;
-		this.methodType = methodType;
+		this.methodType = methodType2;
+		this.line = line;
 	}
 	
-	public MyMethods(String methodName, MyVoidMethod methodType) {
+	public MyMethods(String methodName, MyVoidMethod methodType, int line) {
 		this.methodName = methodName;
 		this.methodType = methodType;
+		this.line = line;
 	}
 
 	@Override
