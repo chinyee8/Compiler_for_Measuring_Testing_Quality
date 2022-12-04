@@ -3,11 +3,13 @@ package AntlrToObject;
 import java.util.List;
 
 import antlr.exprBaseVisitor;
+import antlr.exprParser.CallParamBooleanContext;
 import antlr.exprParser.CallParamCharContext;
 import antlr.exprParser.CallParamDoubleContext;
 import antlr.exprParser.CallParamNumContext;
 import antlr.exprParser.CallParamStringContext;
 import antlr.exprParser.CallParamVarNameContext;
+import model.CallParamBoolean;
 import model.CallParamChar;
 import model.CallParamDouble;
 import model.CallParamNum;
@@ -54,6 +56,13 @@ public class AntlrToInput_List extends exprBaseVisitor<Input_List>{
 		String doubText = ctx.DOUBLE().getText();
 		double d = Double.parseDouble(doubText);
 		return new CallParamDouble(d);
+	}
+	
+	@Override
+	public Input_List visitCallParamBoolean(CallParamBooleanContext ctx) {
+		String doubText = ctx.BOOL().getText();
+		boolean d = Boolean.parseBoolean(doubText);
+		return new CallParamBoolean(d);
 	}
 
 }
