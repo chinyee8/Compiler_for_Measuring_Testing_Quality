@@ -50,8 +50,25 @@ public class Statement {
 
 			result += "game " + p.gameclass.className + " !<br><br>";
 
-			checkMethodCall(p.gameclass.body.myMethodList, methodcall);
+			List<String> mc = new ArrayList<>();
+			mc = getMethodCallFromThis(p, methodcall.getName(), mc);
+			List<String> current = new ArrayList<>();
+			current.addAll(mc);
+			for(String s : current) {
+				mc = getMethodCallFromThis(p, s, mc);
+			}
 
+			while(mc.size() != current.size()) {
+				for(String s: mc) {
+					if(!current.contains(s)) {
+						current.add(s);
+					}
+				}
+				for(String s : current) {
+					mc = getMethodCallFromThis(p, s, mc);
+				}
+			}
+			
 			for(MyMethods mm : p.gameclass.body.myMethodList) {
 
 				if( mm.methodType instanceof MyReturnMethod) {
@@ -69,7 +86,7 @@ public class Statement {
 
 					result += "<br>";
 
-					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
+					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || mc.contains(mm.methodName) ) {
 						result += Covered(mt.method_body, "&emsp;");
 						result += "<br>";
 
@@ -99,7 +116,7 @@ public class Statement {
 
 					result += "<br>";
 
-					if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName) ) {
+					if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || mc.contains(mm.methodName) ) {
 						result += Covered(mt.method_body, "&emsp;");
 
 					}else {
@@ -526,43 +543,43 @@ public class Statement {
 	}
 
 
-	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
-		for(MyMethods mm : l) {
-			if( mm.methodType instanceof MyReturnMethod) {
-				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
-					this.returnMethodCall.add(methodcall.getName());
-					getTestMethodCall( mt.method_body);
-				}
-
-			}else if(mm.methodType instanceof MyVoidMethod) {
-				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
-					this.voidMethodCall.add(methodcall.getName());
-					getTestMethodCall( mt.method_body);
-				}
-			}
-		}	
-
-		checkAllMethodCall(l, methodcall);
-	}
-
-	private void checkAllMethodCall(List<MyMethods> l, MethodCall methodcall) {
-		for(MyMethods mm : l) {
-			if( mm.methodType instanceof MyReturnMethod) {
-				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				if(this.returnMethodCall.size()>0 && this.returnMethodCall.contains(mm.methodName)) {
-					getTestMethodCall(mt.method_body);
-				}
-
-			}else if(mm.methodType instanceof MyVoidMethod) {
-				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if(this.voidMethodCall.size()>0 && this.voidMethodCall.contains(mm.methodName)) {
-					getTestMethodCall(mt.method_body);
-				}
-			}
-		}		
-	}
+//	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
+//		for(MyMethods mm : l) {
+//			if( mm.methodType instanceof MyReturnMethod) {
+//				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+//				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
+//					this.returnMethodCall.add(methodcall.getName());
+//					getTestMethodCall( mt.method_body);
+//				}
+//
+//			}else if(mm.methodType instanceof MyVoidMethod) {
+//				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+//				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
+//					this.voidMethodCall.add(methodcall.getName());
+//					getTestMethodCall( mt.method_body);
+//				}
+//			}
+//		}	
+//
+//		checkAllMethodCall(l, methodcall);
+//	}
+//
+//	private void checkAllMethodCall(List<MyMethods> l, MethodCall methodcall) {
+//		for(MyMethods mm : l) {
+//			if( mm.methodType instanceof MyReturnMethod) {
+//				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+//				if(this.returnMethodCall.size()>0 && this.returnMethodCall.contains(mm.methodName)) {
+//					getTestMethodCall(mt.method_body);
+//				}
+//
+//			}else if(mm.methodType instanceof MyVoidMethod) {
+//				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+//				if(this.voidMethodCall.size()>0 && this.voidMethodCall.contains(mm.methodName)) {
+//					getTestMethodCall(mt.method_body);
+//				}
+//			}
+//		}		
+//	}
 
 	private void getTestMethodCall( MyMethodBody mb) {
 
