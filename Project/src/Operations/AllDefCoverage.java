@@ -113,7 +113,7 @@ public class AllDefCoverage {
 			result += "game " + p.gameclass.className + " !<br><br>";
 
 			List<String> mc = getListOfMethodCall(p, methodcall.getName());
-			
+
 
 			for(MyMethods mm : p.gameclass.body.myMethodList) {
 				this.def = new ArrayList<>();
@@ -141,13 +141,13 @@ public class AllDefCoverage {
 						getAllVariableVoid(mt, false);
 						this.countDefTotal += this.countDef;
 						this.countUseTotal += this.countUse;
-						
+
 						result += getNotUnderLinedVoid(mm.methodName, mt);
 					}else {
 						result += getNotUnderLinedVoid(mm.methodName, mt);
 					}	  
 				}
-				
+
 				for(String s : def) {
 					if(!totaldef.contains(s)) {
 						totaldef.add(s);
@@ -163,7 +163,7 @@ public class AllDefCoverage {
 			List<String> tempdiff = new ArrayList<>();
 			List<String> tempJS = new ArrayList<>();
 			List<String> tmpcss = new ArrayList<>();
-			
+
 			//list of variable
 			List<String> tmp = new LinkedList<>();
 			tmp.add("<h3>Percentage => "+((int)((countUseTotal / (double) countDefTotal)*100)) + "%</h3>");
@@ -174,7 +174,7 @@ public class AllDefCoverage {
 			tmp.add("</ul>");
 			this.lines.put(i, tmp);
 
-			
+
 			String tmpString = "";
 			for(String s: this.lines.get(i)) {
 				tmpString += s + "\n";
@@ -182,17 +182,17 @@ public class AllDefCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "ans\" hidden>" 
-								+ "<div class=\""+ d +"column\">" +getResultString(p, methodcall, d) + "<br>" + "</div>"
-								+ "<div class=\""+ d +"column\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
-									+ "<div class=\""+ d +"subcolumn\">" + tmpString + "</div>"
-									+ "<div class=\""+ d +"subcolumn\">" + "<br>" + note + "</div>"
-								+ "</div>"
-							+"</div>" );
-				
+						+ "<div class=\""+ d +"column\">" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"column\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
+						+ "<div class=\""+ d +"subcolumn\">" + tmpString + "</div>"
+						+ "<div class=\""+ d +"subcolumn\">" + "<br>" + note + "</div>"
+						+ "</div>"
+						+"</div>" );
+
 				tempJS.add("function "+ d +"(){\n"
 						+ "document.getElementById(\"text\").innerHTML = document.getElementById(\""+d+"ans\").innerHTML;\n"
 						+ "}");
-				
+
 				tmpcss.add("."+d+"subcolumn{\n"
 						+ "    float:left;\n"
 						+ "    width:50%;\n"
@@ -203,7 +203,7 @@ public class AllDefCoverage {
 						+ "    display: table;\n"
 						+ "    clear: both;\n"
 						+ "}");
-				
+
 				tmpcss.add("."+d+"column{\n"
 						+ "    float:left;\n"
 						+ "    width:50%;\n"
@@ -224,7 +224,7 @@ public class AllDefCoverage {
 			i++;
 		}
 	}
-	
+
 	private List<String> getListOfMethodCall(Program p, String name) {
 		List<String> mc = new ArrayList<>();
 		mc.add(name);
@@ -259,7 +259,7 @@ public class AllDefCoverage {
 		}
 		return mc;
 	}
-	
+
 	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
 		for(MyMethods mm : l) {
 			if( mm.methodType instanceof MyReturnMethod) {
@@ -277,7 +277,7 @@ public class AllDefCoverage {
 				}
 			}
 		}	
-	
+
 		checkAllMethodCall(l, methodcall);
 	}
 
@@ -302,14 +302,14 @@ public class AllDefCoverage {
 		String result = "";
 
 		result += "game " + p.gameclass.className + " !<br><br>";
-		
+
 		List<String> mc = getListOfMethodCall(p, methodcall.getName());
 
 		for(MyMethods mm : p.gameclass.body.myMethodList) {
 
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				
+
 				if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || mc.contains(mm.methodName)) {
 					this.def = new ArrayList<>();
 					this.use = new ArrayList<>();
@@ -322,7 +322,7 @@ public class AllDefCoverage {
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				
+
 				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || mc.contains(mm.methodName)) {
 					this.def = new ArrayList<>();
 					this.use = new ArrayList<>();
@@ -343,7 +343,7 @@ public class AllDefCoverage {
 
 	public String getUnderLinedReturn(String methodName, MyReturnMethod mt) {
 		String result = "";
-		
+
 		String para = ""; int i = 0;
 		for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
 			if(def.contains(p1.getKey())) {
@@ -400,7 +400,7 @@ public class AllDefCoverage {
 
 	private String getUnderLinedVoid(String methodName, MyVoidMethod mt) {
 		String result = "";
-		
+
 
 		String para = ""; int i = 0;
 		for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
@@ -506,7 +506,11 @@ public class AllDefCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getMethodBodyString(lo.myMethodBodyList.get(0), space);
+			if(lo.iterationGoal == 0) {
+				result += getElseMethodBodyString(lo.loopbody, space);
+			}else {
+				result += getMethodBodyString(lo.loopbody, space);
+			}
 			result += space + "!<br>";
 		}
 
@@ -570,7 +574,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getElseMethodBodyString(lo.myMethodBodyList.get(0), space);
+			result += getElseMethodBodyString(lo.loopbody, space);
 			result += space + "!<br>";
 		}
 
@@ -767,7 +771,11 @@ public class AllDefCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getResultBody(lo.myMethodBodyList.get(0), space, d);
+			if(lo.iterationGoal == 0) {
+				result += getElseMethodBodyString(lo.loopbody, space);
+			}else {
+				result += getResultBody(lo.loopbody, space, d);
+			}
 			result += space + "!<br>";
 		}
 
@@ -866,7 +874,7 @@ public class AllDefCoverage {
 				if(yes) {
 					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
 				}
-				
+
 				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
 					if(p instanceof CallParamVarName) {
 						CallParamVarName a1 = (CallParamVarName) p;
@@ -910,7 +918,9 @@ public class AllDefCoverage {
 
 
 		for(Loop lo : mb.loops) {
-			getMethodVar(lo.myMethodBodyList.get(0), yes);
+			if(lo.iterationGoal != 0) {
+				getMethodVar(lo.loopbody, yes);
+			}
 		}
 
 		for(MethodCall v: mb.methodCall) {
@@ -928,9 +938,9 @@ public class AllDefCoverage {
 			}
 		}
 	}
-	
-private void getTestMethodCall( MyMethodBody mb) {
-		
+
+	private void getTestMethodCall( MyMethodBody mb) {
+
 		for(Assignment a: mb.assiList) {
 			if(a.expr instanceof ReturnMethodCall) {
 				if(!this.returnMethodCall.contains(((ReturnMethodCall)a.expr).methodName)){
@@ -938,7 +948,7 @@ private void getTestMethodCall( MyMethodBody mb) {
 				}
 			}
 		}
-		
+
 		for(IfStatement i1 : mb.ifStatList) {
 			if(i1.CondEvaluatedTo) {
 				getTestMethodCall( i1.ifBody);
@@ -946,11 +956,13 @@ private void getTestMethodCall( MyMethodBody mb) {
 				getTestMethodCall( i1.elseBody);
 			}
 		}
-		
+
 		for(Loop lo : mb.loops) {
-			getTestMethodCall( lo.myMethodBodyList.get(0));
+			if(lo.iterationGoal != 0) {
+			getTestMethodCall( lo.loopbody);
+			}
 		}
-		
+
 		for(MethodCall v: mb.methodCall) {
 			if(v instanceof VoidMethodCall) {
 				if(!this.voidMethodCall.contains(((VoidMethodCall)v).methodname)) {
@@ -1215,9 +1227,11 @@ private void getTestMethodCall( MyMethodBody mb) {
 		}
 
 		for(Loop lo : mb.loops) {
-			for(String s: getMethodCallFromThisMethod( lo.myMethodBodyList.get(0), list)) {
-				if(!list.contains(s)) {
-					list.add(s);
+			if(lo.iterationGoal != 0) {
+				for(String s: getMethodCallFromThisMethod( lo.loopbody, list)) {
+					if(!list.contains(s)) {
+						list.add(s);
+					}
 				}
 			}
 		}
