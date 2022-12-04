@@ -30,7 +30,7 @@ public class MyMethodBody{
 
 	public void getDeclaredList(Map<String, Values> vars2) {
 		vars.putAll(vars2);
-		
+
 		for(Declaration d: declList) {
 			if(!vars.containsKey(d.varName)) {
 				vars.put(d.varName, d.defaultValue);
@@ -65,7 +65,7 @@ public class MyMethodBody{
 			convarlist = getCondVariableList(ifs.cond, convarlist);
 
 			ifs.setCond(evaluated(ifs.cond, vars));
-			
+
 			if(evaluated(ifs.cond, vars)) {
 				ifBody.getDeclaredList(vars2);
 				this.vars.putAll(ifBody.vars);
@@ -101,8 +101,18 @@ public class MyMethodBody{
 		return result;
 	}
 
-	public Map<String, Values> getValues(Map<String, Values> lists) {
-		this.vars.putAll(lists);
+	public Map<String, Values> getValues(Parameter parameter, Map<String, Values> lists) {
+		int j = 0;
+		for(Map.Entry<String, String> p : parameter.getParams().entrySet()) {
+			int i = 0;
+			for(Map.Entry<String, Values> l : lists.entrySet()) {
+				if(i == j) {
+					this.vars.put(p.getKey(), l.getValue());
+				}
+				i++;
+			}
+			j++;
+		}
 		getDeclaredList(this.vars);
 
 		return this.vars;
@@ -117,29 +127,13 @@ public class MyMethodBody{
 				List<String> RHSparams = r.call_parameter.getCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
-					boolean contains = true;
 					Map<String, Values> lists = new LinkedHashMap<>();
-					for(String s : RHSparams) {
-						if(!this.vars.containsKey(s)) {
-							contains = false;
-						}else {
-							lists.put(s, this.vars.get(s));
-						}
+					for(String s: RHSparams) {
+						lists.put(s, this.vars.get(s));
 					}
 
-					if(contains) {
-						int i = 0;
-						for(Map.Entry<String, String> map: methodparams.entrySet()){
-							if(!(this.vars.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-								noerror = false;
-							}
-							i++;
-						}
-					}
-
-					if(noerror) {
-						((MyReturnMethod)m.methodType).method_body.getValues(lists);
-					}
+						((MyReturnMethod)m.methodType).method_body.getValues(((MyReturnMethod)m.methodType).parameter, lists);
+					
 				}
 			}
 
@@ -278,7 +272,7 @@ public class MyMethodBody{
 
 		return result;
 	}
-	
+
 	private List<String> getCondVariableList(Condition c, List<String> list) {
 		if(c instanceof Negation) {
 			Negation e = (Negation) c;
@@ -336,7 +330,7 @@ public class MyMethodBody{
 		}
 		return list;
 	}
-	
+
 	private List<String> getVariables(Mathematics m, List<String> list) {
 		if(m instanceof Addition) {
 			Addition a = (Addition) m;
@@ -369,7 +363,7 @@ public class MyMethodBody{
 
 		return list;
 	}
-	
+
 	public boolean evaluated(Condition c, Map<String, Values> map) {
 		boolean result = false;
 
