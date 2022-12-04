@@ -75,6 +75,7 @@ input: VAR_NAME																#CallParamVarName
 	 | NUM																	#CallParamNum
      | CHAR																	#CallParamChar
      | STRING																#CallParamString
+	 | BOOL																	#CallParamBoolean
 	 ;    
 	 
 multiInput: ',' input														#MultipleInput
