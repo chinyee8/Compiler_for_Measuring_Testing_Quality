@@ -1,7 +1,7 @@
 package model;
 
 public class CallParamDouble extends Input_List{
-	double input;
+	public double input;
 	
 	public CallParamDouble(double input) {
 		this.input = input;
