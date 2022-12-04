@@ -493,7 +493,11 @@ public class AllCUsesCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getMethodBodyString(lo.myMethodBodyList.get(0), space);
+			if(lo.iterationGoal == 0) {
+				result += getElseMethodBodyString(lo.loopbody, space);
+			}else {
+				result += getMethodBodyString(lo.loopbody, space);
+			}
 			result += space + "!<br>";
 		}
 
@@ -557,7 +561,7 @@ public class AllCUsesCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getElseMethodBodyString(lo.myMethodBodyList.get(0), space);
+			result += getElseMethodBodyString(lo.loopbody, space);
 			result += space + "!<br>";
 		}
 
@@ -754,7 +758,12 @@ public class AllCUsesCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getResultBody(lo.myMethodBodyList.get(0), space, d);
+			if(lo.iterationGoal == 0) {
+				result += getElseMethodBodyString(lo.loopbody, space);
+
+			}else {
+				result += getResultBody(lo.loopbody, space, d);
+			}
 			result += space + "!<br>";
 		}
 
@@ -889,7 +898,9 @@ public class AllCUsesCoverage {
 
 
 		for(Loop lo : mb.loops) {
-			getMethodVar(lo.myMethodBodyList.get(0), yes);
+			if(lo.iterationGoal != 0) {
+				getMethodVar(lo.loopbody, yes);
+			}
 		}
 
 		for(MethodCall v: mb.methodCall) {
@@ -962,7 +973,9 @@ public class AllCUsesCoverage {
 
 
 		for(Loop lo : mb.loops) {
-			getMethodVar(lo.myMethodBodyList.get(0), yes);
+			if(lo.iterationGoal!=0) {
+				getMethodVar(lo.loopbody, yes);
+			}
 		}
 
 		for(MethodCall v: mb.methodCall) {
@@ -1001,7 +1014,9 @@ public class AllCUsesCoverage {
 		}
 
 		for(Loop lo : mb.loops) {
-			getTestMethodCall( lo.myMethodBodyList.get(0));
+			if(lo.iterationGoal != 0) {
+				getTestMethodCall( lo.loopbody);
+			}
 		}
 
 		for(MethodCall v: mb.methodCall) {
@@ -1267,9 +1282,11 @@ public class AllCUsesCoverage {
 		}
 
 		for(Loop lo : mb.loops) {
-			for(String s: getMethodCallFromThisMethod( lo.myMethodBodyList.get(0), list)) {
-				if(!list.contains(s)) {
-					list.add(s);
+			if(lo.iterationGoal != 0) {
+				for(String s: getMethodCallFromThisMethod( lo.loopbody, list)) {
+					if(!list.contains(s)) {
+						list.add(s);
+					}
 				}
 			}
 		}
