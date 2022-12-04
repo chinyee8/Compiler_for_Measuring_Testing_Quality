@@ -1,0 +1,55 @@
+game Aclass !
+
+	mymethod LCALLI INT[INT num1] !
+		re << INT 
+		loop(2) !
+			re <- num1 + 1
+		!
+		
+		jackieReturns re
+	!
+	
+	mymethod LCALLII INT[INT num1] !
+		re << INT 
+		loop(3) !
+			re <- LCALLI[num1] 
+		!
+		jackieReturns re
+	!
+	
+	mymethod LCALLIII INT[INT num1] !
+		re << INT
+		loop(2) ! 
+			re <- LCALLII[num1]
+		! 
+		jackieReturns re
+	!
+	
+	mymethod LCALLIV INT[INT num1] !
+		re << INT
+		loop(3) ! 
+			re <- LCALLIII[num1] 
+		!
+		jackieReturns re
+	!
+	
+	mymethod LCALLV INT[INT num1] !
+		re << INT 
+		loop(2) !
+			re <- LCALLIV[num1]
+		! 
+		
+		jackieReturns re
+	!
+	
+	mymethod LCALLVI INT[INT num1] !
+		re << INT 
+		loop(0)!
+			re <- LCALLV[num1]
+		! 
+		
+		jackieReturns re
+	!
+	
+	
+!
