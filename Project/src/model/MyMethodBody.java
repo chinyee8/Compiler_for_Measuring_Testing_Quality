@@ -75,7 +75,7 @@ public class MyMethodBody{
 
 		for(Loop lo: loops) {
 			for(int i = 0; i < lo.iterationGoal; i++) {
-				vars.putAll(lo.myMethodBodyList.get(0).getList(vars2, parameter));
+				vars.putAll(lo.loopbody.getList(vars2, parameter));
 				
 			}
 		}
@@ -129,8 +129,8 @@ public class MyMethodBody{
 		}
 
 		for(Loop lo: loops) {
-			for(MyMethodBody m : lo.myMethodBodyList) {
-				vars.putAll(m.getList(vars2, parameter));
+			for(int i = 0; i < lo.iterationGoal; i++) {
+				vars.putAll(lo.loopbody.getList(vars2, parameter));
 			}
 		}
 		
@@ -285,9 +285,9 @@ public class MyMethodBody{
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
 			if(parameter.getParams().containsKey(a.varName) && parameter.getParams().get(a.varName).equals("DOUBLE")) {
-				result = ((ValueNum)(vars.get(a.varName))).num;
+				result = ((ValueDouble)(vars.get(a.varName))).value;
 			}else if(this.vars.containsKey(a.varName) && this.vars.get(a.varName).getType().equals("DOUBLE")) {
-				result = ((ValueNum)(vars.get(a.varName))).num;
+				result = ((ValueDouble)(vars.get(a.varName))).value;
 			}
 		}
 
