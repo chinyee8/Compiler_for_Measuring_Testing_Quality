@@ -191,8 +191,9 @@ public class PrettyPrinter{
 //		for(String s: this.statement.statementcoverage.get(i)) {
 //			tmp+= s + "\n";
 //		}
+		String percentage = "<h3>Percentage => "+ this.statement.percent.get(i) + "%</h3>";
 		String note = "<div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;statement coverage" + "</div>";
-		result += "<div id=\"statement\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.statement.resultString.get(i) + "</div><div class=\"allDefcolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +  "<br>" + note + "</div></div>\n"; //statement
+		result += "<div id=\"statement\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.statement.resultString.get(i) + "</div><div class=\"allDefcolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +"<br>" + percentage+  "<br>" + note + "</div></div>\n"; //statement
 
 		result += "<div id=\"statement\" hidden>\n" +this.statement.resultString.get(i) + "</div>\n"; //statement
 		for(String s: this.statement.statementcoverage.get(i)) {
