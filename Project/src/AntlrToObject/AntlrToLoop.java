@@ -20,14 +20,12 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 	List<String> semanticErrors;
 	HashMap<String, Values> variableMap;
 	List<MyMethods> global_mymethods;
-	List<MyMethodBody> methodBodiesList;
 	
 	public AntlrToLoop(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethods) {
 		// TODO Auto-generated constructor stub
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
 		this.global_mymethods = mymethods;
-		this.methodBodiesList = new ArrayList<>();
 	}
 
 
@@ -46,18 +44,18 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 		if(ctx.getChild(5) instanceof MyMethodBodyContext) {
 			mb = mbVisitor.visit(ctx.getChild(5));
 		}
-		this.methodBodiesList.add(mb);
-		return new Loop(iterationGoal, this.methodBodiesList, this.semanticErrors, this.variableMap);
+		
+		return new Loop(iterationGoal, mb, this.semanticErrors, this.variableMap);
 	}
 
 	
 	public Loop control(Deterministic_LoopContext ctx) {
 		int iterationGoal = Integer.valueOf(Integer.valueOf(ctx.getChild(2).getText()));
 		AntlrToMyMethodBody mbVisitor = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods);
-		for(int i = 0; i < iterationGoal; i++) {
+//		for(int i = 0; i < iterationGoal; i++) {
 			MyMethodBody mb = mbVisitor.control((MyMethodBodyContext) ctx.getChild(5));
-			this.methodBodiesList.add(mb);
-		}
-		return new Loop(iterationGoal, this.methodBodiesList, this.semanticErrors, this.variableMap );
+//			this.methodBodiesList.add(mb);
+//		}
+		return new Loop(iterationGoal, mb, this.semanticErrors, this.variableMap );
 	}
 }
