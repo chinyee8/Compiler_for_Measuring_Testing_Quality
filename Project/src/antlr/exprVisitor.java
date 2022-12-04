@@ -216,6 +216,13 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCallParamString(exprParser.CallParamStringContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code CallParamBoolean}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallParamBoolean(exprParser.CallParamBooleanContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code MultipleInput}
 	 * labeled alternative in {@link exprParser#multiInput}.
 	 * @param ctx the parse tree

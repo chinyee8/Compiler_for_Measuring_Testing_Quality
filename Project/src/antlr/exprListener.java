@@ -358,6 +358,18 @@ public interface exprListener extends ParseTreeListener {
 	 */
 	void exitCallParamString(exprParser.CallParamStringContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code CallParamBoolean}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallParamBoolean(exprParser.CallParamBooleanContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CallParamBoolean}
+	 * labeled alternative in {@link exprParser#input}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallParamBoolean(exprParser.CallParamBooleanContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code MultipleInput}
 	 * labeled alternative in {@link exprParser#multiInput}.
 	 * @param ctx the parse tree
