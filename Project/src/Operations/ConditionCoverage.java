@@ -325,7 +325,7 @@ public class ConditionCoverage{
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getMethodBodyString(lo.myMethodBodyList.get(0), space, methodName);
+			result += getMethodBodyString(lo.loopbody, space, methodName);
 			result += space + "!<br>";
 		}
 
