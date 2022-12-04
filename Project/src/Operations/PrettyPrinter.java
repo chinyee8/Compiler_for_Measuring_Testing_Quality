@@ -60,6 +60,13 @@ public class PrettyPrinter{
 		String result = "";
 		
 		result += "<style>\n";
+		
+		result += "h1{"
+				+ "font-size: 2.5rem;"
+				+ "font-family: Times;"
+				+ " font-weight: bold;"
+//				+ " text-align: center;"
+				+ " }";
 
 		result += "p{\n"
 				+ "display: inline;\n"
@@ -94,7 +101,7 @@ public class PrettyPrinter{
 
 		//html
 		result += "<h1>TestCase</h1>";
-		result += "<h3>Click method call below for more coverage</h3>";
+		result += "<h3>Click method call below for more coverage &darr;</h3>";
 		result += "<div class=\"testString\">"+this.test.getString() + "</div>";
 
 		//javascript
@@ -127,8 +134,9 @@ public class PrettyPrinter{
 		
 		result += "h1{"
 				+ "font-size: 2.5rem;"
-				+ "font-family: Comic sans MS;"
-				+ " text-align: center;"
+				+ "font-family: Times;"
+				+ " font-weight: bold;"
+//				+ " text-align: center;"
 				+ " }";
 
 		result += "p{\n"
