@@ -44,7 +44,7 @@ public class Testcase {
 			if(a.expr instanceof Values) {
 				result += "&emsp;" + a.varName + " <- " + a.expr + "<br>";
 			}else if(a.expr instanceof ReturnMethodCall) {
-				result += "&emsp;" + a.varName + " <- " + "<a href=\"game"+i+".html\"><p><mark \" style=\"background-color: yellow;\">" + a.expr + "</mark></p></a>" + "<br>";
+				result += "&emsp;" + a.varName + " <- " + "<a href=\"game"+i+".html\"><p><mark class=\"testcaseclick\">" + a.expr + "</mark></p></a>" + "<br>";
 				i++;
 			}
 		}
