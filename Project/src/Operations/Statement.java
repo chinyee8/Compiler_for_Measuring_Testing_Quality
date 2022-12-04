@@ -168,7 +168,7 @@ public class Statement {
 						+ "<div class=\""+s+"scolumn\">"
 						+ this.resultString.get(i)
 						+ "</div>"					
-						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" + "<br>" + percentage +  "<br>" + note +"<br>"
+						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>"  + "<div id=\"statementpercentagenote\"><div id=\"statementpercentagenotecolumn\">" +percentage +  "</div><div id=\"statementpercentagenotecolumn\"><br>" + note +"</div></div>" + "<br>"
 						+"<div id=\"statementcov\">"
 						+ this.getCoverage(p, methodcall, s)
 						+"</div>"
