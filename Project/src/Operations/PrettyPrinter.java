@@ -124,10 +124,31 @@ public class PrettyPrinter{
 	public String getGameStyle(int i) {
 		String result = "";
 		result += "<style>\n";
+		
+		result += "h1{"
+				+ "font-size: 2.5rem;"
+				+ "font-family: Comic sans MS;"
+				+ " text-align: center;"
+				+ " }";
 
 		result += "p{\n"
 				+ "display: inline;\n"
 				+ "}\n";
+		
+		result += "button{"
+				+ "	width: 200px;"
+				+ " align-items: center;"
+				+ " font-weight: bold;"
+				+ "	height: 30px;"
+				+ " font-size: 1rem;"
+				+ "	background-color: #00008B;"
+				+ " color: white;"
+				+ "}";
+		
+		result += "button:hover{"
+				+ "	background-color: #B0E0E6;"
+				+ " color: black;"
+				+ "}";
 		
 		result += this.defCSS(i);
 		
@@ -146,6 +167,7 @@ public class PrettyPrinter{
 
 		//html
 		result += "<h1>Game Class</h1>";
+		result += "<h3>Click button below for coverage 	&darr;</h3>";
 		result += "<a href=\"index.html\"><button>&larr; TestCase </button></a>\n";
 		result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
 		result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
