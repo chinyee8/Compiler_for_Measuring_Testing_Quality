@@ -324,7 +324,7 @@ public class Statement {
 		for(Assignment a: mm.assiList) {
 
 			if(a.expr instanceof ReturnMethodCall) {
-				result += space + a.varName + " <- " + "<mark class=\"statementmc\" id=\"statementmc" + ((ReturnMethodCall)((Expr)a.expr)).methodName + "\" onclick=\"statementmc"+ ((ReturnMethodCall)((Expr)a.expr)).methodName  +"()\">" + a.expr + "</mark>" + "<br>";
+				result += space + "<mark style=\"background-color: yellow;\">" + a.varName + " <- " + "</mark>" + "<mark class=\"statementmc\" id=\"statementmc" + ((ReturnMethodCall)((Expr)a.expr)).methodName + "\" onclick=\"statementmc"+ ((ReturnMethodCall)((Expr)a.expr)).methodName  +"()\">" + a.expr + "</mark>" + "<br>";
 			}else {
 				result += space + "<mark style=\"background-color: yellow;\">" + a.toString()+ "</mark>" +"<br>";
 			}
