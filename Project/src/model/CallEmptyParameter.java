@@ -16,4 +16,12 @@ public class CallEmptyParameter extends Call_Parameter {
 		
 		return callparams;
 	}
+	
+	public List<Input_List> getTestCallParams() {
+		List<Input_List> callparams = new ArrayList<>();
+		
+		
+		
+		return callparams;
+	}
 }
