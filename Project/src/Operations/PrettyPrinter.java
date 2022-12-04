@@ -158,6 +158,11 @@ public class PrettyPrinter{
 				+ " color: black;"
 				+ "}";
 		
+		result += ".topic{"
+				+ " font-weight: bold;"
+				+ " font-size: 1.2rem;"
+				+ "}";
+		
 		result += this.defCSS(i);
 		
 		result += "</style>\n";
@@ -193,21 +198,19 @@ public class PrettyPrinter{
 //		}
 		String percentage = "<h3>Percentage => "+ this.statement.percent.get(i) + "%</h3>";
 		String note = "<div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;statement coverage" + "</div>";
-		result += "<div id=\"statement\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.statement.resultString.get(i) + "</div><div class=\"allDefcolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +"<div id=\"statementpercentagenote\"><div id=\"statementpercentagenotecolumn\">" +percentage +  "</div><div id=\"statementpercentagenotecolumn\"><br>" + note +"</div></div>"  + "</div></div>\n"; //statement
-
-		result += "<div id=\"statement\" hidden>\n" +this.statement.resultString.get(i) + "</div>\n"; //statement
+		result += "<div id=\"statement\" hidden>\n" + "<div class=\"allDefcolumn\"><u class=\"topic\">Statement Coverage</u><br><br>" +this.statement.resultString.get(i) + "</div><div class=\"allDefcolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +"<div id=\"statementpercentagenote\"><div id=\"statementpercentagenotecolumn\">" +percentage +  "</div><div id=\"statementpercentagenotecolumn\"><br>" + note +"</div></div>"  + "</div></div>\n"; //statement
 		for(String s: this.statement.statementcoverage.get(i)) {
 			result+= s + "\n";
 		}
 		
-		result += "<div id=\"condition\" hidden>\n" + this.getCondCoverageString() + "</div>"; //condition
+		result += "<div id=\"condition\" hidden>\n<u class=\"topic\">Condition Coverage</u><br><br>" + this.getCondCoverageString() + "</div>"; //condition
 
 		String tmp ="";
 		for(String s: this.allDef.lines.get(i)) {
 			tmp += s + "\n";
 		}
 		note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
-		result += "<div id=\"allDef\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.allDef.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //alldef
+		result += "<div id=\"allDef\" hidden>\n" + "<div class=\"allDefcolumn\"><u class=\"topic\">All-Defs Coverage</u><br><br>" +this.allDef.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //alldef
 		for(String s: this.allDef.different.get(i)) {
 			result+= s + "\n";
 		}
@@ -217,7 +220,7 @@ public class PrettyPrinter{
 			tmp += s + "\n";
 		}
 		note = "<br><br><br><br><div class=\"note\"><u>Note:</u> "+ "<br><u class=\"paragraph_underline\"> &emsp; </u> &emsp;underline => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use</div>";
-		result += "<div id=\"allCUse\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.allC.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //allC
+		result += "<div id=\"allCUse\" hidden>\n" + "<div class=\"allDefcolumn\"><u class=\"topic\">All-C-Uses Coverage</u><br><br>" +this.allC.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //allC
 		for(String s: this.allC.different.get(i)) {
 			result+= s + "\n";
 		}
