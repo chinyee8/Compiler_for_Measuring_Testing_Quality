@@ -1,7 +1,7 @@
 package model;
 
 public class CallParamNum extends Input_List{
-	int num;
+	public int num;
 	
 	public CallParamNum(int num) {
 		this.num = num;
