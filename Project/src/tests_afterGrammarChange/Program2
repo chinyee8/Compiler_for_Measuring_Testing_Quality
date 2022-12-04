@@ -72,7 +72,7 @@ game Firstclass !
 		checker <- CHECK_IF_BALANCE_POSITIVE[balance]
 		
 		jackieAsks[checker] !
-			balance <- balance + add_funds
+			balance <- 0.00
 		!
 		
 		elseJackie!
@@ -100,7 +100,7 @@ game Firstclass !
 		jackieAsks[checker] !
 			loop(2) !
 				jackieAsks[checker] !
-					balance <- WITHDRAW[balance]
+					balance <- WITHDRAW[balance, 5.00]
 					checker <- CHECK_IF_BALANCE_POSITIVE[balance]
 				!
 				elseJackie!
