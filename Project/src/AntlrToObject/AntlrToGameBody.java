@@ -141,12 +141,16 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			//				}
 			//			}
 			this.global_mymethods.add(myMeth);
-			mymethod.add(myMeth);
-
 		}
 		
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethods myMeth = mmVisitor.visit2((MyMethodsContext)ctx.mymethod(i));
+			mymethod.add(myMeth);
+		}
+		
+		this.global_mymethods.clear();
+		for(MyMethods m:mymethod) {
+			this.global_mymethods.add(m);
 		}
 
 		this.decl = decl;
