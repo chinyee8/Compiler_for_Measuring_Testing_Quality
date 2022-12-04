@@ -40,7 +40,7 @@ public class MyReturnMethod extends MethodType {
 	}
 	
 	public Values getValue(Map<String, Values> lists) {
-		Values result = this.method_body.getValues(lists).get(varName);
+		Values result = this.method_body.getValues(parameter, lists).get(varName);
 		return result;
 	}
 
