@@ -119,8 +119,6 @@ public class MyMethodBody{
 	}
 
 	private Values callExpr(ReturnMethodCall r, String varName) {
-		System.out.println(r.toString());
-
 		for(MyMethods m : this.global_mymethods) {
 			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
 				boolean noerror = true;
