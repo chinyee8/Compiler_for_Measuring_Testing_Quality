@@ -677,8 +677,26 @@ public class AllDefCoverage {
 		String result = "";
 		space = space + "&emsp;&emsp;";
 
+		List<String> assignmentvar = new ArrayList<>();
+		for(Assignment a: mm.assiList) {
+			if(!assignmentvar.contains(a.varName)) {
+				assignmentvar.add(a.varName);
+			}
+		}
+
 		for(Declaration a: mm.declList) {
-			result += space + a.toString() + "<br>";
+			if(assignmentvar.contains(a.varName)) {
+				result += space + a.toString() + "<br>";
+			}else {
+				if(d.equals(a.varName)){
+					if(use.contains(a.varName)) {
+						result += space + "<mark style=\"background-color: lime;\">" + a.varName + "</mark>" + " << " + a.dataType + "<br>";
+					}else {
+						result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName + "</mark>" + " << " + a.dataType  + "<br>";
+					}
+				}
+
+			}
 		}
 
 		if(mm.declList.size()>0 && mm.assiList.size()>0) {
@@ -852,6 +870,22 @@ public class AllDefCoverage {
 
 	private void getMethodVar(MyMethodBody mb, boolean yes) {
 
+		List<String> assignmentvar = new ArrayList<>();
+		for(Assignment a: mb.assiList) {
+			if(!assignmentvar.contains(a.varName)) {
+				assignmentvar.add(a.varName);
+			}
+		}
+
+		for(Declaration a: mb.declList) {
+			if(!assignmentvar.contains(a.varName)) {
+				if(!def.contains(a.varName)) {
+					def.add(a.varName);
+					this.countDef++;
+				}
+			}
+		}
+
 		for(Assignment a: mb.assiList) {
 			if(!def.contains(a.varName)) {
 				def.add(a.varName);
@@ -918,7 +952,7 @@ public class AllDefCoverage {
 
 
 		for(Loop lo : mb.loops) {
-			if(lo.iterationGoal != 0) {
+			for(int i = 0; i < lo.iterationGoal; i++) {
 				getMethodVar(lo.loopbody, yes);
 			}
 		}
@@ -959,7 +993,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-			getTestMethodCall( lo.loopbody);
+				getTestMethodCall( lo.loopbody);
 			}
 		}
 
