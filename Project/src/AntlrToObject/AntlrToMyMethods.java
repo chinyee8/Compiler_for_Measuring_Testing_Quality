@@ -16,6 +16,12 @@ import antlr.exprParser.MyReturnMethodContext;
 import antlr.exprParser.MyVoidMethodContext;
 import model.Addition;
 import model.Assignment;
+import model.CallParamBoolean;
+import model.CallParamChar;
+import model.CallParamDouble;
+import model.CallParamNum;
+import model.CallParamString;
+import model.CallParamVarName;
 import model.CondBool;
 import model.CondEqual;
 import model.CondNotEqual;
@@ -29,6 +35,7 @@ import model.Division;
 import model.EqualTo;
 import model.Expr;
 import model.IfStatement;
+import model.Input_List;
 import model.Less;
 import model.LessOrEqual;
 import model.Loop;
@@ -78,7 +85,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	// Condition Coverage member variable
 	public ConditionCoverage condCov;
-	
+
 
 	public AntlrToMyMethods(ArrayList<String>[] t, ArrayList<Integer> o ) {
 		this.orderOfFlow = o;
@@ -143,10 +150,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(t_method_call instanceof ReturnMethodCall) {
 				checkTestMethodCallParameter(parameter, methodType, methodName);
 			}
-			
-			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter);
-			checkReturnVar(((MyReturnMethod)methodType));
-			
+
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
 
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
@@ -156,13 +160,6 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			MethodType methodType = (MyVoidMethod) mtVisitor.visit(ctx.getChild(2));
 			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
-
-			declareParameter(parameter);
-			if(t_method_call instanceof ReturnMethodCall) {
-				checkTestMethodCallParameter(parameter, methodType, methodName);
-			}
-			
-			checkMethodBody(methodName, ((MyVoidMethod)methodType).method_body, parameter);
 
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
 		}
@@ -228,15 +225,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 
 			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
-			
+
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
-			
+
 			if(t_method_call instanceof ReturnMethodCall) {
 				if(t_method_call.getName().equals(methodName)){
 					this.testValue = local_variableMap.get(((MyReturnMethod)methodType).varName);
 				}
 			}
-			
+
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 		}else {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
@@ -254,15 +251,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
 		}
 	}
-	
-	private void checkMethodBody(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
+
+	private void checkMethodBody(String methodName, MyMethodBody method_body, Map<String, String> parameter, boolean needCheck) {
 		checkDeclaration(method_body, parameter); 
 		checkAssignment(method_body, parameter); 
-		checkIfStatement(methodName, method_body, parameter);
-		checkLoop(methodName,method_body, parameter);
+		checkIfStatement(methodName, method_body, parameter, needCheck);
+		checkLoop(methodName,method_body, parameter, needCheck);
 		checkVoidCall(method_body);		
 	}
-	
+
 	private void checkDeclaration(MyMethodBody method_body, Map<String, String> parameter){
 		for(Declaration d : method_body.declList) {
 			if(parameter.containsKey(d.varName)) {
@@ -276,7 +273,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 		}
 	}
-	
+
 	private void checkAssignment(MyMethodBody method_body, Map<String, String> parameter) {
 		for(Assignment a: method_body.assiList) {
 			if(!local_variableMap.containsKey(a.varName)) {
@@ -295,15 +292,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-					
+
 				}else {
 					this.semanticErrors.add("Error: variable " + a.varName + " return type does not match expression return type.");
 				}
 			}
 		}
 	}
-	
-	private void checkIfStatement(String methodName, MyMethodBody methodbody , Map<String, String> parameter) {
+
+	private void checkIfStatement(String methodName, MyMethodBody methodbody , Map<String, String> parameter, boolean needCheck) {
 		for(IfStatement i : methodbody.ifStatList) {
 			if(getCondType(i.cond).equals("NO")) {
 				if(!semanticErrors.contains("Error: condition " + i.cond.toString() + " error. LHS and RHS must match")){
@@ -315,22 +312,22 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			MyMethodBody elseBody = i.elseBody;
 
 			if(evaluated(i.cond, local_variableMap)) {
-				checkIfBody(methodName,ifBody, methodbody, parameter);
+				checkIfBody(methodName,ifBody, methodbody, parameter, needCheck);
 
-				checkElseBody(methodName,elseBody, methodbody, parameter);
+				checkElseBody(methodName,elseBody, methodbody, parameter, needCheck);
 
 			}else {
-				checkElseBody(methodName,ifBody, methodbody, parameter);
+				checkElseBody(methodName,ifBody, methodbody, parameter, needCheck);
 
-				checkIfBody(methodName,elseBody, methodbody, parameter);
+				checkIfBody(methodName,elseBody, methodbody, parameter, needCheck);
 
 			}	
 
 		}
 
 	}
-	
-	private void checkIfBody(String methodName,MyMethodBody ifBody, MyMethodBody methodbody , Map<String, String> parameter) {
+
+	private void checkIfBody(String methodName,MyMethodBody ifBody, MyMethodBody methodbody , Map<String, String> parameter, boolean needCheck) {
 		for(Declaration d : ifBody.declList) {
 			if(parameter.containsKey(d.varName)) {
 				if(!semanticErrors.contains("Error: " + d.varName + " is a parameter of mymethod")) {
@@ -338,25 +335,25 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 			}
 		}
-	
+
 		checkDeclaration(ifBody, parameter);
 
 		checkAssignment(ifBody, parameter);
 
 		if(ifBody.ifStatList.size() > 0) {
-			checkIfStatement(methodName,ifBody, parameter);
+			checkIfStatement(methodName,ifBody, parameter, needCheck);
 		}
 
 		if(ifBody.loops.size() > 0) {
-			checkLoop(methodName,ifBody, parameter);
+			checkLoop(methodName,ifBody, parameter, needCheck);
 		}
 
 		if(ifBody.methodCall.size() > 0) {
 			checkVoidCall(ifBody);
 		}		
 	}
-	
-	private void checkElseBody(String methodName,MyMethodBody elsemethod, MyMethodBody methodbody, Map<String, String> parameter) {
+
+	private void checkElseBody(String methodName,MyMethodBody elsemethod, MyMethodBody methodbody, Map<String, String> parameter, Boolean needCheck) {
 		for(Declaration d : elsemethod.declList) {
 			for(Declaration dl: methodbody.declList) {
 				if(d.varName.equals(dl.varName)) {
@@ -380,7 +377,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-					if(smtg(methodName,a.expr, a)) {
+					if(smtg(methodName,a.expr, a, needCheck)) {
 
 					}
 				}else {
@@ -390,45 +387,45 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 
 		if(elsemethod.ifStatList.size() > 0) {
-			checkIfStatement(methodName,elsemethod, parameter);
+			checkIfStatement(methodName,elsemethod, parameter, needCheck);
 		}
 
 		if(elsemethod.loops.size() > 0) {
-			checkLoop(methodName,elsemethod, parameter);
+			checkLoop(methodName,elsemethod, parameter, needCheck);
 		}
 
 		if(elsemethod.methodCall.size() > 0) {
 			checkVoidCall(elsemethod);
 		}		
 	}
-	
-	private void checkLoop(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
+
+	private void checkLoop(String methodName, MyMethodBody method_body, Map<String, String> parameter, boolean needCheck) {
 		for(Loop l : method_body.loops) {
 			int i = 0; 
 			for(MyMethodBody loopbody : l.myMethodBodyList) {
 				if(i == 0) {
 					checkDeclaration(loopbody, parameter);
 				}
-				
+
 				checkAssignment(loopbody, parameter);
 
 				if(loopbody.ifStatList.size() > 0) {
-					checkIfStatement(methodName,loopbody, parameter);
+					checkIfStatement(methodName,loopbody, parameter, needCheck);
 				}
 
 				if(loopbody.loops.size() > 0) {
-					checkLoop(methodName,loopbody, parameter);
+					checkLoop(methodName,loopbody, parameter, needCheck);
 				}
 
 				if(loopbody.methodCall.size() > 0) {
 					checkVoidCall(loopbody);
 				}	
-				
+
 				i++;
 			}
 		}
 	}
-	
+
 	private void checkVoidCall(MyMethodBody method_body) {
 		for( MethodCall m: method_body.methodCall) {
 			if(m instanceof VoidMethodCall) {
@@ -438,9 +435,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 		}
 	}
-	
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void getDefCoverage(String methodName,MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
 			local_variableMap.put(d.varName, d.defaultValue);
@@ -455,20 +452,20 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(methodName,a.expr, a)) {
+				if(smtg(methodName,a.expr, a, true)) {
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 
 			}
 		}
-		
-		defCheckIf(methodName,method_body);
-		defCheckLoop(methodName,method_body);
+
+		defCheckIf(methodName,method_body, true);
+		defCheckLoop(methodName,method_body, true);
 		defCheckVoid(method_body);
 
 	}
-	
-	private void defCheckIf(String methodName, MyMethodBody method_body) {
+
+	private void defCheckIf(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(IfStatement ifs: method_body.ifStatList) {
 			MyMethodBody ifBody = ifs.ifBody;
 			MyMethodBody elseBody = ifs.elseBody;
@@ -479,16 +476,16 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			ifs.setCond(evaluated(ifs.cond, local_variableMap));
 			if(evaluated(ifs.cond, local_variableMap)) {
-				getForIfBody(methodName, ifBody);
+				getForIfBody(methodName, ifBody, needCheck);
 			}else {
-				getForIfBody(methodName, elseBody);
+				getForIfBody(methodName, elseBody, needCheck);
 			}
 
 		}
 
 	}
-	
-	private void getForIfBody(String methodName, MyMethodBody method_body) {
+
+	private void getForIfBody(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Declaration d: method_body.declList) {
 			if(!local_variableMap.containsKey(d.varName)) {
 				local_variableMap.put(d.varName, d.defaultValue);
@@ -504,29 +501,29 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(methodName, a.expr, a)) {
+				if(smtg(methodName, a.expr, a, needCheck)) {
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 			}
 		}
 
 		if(method_body.ifStatList.size() > 0) {
-			defCheckIf(methodName,method_body);
+			defCheckIf(methodName,method_body, needCheck);
 		}
 
 		if(method_body.loops.size() > 0) {
-			defCheckLoop(methodName,method_body);
+			defCheckLoop(methodName,method_body, needCheck);
 		}
 
 		if(method_body.methodCall.size() > 0) {
 			defCheckVoid(method_body);
 		}
 	}
-	
-	private void defCheckLoop(String methodName, MyMethodBody method_body) {
+
+	private void defCheckLoop(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Loop lo : method_body.loops) {
 			for(MyMethodBody loopbody : lo.myMethodBodyList) {
-				evaluateLoop(methodName, loopbody);
+				evaluateLoop(methodName, loopbody, needCheck);
 			}
 		}
 	}
@@ -545,7 +542,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		}
 	}
 
-	private void evaluateLoop(String methodName, MyMethodBody loopbody) {
+	private void evaluateLoop(String methodName, MyMethodBody loopbody, boolean needCheck) {
 		for(Declaration d: loopbody.declList) {
 			if(!local_variableMap.containsKey(d.varName)) {
 				local_variableMap.put(d.varName, d.defaultValue);
@@ -561,18 +558,18 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					local_variableMap.put(a.varName, ((Values)a.expr).getValues());	
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				if(smtg(methodName, a.expr, a)) {
+				if(smtg(methodName, a.expr, a, needCheck)) {
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
 			}
 		}
 
 		if(loopbody.ifStatList.size() > 0) {
-			defCheckIf(methodName, loopbody);
+			defCheckIf(methodName, loopbody, needCheck);
 		}
 
 		if(loopbody.loops.size() > 0) {
-			defCheckLoop(methodName, loopbody);
+			defCheckLoop(methodName, loopbody, needCheck);
 		}
 
 		if(loopbody.methodCall.size() > 0) {
@@ -707,7 +704,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			String rhsMethodName = this.t_method_call.getName(); 
 			if(methodName.equals(rhsMethodName)) {
 
-				List<String> RHSparams = ((ReturnMethodCall)this.t_method_call).call_parameter.getCallParams();
+				List<Input_List> RHSparams = ((ReturnMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
 					semanticErrors.add("Error: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
@@ -734,18 +731,16 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			String rhsMethodName = this.t_method_call.getName(); 
 			if(methodName.equals(rhsMethodName)) {
 
-				List<String> RHSparams = ((VoidMethodCall)this.t_method_call).call_parameter.getCallParams();
+				List<Input_List> RHSparams = ((VoidMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
 					semanticErrors.add("Error: " + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
-						if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-							semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((VoidMethodCall)this.t_method_call).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + methodName);
-						}else {
-							this.local_variableMap.put(map.getKey(), this.inputValues.get(RHSparams.get(i)));
-						}
+
+						this.local_variableMap.put(""+i, this.inputValues.get(RHSparams.get(i)));
+
 						i++;
 					}
 				}
@@ -757,39 +752,65 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		for(MyMethods m : this.global_mymethods) {
 			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
 				boolean noerror = true;
-				List<String> RHSparams = r.call_parameter.getCallParams();
+				List<Input_List> RHSparams = r.call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
-					boolean contains = true;
+
 					Map<String, Values> lists = new LinkedHashMap<>();
-					for(String s : RHSparams) {
-						if(!this.local_variableMap.containsKey(s)) {
-							contains = false;
-						}else {
-							lists.put(s, this.local_variableMap.get(s));
+					int num = 0;
+					for(Input_List p: RHSparams) {
+						
+						if(p instanceof CallParamVarName) {
+							CallParamVarName a = (CallParamVarName) p;
+							lists.put("" + num, this.local_variableMap.get(a.varName));
+						}else if(p instanceof CallParamDouble) {
+							CallParamDouble a = (CallParamDouble) p;
+							lists.put("" + num, new ValueDouble(a.input));		
+						}else if(p instanceof CallParamNum) {
+							CallParamNum a = (CallParamNum) p;
+							lists.put("" + num, new ValueNum(a.num));		
+						}else if(p instanceof CallParamChar) {
+							CallParamChar a = (CallParamChar) p;
+							lists.put("" + num, new ValueChar(a.input));		
+						}else if(p instanceof CallParamString) {
+							CallParamString a = (CallParamString) p;
+							lists.put("" + num, new ValueString(a.input));		
+						}else if(p instanceof CallParamBoolean) {
+							CallParamBoolean a = (CallParamBoolean) p;
+							lists.put("" + num, new ValueBool(a.input));		
 						}
+						num++;
 					}
-
-					if(contains) {
-						int i = 0;
-						for(Map.Entry<String, String> map: methodparams.entrySet()){
-							if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-								noerror = false;
-							}
-							i++;
-						}
-					}
-
-					if(noerror) {
-//						for(MyMethods gm : this.global_mymethods) {
-//							if(gm.methodName.equals(r.methodName)) {
-//								if(gm.methodType instanceof MyReturnMethod) {
-//
-//								}
-//							}
-//						}
-						return ((MyReturnMethod)m.methodType).getValue(lists);
-					}
+					//					boolean contains = true;
+					//					Map<String, Values> lists = new LinkedHashMap<>();
+					//					for(String s : RHSparams) {
+					//						if(!this.local_variableMap.containsKey(s)) {
+					//							contains = false;
+					//						}else {
+					//							lists.put(s, this.local_variableMap.get(s));
+					//						}
+					//					}
+					//
+					//					if(contains) {
+					//						int i = 0;
+					//						for(Map.Entry<String, String> map: methodparams.entrySet()){
+					//							if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
+					//								noerror = false;
+					//							}
+					//							i++;
+					//						}
+					//					}
+					//
+					//					if(noerror) {
+					////						for(MyMethods gm : this.global_mymethods) {
+					////							if(gm.methodName.equals(r.methodName)) {
+					////								if(gm.methodType instanceof MyReturnMethod) {
+					////
+					////								}
+					////							}
+					////						}
+					return ((MyReturnMethod)m.methodType).getValue(lists);
+					//					}
 				}
 			}
 
@@ -843,7 +864,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-					if(smtg(methodName, a.expr, a)) {
+					if(smtg(methodName, a.expr, a, true)) {
 						this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 					}
 				}else {
@@ -852,53 +873,84 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}
 		}
 	}
-	
-	
 
-	private boolean smtg(String methodName, Expr rhs, Assignment a) {
-		String type = "";
-		for(Map.Entry<String, Values> d: local_variableMap.entrySet()) { //find dec type from declarations of game body
-			if(d.getKey().equals(a.varName)) {
-				type = d.getValue().getType();
-			}
-		}
 
-		if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.global_mymethods)) { //if rhs methodcall is declared 
-			String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
-			for(MyMethods m: this.global_mymethods) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
-				if(m.methodName.equals(rhsMethodName)) {
 
-					List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
-					Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
-					if(RHSparams.size() != methodparams.size()) {
-						semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
-					}else {
-						int i = 0;
-						for(Map.Entry<String, String> map: methodparams.entrySet()){
-							if(!(this.local_variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-								semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
-							}
-							i++;
-						}
-					}
-
-					if(m.methodType instanceof MyReturnMethod) {
-						return ((MyReturnMethod)m.methodType).dataType.equals(type);
-					}
-					else { 						//if m.methodType instanceof MyVoidMethod it would have been detected earlier ignore else case
-						System.out.println("void type checking error");
-						return false;
-					}
+	private boolean smtg(String methodName, Expr rhs, Assignment a, Boolean needCheck) {
+		if(needCheck) {
+			String type = "";
+			for(Map.Entry<String, Values> d: local_variableMap.entrySet()) { //find dec type from declarations of game body
+				if(d.getKey().equals(a.varName)) {
+					type = d.getValue().getType();
 				}
 			}
-			return false;
-		}else if(((ReturnMethodCall)rhs).methodName.equals(methodName)){
-			this.semanticErrors.add("StackOverflowError: mymethod " + methodName + " cannot call itself : " + rhs.toString());
-			return false;
-		}
-		else { //if method not declared
-			this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
-			return false;
+
+			if (checkIfMyMethodContainsReturnMethodCall((ReturnMethodCall)rhs, this.global_mymethods)) { //if rhs methodcall is declared 
+				String rhsMethodName = ((ReturnMethodCall)rhs).methodName; 
+				for(MyMethods m: this.global_mymethods) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
+					if(m.methodName.equals(rhsMethodName)) {
+
+						List<Input_List> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getTestCallParams();
+						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+						if(RHSparams.size() != methodparams.size()) {
+							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+						}else {
+							Map<String, Values> callInputs = new LinkedHashMap<>();
+							int i = 0;
+							for(Map.Entry<String, String> map: methodparams.entrySet()){
+								int j = 0;
+								for(Input_List p: RHSparams) {
+									if(i == j) {
+										if(p instanceof CallParamVarName) {
+											CallParamVarName a1 = (CallParamVarName) p;
+											if(!this.local_variableMap.containsKey(a1.varName)) {
+												semanticErrors.add("Error: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
+											}else {
+												callInputs.put("" + i, this.local_variableMap.get(a1.varName));
+											}
+										}else if(p instanceof CallParamDouble) {
+											CallParamDouble a1 = (CallParamDouble) p;
+											callInputs.put("" + i, new ValueDouble(a1.input));		
+										}else if(p instanceof CallParamNum) {
+											CallParamNum a1 = (CallParamNum) p;
+											callInputs.put("" + i, new ValueNum(a1.num));		
+										}else if(p instanceof CallParamChar) {
+											CallParamChar a1 = (CallParamChar) p;
+											callInputs.put("" + i, new ValueChar(a1.input));		
+										}else if(p instanceof CallParamString) {
+											CallParamString a1 = (CallParamString) p;
+											callInputs.put("" + i, new ValueString(a1.input));		
+										}else if(p instanceof CallParamBoolean) {
+											CallParamBoolean a1 = (CallParamBoolean) p;
+											callInputs.put("" + i, new ValueBool(a1.input));		
+										}
+									}
+									j++;
+								}
+								i++;
+							}
+						}
+
+						if(m.methodType instanceof MyReturnMethod) {
+							return ((MyReturnMethod)m.methodType).dataType.equals(type);
+						}
+						else { 						//if m.methodType instanceof MyVoidMethod it would have been detected earlier ignore else case
+							System.out.println("void type checking error");
+							return false;
+						}
+					}
+				}
+				return false;
+			}else if(((ReturnMethodCall)rhs).methodName.equals(methodName)){
+				this.semanticErrors.add("StackOverflowError: mymethod " + methodName + " cannot call itself : " + rhs.toString());
+				return false;
+			}
+			else { //if method not declared
+				this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
+				return false;
+			}
+		}else {
+			return true;
 		}
 	}
 
@@ -1347,7 +1399,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			checkDeclAssi2(methodName, ((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
-			
+
 			return new MyMethods(methodName, (MyReturnMethod)methodType);
 
 		} else {
@@ -1358,7 +1410,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			checkDeclAssi2(methodName,((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
-			
+
 			return new MyMethods(methodName, (MyVoidMethod)methodType);
 		}
 	}
