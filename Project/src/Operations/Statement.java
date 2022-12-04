@@ -28,6 +28,9 @@ public class Statement {
 	public Map<Integer, List<String>> statementcoverage;
 	public Map<Integer, List<String>> javascript;
 	public Map<Integer, List<String>> css;
+	public int countLine;
+	public int totalLine;
+	public Map<Integer, Integer> percent;
 
 	public Statement(Map<Program, MethodCall> programList2) {
 		this.programList = programList2;
@@ -37,7 +40,9 @@ public class Statement {
 		this.statementcoverage = new LinkedHashMap<>();
 		this.javascript = new LinkedHashMap<>();
 		this.css = new LinkedHashMap<>();
-
+		this.percent = new LinkedHashMap<>();
+		this.countLine = 0;
+		this.totalLine = 0;
 	}
 
 	public void getString() {
@@ -46,7 +51,9 @@ public class Statement {
 			Program p = prog.getKey();
 			MethodCall methodcall = prog.getValue();
 			String result = "";
-
+			this.countLine = 0;
+			this.totalLine = 0;
+			
 			result += "game " + p.gameclass.className + " !<br><br>";
 
 			List<String> mc = new ArrayList<>();
@@ -97,16 +104,19 @@ public class Statement {
 					result += "&emsp;mymethod " + mm.methodName + " " + mt.dataType + " [" + para + "] !<br>";
 
 					result += "<br>";
-
+					this.totalLine ++;
 					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || mc.contains(mm.methodName) ) {
 						result += Covered(mt.method_body, "&emsp;");
-						result += "<br>";
+						getNumCoveredLine(mt.method_body, true);
 
+						result += "<br>";
+						this.countLine++;
 						result += "&emsp;&emsp;" + "<mark style=\"background-color: yellow;\">" + "jackieReturns " + mt.varName + "</mark>" + "<br>";
 						result += "&emsp;!<br>";
 
 					}else {
 						result += NotCovered(mt.method_body, "&emsp;");
+						getNumCoveredLine(mt.method_body, false);
 						result += "<br>";
 
 						result += "&emsp;&emsp;"+ "jackieReturns " + mt.varName  + "<br>";
@@ -150,13 +160,15 @@ public class Statement {
 			List<String> tempJS = new ArrayList<>();
 			List<String> tmpcss = new ArrayList<>();
 
+			int percentagenum = ((int)((countLine / (double) totalLine)*100));
+			String percentage = "<h3>Percentage => "+percentagenum + "%</h3>";
 			String note = "<div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;statement coverage" + "</div>";
 			for(String s: mc) {
 				list.add("<div id=\""+s+"sans\" hidden>"
 						+ "<div class=\""+s+"scolumn\">"
 						+ this.resultString.get(i)
 						+ "</div>"					
-						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +  "<br>" + note +"<br>"
+						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" + "<br>" + percentage +  "<br>" + note +"<br>"
 						+"<div id=\"statementcov\">"
 						+ this.getCoverage(p, methodcall, s)
 						+"</div>"
@@ -184,6 +196,7 @@ public class Statement {
 			this.statementcoverage.put(i, list);
 			this.javascript.put(i, tempJS); 
 			this.css.put(i, tmpcss); 
+			this.percent.put(i, percentagenum);
 
 			this.returnMethodCall = new ArrayList<>();
 			this.voidMethodCall = new ArrayList<>();
@@ -191,6 +204,51 @@ public class Statement {
 			i++;
 		}
 
+	}
+
+	private void getNumCoveredLine(MyMethodBody mm, boolean b) {
+
+		for(Declaration d: mm.declList) {
+			this.totalLine++;
+			if(b) {
+				this.countLine++;
+			}
+		}
+
+		for(Assignment a: mm.assiList) {
+			this.totalLine++;
+			if(b) {
+				this.countLine++;
+			}
+		}
+
+		for(IfStatement i1 : mm.ifStatList) {
+			this.totalLine++;
+			if(i1.CondEvaluatedTo) {
+				getNumCoveredLine(i1.ifBody, true);
+				getNumCoveredLine(i1.elseBody, false);
+			}else{
+				getNumCoveredLine(i1.ifBody, false);
+				getNumCoveredLine(i1.elseBody, true);
+			}
+		}
+
+		for(Loop lo : mm.loops) {
+			this.totalLine++;
+			for(int i = 0; i < lo.iterationGoal; i++) {
+				getNumCoveredLine(lo.loopbody, true);
+			}
+		}
+
+		for(MethodCall v: mm.methodCall) {
+			if(v instanceof VoidMethodCall) {
+				this.totalLine++;
+				if(b) {
+					this.countLine++;
+				}
+			}
+		}
+		
 	}
 
 	private String getCoverage(Program p, MethodCall methodcall, String currentmc) {
