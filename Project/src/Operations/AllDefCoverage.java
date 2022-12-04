@@ -166,8 +166,13 @@ public class AllDefCoverage {
 
 			//list of variable
 			List<String> tmp = new LinkedList<>();
-			tmp.add("<h3>Percentage => "+((int)((countUseTotal / (double) countDefTotal)*100)) + "%</h3>");
-			tmp.add("<ul>");
+			int percent = 0;
+			if(countDefTotal < countUseTotal) {
+				percent = 100;
+			}else {
+				percent = ((int)((countUseTotal / (double) countDefTotal)*100));
+			}
+			tmp.add("<h3>Percentage => "+ percent + "%</h3>");			tmp.add("<ul>");
 			for(String s: totaldef) {
 				tmp.add("<li id=\"" + s + "\" onclick=\"" + s + "()\"><p class=\"varList\">" + s + "</p></li>");
 			}
@@ -425,7 +430,6 @@ public class AllDefCoverage {
 
 		result += "<br>";
 
-		result += "&emsp;&emsp;jackieReturns " + mt.varName + "<br>";
 		result += "&emsp;!<br>";
 
 		return result;	
@@ -450,7 +454,6 @@ public class AllDefCoverage {
 
 		result += "<br>";
 
-		result += "&emsp;&emsp;jackieReturns " + mt.varName + "<br>";
 		result += "&emsp;!<br>";
 
 		return result;
@@ -694,6 +697,8 @@ public class AllDefCoverage {
 					}else {
 						result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName + "</mark>" + " << " + a.dataType  + "<br>";
 					}
+				}else {
+					result += space + a.toString() + "<br>";
 				}
 
 			}
@@ -834,14 +839,15 @@ public class AllDefCoverage {
 		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
 			if(!def.contains(p.getKey())) {
 				def.add(p.getKey());
-				this.countDef++;
 			}	
+			this.countDef++;
 		}
 
 		if(!use.contains(mt.varName)) {
 			use.add(mt.varName);
-			this.countUse++;
 		}
+		this.countUse++;
+
 
 		getMethodVar(mt.method_body, yes);
 
@@ -853,14 +859,14 @@ public class AllDefCoverage {
 		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
 			if(!def.contains(p.getKey())) {
 				def.add(p.getKey());
-				this.countDef++;
 			}
+			this.countDef++;
 		}
 
-		if(!use.contains(mt.varName)) {
-			use.add(mt.varName);
-			this.countUse++;
-		}
+//		if(!use.contains(mt.varName)) {
+//			use.add(mt.varName);
+//		}
+//		this.countUse++;
 
 
 		getMethodVar(mt.method_body, yes);
@@ -881,16 +887,16 @@ public class AllDefCoverage {
 			if(!assignmentvar.contains(a.varName)) {
 				if(!def.contains(a.varName)) {
 					def.add(a.varName);
-					this.countDef++;
 				}
+				this.countDef++;
 			}
 		}
 
 		for(Assignment a: mb.assiList) {
 			if(!def.contains(a.varName)) {
 				def.add(a.varName);
-				this.countDef++;
 			}
+			this.countDef++;
 
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -900,8 +906,8 @@ public class AllDefCoverage {
 					for(String s : list) {
 						if(!use.contains(s)) {
 							use.add(s);
-							this.countUse++;
 						}
+						this.countUse++;
 					}
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
@@ -914,8 +920,8 @@ public class AllDefCoverage {
 						CallParamVarName a1 = (CallParamVarName) p;
 						if(!use.contains(a1.varName)) {
 							use.add(a1.varName);
-							this.countUse++;
 						}
+						this.countUse++;
 					}else if(p instanceof CallParamDouble) {
 						CallParamDouble a1 = (CallParamDouble) p;
 					}else if(p instanceof CallParamNum) {
@@ -939,8 +945,8 @@ public class AllDefCoverage {
 			for(String s: condList) {
 				if(!use.contains(s)) {
 					use.add(s);
-					this.countUse++;
 				}
+				this.countUse++;
 			}
 
 			if(i1.CondEvaluatedTo) {
@@ -966,8 +972,8 @@ public class AllDefCoverage {
 				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
 					if(!use.contains(s)) {
 						use.add(s);
-						this.countUse++;
 					}
+					this.countUse++;
 				}
 			}
 		}
