@@ -138,7 +138,7 @@ public class ExpressionApp {
 								condCov.setMethodCallParamOrder(list);
 
 								AntlrToProgram progCond = new AntlrToProgram(condCov);
-								progCond.visitConditionCoverage((ProgramContext)progAST);	 // for addResult						
+//								progCond.visitConditionCoverage((ProgramContext)progAST);	 // for addResult						
 							}
 							// End of Condition Coverage
 							
