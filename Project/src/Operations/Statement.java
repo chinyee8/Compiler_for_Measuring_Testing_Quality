@@ -18,7 +18,6 @@ import model.MyReturnMethod;
 import model.MyVoidMethod;
 import model.Program;
 import model.ReturnMethodCall;
-import model.Values;
 import model.VoidMethodCall;
 
 public class Statement {
@@ -151,14 +150,16 @@ public class Statement {
 			List<String> tempJS = new ArrayList<>();
 			List<String> tmpcss = new ArrayList<>();
 
-
+			String note = "<div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;statement coverage" + "</div>";
 			for(String s: mc) {
 				list.add("<div id=\""+s+"sans\" hidden>"
 						+ "<div class=\""+s+"scolumn\">"
 						+ this.resultString.get(i)
 						+ "</div>"					
-						+ "<br><br><div id=\"statementcov\" class=\""+s+"scolumn\">"
+						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +  "<br>" + note +"<br>"
+						+"<div id=\"statementcov\">"
 						+ this.getCoverage(p, methodcall, s)
+						+"</div>"
 						+"</div>"
 						+"</div>");
 
@@ -332,9 +333,11 @@ public class Statement {
 		}
 
 		for(Loop lo : mb.loops) {
-			for(String s: getMethodCallFromThisMethod( lo.myMethodBodyList.get(0), list)) {
-				if(!list.contains(s)) {
-					list.add(s);
+			if(lo.iterationGoal != 0) {
+				for(String s: getMethodCallFromThisMethod( lo.loopbody, list)) {
+					if(!list.contains(s)) {
+						list.add(s);
+					}
 				}
 			}
 		}
@@ -400,7 +403,11 @@ public class Statement {
 
 		for(Loop lo : mm.loops) {
 			result += space  + "<mark style=\"background-color: yellow;\">" + "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
-			result += Covered(lo.myMethodBodyList.get(0), space);
+			if(lo.iterationGoal == 0) {
+				result += NotCovered(lo.loopbody, space);
+			}else {
+				result += Covered(lo.loopbody, space);
+			}
 			result += space + "!<br>";
 		}
 
@@ -474,7 +481,11 @@ public class Statement {
 
 		for(Loop lo : mm.loops) {
 			result += space  +"<mark style=\"background-color: yellow;\">"+ "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
-			result += CoveredCoverage(lo.myMethodBodyList.get(0), space);
+			if(lo.iterationGoal == 0) {
+				result += NotCovered(lo.loopbody, space);
+			}else {
+				result += CoveredCoverage(lo.loopbody, space);
+			}
 			result += space + "!<br>";
 		}
 
@@ -539,7 +550,7 @@ public class Statement {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += NotCovered(lo.myMethodBodyList.get(0), space);
+			result += NotCovered(lo.loopbody, space);
 			result += space + "!<br>";
 		}
 
@@ -625,7 +636,9 @@ public class Statement {
 		}
 
 		for(Loop lo : mb.loops) {
-			getTestMethodCall( lo.myMethodBodyList.get(0));
+			if(lo.iterationGoal != 0) {
+				getTestMethodCall( lo.loopbody);
+			}
 		}
 
 		for(MethodCall v: mb.methodCall) {
