@@ -178,7 +178,7 @@ public class AllDefCoverage {
 			for(String s: this.lines.get(i)) {
 				tmpString += s + "\n";
 			}
-			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use</div>";
+			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "ans\" hidden>" 
 								+ "<div class=\""+ d +"column\">" +getResultString(p, methodcall, d) + "<br>" + "</div>"
@@ -1122,7 +1122,7 @@ private void getTestMethodCall( MyMethodBody mb) {
 		}else if(c instanceof CondVarName) {
 			CondVarName e = (CondVarName) c;
 			if(def.equals(e.varName)) {
-				list = "<mark style=\"background-color: yellow;\">" + def + "</mark>";
+				list = "<mark style=\"background-color: #7B68EE; color: white;\">" + def + "</mark>";
 			}else {
 				list = e.varName;
 			}
