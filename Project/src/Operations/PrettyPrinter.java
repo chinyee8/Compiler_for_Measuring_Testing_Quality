@@ -64,6 +64,20 @@ public class PrettyPrinter{
 		result += "p{\n"
 				+ "display: inline;\n"
 				+ "}\n";
+		
+		result += ".testcaseclick{"
+				+ "background-color: #7B68EE;"
+				+ "color: white;"
+				+ "}";
+		
+		result += ".testcaseclick:hover{"
+				+ "background-color: #E6E6FA;"
+				+ "color: black;"
+				+ "}";
+		
+		result += "h3{ width: max-content; padding:0;border: 3px dotted #7B68EE;}";
+
+		
 
 		result += "</style>\n";
 
@@ -80,7 +94,8 @@ public class PrettyPrinter{
 
 		//html
 		result += "<h1>TestCase</h1>";
-		result += this.test.getString();
+		result += "<h3>Click method call below for more coverage</h3>";
+		result += "<div class=\"testString\">"+this.test.getString() + "</div>";
 
 		//javascript
 		result += this.getTestJS();
@@ -131,7 +146,7 @@ public class PrettyPrinter{
 
 		//html
 		result += "<h1>Game Class</h1>";
-		result += "<a href=\"index.html\"><button> TestCase </button></a>\n";
+		result += "<a href=\"index.html\"><button>&larr; TestCase </button></a>\n";
 		result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
 		result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
 		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button>\n";
@@ -146,6 +161,9 @@ public class PrettyPrinter{
 //		for(String s: this.statement.statementcoverage.get(i)) {
 //			tmp+= s + "\n";
 //		}
+		String note = "<div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;statement coverage" + "</div>";
+		result += "<div id=\"statement\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.statement.resultString.get(i) + "</div><div class=\"allDefcolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>" +  "<br>" + note + "</div></div>\n"; //statement
+
 		result += "<div id=\"statement\" hidden>\n" +this.statement.resultString.get(i) + "</div>\n"; //statement
 		for(String s: this.statement.statementcoverage.get(i)) {
 			result+= s + "\n";
@@ -157,7 +175,7 @@ public class PrettyPrinter{
 		for(String s: this.allDef.lines.get(i)) {
 			tmp += s + "\n";
 		}
-		String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
+		note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 		result += "<div id=\"allDef\" hidden>\n" + "<div class=\"allDefcolumn\">" +this.allDef.resultString.get(i) + "</div><div class=\"allDefcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>"+ "<div class=\"allDefsubcolumn\">" + tmp + "</div>"+ "<div class=\"allDefsubcolumn\">" + "<br>" + note + "</div></div></div>\n"; //alldef
 		for(String s: this.allDef.different.get(i)) {
 			result+= s + "\n";
@@ -234,11 +252,11 @@ public class PrettyPrinter{
 		String result = "";
 		
 		result+= ".statementmc{\n"
-				+ "    background-color: 	#7B68EE;\n"
+				+ "    background-color: 	orange;\n"
 				+ "}\n"
 				+ "\n"
 				+ ".statementmc:hover{\n"
-				+ "    background-color: #6A5ACD;\n"
+				+ "    background-color: red;\n"
 				+ "    color: white;\n"
 				+ "}";
 		
