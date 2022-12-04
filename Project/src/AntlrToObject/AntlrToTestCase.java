@@ -109,7 +109,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 					}else if(i.expr instanceof ReturnMethodCall) {
 						ReturnMethodCall rmc = ((ReturnMethodCall) i.expr);
 						List<Input_List> paramaters = rmc.call_parameter.getTestCallParams(); //this returns an empty list?
-						this.methodMappedToOrderParameter.put(rmc, paramaters);
+//						this.methodMappedToOrderParameter.put(rmc, paramaters);
 						Map<String, Values> callInputs = new LinkedHashMap<>();
 						int num = 0;
 						for(Input_List p : paramaters) {
