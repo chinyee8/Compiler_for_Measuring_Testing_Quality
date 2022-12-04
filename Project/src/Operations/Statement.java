@@ -51,11 +51,20 @@ public class Statement {
 			result += "game " + p.gameclass.className + " !<br><br>";
 
 			List<String> mc = new ArrayList<>();
-			mc = getMethodCallFromThis(p, methodcall.getName(), mc);
+			mc.add(methodcall.getName());
+			for(String s: getMethodCallFromThis(p, methodcall.getName(), mc)) {
+				if(!mc.contains(s)) {
+					mc.add(s);
+				}
+			}
 			List<String> current = new ArrayList<>();
 			current.addAll(mc);
 			for(String s : current) {
-				mc = getMethodCallFromThis(p, s, mc);
+				for(String s2:getMethodCallFromThis(p, s, mc)) {
+					if(!mc.contains(s2)) {
+						mc.add(s2);
+					}
+				}
 			}
 
 			while(mc.size() != current.size()) {
@@ -65,7 +74,11 @@ public class Statement {
 					}
 				}
 				for(String s : current) {
-					mc = getMethodCallFromThis(p, s, mc);
+					for(String s2:getMethodCallFromThis(p, s, mc)) {
+						if(!mc.contains(s2)) {
+							mc.add(s2);
+						}
+					}
 				}
 			}
 			
@@ -139,7 +152,7 @@ public class Statement {
 			List<String> tmpcss = new ArrayList<>();
 
 
-			for(String s: this.returnMethodCall) {
+			for(String s: mc) {
 				list.add("<div id=\""+s+"sans\" hidden>"
 						+ "<div class=\""+s+"scolumn\">"
 						+ this.resultString.get(i)
@@ -183,11 +196,20 @@ public class Statement {
 		String result = "";
 
 		List<String> mc = new ArrayList<>();
-		mc = getMethodCallFromThis(p, currentmc, mc);
+		mc.add(currentmc);
+		for(String s: getMethodCallFromThis(p, currentmc, mc)) {
+			if(!mc.contains(s)) {
+				mc.add(s);
+			}
+		}
 		List<String> current = new ArrayList<>();
 		current.addAll(mc);
 		for(String s : current) {
-			mc = getMethodCallFromThis(p, s, mc);
+			for(String s2:getMethodCallFromThis(p, s, mc)) {
+				if(!mc.contains(s2)) {
+					mc.add(s2);
+				}
+			}
 		}
 
 		while(mc.size() != current.size()) {
@@ -197,17 +219,20 @@ public class Statement {
 				}
 			}
 			for(String s : current) {
-				mc = getMethodCallFromThis(p, s, mc);
+				for(String s2:getMethodCallFromThis(p, s, mc)) {
+					if(!mc.contains(s2)) {
+						mc.add(s2);
+					}
+				}
 			}
 		}
-
 
 
 		for(MyMethods mm : p.gameclass.body.myMethodList) {
 
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				if(mc.contains(mm.methodName) || methodcall.getName().equals(mm.methodName)) {
+				if(mc.contains(mm.methodName) ) {
 					String para = ""; int num = 0;
 					for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
 						para += p1.getValue()+ " " + p1.getKey();
@@ -232,7 +257,7 @@ public class Statement {
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if(mc.contains(mm.methodName) || methodcall.getName().equals(mm.methodName) ) {
+				if(mc.contains(mm.methodName)  ) {
 
 					String para = ""; int num = 0;
 					for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
