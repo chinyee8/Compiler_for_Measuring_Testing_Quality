@@ -10,6 +10,12 @@ import java.util.Map;
 
 import model.Addition;
 import model.Assignment;
+import model.CallParamBoolean;
+import model.CallParamChar;
+import model.CallParamDouble;
+import model.CallParamNum;
+import model.CallParamString;
+import model.CallParamVarName;
 import model.CondBool;
 import model.CondEqual;
 import model.CondNotEqual;
@@ -22,6 +28,7 @@ import model.Disjunction;
 import model.Division;
 import model.EqualTo;
 import model.IfStatement;
+import model.Input_List;
 import model.Less;
 import model.LessOrEqual;
 import model.Loop;
@@ -44,7 +51,12 @@ import model.Parameter;
 import model.Program;
 import model.ReturnMethodCall;
 import model.Subtraction;
+import model.ValueBool;
+import model.ValueChar;
+import model.ValueDouble;
 import model.ValueMath;
+import model.ValueNum;
+import model.ValueString;
 import model.Values;
 import model.VoidMethodCall;
 
@@ -55,6 +67,8 @@ public class AllDefCoverage {
 	private List<String> use;
 	private int countDef;
 	private int countUse;
+	private int countDefTotal;
+	private int countUseTotal;
 	private List<String> returnMethodCall;
 	private List<String> voidMethodCall;
 	public Map<Integer, String> resultString;
@@ -67,6 +81,8 @@ public class AllDefCoverage {
 		this.defProgram = defProgram;
 		this.countDef = 0;
 		this.countUse = 0;
+		this.countDefTotal = 0;
+		this.countUseTotal = 0;
 		this.def = new ArrayList<>();
 		this.totaldef = new ArrayList<>();
 		this.use = new ArrayList<>();
@@ -91,6 +107,8 @@ public class AllDefCoverage {
 			MethodCall methodcall = prog.getValue();
 			String result = "";
 			this.totaldef = new ArrayList<>();
+			this.countDefTotal = 0;
+			this.countUseTotal = 0;
 
 			result += "game " + p.gameclass.className + " !<br><br>";
 
@@ -99,12 +117,17 @@ public class AllDefCoverage {
 			for(MyMethods mm : p.gameclass.body.myMethodList) {
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
+				this.countDef = 0;
+				this.countUse = 0;
 
 				if( mm.methodType instanceof MyReturnMethod) {
 					MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 
 					if((methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName)) || this.returnMethodCall.contains(mm.methodName) ) {
 						getAllVariableReturn(mt, false);
+						this.countDefTotal += this.countDef;
+						this.countUseTotal += this.countUse;
+
 						result += getNotUnderLinedReturn(mm.methodName, mt);
 					}else {
 						result += getNotUnderLinedReturn(mm.methodName, mt);
@@ -115,6 +138,9 @@ public class AllDefCoverage {
 					MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
 					if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName) ) {
 						getAllVariableVoid(mt, false);
+						this.countDefTotal += this.countDef;
+						this.countUseTotal += this.countUse;
+						
 						result += getNotUnderLinedVoid(mm.methodName, mt);
 					}else {
 						result += getNotUnderLinedVoid(mm.methodName, mt);
@@ -139,7 +165,7 @@ public class AllDefCoverage {
 			
 			//list of variable
 			List<String> tmp = new LinkedList<>();
-			tmp.add("<h3>Percentage => "+((int)((countUse / (double) countDef)*100)) + "%</h3>");
+			tmp.add("<h3>Percentage => "+((int)((countUseTotal / (double) countDefTotal)*100)) + "%</h3>");
 			tmp.add("<ul>");
 			for(String s: totaldef) {
 				tmp.add("<li id=\"" + s + "\" onclick=\"" + s + "()\"><p class=\"varList\">" + s + "</p></li>");
@@ -627,14 +653,32 @@ public class AllDefCoverage {
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
 				String para = ""; int i = 0;
-				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
-					if(d.equals(s)) {
-						para += "<mark style=\"background-color: yellow;\">" + s + "</mark>";
-					}else {
-						para += s;
+				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
+					if(p instanceof CallParamVarName) {
+						CallParamVarName a1 = (CallParamVarName) p;
+						if(d.equals(a1.varName)) {
+							para += "<mark style=\"background-color: yellow;\">" + a1.varName + "</mark>";
+						}else {
+							para += a1.varName;
+						}
+					}else if(p instanceof CallParamDouble) {
+						CallParamDouble a1 = (CallParamDouble) p;
+						para += a1.input;
+					}else if(p instanceof CallParamNum) {
+						CallParamNum a1 = (CallParamNum) p;
+						para += a1.num;
+					}else if(p instanceof CallParamChar) {
+						CallParamChar a1 = (CallParamChar) p;
+						para += a1.input;
+					}else if(p instanceof CallParamString) {
+						CallParamString a1 = (CallParamString) p;
+						para += a1.input;
+					}else if(p instanceof CallParamBoolean) {
+						CallParamBoolean a1 = (CallParamBoolean) p;
+						para += a1.input;
 					}
 
-					if(i < ((ReturnMethodCall)a.expr).call_parameter.getCallParams().size()-1) {
+					if(i < ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams().size()-1) {
 						para+= ", ";
 					}
 					i++;
@@ -726,14 +770,14 @@ public class AllDefCoverage {
 		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
 			if(!def.contains(p.getKey())) {
 				def.add(p.getKey());
-			}
-			this.countDef++;
+				this.countDef++;
+			}	
 		}
 
 		if(!use.contains(mt.varName)) {
 			use.add(mt.varName);
+			this.countUse++;
 		}
-		this.countUse++;
 
 		getMethodVar(mt.method_body, yes);
 
@@ -745,14 +789,14 @@ public class AllDefCoverage {
 		for(Map.Entry<String, String> p : mt.parameter.getParams().entrySet()) {
 			if(!def.contains(p.getKey())) {
 				def.add(p.getKey());
+				this.countDef++;
 			}
-			this.countDef++;
 		}
 
 		if(!use.contains(mt.varName)) {
 			use.add(mt.varName);
+			this.countUse++;
 		}
-		this.countUse++;
 
 
 		getMethodVar(mt.method_body, yes);
@@ -765,8 +809,8 @@ public class AllDefCoverage {
 		for(Assignment a: mb.assiList) {
 			if(!def.contains(a.varName)) {
 				def.add(a.varName);
+				this.countDef++;
 			}
-			this.countDef++;
 
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -776,8 +820,8 @@ public class AllDefCoverage {
 					for(String s : list) {
 						if(!use.contains(s)) {
 							use.add(s);
+							this.countUse++;
 						}
-						this.countUse++;
 					}
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
@@ -785,11 +829,25 @@ public class AllDefCoverage {
 					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
 				}
 				
-				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
-					if(!use.contains(s)) {
-						use.add(s);
+				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
+					if(p instanceof CallParamVarName) {
+						CallParamVarName a1 = (CallParamVarName) p;
+						if(!use.contains(a1.varName)) {
+							use.add(a1.varName);
+							this.countUse++;
+						}
+					}else if(p instanceof CallParamDouble) {
+						CallParamDouble a1 = (CallParamDouble) p;
+					}else if(p instanceof CallParamNum) {
+						CallParamNum a1 = (CallParamNum) p;
+					}else if(p instanceof CallParamChar) {
+						CallParamChar a1 = (CallParamChar) p;
+					}else if(p instanceof CallParamString) {
+						CallParamString a1 = (CallParamString) p;
+					}else if(p instanceof CallParamBoolean) {
+						CallParamBoolean a1 = (CallParamBoolean) p;
 					}
-					this.countUse++;
+
 				}
 			}
 		}
@@ -801,8 +859,8 @@ public class AllDefCoverage {
 			for(String s: condList) {
 				if(!use.contains(s)) {
 					use.add(s);
+					this.countUse++;
 				}
-				this.countUse++;
 			}
 
 			if(i1.CondEvaluatedTo) {
@@ -826,8 +884,8 @@ public class AllDefCoverage {
 				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
 					if(!use.contains(s)) {
 						use.add(s);
+						this.countUse++;
 					}
-					this.countUse++;
 				}
 			}
 		}
