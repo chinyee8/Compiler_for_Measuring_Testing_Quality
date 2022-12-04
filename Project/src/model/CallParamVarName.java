@@ -1,7 +1,7 @@
 package model;
 
 public class CallParamVarName extends Input_List{
-	String varName;
+	public String varName;
 	
 	public CallParamVarName(String varName) {
 		this.varName = varName;
