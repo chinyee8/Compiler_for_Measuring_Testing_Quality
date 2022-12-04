@@ -67,14 +67,74 @@ public class MyMethodBody{
 			ifs.setCond(evaluated(ifs.cond, vars, parameter));
 
 			if(evaluated(ifs.cond, vars, parameter)) {
-				ifBody.getDeclaredList(vars2, parameter);
-				this.vars.putAll(ifBody.vars);
+				vars.putAll(ifBody.getList(vars2, parameter));
 			}else {
-				elseBody.getDeclaredList(vars2, parameter);
-				this.vars.putAll(elseBody.vars);
+				vars.putAll(elseBody.getList(vars2, parameter));
 			}
 		}
 
+		for(Loop lo: loops) {
+			for(int i = 0; i < lo.iterationGoal; i++) {
+				vars.putAll(lo.myMethodBodyList.get(0).getList(vars2, parameter));
+				
+			}
+		}
+	}
+	
+	public Map<String, Values> getList(Map<String, Values> vars2, Parameter parameter) {
+		vars.putAll(vars2);
+
+		for(Declaration d: declList) {
+			if(!vars.containsKey(d.varName)) {
+				vars.put(d.varName, d.defaultValue);
+			}
+
+		}
+		for(Assignment a : assiList) {
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					String type = getMATHTYPE(((ValueMath)a.expr).math);
+					if(type == "DOUBLE") {
+						double d = getDouble(((ValueMath)a.expr).math, parameter);
+						vars.put(a.varName, new ValueDouble(d));
+					}else if(type == "INT") {
+						int i = getInt(((ValueMath)a.expr).math, parameter);
+						vars.put(a.varName, new ValueNum(i));
+					}
+				}else {
+					vars.put(a.varName, ((Values)a.expr).getValues());
+				}
+			}else if(a.expr instanceof ReturnMethodCall) {
+				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+			}
+		}
+
+		for(IfStatement ifs: ifStatList) {
+			MyMethodBody ifBody = ifs.ifBody;
+			MyMethodBody elseBody = ifs.elseBody;
+
+
+			List<String> convarlist = new ArrayList<>();
+			convarlist = getCondVariableList(ifs.cond, convarlist);
+
+			ifs.setCond(evaluated(ifs.cond, vars, parameter));
+
+			if(evaluated(ifs.cond, vars, parameter)) {
+				vars.putAll(ifBody.getList(vars2, parameter));
+
+			}else {
+				vars.putAll(elseBody.getList(vars2, parameter));
+
+			}
+		}
+
+		for(Loop lo: loops) {
+			for(MyMethodBody m : lo.myMethodBodyList) {
+				vars.putAll(m.getList(vars2, parameter));
+			}
+		}
+		
+		return vars;
 	}
 
 	@Override
@@ -224,8 +284,10 @@ public class MyMethodBody{
 			result = a.num;
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
-			if(parameter.getParams().get(a.varName).equals("DOUBLE")) {
-				result = ((ValueDouble)(vars.get(a.varName))).value;
+			if(parameter.getParams().containsKey(a.varName) && parameter.getParams().get(a.varName).equals("DOUBLE")) {
+				result = ((ValueNum)(vars.get(a.varName))).num;
+			}else if(this.vars.containsKey(a.varName) && this.vars.get(a.varName).getType().equals("DOUBLE")) {
+				result = ((ValueNum)(vars.get(a.varName))).num;
 			}
 		}
 
@@ -263,7 +325,9 @@ public class MyMethodBody{
 			result = a.num;
 		}else if(m instanceof MathVarName) {
 			MathVarName a = (MathVarName) m;
-			if(parameter.getParams().get(a.varName).equals("INT")) {
+			if(parameter.getParams().containsKey(a.varName) && parameter.getParams().get(a.varName).equals("INT")) {
+				result = ((ValueNum)(vars.get(a.varName))).num;
+			}else if(this.vars.containsKey(a.varName) && this.vars.get(a.varName).getType().equals("INT")) {
 				result = ((ValueNum)(vars.get(a.varName))).num;
 			}
 		}
