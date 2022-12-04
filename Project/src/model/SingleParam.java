@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SingleParam extends Parameter{
 	Params params;
@@ -20,5 +22,14 @@ public class SingleParam extends Parameter{
 		ArrayList<String> temp = new ArrayList<>();
 		temp.add(this.params.varName);
 		return temp;
+	}
+	
+	@Override
+	public Map<String, String> getParams() {
+		Map<String, String> para = new LinkedHashMap<>();
+		para.put(params.varName, params.dataType);
+		
+		
+		return para;
 	}
 }
