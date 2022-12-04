@@ -73,7 +73,7 @@ public class Statement {
 						result += Covered(mt.method_body, "&emsp;");
 						result += "<br>";
 
-						result += "&emsp;&emsp;" + "jackieReturns " + mt.varName + "<br>";
+						result += "&emsp;&emsp;" + "<mark style=\"background-color: yellow;\">" + "jackieReturns " + mt.varName + "</mark>" + "<br>";
 						result += "&emsp;!<br>";
 
 					}else {
@@ -313,7 +313,7 @@ public class Statement {
 		space = space + "&emsp;&emsp;";
 
 		for(Declaration d: mm.declList) {
-			result+=(space + d.toString() + "<br>");
+			result+=(space + "<mark style=\"background-color: yellow;\">" + d.toString() + "</mark>" + "<br>");
 
 		}
 
@@ -326,7 +326,7 @@ public class Statement {
 			if(a.expr instanceof ReturnMethodCall) {
 				result += space + a.varName + " <- " + "<mark class=\"statementmc\" id=\"statementmc" + ((ReturnMethodCall)((Expr)a.expr)).methodName + "\" onclick=\"statementmc"+ ((ReturnMethodCall)((Expr)a.expr)).methodName  +"()\">" + a.expr + "</mark>" + "<br>";
 			}else {
-				result += space + a.toString()+ "<br>";
+				result += space + "<mark style=\"background-color: yellow;\">" + a.toString()+ "</mark>" +"<br>";
 			}
 		}
 
@@ -337,20 +337,16 @@ public class Statement {
 		}
 
 		for(IfStatement i1 : mm.ifStatList) {
-			result += space  +"jackieAsks [ " + i1.cond.toString() + " ] !" + "<br>";
+			result += space +"<mark style=\"background-color: yellow;\">" +"jackieAsks [ " + i1.cond.toString() + " ] !" +"</mark>" +"<br>";
 
-			if(i1.ifCovered) {
+			if(i1.CondEvaluatedTo) {
 				result += Covered( i1.ifBody, space);
 				result += space + "! elseJackie !<br>";
 				result += NotCovered(i1.elseBody, space);
-			}else if(i1.elseCovered) {
+			}else{
 				result += NotCovered( i1.ifBody, space);
 				result += space + "! elseJackie !<br>";
 				result += Covered(i1.elseBody, space);
-			}else {
-				result += NotCovered( i1.ifBody, space);
-				result += space + "! elseJackie !<br>";
-				result += NotCovered(i1.elseBody, space);
 			}
 
 			result += space + "!<br>";
@@ -361,7 +357,7 @@ public class Statement {
 		}
 
 		for(Loop lo : mm.loops) {
-			result += space  + "loop (" + lo.iterationGoal + ") !"  + "<br>";
+			result += space  + "<mark style=\"background-color: yellow;\">" + "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
 			result += Covered(lo.myMethodBodyList.get(0), space);
 			result += space + "!<br>";
 		}
