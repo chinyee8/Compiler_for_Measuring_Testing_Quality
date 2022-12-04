@@ -134,7 +134,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
-		
+
 		Token token = ctx.METHODNAME().getSymbol();
 		int line = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
@@ -407,27 +407,25 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void checkLoop(String methodName, MyMethodBody method_body, Map<String, String> parameter, boolean needCheck) {
 		for(Loop l : method_body.loops) {
-			int i = 0; 
-			for(MyMethodBody loopbody : l.myMethodBodyList) {
+			for(int i = 0; i < l.iterationGoal; i++) {
 				if(i == 0) {
-					checkDeclaration(loopbody, parameter);
+					checkDeclaration(l.loopbody, parameter);
 				}
 
-				checkAssignment(loopbody, parameter);
+				checkAssignment(l.loopbody, parameter);
 
-				if(loopbody.ifStatList.size() > 0) {
-					checkIfStatement(methodName,loopbody, parameter, needCheck);
+				if(l.loopbody.ifStatList.size() > 0) {
+					checkIfStatement(methodName,l.loopbody, parameter, needCheck);
 				}
 
-				if(loopbody.loops.size() > 0) {
-					checkLoop(methodName,loopbody, parameter, needCheck);
+				if(l.loopbody.loops.size() > 0) {
+					checkLoop(methodName,l.loopbody, parameter, needCheck);
 				}
 
-				if(loopbody.methodCall.size() > 0) {
-					checkVoidCall(loopbody);
+				if(l.loopbody.methodCall.size() > 0) {
+					checkVoidCall(l.loopbody);
 				}	
 
-				i++;
 			}
 		}
 	}
@@ -528,8 +526,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void defCheckLoop(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Loop lo : method_body.loops) {
-			for(MyMethodBody loopbody : lo.myMethodBodyList) {
-				evaluateLoop(methodName, loopbody, needCheck);
+			for(int i = 0; i < lo.iterationGoal; i++) {
+				evaluateLoop(methodName, lo.loopbody, needCheck);
 			}
 		}
 	}
@@ -713,7 +711,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				List<Input_List> RHSparams = ((ReturnMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
-					semanticErrors.add("Error [Line:" + line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					if(!semanticErrors.contains("Error [Line:" + line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName)) {
+						semanticErrors.add("Error [Line:" + line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					}
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -740,7 +740,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				List<Input_List> RHSparams = ((VoidMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
-					semanticErrors.add("Error  [Line:" + line +"]: "  + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					if(!semanticErrors.contains("Error [Line:" + line +"]: "  + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName)) {
+						semanticErrors.add("Error [Line:" + line +"]: "  + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					}
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -765,7 +767,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					Map<String, Values> lists = new LinkedHashMap<>();
 					int num = 0;
 					for(Input_List p: RHSparams) {
-						
+
 						if(p instanceof CallParamVarName) {
 							CallParamVarName a = (CallParamVarName) p;
 							lists.put("" + num, this.local_variableMap.get(a.varName));
@@ -826,18 +828,18 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	}
 
-//	private void checkReturnVar(MyReturnMethod method) {
-//		if(!local_variableMap.containsKey(method.varName)) {
-//			semanticErrors.add("Error  [Line:" + method.line +"]: " +" return variable " + method.varName + " is not declared");
-//		}else {
-//			if(!local_variableMap.get(method.varName).getType().equals(method.dataType)) {
-//				semanticErrors.add("Error: " + method.varName + " should return " + method.dataType + " not " + local_variableMap.get(method.varName).getType());
-//			}else {
-//				method.putReturnValue(local_variableMap.get(method.varName));
-//			}
-//		}
-//
-//	}
+	//	private void checkReturnVar(MyReturnMethod method) {
+	//		if(!local_variableMap.containsKey(method.varName)) {
+	//			semanticErrors.add("Error  [Line:" + method.line +"]: " +" return variable " + method.varName + " is not declared");
+	//		}else {
+	//			if(!local_variableMap.get(method.varName).getType().equals(method.dataType)) {
+	//				semanticErrors.add("Error: " + method.varName + " should return " + method.dataType + " not " + local_variableMap.get(method.varName).getType());
+	//			}else {
+	//				method.putReturnValue(local_variableMap.get(method.varName));
+	//			}
+	//		}
+	//
+	//	}
 
 	private void checkDeclAssi2(String methodName, MyMethodBody method_body, Map<String, String> parameter) {
 
@@ -899,7 +901,9 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						List<Input_List> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getTestCallParams();
 						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 						if(RHSparams.size() != methodparams.size()) {
-							semanticErrors.add("Error [Line:" + m.line +"]: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+							if(!semanticErrors.contains("Error [Line:" + ((ReturnMethodCall)rhs).line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName)) {
+								semanticErrors.add("Error [Line:" + ((ReturnMethodCall)rhs).line +"]: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+							}
 						}else {
 							Map<String, Values> callInputs = new LinkedHashMap<>();
 							int i = 0;
@@ -1406,8 +1410,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			Map <String, String> parameter = ((MyReturnMethod)methodType).parameter.getParams();
 
 			declareParameter(parameter);
-			checkDeclAssi2(methodName, ((MyReturnMethod)methodType).method_body, parameter); // check decl and assi
-
+			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter, true);
 			return new MyMethods(methodName, (MyReturnMethod)methodType, line);
 
 		} else {
@@ -1417,7 +1420,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			Map <String, String> parameter = ((MyVoidMethod)methodType).parameter.getParams();
 
 			declareParameter(parameter);
-			checkDeclAssi2(methodName,((MyVoidMethod)methodType).method_body, parameter); // check decl and assi
+			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter, true);
 
 			return new MyMethods(methodName, (MyVoidMethod)methodType, line);
 		}
