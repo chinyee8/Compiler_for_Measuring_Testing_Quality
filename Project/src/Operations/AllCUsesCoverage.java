@@ -10,6 +10,12 @@ import java.util.Map;
 
 import model.Addition;
 import model.Assignment;
+import model.CallParamBoolean;
+import model.CallParamChar;
+import model.CallParamDouble;
+import model.CallParamNum;
+import model.CallParamString;
+import model.CallParamVarName;
 import model.CondBool;
 import model.CondEqual;
 import model.CondNotEqual;
@@ -22,6 +28,7 @@ import model.Disjunction;
 import model.Division;
 import model.EqualTo;
 import model.IfStatement;
+import model.Input_List;
 import model.Less;
 import model.LessOrEqual;
 import model.Loop;
@@ -96,7 +103,7 @@ public class AllCUsesCoverage {
 			this.totaldef = new ArrayList<>();
 
 			result += "game " + p.gameclass.className + " !<br><br>";
-			
+
 			checkMethodCall(p.gameclass.body.myMethodList, methodcall);
 
 			for(MyMethods mm : p.gameclass.body.myMethodList) {
@@ -123,7 +130,7 @@ public class AllCUsesCoverage {
 						result += getNotUnderLinedVoid(mm.methodName, mt);
 					}
 				}
-				
+
 				for(String s : def) {
 					if(!totaldef.contains(s)) {
 						totaldef.add(s);
@@ -196,12 +203,12 @@ public class AllCUsesCoverage {
 			this.css.put(i, tmpcss); 
 			this.returnMethodCall = new ArrayList<>();
 			this.voidMethodCall = new ArrayList<>();
-			
+
 			i++;
 		}
 	}
 
-	
+
 
 	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
 		for(MyMethods mm : l) {
@@ -220,7 +227,7 @@ public class AllCUsesCoverage {
 				}
 			}
 		}	
-	
+
 		checkAllMethodCall(l, methodcall);
 	}
 
@@ -240,7 +247,7 @@ public class AllCUsesCoverage {
 			}
 		}		
 	}
-	
+
 
 	public String getResultString(Program p, MethodCall methodcall, String d) {
 		String result = "";
@@ -264,7 +271,7 @@ public class AllCUsesCoverage {
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				
+
 				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName)) {
 					this.def = new ArrayList<>();
 					this.use = new ArrayList<>();
@@ -632,14 +639,34 @@ public class AllCUsesCoverage {
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
 				String para = ""; int i = 0;
-				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
-					if(d.equals(s)) {
-						para += "<mark style=\"background-color: yellow;\">" + s + "</mark>";
-					}else {
-						para += s;
+				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
+					if(p instanceof CallParamVarName) {
+						CallParamVarName a1 = (CallParamVarName) p;
+						if(d.equals(a1.varName)) {
+							para += "<mark style=\"background-color: yellow;\">" + a1.varName + "</mark>";
+						}else {
+							para += a1.varName;
+						}
+					}else if(p instanceof CallParamDouble) {
+						CallParamDouble a1 = (CallParamDouble) p;
+						para += a1.input;
+					}else if(p instanceof CallParamNum) {
+						CallParamNum a1 = (CallParamNum) p;
+						para += a1.num;
+					}else if(p instanceof CallParamChar) {
+						CallParamChar a1 = (CallParamChar) p;
+						para += a1.input;
+					}else if(p instanceof CallParamString) {
+						CallParamString a1 = (CallParamString) p;
+						para += a1.input;
+					}else if(p instanceof CallParamBoolean) {
+						CallParamBoolean a1 = (CallParamBoolean) p;
+						para += a1.input;
 					}
+					
+					
 
-					if(i < ((ReturnMethodCall)a.expr).call_parameter.getCallParams().size()-1) {
+					if(i < ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams().size()-1) {
 						para+= ", ";
 					}
 					i++;
@@ -787,10 +814,25 @@ public class AllCUsesCoverage {
 				if(yes == true) {
 					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
 				}
-				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
-					if(!use.contains(s)) {
-						use.add(s);
+				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
+					if(p instanceof CallParamVarName) {
+						CallParamVarName a1 = (CallParamVarName) p;
+						if(!use.contains(a1.varName)) {
+							use.add(a1.varName);
+						}
+					}else if(p instanceof CallParamDouble) {
+						CallParamDouble a1 = (CallParamDouble) p;
+					}else if(p instanceof CallParamNum) {
+						CallParamNum a1 = (CallParamNum) p;
+					}else if(p instanceof CallParamChar) {
+						CallParamChar a1 = (CallParamChar) p;
+					}else if(p instanceof CallParamString) {
+						CallParamString a1 = (CallParamString) p;
+					}else if(p instanceof CallParamBoolean) {
+						CallParamBoolean a1 = (CallParamBoolean) p;
 					}
+
+
 					this.countUse++;
 				}
 			}
@@ -898,11 +940,11 @@ public class AllCUsesCoverage {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	private void getTestMethodCall( MyMethodBody mb) {
-		
+
 		for(Assignment a: mb.assiList) {
 			if(a.expr instanceof ReturnMethodCall) {
 				if(!this.returnMethodCall.contains(((ReturnMethodCall)a.expr).methodName)){
@@ -910,7 +952,7 @@ public class AllCUsesCoverage {
 				}
 			}
 		}
-		
+
 		for(IfStatement i1 : mb.ifStatList) {
 			if(i1.CondEvaluatedTo) {
 				getTestMethodCall( i1.ifBody);
@@ -918,11 +960,11 @@ public class AllCUsesCoverage {
 				getTestMethodCall( i1.elseBody);
 			}
 		}
-		
+
 		for(Loop lo : mb.loops) {
 			getTestMethodCall( lo.myMethodBodyList.get(0));
 		}
-		
+
 		for(MethodCall v: mb.methodCall) {
 			if(v instanceof VoidMethodCall) {
 				if(!this.voidMethodCall.contains(((VoidMethodCall)v).methodname)) {
