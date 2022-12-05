@@ -529,9 +529,9 @@ public class AllPUsesCoverage {
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
 			if(lo.iterationGoal == 0) {
-				result += getElseMethodBodyString(lo.loopbody, space);
+				result += getElseMethodBodyString(lo.body, space);
 			}else {
-				result += getMethodBodyString(lo.loopbody, space);
+				result += getMethodBodyString(lo.body, space);
 			}
 			result += space + "!<br>";
 		}
@@ -596,7 +596,7 @@ public class AllPUsesCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getElseMethodBodyString(lo.loopbody, space);
+			result += getElseMethodBodyString(lo.body, space);
 			result += space + "!<br>";
 		}
 
@@ -808,10 +808,10 @@ public class AllPUsesCoverage {
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
 			if(lo.iterationGoal == 0) {
-				result += getElseMethodBodyString(lo.loopbody, space);
+				result += getElseMethodBodyString(lo.body, space);
 
 			}else {
-				result += getResultBody(lo.loopbody, space, d);
+				result += getResultBody(lo.body, space, d);
 			}
 			result += space + "!<br>";
 		}
@@ -924,7 +924,7 @@ public class AllPUsesCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				getMethodVar(lo.loopbody, yes);
+				getMethodVar(lo.body, yes);
 			}
 		}
 
@@ -1034,7 +1034,7 @@ public class AllPUsesCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				getTestMethodCall( lo.loopbody);
+				getTestMethodCall( lo.body);
 			}
 		}
 
@@ -1312,7 +1312,7 @@ public class AllPUsesCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				for(String s: getMethodCallFromThisMethod( lo.loopbody, list)) {
+				for(String s: getMethodCallFromThisMethod( lo.body, list)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}
