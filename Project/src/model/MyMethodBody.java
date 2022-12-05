@@ -34,11 +34,9 @@ public class MyMethodBody{
 		vars.putAll(vars2);
 
 		for(Declaration d: declList) {
-			if(!vars.containsKey(d.varName)) {
-				vars.put(d.varName, d.defaultValue);
-			}
-
+			vars.put(d.varName, d.defaultValue);
 		}
+		
 		for(Assignment a : assiList) {
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -54,7 +52,7 @@ public class MyMethodBody{
 					vars.put(a.varName, ((Values)a.expr).getValues());
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName, vars));
 			}
 		}
 
@@ -87,11 +85,9 @@ public class MyMethodBody{
 		vars.putAll(vars2);
 
 		for(Declaration d: declList) {
-			if(!vars.containsKey(d.varName)) {
 				vars.put(d.varName, d.defaultValue);
-			}
-
 		}
+		
 		for(Assignment a : assiList) {
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -107,7 +103,7 @@ public class MyMethodBody{
 					vars.put(a.varName, ((Values)a.expr).getValues());
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName, vars));
 			}
 		}
 
@@ -122,17 +118,17 @@ public class MyMethodBody{
 			ifs.setCond(evaluated(ifs.cond, vars, parameter));
 
 			if(evaluated(ifs.cond, vars, parameter)) {
-				vars.putAll(ifBody.getList(vars2, parameter));
+				vars.putAll(ifBody.getList(vars, parameter));
 
 			}else {
-				vars.putAll(elseBody.getList(vars2, parameter));
+				vars.putAll(elseBody.getList(vars, parameter));
 
 			}
 		}
 
 		for(Loop lo: loops) {
 			for(MyMethodBody mb: lo.loopbody) {
-				vars.putAll(mb.getList(vars2, parameter));
+				vars.putAll(mb.getList(vars, parameter));
 			}
 		}
 		
@@ -203,7 +199,9 @@ public class MyMethodBody{
 //
 //	}
 	
-	private Values callExpr(ReturnMethodCall r, String varName) {
+	private Values callExpr(ReturnMethodCall r, String varName, Map<String, Values> vars2) {
+		vars.putAll(vars2);
+		
 		for(MyMethods m : this.global_mymethods) {
 			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
 				boolean noerror = true;
@@ -328,7 +326,7 @@ public class MyMethodBody{
 			double left = getDouble(a.math1, parameter);
 			double right = getDouble(a.math2, parameter);
 			if(right == 0) {
-				semanticErrors.add("Error: cannot divide by 0");
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
 			}else {
 				result = left / right;
 			}
@@ -373,7 +371,7 @@ public class MyMethodBody{
 			int left = getInt(a.math1, parameter);
 			int right = getInt(a.math2, parameter);
 			if(right == 0) {
-				semanticErrors.add("Error: cannot divide by 0");
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
 			}else {
 				result = left / right;
 			}
