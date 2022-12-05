@@ -770,7 +770,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 						if(p instanceof CallParamVarName) {
 							CallParamVarName a = (CallParamVarName) p;
-							lists.put("" + num, this.local_variableMap.get(a.varName));
+							if(this.local_variableMap.containsKey(a.varName)) {
+								lists.put("" + num, this.local_variableMap.get(a.varName));
+							}else {
+								semanticErrors.add("Error [Line " + r.line + "] : " + a.varName + " is not declared");
+							}
 						}else if(p instanceof CallParamDouble) {
 							CallParamDouble a = (CallParamDouble) p;
 							lists.put("" + num, new ValueDouble(a.input));		
@@ -817,7 +821,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					////								}
 					////							}
 					////						}
-					return ((MyReturnMethod)m.methodType).getValue(lists);
+					Values v = ((MyReturnMethod)m.methodType).getValue(lists);
+					return v;
 					//					}
 				}
 			}
