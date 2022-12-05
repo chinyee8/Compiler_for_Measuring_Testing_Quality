@@ -7,7 +7,7 @@ game Mathclass !
         
         num <- a
         
-        loop(1000) !
+        loop(10000) !
     		jackieAsks[num == 0] !
     			re <- TRUE
     		!
@@ -34,7 +34,7 @@ game Mathclass !
     	re << BOOLEAN
         count << INT
                 
-        loop(1000) !
+        loop(10000) !
     		jackieAsks[num == 0] !
     			re <- TRUE
     		!
@@ -56,5 +56,36 @@ game Mathclass !
     	        
         jackieReturns re
     !
+    
+    mymethod IS_PRIME BOOLEAN[INT num] !
+    	re << BOOLEAN
+    	count << INT
+    	temp << BOOLEAN
+    	
+    	count <- 1
+    	re <- TRUE
+    	loop(10000) !
+    	    count <- count + 1
+    		jackieAsks[count < num ] !
+    		
+    			temp <- MOD_K[num,count]
+    			jackieAsks [temp] !
+    				re <- FALSE
+    			!
+    			elseJackie !
+    			
+    			! 	
+    			
+    			
+    		!
+    		elseJackie !
+    		
+    		!
+    	!
+    	jackieReturns re
+    	
+    !
+    
+    
 									   
 !
