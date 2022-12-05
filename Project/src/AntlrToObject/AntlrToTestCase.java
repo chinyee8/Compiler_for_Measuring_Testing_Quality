@@ -47,11 +47,13 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	List<Declaration> decl = new ArrayList<>();
 	List<Assignment> assi = new ArrayList<>();
 	List<TestMethodCall> t_method_call = new ArrayList<>();
-	public HashMap<String, Values> testVarMap = new HashMap<>();
+	public Map<String, Values> testVarMap = new LinkedHashMap<>();
 	public Map<MethodCall, Map<String, Values>> allMethodCalls = new HashMap<>();
 	public Map<MethodCall, List<String>> methodMappedToOrderParameter = new HashMap<>();
 	public List<Program> progReturn;
 	public List<MethodCall> testKey = new LinkedList<>();
+	public Map< Integer,String> assignedTo = new LinkedHashMap<>();
+	public Map< Integer,Values> assignedValues = new LinkedHashMap<>();
 
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
 		this.semanticErrors = semanticError;
@@ -270,6 +272,8 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 				}
 				this.testKey.add(((ReturnMethodCall)assi.get(i).expr));
 				this.testVarMap.put(assi.get(i).varName, getTestValue((ReturnMethodCall)assi.get(i).expr, progAST, global_methods2, callInputs, check, methodCallParamOrder2));
+				this.assignedTo.put(assi.get(i).line, assi.get(i).varName);
+				this.assignedValues.put(assi.get(i).line, this.testVarMap.get(assi.get(i).varName));
 			}
 		}
 
@@ -325,5 +329,17 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 	public List<MethodCall> getTestKey(){
 		return this.testKey;
+	}
+	
+	public Map<String, Values> getTestVarMap(){
+		return this.testVarMap;
+	}
+	
+	public Map<Integer, String> getAssignedTo(){
+		return this.assignedTo;
+	}
+	
+	public Map<Integer, Values> getAssignedValues(){
+		return this.assignedValues;
 	}
 }
