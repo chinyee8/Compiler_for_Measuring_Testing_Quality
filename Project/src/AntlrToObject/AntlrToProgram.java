@@ -41,6 +41,9 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public Values testValue;
 	public List<Program> progReturn = new LinkedList<>();
 	public List<MethodCall> testKey = new LinkedList<>();
+	public Map<String, Values> testVarMap = new LinkedHashMap<String, Values>();
+	public Map< Integer,String> assignedTo = new LinkedHashMap<>();
+	public Map< Integer,Values> assignedValues = new LinkedHashMap<>();
 
 	// Condition Coverage member variable
 	public ConditionCoverage condCov;
@@ -161,6 +164,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		prog.addTestCase(tVisitor.testcontrol((TestCaseContext)ctx.getChild(0), progAST, global_methods2, check, methodCallParamOrder2));
 		this.progReturn = tVisitor.getProgReturn();
 		this.testKey = tVisitor.getTestKey();
+		this.assignedTo = tVisitor.getAssignedTo();
+		this.assignedValues = tVisitor.getAssignedValues();
 		return prog;
 	}
 	
