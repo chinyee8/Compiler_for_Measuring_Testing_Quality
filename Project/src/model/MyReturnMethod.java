@@ -8,25 +8,28 @@ public class MyReturnMethod extends MethodType {
 	public MyMethodBody method_body;
 	public String varName;
 	public Values returnValue;
+	public int jackieReturnLine;
 	
 	public MyReturnMethod(String dataType,
 			Parameter parameter,
 			MyMethodBody method_body,
-			String varName) {
+			String varName, int line) {
 		this.dataType = dataType;
 		this.parameter = parameter;
 		this.method_body = method_body;
 		this.varName = varName;
+		this.jackieReturnLine = line;
 	}
 	public MyReturnMethod(String dataType,
 			Parameter parameter,
 			MyMethodBody method_body,
-			String varName, Values returnValue) {
+			String varName, Values returnValue, int line) {
 		this.dataType = dataType;
 		this.parameter = parameter;
 		this.method_body = method_body;
 		this.varName = varName;
 		this.returnValue = returnValue;
+		this.jackieReturnLine = line;
 	}
 	@Override
 	public String toString() {
