@@ -212,7 +212,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 
 		//		}
 
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops, semanticErrors);
 
 	}
 
@@ -271,7 +271,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
 		this.loops = loops;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops, semanticErrors);
 	}
 
 	public MyMethodBody defControl(MyMethodBodyContext ctx) {
@@ -317,7 +317,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
 		this.loops = loops;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops, semanticErrors);
 	}
 
 	// Condition Coverage
