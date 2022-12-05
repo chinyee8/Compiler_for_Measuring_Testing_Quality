@@ -172,7 +172,8 @@ public class AllDefCoverage {
 			}else {
 				percent = ((int)((countUseTotal / (double) countDefTotal)*100));
 			}
-			tmp.add("<h3>Percentage => "+ percent + "%</h3>");			tmp.add("<ul>");
+			tmp.add("<h3>Percentage = "+ percent + "%</h3>");			
+			tmp.add("<ul>");
 			for(String s: totaldef) {
 				tmp.add("<li id=\"" + s + "\" onclick=\"" + s + "()\"><p class=\"varList\">" + s + "</p></li>");
 			}
@@ -187,7 +188,7 @@ public class AllDefCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "ans\" hidden>" 
-						+ "<div class=\""+ d +"column\">" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"column\">All-Defs Coverage" +getResultString(p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"column\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"subcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"subcolumn\">" + "<br>" + note + "</div>"
@@ -958,7 +959,7 @@ public class AllDefCoverage {
 
 
 		for(Loop lo : mb.loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
+			if(lo.iterationGoal != 0) {
 				getMethodVar(lo.loopbody, yes);
 			}
 		}
