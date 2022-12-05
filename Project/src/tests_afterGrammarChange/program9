@@ -29,5 +29,32 @@ game Mathclass !
     	        
         jackieReturns re
     !
+    
+    mymethod MOD_K BOOLEAN[INT num, INT k]!
+    	re << BOOLEAN
+        count << INT
+                
+        loop(1000) !
+    		jackieAsks[num == 0] !
+    			re <- TRUE
+    		!
+    		elseJackie !
+    			jackieAsks[num == 1] !
+    				re <- FALSE
+	    		!
+	    		elseJackie !
+	    			jackieAsks[num > 0 ] !
+    					num <- num - k
+		    		!
+		    		elseJackie !
+		    			
+		    		!	
+	    			
+	    		!	
+    		!
+    	!
+    	        
+        jackieReturns re
+    !
 									   
 !
