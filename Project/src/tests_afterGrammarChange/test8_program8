@@ -1,0 +1,42 @@
+test test_Aclass !
+	re0 << STRING
+	re1 << STRING
+	re2 << STRING
+	re3 << STRING
+	re4 << STRING
+	re5 << STRING
+	re6 << STRING
+	re7 << STRING
+	re8 << STRING
+	re9 << STRING
+	re10 << STRING
+	re11 << STRING
+	re12 << STRING
+	
+	red << DOUBLE
+	rei << INT
+	res << STRING
+	ress << STRING
+	
+	re0 <- CHECKER[0] 
+	re1 <- CHECKER[1]
+	re2 <- CHECKER[2]
+	re3 <- CHECKER[3]
+	re4 <- CHECKER[4]
+	re5 <- CHECKER[5]
+	re6 <- CHECKER[6]
+	re7 <- CHECKER[7]
+	re8 <- CHECKER[8]
+	re9 <- CHECKER[9]
+	re10 <- CHECKER[10]
+	re11 <- CHECKER[11]
+	re12 <- CHECKER[-1]
+	
+	red <- FACTORIAL[3.00]
+	rei <- FACT[3]
+	res <- CHECKER[rei]
+	ress <- FACT_TO_STRING[3]
+	
+	
+	
+!

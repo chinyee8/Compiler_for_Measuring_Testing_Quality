@@ -180,7 +180,6 @@ game Firstclass !
 					re <- re + temp
 				!
 			!
-			
 		!
 		elseJackie !
 			loop(3) !

@@ -1,0 +1,157 @@
+game Aclass !
+
+									
+    mymethod CHECKER STRING [INT num] !
+    	re << STRING
+
+    	
+    	jackieAsks[ num == 0]!
+    		re <- "ZERO"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 1]!
+    		re <- "ONE"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 2]!
+    		re <- "TWO"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 3]!
+    		re <- "THREE"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 4]!
+    		re <- "FOUR"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 5]!
+    		re <- "FIVE"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 6]!
+    		re <- "SIX"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 7]!
+    		re <- "SEVEN"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 8]!
+    		re <- "EIGHT"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 9]!
+    		re <- "NINE"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num == 10]!
+    		re <- "TEN"
+    	!
+    	elseJackie !
+    	!
+    	
+    	jackieAsks[ num > 10 || num < 0]!
+    		re <- "I dont know"
+    	!
+    	elseJackie !
+    	!
+    	
+    	
+    	jackieReturns re
+        
+    !    
+    
+    mymethod FINDER INT[INT num]!
+    	count << INT
+    	re << STRING
+    	sum << INT
+    	
+    	loop (1000) !
+    		count<- count + 1
+    		jackieAsks[count < num] !
+    			re <- CHECKER[num]
+    			sum <- sum + count		
+    		!
+    		elseJackie!
+    		!
+    	!
+    	jackieReturns sum
+    !
+    
+    mymethod FACTORIAL DOUBLE[DOUBLE num] !
+    	re << DOUBLE
+    	count << DOUBLE
+    	
+    	re <- 1.00
+    	
+    	loop(1000) !
+    		count <- 1.00 + count
+    		jackieAsks[count <= num] !
+    			re <- re * count		
+    		!
+    		elseJackie !
+    		!
+    	!
+    	jackieReturns re
+    !
+    
+    mymethod FACT INT[INT num] !
+    	re << INT
+    	count << INT
+    	re <- 1
+    	
+    	loop(1000) !
+    		count <- count + 1
+    		jackieAsks[count <= num] !
+    			re <- re * count		
+    		!
+    		elseJackie !
+    		!
+    	!
+    	jackieReturns re
+    !
+    
+    mymethod FACT_TO_STRING STRING[INT num] !
+    	re << INT
+    	count << INT
+    	res << STRING
+    	loop(1000) !
+    		count <- count + 1
+    		jackieAsks[count <= num] !
+    			re <- re * count		
+    		!
+    		elseJackie !
+    		   res <- CHECKER[re]
+    		
+    		!
+    		
+    	!
+    	
+    	jackieReturns res
+    	
+    !
+    
+    
+     
+!
