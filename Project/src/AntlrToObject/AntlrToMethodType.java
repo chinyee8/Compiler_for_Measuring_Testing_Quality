@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import Operations.ConditionCoverage;
@@ -77,8 +78,10 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		MyMethodBody method_body = method_bodyVisitor.visit(ctx.method_body());
 		
 		String varName = ctx.VAR_NAME().getText();
+		Token token = ctx.VAR_NAME().getSymbol();
+		int line = token.getLine();
 		
-		return new MyReturnMethod(dataType, parameter, method_body, varName);
+		return new MyReturnMethod(dataType, parameter, method_body, varName, line);
 	}
 	
 	@Override
@@ -136,7 +139,10 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		String varName = ctx.VAR_NAME().getText(); //return variable
 		Values returnValue = this.variableMap.get(varName);
 		this.returnValue = returnValue;
-		return new MyReturnMethod(dataType, arguments, method_body, varName, this.returnValue);
+		Token token = ctx.VAR_NAME().getSymbol();
+		int line = token.getLine();
+		
+		return new MyReturnMethod(dataType, arguments, method_body, varName, this.returnValue, line);
 		}
 
 	public HashMap<String, Values> transform(Parameter argument){ //transform call parameters into method arguments
@@ -183,8 +189,10 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		MyMethodBody method_body = method_bodyVisitor.defControl((MyMethodBodyContext)ctx.method_body());
 		
 		String varName = ctx.VAR_NAME().getText();
+		Token token = ctx.VAR_NAME().getSymbol();
+		int line = token.getLine();
 		
-		return new MyReturnMethod(dataType, parameter, method_body, varName);
+		return new MyReturnMethod(dataType, parameter, method_body, varName, line);
 	}
 
 	public MyVoidMethod defControlV(MyVoidMethodContext ctx) {

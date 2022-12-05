@@ -8,6 +8,8 @@ game Mathclass !
         tester3 << INT
         flag << BOOLEAN
         loresult << INT
+        dd << DOUBLE
+        dd <- 0.00
         
         tester1 <- 1 + 2
         tester2 <- 2 + tester1
@@ -25,6 +27,7 @@ game Mathclass !
         !
         
         loop (5) !
+		# variable scoping
         	temp << INT
         	jackieAsks[1 < 2] !
         		temp <- temp + 1

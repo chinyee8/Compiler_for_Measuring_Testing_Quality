@@ -14,11 +14,12 @@ public class MyMethodBody{
 	public List<Loop> loops;
 	List<MyMethods> global_mymethods;
 	private Map<String, Values> vars;
+	public List<String> semanticErrors;
 
 	public MyMethodBody(List<Declaration> declList,
 			List<Assignment> assiList,
 			List<IfStatement> ifStatList,
-			List<MethodCall> methodcall2, List<MyMethods> global_mymethods, List<Loop> loops) {
+			List<MethodCall> methodcall2, List<MyMethods> global_mymethods, List<Loop> loops, List<String> semanticErrors) {
 		this.declList = declList;
 		this.assiList = assiList;
 		this.ifStatList = ifStatList;
@@ -26,17 +27,16 @@ public class MyMethodBody{
 		this.global_mymethods = global_mymethods;
 		this.vars = new HashMap<>();
 		this.loops = loops;
+		this.semanticErrors = semanticErrors;
 	}
 
 	public void getDeclaredList(Map<String, Values> vars2, Parameter parameter) {
 		vars.putAll(vars2);
 
 		for(Declaration d: declList) {
-			if(!vars.containsKey(d.varName)) {
-				vars.put(d.varName, d.defaultValue);
-			}
-
+			vars.put(d.varName, d.defaultValue);
 		}
+		
 		for(Assignment a : assiList) {
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -52,7 +52,7 @@ public class MyMethodBody{
 					vars.put(a.varName, ((Values)a.expr).getValues());
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName, vars));
 			}
 		}
 
@@ -74,8 +74,8 @@ public class MyMethodBody{
 		}
 
 		for(Loop lo: loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
-				vars.putAll(lo.loopbody.getList(vars2, parameter));
+			for(MyMethodBody mb : lo.loopbody) {
+				vars.putAll(mb.getList(vars2, parameter));
 				
 			}
 		}
@@ -85,11 +85,9 @@ public class MyMethodBody{
 		vars.putAll(vars2);
 
 		for(Declaration d: declList) {
-			if(!vars.containsKey(d.varName)) {
 				vars.put(d.varName, d.defaultValue);
-			}
-
 		}
+		
 		for(Assignment a : assiList) {
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
@@ -105,7 +103,7 @@ public class MyMethodBody{
 					vars.put(a.varName, ((Values)a.expr).getValues());
 				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
+				vars.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName, vars));
 			}
 		}
 
@@ -120,17 +118,17 @@ public class MyMethodBody{
 			ifs.setCond(evaluated(ifs.cond, vars, parameter));
 
 			if(evaluated(ifs.cond, vars, parameter)) {
-				vars.putAll(ifBody.getList(vars2, parameter));
+				vars.putAll(ifBody.getList(vars, parameter));
 
 			}else {
-				vars.putAll(elseBody.getList(vars2, parameter));
+				vars.putAll(elseBody.getList(vars, parameter));
 
 			}
 		}
 
 		for(Loop lo: loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
-				vars.putAll(lo.loopbody.getList(vars2, parameter));
+			for(MyMethodBody mb: lo.loopbody) {
+				vars.putAll(mb.getList(vars, parameter));
 			}
 		}
 		
@@ -178,20 +176,71 @@ public class MyMethodBody{
 		return this.vars;
 	}
 
-	private Values callExpr(ReturnMethodCall r, String varName) {
+//	private Values callExpr(ReturnMethodCall r, String varName) {
+//		for(MyMethods m : this.global_mymethods) {
+//			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
+//				boolean noerror = true;
+//				List<String> RHSparams = r.call_parameter.getCallParams();
+//				Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+//				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
+//					Map<String, Values> lists = new LinkedHashMap<>();
+//					for(String s: RHSparams) {
+//						lists.put(s, this.vars.get(s));
+//					}
+//
+//						((MyReturnMethod)m.methodType).method_body.getValues(((MyReturnMethod)m.methodType).parameter, lists);
+//					
+//				}
+//			}
+//
+//		}
+//
+//		return vars.get(varName);
+//
+//	}
+	
+	private Values callExpr(ReturnMethodCall r, String varName, Map<String, Values> vars2) {
+		vars.putAll(vars2);
+		
 		for(MyMethods m : this.global_mymethods) {
 			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
 				boolean noerror = true;
-				List<String> RHSparams = r.call_parameter.getCallParams();
+				List<Input_List> RHSparams = r.call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
-					Map<String, Values> lists = new LinkedHashMap<>();
-					for(String s: RHSparams) {
-						lists.put(s, this.vars.get(s));
-					}
 
-						((MyReturnMethod)m.methodType).method_body.getValues(((MyReturnMethod)m.methodType).parameter, lists);
-					
+					Map<String, Values> lists = new LinkedHashMap<>();
+					int num = 0;
+					for(Input_List p: RHSparams) {
+
+						if(p instanceof CallParamVarName) {
+							CallParamVarName a = (CallParamVarName) p;
+							if(vars.containsKey(a.varName)) {
+								lists.put("" + num, vars.get(a.varName));
+							}else {
+								semanticErrors.add("Error [Line " + r.line + "] : " + a.varName + " is not declared");
+							}
+						}else if(p instanceof CallParamDouble) {
+							CallParamDouble a = (CallParamDouble) p;
+							lists.put("" + num, new ValueDouble(a.input));		
+						}else if(p instanceof CallParamNum) {
+							CallParamNum a = (CallParamNum) p;
+							lists.put("" + num, new ValueNum(a.num));		
+						}else if(p instanceof CallParamChar) {
+							CallParamChar a = (CallParamChar) p;
+							lists.put("" + num, new ValueChar(a.input));		
+						}else if(p instanceof CallParamString) {
+							CallParamString a = (CallParamString) p;
+							lists.put("" + num, new ValueString(a.input));		
+						}else if(p instanceof CallParamBoolean) {
+							CallParamBoolean a = (CallParamBoolean) p;
+							lists.put("" + num, new ValueBool(a.input));		
+						}
+						num++;
+					}
+				
+					Values v = ((MyReturnMethod)m.methodType).getValue(lists);
+					return v;
 				}
 			}
 
@@ -200,6 +249,7 @@ public class MyMethodBody{
 		return vars.get(varName);
 
 	}
+
 
 	private String getMATHTYPE(Mathematics m) {
 		String result = "";
@@ -275,7 +325,11 @@ public class MyMethodBody{
 			Division a = (Division) m;
 			double left = getDouble(a.math1, parameter);
 			double right = getDouble(a.math2, parameter);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getDouble(a.math, parameter);
@@ -316,7 +370,11 @@ public class MyMethodBody{
 			Division a = (Division) m;
 			int left = getInt(a.math1, parameter);
 			int right = getInt(a.math2, parameter);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getInt(a.math, parameter);

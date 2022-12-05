@@ -48,14 +48,14 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public HashMap<String, Values> variableMap;
 	public List<MyMethods> global_mymethods;
 	public HashMap<String, Values> local_methodVar;
-	
+
 	//DefCoverage
 	public Map<String, String> def;
 	public MethodCall t_method_call;
 	public Map<String, Values> inputValues;
 	public List<String> lines;
 	public int totalNotUsed;
-	
+
 	// Condition Coverage
 	public ConditionCoverage condCov;
 
@@ -65,7 +65,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		this.global_mymethods = global_mymethods;
 		this.local_methodVar = local_methodVar;
 	}
-	
+
 	//defCoverage
 	public AntlrToIfStatement(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, HashMap<String, Values> local_methodVar) {
 		this.semanticErrors = semanticError;
@@ -85,13 +85,14 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		this.local_methodVar = local_methodVar;
 		this.condCov = condCov;
 	}
-	
+
 	// Condition Coverage
 	public void visitConditionCoverage(IfStatementContext ctx) {
 		AntlrToCondition ifCondVisitor = new AntlrToCondition(semanticErrors, this.variableMap, condCov);
 		String strIfStatement = ctx.getChild(0).getText() + ctx.getChild(1).getText() + ctx.getChild(2).getText() + ctx.getChild(3).getText();
+
 		condCov.setIfStatString(condCov.getCurMethod() + "." + strIfStatement);
-		
+
 		ifCondVisitor.visit(ctx.cond());
 		if (!condCov.isComponentState() && condCov.isCalledMethod()) {
 			condCov.addResult();
@@ -101,7 +102,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		ifBodyVisitor.visitConditionCoverage((MyMethodBodyContext) ctx.getChild(9)); // inside else body
 
 	}
-	
+
 	@Override
 	public IfStatement visitIfStatement(IfStatementContext ctx) {
 		Token token = ctx.start;
@@ -118,7 +119,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 
 	}
 
-	
+
 	public IfStatement control(IfStatementContext ctx) {
 		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
 		Condition cond = condVisitor.visit(ctx.cond());
@@ -128,7 +129,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 
-		
+
 		IfStatement temp = new IfStatement(cond,ifBody,elseBody, semanticErrors, 0);
 		boolean ifEvaluator = evaluated(cond, variableMap);
 		if(ifEvaluator) {
@@ -159,7 +160,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 
 		return new IfStatement(cond,ifBody,elseBody, semanticErrors, 0);
 	}
-	
+
 	private double getMATHDOUBLE(Mathematics m) {
 		double result = 0.00;
 		if(m instanceof Addition) {
@@ -225,9 +226,8 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 			int left = getMathINT(a.math1);
 			int right = getMathINT(a.math2);
 			if(right == 0) {
-				if(!semanticErrors.contains("Error: undefined. Cannot divide by 0")) {
-					semanticErrors.add("Error: undefined. Cannot divide by 0");
-				}
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+
 			}else {
 				result = left / right;
 			}
@@ -544,5 +544,5 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		return result;
 	}
 
-	
+
 }

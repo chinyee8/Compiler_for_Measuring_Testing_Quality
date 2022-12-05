@@ -1,10 +1,14 @@
 package model;
 
+import java.util.List;
+
 public class ValueMath extends Values {
 	public Mathematics math;
+	public List<String> semanticErrors;
 	
-	public ValueMath(Mathematics math) {
+	public ValueMath(Mathematics math, List<String> semanticErrors) {
 		this.math = math;
+		this.semanticErrors = semanticErrors;
 	}
 	
 	@Override
@@ -45,7 +49,11 @@ public class ValueMath extends Values {
 			Division a = (Division) m;
 			double left = getDouble(a.math1);
 			double right = getDouble(a.math2);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+			}else {
+				result = left / right;	
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getDouble(a.math);
@@ -84,7 +92,11 @@ public class ValueMath extends Values {
 			Division a = (Division) m;
 			int left = getInt(a.math1);
 			int right = getInt(a.math2);
-			result = left / right;
+			if(right == 0) {
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
 		}else if(m instanceof MathParenthesis) {
 			MathParenthesis a = (MathParenthesis) m;
 			result = getInt(a.math);

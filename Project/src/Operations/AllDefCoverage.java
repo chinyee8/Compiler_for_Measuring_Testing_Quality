@@ -188,7 +188,7 @@ public class AllDefCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "ans\" hidden>" 
-						+ "<div class=\""+ d +"column\">All-Defs Coverage" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"column\"><u class=\"topic\">All-Defs Coverage</u><br><br>" +getResultString(p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"column\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"subcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"subcolumn\">" + "<br>" + note + "</div>"
@@ -511,9 +511,9 @@ public class AllDefCoverage {
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
 			if(lo.iterationGoal == 0) {
-				result += getElseMethodBodyString(lo.loopbody, space);
+				result += getElseMethodBodyString(lo.body, space);
 			}else {
-				result += getMethodBodyString(lo.loopbody, space);
+				result += getMethodBodyString(lo.body, space);
 			}
 			result += space + "!<br>";
 		}
@@ -578,7 +578,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getElseMethodBodyString(lo.loopbody, space);
+			result += getElseMethodBodyString(lo.body, space);
 			result += space + "!<br>";
 		}
 
@@ -796,9 +796,9 @@ public class AllDefCoverage {
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
 			if(lo.iterationGoal == 0) {
-				result += getElseMethodBodyString(lo.loopbody, space);
+				result += getElseMethodBodyString(lo.body, space);
 			}else {
-				result += getResultBody(lo.loopbody, space, d);
+				result += getResultBody(lo.body, space, d);
 			}
 			result += space + "!<br>";
 		}
@@ -960,7 +960,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				getMethodVar(lo.loopbody, yes);
+				getMethodVar(lo.body, yes);
 			}
 		}
 
@@ -1000,7 +1000,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				getTestMethodCall( lo.loopbody);
+				getTestMethodCall( lo.body);
 			}
 		}
 
@@ -1269,7 +1269,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				for(String s: getMethodCallFromThisMethod( lo.loopbody, list)) {
+				for(String s: getMethodCallFromThisMethod( lo.body, list)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}

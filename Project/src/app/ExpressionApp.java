@@ -130,12 +130,17 @@ public class ExpressionApp {
 							}
 							if(testV.semanticErrors.size()>0) {
 								containErrors = true;
-								errors.addAll(testV.semanticErrors);
+								for(String e : testV.semanticErrors) {
+									if(!errors.contains(e)) {
+										errors.add(e);
+									}
+								}
 							}
 							i++;
 						}
 
 						if(containErrors) {
+							
 							for(String err: errors) {
 								System.out.println(err);
 							}
@@ -170,12 +175,23 @@ public class ExpressionApp {
 
 				}
 				else {
-					for(String err: progVisitor.semanticErrors) {
+					List<String> errors = new ArrayList<>();
+					for(String e : progVisitor.semanticErrors) {
+						if(!errors.contains(e)) {
+							errors.add(e);
+						}
+					}
+					
+					for(String e : testVisitor.semanticErrors) {
+						if(!errors.contains(e)) {
+							errors.add(e);
+						}
+					}
+					
+					for(String err: errors) {
 						System.out.println(err);
 					}
-					for(String err: testVisitor.semanticErrors) {
-						System.out.println(err);
-					}
+					
 				}	
 
 

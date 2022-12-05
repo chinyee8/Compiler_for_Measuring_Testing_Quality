@@ -92,6 +92,7 @@ value: DOUBLE 		#ValueDouble
 	 | CHAR 		#ValueChar
 	 | BOOL 		#ValueBool
 	 | math			#ValueMath
+	 | cond			#ValueBool
 	 ;		 
 //Mathematics
 math:'(' math ')'        #MathParenthesis 

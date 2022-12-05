@@ -16,7 +16,7 @@ game Aclass !
 	
 	mymethod CALLIII INT[INT num1] !
 		re << INT 
-		re <- CALLII[num1] 
+		re <- CALLII[num1] 	
 		
 		jackieReturns re
 	!

@@ -1,0 +1,48 @@
+test test_Aclass !
+	bo1 << BOOLEAN
+	bo2 << BOOLEAN
+	bo3 << BOOLEAN
+	bo4 << BOOLEAN
+	bo5 << BOOLEAN
+	bo6 << BOOLEAN
+	
+	boo2 << BOOLEAN
+	boo3 << BOOLEAN
+	boo4 << BOOLEAN
+	
+	prime2 << BOOLEAN
+	prime3 << BOOLEAN
+	prime4 << BOOLEAN
+	prime5 << BOOLEAN
+	prime6 << BOOLEAN
+	prime7 << BOOLEAN
+	prime8 << BOOLEAN
+	prime9 << BOOLEAN
+	prime10 << BOOLEAN
+	primenum << INT
+	
+
+	
+	bo6 <- MOD_K[15,5]
+	bo5 <- MOD_K[15,4]
+	
+	boo2 <- MOD_K[5,2]
+	boo3 <- MOD_K[5,3]
+	boo4 <- MOD_K[5,4]
+	
+	prime2 <- IS_PRIME[2]
+	prime3 <- IS_PRIME[3]
+	prime4 <- IS_PRIME[4]
+	prime5 <- IS_PRIME[5]
+	prime6 <- IS_PRIME[6]
+	prime7 <- IS_PRIME[7]
+	prime8 <- IS_PRIME[8]
+	prime9 <- IS_PRIME[9]
+	prime10 <- IS_PRIME[10]
+	
+	
+	
+	primenum <- COUNT_PRIME[10]
+
+
+!

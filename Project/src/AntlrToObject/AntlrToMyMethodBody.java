@@ -216,7 +216,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 
 		//		}
 
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops, semanticErrors);
 
 	}
 
@@ -265,7 +265,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i))); //add void methodcalls into list of methodcall
 			}
 			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
-				Loop lo = loopVisitor.control((Deterministic_LoopContext) ctx.getChild(i));
+				Loop lo = loopVisitor.visit( ctx.getChild(i));
 				loops.add(lo);
 			}
 		}
@@ -275,7 +275,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
 		this.loops = loops;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops, semanticErrors);
 	}
 
 	public MyMethodBody defControl(MyMethodBodyContext ctx) {
@@ -311,7 +311,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}
 			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
-				Loop lo = loopVisitor.control((Deterministic_LoopContext) ctx.getChild(i));
+				Loop lo = loopVisitor.visit(ctx.getChild(i));
 				loops.add(lo);
 			}
 		}
@@ -321,7 +321,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
 		this.loops = loops;
-		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops);
+		return new MyMethodBody(decl, assi, ifstatement, methodcall, global_mymethods, loops, semanticErrors);
 	}
 
 	// Condition Coverage

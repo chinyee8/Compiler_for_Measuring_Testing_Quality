@@ -1,5 +1,5 @@
-game Aclass !
 	
+game Aclass !
 	mymethod DIGIT_CHECKER INT [INT num] !
 	
 		re << INT
