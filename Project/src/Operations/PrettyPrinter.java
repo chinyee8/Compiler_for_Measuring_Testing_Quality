@@ -66,10 +66,10 @@ public class PrettyPrinter{
 		result += "<style>\n";
 		
 		result += "h1{"
-				+ "font-size: 2.5rem;"
+				+ "font-size: 3rem;"
 				+ "font-family: Times;"
 				+ " font-weight: bold;"
-//				+ " text-align: center;"
+				+ " text-align: center;"
 				+ " }";
 		
 		result += ".result{"
@@ -164,10 +164,10 @@ public class PrettyPrinter{
 		result += "<style>\n";
 		
 		result += "h1{"
-				+ "font-size: 2.5rem;"
+				+ "font-size: 3rem;"
 				+ "font-family: Times;"
 				+ " font-weight: bold;"
-//				+ " text-align: center;"
+				+ " text-align: center;"
 				+ " }";
 
 		result += "p{\n"
@@ -194,6 +194,10 @@ public class PrettyPrinter{
 				+ " font-size: 1.2rem;"
 				+ "}";
 		
+		result += ".navbar{"
+				+ " text-align: center;"
+				+ "}";
+		
 		result += this.defCSS(i);
 		
 		result += "</style>\n";
@@ -211,13 +215,16 @@ public class PrettyPrinter{
 
 		//html
 		result += "<h1>Game Class</h1>";
-		result += "<h3>Click button below for coverage 	&darr;</h3>";
+		result += "<h3 style=\"text-align: center;\">Click button below for coverage 	&darr;</h3>";
+		
+		result += "<div class=\"navbar\">";
 		result += "<a href=\"index.html\"><button>&larr; TestCase </button></a>\n";
-		result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
-		result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
-		result += "<button onclick=\"allDef()\"> All-Defs Coverage </button>\n";
-		result += "<button onclick=\"allCUse()\"> All-C-Uses Coverage </button>\n";
-		result += "<button onclick=\"allPUse()\"> All-P-Uses Coverage </button>\n";
+			result += "<button onclick=\"statement()\"> Statement Coverage </button>\n";
+			result += "<button onclick=\"condition()\"> Condition Coverage </button>\n";
+			result += "<button onclick=\"allDef()\"> All-Defs Coverage </button>\n";
+			result += "<button onclick=\"allCUse()\"> All-C-Uses Coverage </button>\n";
+			result += "<button onclick=\"allPUse()\"> All-P-Uses Coverage </button>\n";
+		result += "</div>";
 
 		result += "<br><br>";
 
