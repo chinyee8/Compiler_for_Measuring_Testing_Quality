@@ -165,7 +165,7 @@ public class Statement {
 			String note = "<div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;statement coverage" + "</div>";
 			for(String s: mc) {
 				list.add("<div id=\""+s+"sans\" hidden>"
-						+ "<div class=\""+s+"scolumn\">"
+						+ "<div class=\""+s+"scolumn\"><u class=\"topic\">Statement Coverage</u><br><br>"
 						+ this.resultString.get(i)
 						+ "</div>"					
 						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>"  + "<div id=\"statementpercentagenote\"><div id=\"statementpercentagenotecolumn\">" +percentage +  "</div><div id=\"statementpercentagenotecolumn\"><br>" + note +"</div></div>" + "<br>"
@@ -464,8 +464,7 @@ public class Statement {
 			if(lo.iterationGoal == 0) {
 				result += NotCovered(lo.body, space);
 			}else {
-				for(MyMethodBody mb: lo.loopbody)
-				result += Covered(mb, space);
+				result += Covered(lo.body, space);
 			}
 			result += space + "!<br>";
 		}
