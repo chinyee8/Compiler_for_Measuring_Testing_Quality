@@ -168,7 +168,7 @@ public class AllCUsesCoverage {
 			}else {
 				percent = ((int)((countUseTotal / (double) countDefTotal)*100));
 			}
-			tmp.add("<h3>Percentage => "+ percent + "%</h3>");
+			tmp.add("<h3>Percentage = "+ percent + "%</h3>");
 			tmp.add("<ul>");
 			for(String s: totaldef) {
 				tmp.add("<li id=\"" + s + "c\" onclick=\"" + s + "c()\"><p class=\"varList\">" + s + "</p></li>");
@@ -184,7 +184,7 @@ public class AllCUsesCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> "+ "<br><u class=\"paragraph_underline\"> &emsp; </u> &emsp;underline => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "cans\" hidden>" 
-						+ "<div class=\""+ d +"ccolumn\">" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"ccolumn\">All-C-Uses Coverage" +getResultString(p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"ccolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"csubcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"csubcolumn\">" + "<br>" + note + "</div>"
@@ -462,8 +462,28 @@ public class AllCUsesCoverage {
 		String result = "";
 		space = space + "&emsp;&emsp;";
 
-		for(Declaration d: mm.declList) {
-			result += space + d.toString() + "<br>";
+		List<String> assignmentvar = new ArrayList<>();
+		for(Assignment a: mm.assiList) {
+			if(!assignmentvar.contains(a.varName)) {
+				assignmentvar.add(a.varName);
+			}
+		}
+
+		for(Declaration a: mm.declList) {
+			if(assignmentvar.contains(a.varName)) {
+				result += space + a.toString() + "<br>";
+			}else {
+				if(def.contains(a.varName)) {
+					if(use.contains(a.varName)) {
+						result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> << " + a.dataType + "<br>";
+					}else {
+						result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> << " + a.dataType + "<br>";
+					}
+				}else {
+					result += space + a.toString() + "<br>";
+				}
+
+			}
 		}
 
 		if(mm.declList.size()>0 && mm.assiList.size()>0) {
@@ -950,7 +970,7 @@ public class AllCUsesCoverage {
 
 
 		for(Loop lo : mb.loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
+			if(lo.iterationGoal != 0) {
 				getMethodVar(lo.loopbody, yes);
 			}
 		}
