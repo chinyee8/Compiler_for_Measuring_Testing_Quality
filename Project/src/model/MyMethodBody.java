@@ -76,8 +76,8 @@ public class MyMethodBody{
 		}
 
 		for(Loop lo: loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
-				vars.putAll(lo.loopbody.getList(vars2, parameter));
+			for(MyMethodBody mb : lo.loopbody) {
+				vars.putAll(mb.getList(vars2, parameter));
 				
 			}
 		}
@@ -131,8 +131,8 @@ public class MyMethodBody{
 		}
 
 		for(Loop lo: loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
-				vars.putAll(lo.loopbody.getList(vars2, parameter));
+			for(MyMethodBody mb: lo.loopbody) {
+				vars.putAll(mb.getList(vars2, parameter));
 			}
 		}
 		
