@@ -184,7 +184,7 @@ public class AllPUsesCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> "+ "<br><u class=\"paragraph_underline\"> &emsp; </u> &emsp;underline => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "pans\" hidden>" 
-						+ "<div class=\""+ d +"pcolumn\">All-P-Uses Coverage" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"pcolumn\"><u class=\"topic\">All-P-Uses Coverage</u><br><br>" +getResultString(p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"pcolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"psubcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"psubcolumn\">" + "<br>" + note + "</div>"
