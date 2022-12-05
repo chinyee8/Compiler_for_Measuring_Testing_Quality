@@ -26,9 +26,12 @@ public class ConditionCoverage{
 	String ifStatString;
 	String resultString;
 	Map.Entry<MethodCall, Map<String, Values>> testMethod;
-	String calledMethod;
+	public HashMap<String, Values> localVarMap;
+	
+	
+	String calledMethod; // called method from test
 	public List<String> methodCallParamOrder;
-	String curMethod;
+	String curMethod; // source code's current method
 	
 	//for html
 	List<Program> programList;
@@ -76,7 +79,7 @@ public class ConditionCoverage{
 	}
 
 	public void setIfStatString(String ifStatString) {
-		this.ifStatString = this.curMethod + "." + ifStatString;
+		this.ifStatString = ifStatString.replace(" ", "");
 		resetResultString();
 	}
 
@@ -98,7 +101,8 @@ public class ConditionCoverage{
 	}
 
 	public String getMethodParam(String varName) {
-		return testMethod.getValue().containsKey(varName) ? testMethod.getValue().get(varName).toString() : null;
+		return localVarMap.get(varName).toString();
+		//return testMethod.getValue().containsKey(varName) ? testMethod.getValue().get(varName).toString() : null;
 	}
 	
 	// should be called when you parse the game class. (AntlrToIfStatement?)
@@ -118,15 +122,23 @@ public class ConditionCoverage{
 	// should be called when it gets input for the condition parameter
 	// binary form 
 	// for example, if there are two components, and first component is true and second conpoenents is false, "01" should be in the parameter
-	public void addResult() { 
+	public boolean addResult() { 
 		TestCase curTestCase = componentMap.get(ifStatString);
 		
-		if (curTestCase != null && isCalledMethod()) {
+		if (!resultString.isEmpty() && curTestCase != null && isCalledMethod()) {
 			int n = Integer.parseInt(this.resultString, 2);
 			int index = (int) Math.pow(2, curTestCase.components.size()) - n - 1;
+			if (index  < 0 || index >= curTestCase.results.length) 
+				return false;
 			curTestCase.results[index] = true; // Tested
 			curTestCase.resultCount++;
+			return true;
 		}
+		return false;
+	}
+	
+	public String getCalledMethod() {
+		return this.calledMethod;
 	}
 	
 	public void setCalledMethod(String curMethod) {
@@ -134,7 +146,8 @@ public class ConditionCoverage{
 	}
 	
 	public boolean isCalledMethod() {
-		return calledMethod.equals(testMethod.getKey().getName());
+		return (calledMethod == null) ? false : calledMethod.equals(curMethod);
+		//return (testMethod == null) ? false : calledMethod.equals(testMethod.getKey().getName());
 	}
 
 	public List<String> getMethodCallParamOrder() {
@@ -162,6 +175,15 @@ public class ConditionCoverage{
 
 	public void setCurMethod(String curMethod) {
 		this.curMethod = curMethod;
+	}
+
+	public HashMap<String, Values> getLocalVarMap() {
+		return localVarMap;
+	}
+
+
+	public void setLocalVarMap(HashMap<String, Values> localVarMap) {
+		this.localVarMap = localVarMap;
 	}
 
 
@@ -359,7 +381,7 @@ public class ConditionCoverage{
 			String curTableHTML = ""; 
 			curTableHTML += "<style>table,th,td{border:1px solid black;}</style>";
 			curTableHTML += "<div>";
-			curTableHTML += "<p>" + curIfStat + "</p>"; // current if statement
+			curTableHTML += "<p>" + curIfStat.replace("<", "&lt").replace(">", "&gt") + "</p>"; // current if statement
 			curTableHTML += "<table style=\"width:100%\">"; // for table format
 			
 			// table column header

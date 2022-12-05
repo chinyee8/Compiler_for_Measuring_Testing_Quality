@@ -110,13 +110,15 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	}
 
 	//defCoverage
-	public AntlrToMyMethods(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Values testValue) {
+	public AntlrToMyMethods(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, Values testValue, ConditionCoverage condCov) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.testValue = testValue;
+		
+		this.condCov = condCov;
 	}
 
 	// Condition Coverage
@@ -134,7 +136,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
-
+		
 		Token token = ctx.METHODNAME().getSymbol();
 		int line = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
@@ -218,7 +220,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		Token token = ctx.METHODNAME().getSymbol();
 		int line  = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
-
+		
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
 
@@ -242,6 +244,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			return new MyMethods(methodName, (MyReturnMethod)methodType, 0);
 		}else {
+
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
 
 			MethodType methodType = (MyVoidMethod) mtVisitor.defControlV((MyVoidMethodContext)ctx.getChild(2));
@@ -478,12 +481,18 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			List<String> list = new ArrayList<>();
 			list = getCondVariableList(ifs.cond, list);
 
-			ifs.setCond(evaluated(ifs.cond, local_variableMap));
-			if(evaluated(ifs.cond, local_variableMap)) {
+			condCov.setIfStatString(methodName + ".jackieAsks[" + ifs.cond.toString() + "]"); // condition coverage
+
+			//I really need to call eval() only once, so I changed this to be called once...
+			boolean res = evaluated(ifs.cond, local_variableMap);
+			ifs.setCond(res);
+			if(res) {
 				getForIfBody(methodName, ifBody, needCheck);
 			}else {
 				getForIfBody(methodName, elseBody, needCheck);
 			}
+			
+			condCov.addResult(); //condition coverage (get test values here)
 
 		}
 
@@ -767,7 +776,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					Map<String, Values> lists = new LinkedHashMap<>();
 					int num = 0;
 					for(Input_List p: RHSparams) {
-
+						
 						if(p instanceof CallParamVarName) {
 							CallParamVarName a = (CallParamVarName) p;
 							lists.put("" + num, this.local_variableMap.get(a.varName));
@@ -1392,7 +1401,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				}
 			}
 		}
-
+		
+		if (condCov != null) {
+			condCov.appendResultString(result ? "1" : "0"); //condition coverage
+		}
+				
 		return result;
 	}
 
@@ -1411,6 +1424,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter, true);
+			
 			return new MyMethods(methodName, (MyReturnMethod)methodType, line);
 
 		} else {

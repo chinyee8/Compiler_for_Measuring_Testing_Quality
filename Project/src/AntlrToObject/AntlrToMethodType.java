@@ -58,13 +58,14 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 	}
 	
 	//defCoverage
-		public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues) {
-			this.semanticErrors = semanticError;
-			this.variableMap = variableMap;
-			this.global_mymethods = global_mymethods;
-			this.t_method_call = t_method_call;
-			this.inputValues = inputValues;
-		}
+	public AntlrToMethodType(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues) {
+		this.semanticErrors = semanticError;
+		this.variableMap = variableMap;
+		this.global_mymethods = global_mymethods;
+		this.t_method_call = t_method_call;
+		this.inputValues = inputValues;
+
+	}
 
 	@Override
 	public MethodType visitMyReturnMethod(MyReturnMethodContext ctx) {
@@ -178,7 +179,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter parameter = pVisitor.visit(ctx.parameter());
 		
-		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues); 
 		MyMethodBody method_body = method_bodyVisitor.defControl((MyMethodBodyContext)ctx.method_body());
 		
 		String varName = ctx.VAR_NAME().getText();
@@ -190,7 +191,9 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		String void_type = ctx.VOID_TYPE().getText();
 		AntlrToParameter pVisitor = new AntlrToParameter(semanticErrors);
 		Parameter parameter = pVisitor.visit(ctx.parameter());
-		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
+		
+		
+		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues); 
 		MyMethodBody method_body = method_bodyVisitor.defControl((MyMethodBodyContext)ctx.method_body());
 		return new MyVoidMethod(void_type, parameter, method_body);
 	}

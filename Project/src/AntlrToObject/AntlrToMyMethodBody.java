@@ -73,15 +73,19 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.local_methodvar = new HashMap<>();
+		
+
 	}
 
-	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, HashMap<String, Values> local_methodVar) {
+	public AntlrToMyMethodBody(List<String> semanticError, HashMap<String, Values> variableMap, List<MyMethods> global_mymethods, MethodCall t_method_call, Map<String, Values> inputValues, HashMap<String, Values> local_methodVar, ConditionCoverage condCov) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.global_mymethods = global_mymethods;
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.local_methodvar = local_methodVar;
+		
+		this.condCov = condCov; //condition coverage 
 	}
 
 	// Condition Coverage
@@ -296,7 +300,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 			assi.add(assiVisitor.visit(ctx.assi(i)));
 		}
 
-		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues,local_methodvar);
+		AntlrToIfStatement ifVisitor = new AntlrToIfStatement(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues,local_methodvar); 
 		for (int i = 0; i < ctx.if_statement().size(); i++) {
 			ifstatement.add(ifVisitor.defControl((IfStatementContext)ctx.if_statement(i)));
 		}

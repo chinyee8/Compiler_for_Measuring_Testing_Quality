@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.Token;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.TestMethodCallContext;
 import model.Call_Parameter;
@@ -16,9 +17,13 @@ public class AntlrToTestMethodCall extends exprBaseVisitor<TestMethodCall> {
 	public List<Integer> linesCovered;
 	public HashMap<String, Values> variableMap;
 	
-	public AntlrToTestMethodCall(List<String> semanticErrors, HashMap<String, Values> variableMap) {
+	private ConditionCoverage condCov; // condition coverage
+	
+	public AntlrToTestMethodCall(List<String> semanticErrors, HashMap<String, Values> variableMap, ConditionCoverage condCov) {
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
+		
+		this.condCov = condCov; // condition coverage
 	}
 
 	@Override

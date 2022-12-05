@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.ProgramContext;
 import antlr.exprParser.TestCaseContext;
@@ -54,12 +55,16 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public List<MethodCall> testKey = new LinkedList<>();
 	public Map< Integer,String> assignedTo = new LinkedHashMap<>();
 	public Map< Integer,Values> assignedValues = new LinkedHashMap<>();
+	
+	private ConditionCoverage condCov; // condition coverage
 
-	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap) {
+	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap, ConditionCoverage condCov) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.progReturn = new LinkedList<>();
 		//		this.mymethod = ;
+		
+		this.condCov = condCov; // condition coverage
 	}
 	public AntlrToTestCase() {
 
@@ -95,7 +100,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			}
 		}
 
-		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
+		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap, this.condCov);
 
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
@@ -270,6 +275,10 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 					num++;
 				}
+				//condition coverage start
+				this.condCov.setCalledMethod(rmc.methodName);
+				//condition coverage end
+				
 				this.testKey.add(((ReturnMethodCall)assi.get(i).expr));
 				this.testVarMap.put(assi.get(i).varName, getTestValue((ReturnMethodCall)assi.get(i).expr, progAST, global_methods2, callInputs, check, methodCallParamOrder2));
 				this.assignedTo.put(assi.get(i).line, assi.get(i).varName);
@@ -277,7 +286,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			}
 		}
 
-		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap);
+		AntlrToTestMethodCall testVisitor = new AntlrToTestMethodCall(semanticErrors, this.variableMap, this.condCov);
 
 		for(int i = 0; i < ctx.t_method_call().size() ; i++) {
 			t_method_call.add(testVisitor.visit(ctx.t_method_call(i)));
@@ -305,7 +314,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 			result = progControllor.testValue;
 
 		}else {
-			AntlrToProgram devCoverage = new AntlrToProgram(rm, global_methods2, callInputs);
+			AntlrToProgram devCoverage = new AntlrToProgram(rm, global_methods2, callInputs, condCov); // condition coverage
 			Program defProg = devCoverage.defControl((ProgramContext)progAST);
 			this.progReturn.add(defProg);
 			result = devCoverage.testValue;

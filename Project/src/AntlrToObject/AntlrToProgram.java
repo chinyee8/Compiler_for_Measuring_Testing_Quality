@@ -59,20 +59,22 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	}
 
 	//defCoverage
-	public AntlrToProgram(MethodCall t, List<MyMethods> global_methods, Map<String, Values> inputValues) {
+	public AntlrToProgram(MethodCall t, List<MyMethods> global_methods, Map<String, Values> inputValues, ConditionCoverage condCov) {
 		this.t_method_call = t;
 		this.inputValues = inputValues;
 		this.global_methods = global_methods;
+		
+		this.condCov = condCov; // condition coverage
 	}
 	
 	// Condition Coverage
 	public AntlrToProgram(ConditionCoverage condCov) {
 		this.condCov = condCov;
-		
+		/*
 		if (!condCov.isComponentState()) {
 			this.t_method_call = condCov.getTestMethod().getKey();
 			this.inputValues = condCov.getTestMethod().getValue();
-		}
+		}*/
 	}
 
 
@@ -84,7 +86,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		this.global_methods = new ArrayList<>();
 		AntlrToGameClass cVisitor = new AntlrToGameClass(semanticErrors, global_methods);
 		this.variableMap = new HashMap<>();
-		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors, variableMap);
+		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors, variableMap, condCov);
 
 		if(ctx.getChild(0) instanceof GameClassContext) {
 			prog.addGameClass(cVisitor.visit(ctx.getChild(0)));
@@ -148,7 +150,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 			semanticErrors = new ArrayList<>();
 			this.variableMap = new HashMap<>();
 			this.testValue = null;
-			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, global_methods, testValue);
+			AntlrToGameClass cController = new AntlrToGameClass(semanticErrors, this.t_method_call, this.inputValues, global_methods, testValue, condCov); // condition coverage
 			prog.addGameClass(cController.defControl((GameClassContext)ctx.getChild(0)));
 			this.testValue = cController.testValue;
 		}
@@ -160,7 +162,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		semanticErrors = new ArrayList<>();
 		this.variableMap = new HashMap<>();
 		
-		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors, variableMap);
+		AntlrToTestCase tVisitor = new AntlrToTestCase(semanticErrors, variableMap, condCov); // condition coverage
 		prog.addTestCase(tVisitor.testcontrol((TestCaseContext)ctx.getChild(0), progAST, global_methods2, check, methodCallParamOrder2));
 		this.progReturn = tVisitor.getProgReturn();
 		this.testKey = tVisitor.getTestKey();

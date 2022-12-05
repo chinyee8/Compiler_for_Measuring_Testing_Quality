@@ -74,6 +74,7 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.local_methodVar = local_methodVar;
+
 	}
 
 	// Condition Coverage
@@ -89,11 +90,8 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	public void visitConditionCoverage(IfStatementContext ctx) {
 		AntlrToCondition ifCondVisitor = new AntlrToCondition(semanticErrors, this.variableMap, condCov);
 		String strIfStatement = ctx.getChild(0).getText() + ctx.getChild(1).getText() + ctx.getChild(2).getText() + ctx.getChild(3).getText();
-		condCov.setIfStatString(strIfStatement);
+		condCov.setIfStatString(condCov.getCurMethod() + "." + strIfStatement);
 		
-		if (!condCov.isComponentState() && condCov.isCalledMethod()) {
-			condCov.resetResultString();
-		}
 		ifCondVisitor.visit(ctx.cond());
 		if (!condCov.isComponentState() && condCov.isCalledMethod()) {
 			condCov.addResult();
@@ -150,11 +148,12 @@ public class AntlrToIfStatement extends exprBaseVisitor<IfStatement>  {
 	}
 
 	public IfStatement defControl(IfStatementContext ctx) {
-		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap);
+		AntlrToCondition condVisitor = new AntlrToCondition(semanticErrors, this.variableMap); 
+		
 		Condition cond = condVisitor.visit(ctx.cond());
 
-		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, this.local_methodVar);
-
+		AntlrToMyMethodBody BodyVisitor = new AntlrToMyMethodBody(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, this.local_methodVar, condCov); //condition cov
+		
 		MyMethodBody ifBody = BodyVisitor.visit(ctx.getChild(5));
 		MyMethodBody elseBody = BodyVisitor.visit(ctx.getChild(9));
 

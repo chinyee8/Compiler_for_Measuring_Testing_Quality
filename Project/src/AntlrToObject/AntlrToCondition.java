@@ -39,15 +39,13 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		AntlrToMathematics mVisitorRight = new AntlrToMathematics(semanticErrors, this.variableMap);
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		
+		
 		// Condition Coverage
 		if (condCov != null) {
 			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(2) instanceof CondVarNameContext) {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else {
-					condCov.appendResultString(null); // todo put "0" or "1"
-				}
 			}
 		}
 		
@@ -63,27 +61,8 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 			if (ctx.getChild(1) instanceof CondVarNameContext) {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
-				} 
-				else if (condCov.isCalledMethod()) {
-					String value = "";
-					if (this.variableMap.containsKey(condition.toString())) {
-						value = this.variableMap.get(condition.toString()).toString();
-					}
-					else {
-						value = condCov.getMethodParam(condition.toString());
-						if (value == null) {
-							value = condition.toString();
-						}
-					}
-					
-					if (!(Boolean.parseBoolean(value))) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
+				} 	
+				
 			}
 		}
 		return new Negation(condition, line);
@@ -101,37 +80,7 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
-				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (Boolean.parseBoolean(leftValue) != Boolean.parseBoolean(rightValue) 
-							|| Double.parseDouble(leftValue) != Double.parseDouble(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
+				} 				
 			}
 		}
 		return new NotEqualTo(left, right, line);
@@ -146,26 +95,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 			
 			if (condCov.isComponentState()) {
 				condCov.addComponent(ctx.getText());
-			}
-			else if (condCov.isCalledMethod()) {
-				String value = "";
-				if (this.variableMap.containsKey(varName.toString())) {
-					value = this.variableMap.get(varName.toString()).toString();
-				}
-				else {
-					value = condCov.getMethodParam(varName.toString());
-					if (value == null) {
-						value = varName.toString();
-					}
-				}
-				
-				if ((Boolean.parseBoolean(value))) {
-					condCov.appendResultString("1"); // in case of true
-				}
-				else {
-					condCov.appendResultString("0"); // in case of false
-				}
-				
 			}
 		}
 		
@@ -186,35 +115,7 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(condCov.getCurMethod() + "." + ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (leftValue.equals(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
+				
 			}
 		}
 		return new CondEqual(left, right, line);
@@ -233,35 +134,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (leftValue.equals(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
 			}
 		}
 		return new EqualTo(left, right, line);
@@ -282,35 +154,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (Double.parseDouble(leftValue) > Double.parseDouble(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
 			}
 		}
 		
@@ -328,35 +171,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 					|| ctx.getChild(2) instanceof CondVarNameContext) {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
-				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (Boolean.parseBoolean(leftValue) || Boolean.parseBoolean(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
 				}
 			}
 		}
@@ -392,35 +206,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (Double.parseDouble(leftValue) >= Double.parseDouble(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
 			}
 		}
 		return new MoreOrEqual(left, right, line);
@@ -440,35 +225,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (!(leftValue.equals(rightValue))) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
 			}
 		}
 		return new CondNotEqual(left, right, line);
@@ -486,35 +242,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (Boolean.parseBoolean(leftValue) && Boolean.parseBoolean(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
 			}
 		}
 		return new Conjunction(left, right, line);
@@ -539,35 +266,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 				if (condCov.isComponentState()) {
 					condCov.addComponent(ctx.getText());
 				} 
-				else if (condCov.isCalledMethod()) {
-					String leftValue = "";
-					String rightValue = "";
-					if (this.variableMap.containsKey(left.toString())) {
-						leftValue = this.variableMap.get(left.toString()).toString();
-					}
-					else {
-						leftValue = condCov.getMethodParam(left.toString());
-						if (leftValue == null) {
-							leftValue = left.toString();
-						}
-					}
-					if (this.variableMap.containsKey(right.toString())) {
-						rightValue = this.variableMap.get(right.toString()).toString();
-					}
-					else {
-						rightValue = condCov.getMethodParam(right.toString());
-						if (rightValue == null) {
-							rightValue = right.toString();
-						}
-					}
-					if (Double.parseDouble(leftValue) < Double.parseDouble(rightValue)) {
-						condCov.appendResultString("1"); // in case of true
-					}
-					else {
-						condCov.appendResultString("0"); // in case of false
-					}
-					
-				}
 			}
 		}
 		return new Less(left, right, line);

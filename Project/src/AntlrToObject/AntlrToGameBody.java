@@ -84,13 +84,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 	}
 
 	//defCoverage
-	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, List<MyMethods>global_methods, Values testValue) {
+	public AntlrToGameBody(List<String> semanticError, MethodCall t_method_call, Map<String, Values> inputValues, List<MyMethods>global_methods, Values testValue, ConditionCoverage condCov) {
 		this.semanticErrors = semanticError;
 		this.variableMap = new HashMap<>();
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.testValue = testValue;
 		this.global_mymethods = global_methods;
+		
+		this.condCov = condCov; //condition coverage
 
 	}
 
@@ -391,7 +393,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
 
-		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, testValue);
+		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, testValue, condCov); // condition coverage
 
 //		for(int i = 0; i < ctx.mymethod().size(); i++) {
 //			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
@@ -401,6 +403,15 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 
 		int i = 0;
 		for(MyMethods m : this.global_mymethods) {
+			
+			//condition coverage start
+			condCov.setCurMethod(m.methodName);			
+			if (!condCov.isComponentState() && m.methodName != null
+					&& m.methodName.equals(t_method_call.getName())) {
+				condCov.setCalledMethod(m.methodName);
+			}
+			//condition coverage end
+			
 			MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
 			this.testValue = mmVisitor.testValue;
 			mymethod.add(myMeth);
