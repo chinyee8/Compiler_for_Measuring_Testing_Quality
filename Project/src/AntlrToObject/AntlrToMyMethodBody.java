@@ -261,7 +261,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i))); //add void methodcalls into list of methodcall
 			}
 			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
-				Loop lo = loopVisitor.control((Deterministic_LoopContext) ctx.getChild(i));
+				Loop lo = loopVisitor.visit( ctx.getChild(i));
 				loops.add(lo);
 			}
 		}
@@ -307,7 +307,7 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}
 			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
-				Loop lo = loopVisitor.control((Deterministic_LoopContext) ctx.getChild(i));
+				Loop lo = loopVisitor.visit(ctx.getChild(i));
 				loops.add(lo);
 			}
 		}
