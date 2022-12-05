@@ -39,7 +39,7 @@ game Mathclass !
     			re <- TRUE
     		!
     		elseJackie !
-    			jackieAsks[num < 0] !
+    			jackieAsks[num == 1] !
     				re <- FALSE
 	    		!
 	    		elseJackie !
@@ -85,12 +85,11 @@ game Mathclass !
     	
     !
     
-    
     mymethod COUNT_PRIME INT[INT num] !
     	rem << INT
     	count << INT
     	temp << BOOLEAN
-		
+    	
     	count <- 1
     	rem <- 0
     	loop (100) !
