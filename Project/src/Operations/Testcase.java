@@ -50,10 +50,14 @@ public class Testcase {
 
 		TestCase t = this.testProg.testcase;
 
-		result += t.line + "&ensp;" + "test " + t.testName + " !<br>";
+		result += "<p class=\"lineNum\">"+ t.line + "</p>" + "&ensp;" + "test " + t.testName + " !<br>";
 
 		for(Declaration d : t.decl) {
-			result +=  d.line + "&ensp;" + "&emsp;" + d.varName + " << " + d.dataType + "<br>";
+			if(d.line < 10) {
+				result +=  "<p class=\"lineNum\"> "+ d.line + "</p>" + "&ensp;" + "&emsp;" + d.varName + " << " + d.dataType + "<br>";
+			}else {
+				result +=  "<p class=\"lineNum\">"+ d.line + "</p>" + "&ensp;" + "&emsp;" + d.varName + " << " + d.dataType + "<br>";
+			}
 		}
 
 		if(t.decl.size()>0 && t.assi.size()>0) {
@@ -71,9 +75,19 @@ public class Testcase {
 		int i = 0;
 		for(Assignment a : t.assi) {
 			if(a.expr instanceof Values) {
-				result += a.line + "&ensp;" + "&emsp;" + a.varName + " <- " + a.expr + "<br>";
+				if(a.line<10) {
+					result += "<p class=\"lineNum\"> "+ a.line + "</p>" + "&ensp;" + "&emsp;" + a.varName + " <- " + a.expr + "<br>";
+
+				}else {
+					result += "<p class=\"lineNum\">"+ a.line + "</p>" + "&ensp;" + "&emsp;" + a.varName + " <- " + a.expr + "<br>";
+
+				}
 			}else if(a.expr instanceof ReturnMethodCall) {
-				result += a.line + "&ensp;" + "&emsp;" + a.varName + " <- " + "<a href=\"game"+i+".html\"><p><mark class=\"testcaseclick\">" + a.expr + "</mark></p></a>" + "<br>";
+				if(a.line < 10) {
+					result += "<p class=\"lineNum\"> "+ a.line + "</p>" + "&ensp;" + "&emsp;" + a.varName + " <- " + "<a href=\"game"+i+".html\"><p><mark class=\"testcaseclick\">" + a.expr + "</mark></p></a>" + "<br>";
+				}else {
+					result += "<p class=\"lineNum\">"+ a.line + "</p>" + "&ensp;" + "&emsp;" + a.varName + " <- " + "<a href=\"game"+i+".html\"><p><mark class=\"testcaseclick\">" + a.expr + "</mark></p></a>" + "<br>";
+				}
 				i++;
 			}
 		}
@@ -85,7 +99,13 @@ public class Testcase {
 		}
 
 		for(TestMethodCall tm : t.t_method_call) {
-			result += tm.line + "&ensp;" + "&emsp;" + tm.toString();
+			if(tm.line < 10) {
+				result += "<p class=\"lineNum\"> "+ tm.line + "</p>" + "&ensp;" + "&emsp;" + tm.toString();
+
+			}else {
+				result += "<p class=\"lineNum\">"+ tm.line + "</p>" + "&ensp;" + "&emsp;" + tm.toString();
+
+			}
 		}
 
 		result += "!";
@@ -142,6 +162,11 @@ public class Testcase {
 				+ "    background-color: blue;\n"
 				+ "    color: white;\n"
 				+ "}");
+		
+		this.css.add(".lineNum{"
+					+ " color: grey;"
+					+ " font-size:12px;"
+					+ "}");
 
 	}
 
