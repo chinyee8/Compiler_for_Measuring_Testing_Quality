@@ -136,6 +136,7 @@ game Aclass !
     	re << INT
     	count << INT
     	res << STRING
+    	re <- 1
     	loop(1000) !
     		count <- count + 1
     		jackieAsks[count <= num] !
@@ -143,11 +144,8 @@ game Aclass !
     		!
     		elseJackie !
     		   res <- CHECKER[re]
-    		
-    		!
-    		
+    		!	
     	!
-    	
     	jackieReturns res
     	
     !

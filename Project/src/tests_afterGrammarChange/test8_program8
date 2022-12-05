@@ -17,6 +17,11 @@ test test_Aclass !
 	rei << INT
 	res << STRING
 	ress << STRING
+	ress2 << STRING
+	
+	
+	rei2 << INT
+	res2 << STRING
 	
 	re0 <- CHECKER[0] 
 	re1 <- CHECKER[1]
@@ -36,6 +41,11 @@ test test_Aclass !
 	rei <- FACT[3]
 	res <- CHECKER[rei]
 	ress <- FACT_TO_STRING[3]
+	
+	rei2 <- FACT[4]
+	res2 <- CHECKER[rei2]
+	ress <- FACT_TO_STRING[4]
+	
 	
 	
 	
