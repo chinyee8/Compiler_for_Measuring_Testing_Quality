@@ -27,6 +27,7 @@ game Mathclass !
         !
         
         loop (5) !
+		# variable scoping
         	temp << INT
         	jackieAsks[1 < 2] !
         		temp <- temp + 1
