@@ -188,7 +188,7 @@ public class AllDefCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "ans\" hidden>" 
-						+ "<div class=\""+ d +"column\">All-Defs Coverage" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"column\"><u class=\"topic\">All-Defs Coverage</u><br><br>" +getResultString(p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"column\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"subcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"subcolumn\">" + "<br>" + note + "</div>"
