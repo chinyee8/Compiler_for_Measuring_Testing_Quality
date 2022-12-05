@@ -13,6 +13,9 @@ test test_Aclass !
 	bo5 <- MOD_TWO[5]
 	bo6 <- MOD_TWO[6]
 	
+	bo6 <- MOD_K[15,5]
+	bo5 <- MOD_K[15,4]
+	
 	
 
 
