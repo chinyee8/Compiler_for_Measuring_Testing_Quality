@@ -20,16 +20,8 @@ test test_Aclass !
 	prime9 << BOOLEAN
 	prime10 << BOOLEAN
 	primenum << INT
-	temp1 << BOOLEAN
 	
-	temp1 <- SOME[5]
-	
-	
-	bo2 <- MOD_TWO[2]
-	bo3 <- MOD_TWO[3]
-	bo4 <- MOD_TWO[4]
-	bo5 <- MOD_TWO[5]
-	bo6 <- MOD_TWO[6]
+
 	
 	bo6 <- MOD_K[15,5]
 	bo5 <- MOD_K[15,4]
