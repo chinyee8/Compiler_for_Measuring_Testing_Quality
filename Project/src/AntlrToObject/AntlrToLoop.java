@@ -40,7 +40,7 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 			Token t = ctx.NUM().getSymbol();
 			int line = t.getLine();
 			int column = t.getCharPositionInLine();
-			this.semanticErrors.add("Number of iteration in loop must be positive: " + line + ", " + column);
+			this.semanticErrors.add("Error [ Line "+line +", "+ column+" ] : Number of iteration in loop must be positive");
 		}
 		AntlrToMyMethodBody mbVisitor = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods);
 		MyMethodBody mb = null;
