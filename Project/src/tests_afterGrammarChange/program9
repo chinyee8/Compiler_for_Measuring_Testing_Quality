@@ -34,7 +34,7 @@ game Mathclass !
     	re << BOOLEAN
         count << INT
                 
-        loop(10000) !
+        loop(100) !
     		jackieAsks[num == 0] !
     			re <- TRUE
     		!
@@ -64,7 +64,7 @@ game Mathclass !
     	
     	count <- 1
     	re <- TRUE
-    	loop(10000) !
+    	loop(100) !
     	    count <- count + 1
     		jackieAsks[count < num ] !
     		
@@ -75,14 +75,39 @@ game Mathclass !
     			elseJackie !
     			
     			! 	
-    			
-    			
+
     		!
     		elseJackie !
     		
     		!
     	!
     	jackieReturns re
+    	
+    !
+    
+    mymethod COUNT_PRIME INT[INT num] !
+    	rem << INT
+    	count << INT
+    	temp << BOOLEAN
+    	
+    	count <- 1
+    	rem <- 0
+    	loop (100) !
+    		count <- count + 1
+				jackieAsks[count < num ] !
+    		
+    				temp <- IS_PRIME[count]
+    				jackieAsks [temp] !
+    					rem <- rem + 1
+    				!
+    				elseJackie !
+    				! 	
+    			!
+    			elseJackie !
+    		
+    			!    		
+    	! 
+    	jackieReturns rem
     	
     !
     
