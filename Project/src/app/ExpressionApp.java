@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import AntlrToObject.AntlrToProgram;
 import Operations.AllCUsesCoverage;
 import Operations.AllDefCoverage;
+import Operations.AllPUsesCoverage;
 import Operations.ConditionCoverage;
 import Operations.ErrorListener;
 import Operations.Original;
@@ -143,18 +144,20 @@ public class ExpressionApp {
 							// End of Condition Coverage
 							
 							Original ori = new Original(programList);
-							Testcase test = new Testcase(testProg);
+							Testcase test = new Testcase(testp, testV);
 							Statement st = new Statement(defProgram);
 							condCov.setProgramList(programList); // condition coverage for html
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram);
 							AllCUsesCoverage allc = new AllCUsesCoverage(defProgram);
+							AllPUsesCoverage allp = new AllPUsesCoverage(defProgram);
 
 							PrettyPrinter printer = new PrettyPrinter(testProg.testcase.allMethodCalls);
 							printer.addOriginal(ori);
 							printer.addStatement(st);
 							printer.addAllDefCoverage(alldef);
 							printer.addAllCUseCoverage(allc);
+							printer.addAllPUseCoverage(allp);
 							printer.addCondCoverage(condCov);
 							printer.addTest(test);
 
