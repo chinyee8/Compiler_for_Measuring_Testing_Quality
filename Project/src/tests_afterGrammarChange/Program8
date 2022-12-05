@@ -70,7 +70,7 @@ game Aclass !
     	elseJackie !
     	!
     	
-    	jackieAsks[ num > 10 || num < 0]!
+    	jackieAsks[ num > 10 || num < 0 && TRUE]!
     		re <- "I dont know"
     	!
     	elseJackie !
