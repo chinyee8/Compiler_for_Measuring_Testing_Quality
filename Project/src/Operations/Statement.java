@@ -235,8 +235,8 @@ public class Statement {
 
 		for(Loop lo : mm.loops) {
 			this.totalLine++;
-			for(int i = 0; i < lo.iterationGoal; i++) {
-				getNumCoveredLine(lo.loopbody, true);
+			for(MyMethodBody mb: lo.loopbody) {
+				getNumCoveredLine(mb, true);
 			}
 		}
 
@@ -392,7 +392,7 @@ public class Statement {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				for(String s: getMethodCallFromThisMethod( lo.loopbody, list)) {
+				for(String s: getMethodCallFromThisMethod( lo.loopbody.get(0), list)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}
@@ -462,9 +462,10 @@ public class Statement {
 		for(Loop lo : mm.loops) {
 			result += space  + "<mark style=\"background-color: yellow;\">" + "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
 			if(lo.iterationGoal == 0) {
-				result += NotCovered(lo.loopbody, space);
+				result += NotCovered(lo.body, space);
 			}else {
-				result += Covered(lo.loopbody, space);
+				for(MyMethodBody mb: lo.loopbody)
+				result += Covered(mb, space);
 			}
 			result += space + "!<br>";
 		}
@@ -540,9 +541,11 @@ public class Statement {
 		for(Loop lo : mm.loops) {
 			result += space  +"<mark style=\"background-color: yellow;\">"+ "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
 			if(lo.iterationGoal == 0) {
-				result += NotCovered(lo.loopbody, space);
+				result += NotCovered(lo.body, space);
 			}else {
-				result += CoveredCoverage(lo.loopbody, space);
+				for(MyMethodBody mb: lo.loopbody) {
+				result += CoveredCoverage(mb, space);
+				}
 			}
 			result += space + "!<br>";
 		}
@@ -608,7 +611,7 @@ public class Statement {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += NotCovered(lo.loopbody, space);
+			result += NotCovered(lo.body, space);
 			result += space + "!<br>";
 		}
 
@@ -695,7 +698,7 @@ public class Statement {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				getTestMethodCall( lo.loopbody);
+				getTestMethodCall( lo.body);
 			}
 		}
 
