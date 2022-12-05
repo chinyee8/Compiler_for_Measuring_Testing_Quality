@@ -407,25 +407,26 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void checkLoop(String methodName, MyMethodBody method_body, Map<String, String> parameter, boolean needCheck) {
 		for(Loop l : method_body.loops) {
-			for(int i = 0; i < l.iterationGoal; i++) {
+			int i = 0;
+			for(MyMethodBody mb: l.loopbody) {
 				if(i == 0) {
-					checkDeclaration(l.loopbody, parameter);
+					checkDeclaration(mb, parameter);
 				}
 
-				checkAssignment(l.loopbody, parameter);
+				checkAssignment(mb, parameter);
 
-				if(l.loopbody.ifStatList.size() > 0) {
-					checkIfStatement(methodName,l.loopbody, parameter, needCheck);
+				if(mb.ifStatList.size() > 0) {
+					checkIfStatement(methodName,mb, parameter, needCheck);
 				}
 
-				if(l.loopbody.loops.size() > 0) {
-					checkLoop(methodName,l.loopbody, parameter, needCheck);
+				if(mb.loops.size() > 0) {
+					checkLoop(methodName,mb, parameter, needCheck);
 				}
 
-				if(l.loopbody.methodCall.size() > 0) {
-					checkVoidCall(l.loopbody);
+				if(mb.methodCall.size() > 0) {
+					checkVoidCall(mb);
 				}	
-
+				i++;
 			}
 		}
 	}
@@ -526,8 +527,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void defCheckLoop(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Loop lo : method_body.loops) {
-			for(int i = 0; i < lo.iterationGoal; i++) {
-				evaluateLoop(methodName, lo.loopbody, needCheck);
+			for(MyMethodBody mb: lo.loopbody) {
+				evaluateLoop(methodName, mb, needCheck);
 			}
 		}
 	}

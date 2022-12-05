@@ -3,6 +3,7 @@ package AntlrToObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.antlr.v4.runtime.Token;
@@ -20,12 +21,14 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 	List<String> semanticErrors;
 	HashMap<String, Values> variableMap;
 	List<MyMethods> global_mymethods;
+	List<MyMethodBody> mb;
 	
 	public AntlrToLoop(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethods) {
 		// TODO Auto-generated constructor stub
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
 		this.global_mymethods = mymethods;
+		this.mb = new LinkedList<>();
 	}
 
 
@@ -45,7 +48,11 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 			mb = mbVisitor.visit(ctx.getChild(5));
 		}
 		
-		return new Loop(iterationGoal, mb, this.semanticErrors, this.variableMap);
+		for(int i = 0; i < iterationGoal; i++) {
+			this.mb.add(mb);
+		}
+		
+		return new Loop(iterationGoal, this.mb, mb, this.semanticErrors, this.variableMap);
 	}
 
 	
@@ -56,6 +63,10 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 			MyMethodBody mb = mbVisitor.control((MyMethodBodyContext) ctx.getChild(5));
 //			this.methodBodiesList.add(mb);
 //		}
-		return new Loop(iterationGoal, mb, this.semanticErrors, this.variableMap );
+			
+			for(int i = 0; i < iterationGoal; i++) {
+				this.mb.add(mb);
+			}
+		return new Loop(iterationGoal, this.mb, mb, this.semanticErrors, this.variableMap );
 	}
 }

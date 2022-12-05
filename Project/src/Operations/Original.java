@@ -115,7 +115,7 @@ public class Original {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			result += getMethodBodyString(lo.loopbody, space);
+			result += getMethodBodyString(lo.body, space);
 			result += space + "!<br>";
 		}
 
