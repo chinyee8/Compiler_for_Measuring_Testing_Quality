@@ -184,7 +184,7 @@ public class AllCUsesCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> "+ "<br><u class=\"paragraph_underline\"> &emsp; </u> &emsp;underline => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "cans\" hidden>" 
-						+ "<div class=\""+ d +"ccolumn\">All-C-Uses Coverage" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"ccolumn\"><u class=\"topic\">All-C-Uses Coverage</u><br><br>" +getResultString(p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"ccolumn\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"csubcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"csubcolumn\">" + "<br>" + note + "</div>"
