@@ -298,7 +298,60 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-
+					ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
+					
+					for(MyMethods mm : this.global_mymethods) {
+						if(mm.methodType instanceof MyReturnMethod) {
+							if(mm.methodName.equals(rmc.methodName)) {
+								MyReturnMethod mrm = (MyReturnMethod) mm.methodType;
+								if(mrm.parameter.getParams().size() == rmc.call_parameter.getTestCallParams().size()) {
+									int i = 0;
+									for(Map.Entry<String, String> s: mrm.parameter.getParams().entrySet()) {
+										int j = 0;
+										for(Input_List list : rmc.call_parameter.getTestCallParams()) {
+											if(i == j) {
+												if(list instanceof CallParamVarName) {
+													CallParamVarName a1 = (CallParamVarName) list;
+													if(!this.local_variableMap.get(a1.varName).getType().equals(s.getValue())) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.varName + " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamDouble) {
+													CallParamDouble a1 = (CallParamDouble) list;
+													if(!s.getValue().equals("DOUBLE")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamNum) {
+													CallParamNum a1 = (CallParamNum) list;
+													if(!s.getValue().equals("INT")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.num+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamChar) {
+													CallParamChar a1 = (CallParamChar) list;
+													if(!s.getValue().equals("CHAR")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamString) {
+													CallParamString a1 = (CallParamString) list;
+													if(!s.getValue().equals("STRING")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamBoolean) {
+													CallParamBoolean a1 = (CallParamBoolean) list;
+													if(!s.getValue().equals("BOOLEAN")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}
+											}
+											j++;
+										}
+										i++;
+									}
+								}else {
+									this.semanticErrors.add("Error [Line " + a.line + " ] : method call " + rmc.methodName + " must have the same number of parameters as mymethod " + mm.methodName);
+								}
+							}
+						}
+					}
 				}else {
 					this.semanticErrors.add("Error [Line:" + a.line +"]: " + " variable " + a.varName + " return type does not match expression return type.");
 				}
@@ -383,8 +436,59 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-					if(smtg(methodName,a.expr, a, needCheck)) {
-
+ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
+					
+					for(MyMethods mm : this.global_mymethods) {
+						if(mm.methodType instanceof MyReturnMethod) {
+							if(mm.methodName.equals(rmc.methodName)) {
+								MyReturnMethod mrm = (MyReturnMethod) mm.methodType;
+								if(mrm.parameter.getParams().size() == rmc.call_parameter.getTestCallParams().size()) {
+									int i = 0;
+									for(Map.Entry<String, String> s: mrm.parameter.getParams().entrySet()) {
+										int j = 0;
+										for(Input_List list : rmc.call_parameter.getTestCallParams()) {
+											if(i == j) {
+												if(list instanceof CallParamVarName) {
+													CallParamVarName a1 = (CallParamVarName) list;
+													if(!this.local_variableMap.get(a1.varName).getType().equals(s.getValue())) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.varName + " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamDouble) {
+													CallParamDouble a1 = (CallParamDouble) list;
+													if(!s.getValue().equals("DOUBLE")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamNum) {
+													CallParamNum a1 = (CallParamNum) list;
+													if(!s.getValue().equals("INT")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.num+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamChar) {
+													CallParamChar a1 = (CallParamChar) list;
+													if(!s.getValue().equals("CHAR")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamString) {
+													CallParamString a1 = (CallParamString) list;
+													if(!s.getValue().equals("STRING")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}else if(list instanceof CallParamBoolean) {
+													CallParamBoolean a1 = (CallParamBoolean) list;
+													if(!s.getValue().equals("BOOLEAN")) {
+														semanticErrors.add("Error [Line " + a.line + "] : " + a1.input+ " does not have the same data type as " + s.getKey() + " from " + mm.methodName);
+													}
+												}
+											}
+											j++;
+										}
+										i++;
+									}
+								}else {
+									this.semanticErrors.add("Error [ Line " + a.line + " ] : method call " + rmc.methodName + " must have the same number of parameters as mymethod " + mm.methodName);
+								}
+							}
+						}
 					}
 				}else {
 					this.semanticErrors.add("Error [Line:" + a.line +"]: " + " variable " + a.varName + " return type does not match expression return type.");
@@ -492,9 +596,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void getForIfBody(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Declaration d: method_body.declList) {
-			if(!local_variableMap.containsKey(d.varName)) {
-				local_variableMap.put(d.varName, d.defaultValue);
-			}
+			local_variableMap.put(d.varName, d.defaultValue);
 		}
 
 		for(Assignment a: method_body.assiList) {
@@ -549,9 +651,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 	private void evaluateLoop(String methodName, MyMethodBody loopbody, boolean needCheck) {
 		for(Declaration d: loopbody.declList) {
-			if(!local_variableMap.containsKey(d.varName)) {
 				local_variableMap.put(d.varName, d.defaultValue);
-			}
 		}
 
 		for(Assignment a: loopbody.assiList) {
@@ -712,9 +812,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 				List<Input_List> RHSparams = ((ReturnMethodCall)this.t_method_call).call_parameter.getTestCallParams();
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
-					if(!semanticErrors.contains("Error [Line:" + line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName)) {
-						semanticErrors.add("Error [Line:" + line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
-					}
+					semanticErrors.add("Error [Line:" + ((ReturnMethodCall)this.t_method_call).line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -724,7 +823,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 								if(map.getValue().equals(input.getValue().getType())) {
 									this.local_variableMap.put(map.getKey(), input.getValue());
 								}else {
-									semanticErrors.add("Error [Line:" + line +"]: " + map.getValue() + " from mymethod does not have the same datatype");
+									semanticErrors.add("Error [Line:" + line +"]: parameter " + map.getKey() + " from mymethod "+methodName+" does not have the same datatype as methodcall from line " + ((ReturnMethodCall)this.t_method_call).line);
 								}
 							}
 							j++;
@@ -739,17 +838,24 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(methodName.equals(rhsMethodName)) {
 
 				List<Input_List> RHSparams = ((VoidMethodCall)this.t_method_call).call_parameter.getTestCallParams();
-				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
+				Map<String, String> methodparams = ((MyVoidMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
-					if(!semanticErrors.contains("Error [Line:" + line +"]: "  + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName)) {
-						semanticErrors.add("Error [Line:" + line +"]: "  + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
-					}
+					semanticErrors.add("Error [Line:" + line +"]: " + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
+					
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
-
-						this.local_variableMap.put(""+i, this.inputValues.get(RHSparams.get(i)));
-
+						int j = 0;
+						for(Map.Entry<String, Values> input: inputValues.entrySet()) {
+							if(i == j) {
+								if(map.getValue().equals(input.getValue().getType())) {
+									this.local_variableMap.put(map.getKey(), input.getValue());
+								}else {
+									semanticErrors.add("Error [Line:" + line +"]: parameter " + map.getKey() + " from mymethod "+methodName+" does not have the same datatype");
+								}
+							}
+							j++;
+						}
 						i++;
 					}
 				}
@@ -907,9 +1013,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						List<Input_List> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getTestCallParams();
 						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 						if(RHSparams.size() != methodparams.size()) {
-							if(!semanticErrors.contains("Error [Line:" + ((ReturnMethodCall)rhs).line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName)) {
-								semanticErrors.add("Error [Line:" + ((ReturnMethodCall)rhs).line +"]: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
-							}
+							semanticErrors.contains("Error [Line:" + ((ReturnMethodCall)rhs).line +"]: methodcall must have the same number of parameters as mymethod " + methodName);
 						}else {
 							Map<String, Values> callInputs = new LinkedHashMap<>();
 							int i = 0;
@@ -1083,9 +1187,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			int left = getMathINT(a.math1);
 			int right = getMathINT(a.math2);
 			if(right == 0) {
-				if(!semanticErrors.contains("Error [Line:" + a.line +"]: undefined. Cannot divide by 0")) {
 					semanticErrors.add("Error [Line:" + a.line +"]: undefined. Cannot divide by 0");
-				}
 			}else {
 				result = left / right;
 			}
@@ -1417,6 +1519,14 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 
 			declareParameter(parameter);
 			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter, true);
+			
+			if(this.local_variableMap.containsKey(((MyReturnMethod)methodType).varName)) {
+				if(!this.local_variableMap.get(((MyReturnMethod)methodType).varName).getType().equals(((MyReturnMethod)methodType).dataType)) {
+					semanticErrors.add("Error [Line "+ ((MyReturnMethod)methodType).jackieReturnLine +"] : incompatible jackieReturns type");
+				}
+			}else {
+				semanticErrors.add("Error [Line "+ ((MyReturnMethod)methodType).jackieReturnLine +"] : variable " + ((MyReturnMethod)methodType).varName + " is not declared");
+			}
 			return new MyMethods(methodName, (MyReturnMethod)methodType, line);
 
 		} else {
