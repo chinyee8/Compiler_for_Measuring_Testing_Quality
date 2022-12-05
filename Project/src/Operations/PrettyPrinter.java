@@ -33,7 +33,7 @@ public class PrettyPrinter{
 
 			File test = new File("index.html");
 			test.createNewFile();
-			System.out.println("File created in Project holder: index.html");
+			System.out.println("File created in Project folder: index.html");
 			FileWriter myWriter = new FileWriter("index.html");
 			myWriter.write(getTest());
 			myWriter.close();
