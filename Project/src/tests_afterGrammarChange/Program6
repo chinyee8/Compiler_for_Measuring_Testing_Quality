@@ -36,7 +36,11 @@ game Aclass !
 	mymethod LCALLV INT[INT num1] !
 		re << INT 
 		loop(2) !
-			re <- LCALLIV[num1]
+			jackieAsks[re == 0] !
+				re <- LCALLIV[num1]
+			!
+			elseJackie!
+			!
 		! 
 		
 		jackieReturns re
