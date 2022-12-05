@@ -170,12 +170,12 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 					}
 				}
 				else {
-					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
+					this.semanticErrors.add("Error [Line "+i.line+" ]: variable " + i.varName + " return type does not match expression return type.");
 				}
 			}
 			else {
 				//report semantic error uninitialized var
-				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
+				this.semanticErrors.add("Error [Line "+i.line+" ]: variable " + i.varName + " is not declared.");
 			}
 		}
 
@@ -187,7 +187,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
 						Map<String, String> methodParameter = ((MyReturnMethod)m.methodType).parameter.getParams();
 						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyReturnMethod)m.methodType).parameter.getParams().size()) {
-							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter, ((TestMethodCall)this.t_method_call).line);
 							if(containsMethod) {
 								((MyReturnMethod)m.methodType).getValue(inputValues);
 							}
@@ -196,7 +196,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
 						Map<String, String> methodParameter = ((MyVoidMethod)m.methodType).parameter.getParams();
 						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyVoidMethod)m.methodType).parameter.getParams().size()) {
-							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter, ((TestMethodCall)this.t_method_call).line);
 							if(containsMethod) {
 								//dk what to do wtih this yet
 							}
@@ -293,12 +293,12 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 					}
 				}
 				else {
-					this.semanticErrors.add("Error: variable " + i.varName + " return type does not match expression return type.");
+					this.semanticErrors.add("Error [Line "+i.line+" ]: variable " + i.varName + " return type does not match expression return type.");
 				}
 			}
 			else {
 				//report semantic error uninitialized var
-				this.semanticErrors.add("Error: variable " + i.varName + " is not declared.");
+				this.semanticErrors.add("Error [Line "+i.line+" ]: variable " + i.varName + " is not declared.");
 			}
 		}
 
@@ -310,7 +310,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
 						Map<String, String> methodParameter = ((MyReturnMethod)m.methodType).parameter.getParams();
 						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyReturnMethod)m.methodType).parameter.getParams().size()) {
-							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter, ((TestMethodCall)this.t_method_call).line);
 							if(containsMethod) {
 								((MyReturnMethod)m.methodType).getValue(inputValues);
 							}
@@ -319,7 +319,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 						List<String> testMCParameter = ((TestMethodCall)this.t_method_call).call_parameter.getCallParams();
 						Map<String, String> methodParameter = ((MyVoidMethod)m.methodType).parameter.getParams();
 						if(((TestMethodCall)this.t_method_call).call_parameter.getCallParams().size() == ((MyVoidMethod)m.methodType).parameter.getParams().size()) {
-							containsMethod = checkIfSameParameters(testMCParameter, methodParameter);
+							containsMethod = checkIfSameParameters(testMCParameter, methodParameter, ((TestMethodCall)this.t_method_call).line);
 							if(containsMethod) {
 								//dk what to do wtih this yet
 							}
@@ -414,7 +414,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		return new GameBody(decl, assi, mymethod);
 	}
 
-	private boolean checkIfSameParameters(List<String> testMCParameter, Map<String, String> methodParameter) {
+	private boolean checkIfSameParameters(List<String> testMCParameter, Map<String, String> methodParameter, int line) {
 		boolean contains = true;
 		int i = 0;
 		for(Map.Entry<String, Values> in : this.inputValues.entrySet()) {
@@ -423,7 +423,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 
 				if(!in.getValue().getType().equals(mn.getValue())) {
 					contains = false;
-					semanticErrors.add("Error: dataType of " + testMCParameter.get(i) + "from test_methodcall is not the same as mymethod");
+					semanticErrors.add("Error [Line "+ line+" ]: dataType of " + testMCParameter.get(i) + "from test_methodcall is not the same as mymethod");
 				}
 			}
 			i++;
@@ -472,14 +472,14 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 						List<String> RHSparams = ((ReturnMethodCall)rhs).call_parameter.getCallParams();
 						Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
 						if(RHSparams.size() != methodparams.size()) {
-							semanticErrors.add("Error: " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
+							semanticErrors.add("Error [Line "+a.line+"] " + ((ReturnMethodCall)rhs).toString() + " must have the same number of parameters as mymethod " + m.methodName);
 						}else {
 
 							if(RHSparams.size() > 0) {
 								boolean contains = false;
 								for(String r : RHSparams) {
 									if(!this.variableMap.containsKey(r)) {
-										semanticErrors.add("Error: " + r + " is not declared");
+										semanticErrors.add("Error [Line "+a.line+"] \" " + r + " is not declared");
 										contains = true;
 									}
 								}
@@ -490,7 +490,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 									int i = 0;
 									for(Map.Entry<String, String> map: methodparams.entrySet()){
 										if(!(this.variableMap.get(RHSparams.get(i)).getType().equals(map.getValue()))){
-											semanticErrors.add("Error: dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
+											semanticErrors.add("Error [Line "+a.line+"] dataType of " + RHSparams.get(i) + " in " +  ((ReturnMethodCall)rhs).toString() + " is not the same as dataType of " + map.getKey() + " in mymethod" + m.methodName);
 										}
 										i++;
 									}
@@ -513,7 +513,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 				return false;
 			}
 			else { //if method not declared
-				this.semanticErrors.add("Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
+				this.semanticErrors.add("[Line "+a.line+"] Return Method Call on RHS is not declared: " + a.varName + " cannot be assigned to: " + rhs.toString());
 				return false;
 			}
 		}
