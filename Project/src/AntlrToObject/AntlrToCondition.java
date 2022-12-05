@@ -42,11 +42,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(2) instanceof CondVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 
 		}
 		
 		return new LessOrEqual(left, right, line);
@@ -58,12 +56,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Condition condition = visit(ctx.getChild(1));
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(1) instanceof CondVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 	
-				
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 					
 		}
 		return new Negation(condition, line);
 	}
@@ -76,12 +71,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		
 		//Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 				
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 				
 		}
 		return new NotEqualTo(left, right, line);
 	}
@@ -110,13 +102,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(condCov.getCurMethod() + "." + ctx.getText());
-				} 
-				
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(condCov.getCurMethod() + "." + ctx.getText());
+			} 				
 		}
 		return new CondEqual(left, right, line);
 	}
@@ -129,12 +117,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 
 		}
 		return new EqualTo(left, right, line);
 	}
@@ -149,12 +134,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 
 		}
 		
 		return new More(left, right, line);
@@ -165,15 +147,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		int line = token.getLine();
 		Condition left = visit(ctx.getChild(0));
 		Condition right = visit(ctx.getChild(2));
-		// Condition Coverage
-		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext  
-					|| ctx.getChild(2) instanceof CondVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				}
-			}
-		}
 		return new Disjunction(left, right, line);
 	}
 	@Override
@@ -201,12 +174,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 
 		}
 		return new MoreOrEqual(left, right, line);
 	}
@@ -220,12 +190,9 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
-			}
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());
+			} 
 		}
 		return new CondNotEqual(left, right, line);
 	}
@@ -235,15 +202,6 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		int line = token.getLine();
 		Condition left = visit(ctx.getChild(0));
 		Condition right = visit(ctx.getChild(2));
-		// Condition Coverage
-		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
-			}
-		}
 		return new Conjunction(left, right, line);
 	}
 	@Override
@@ -261,11 +219,8 @@ public class AntlrToCondition extends exprBaseVisitor<Condition> {
 		Mathematics right = mVisitorRight.visit(ctx.getChild(2));
 		// Condition Coverage
 		if (condCov != null) {
-			if (ctx.getChild(0) instanceof CondVarNameContext || ctx.getChild(0) instanceof MathVarNameContext 
-					|| ctx.getChild(2) instanceof CondVarNameContext || ctx.getChild(2) instanceof MathVarNameContext) {
-				if (condCov.isComponentState()) {
-					condCov.addComponent(ctx.getText());
-				} 
+			if (condCov.isComponentState()) {
+				condCov.addComponent(ctx.getText());				
 			}
 		}
 		return new Less(left, right, line);

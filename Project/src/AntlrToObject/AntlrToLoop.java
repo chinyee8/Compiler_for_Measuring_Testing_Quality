@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.Token;
 
+import Operations.ConditionCoverage;
 import antlr.exprBaseVisitor;
 import antlr.exprParser.Deterministic_LoopContext;
 import antlr.exprParser.MyMethodBodyContext;
@@ -23,6 +24,8 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 	List<MyMethods> global_mymethods;
 	List<MyMethodBody> mb;
 	
+	ConditionCoverage condCov; // condition coverage
+	
 	public AntlrToLoop(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethods) {
 		// TODO Auto-generated constructor stub
 		this.semanticErrors = semanticErrors;
@@ -31,6 +34,14 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 		this.mb = new LinkedList<>();
 	}
 
+	public AntlrToLoop(List<String> semanticErrors, HashMap<String, Values> variableMap, List<MyMethods> mymethods, ConditionCoverage condCov) {
+		// Condition coverage
+		this.semanticErrors = semanticErrors;
+		this.variableMap = variableMap;
+		this.global_mymethods = mymethods;
+		this.mb = new LinkedList<>();
+		this.condCov = condCov; // condition coverage
+	}
 
 	@Override
 	public Loop visitDeterministic_Loop(Deterministic_LoopContext ctx) {
@@ -42,7 +53,7 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 			int column = t.getCharPositionInLine();
 			this.semanticErrors.add("Error [ Line "+line +", "+ column+" ] : Number of iteration in loop must be positive");
 		}
-		AntlrToMyMethodBody mbVisitor = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods);
+		AntlrToMyMethodBody mbVisitor = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.condCov);
 		MyMethodBody mb = null;
 		if(ctx.getChild(5) instanceof MyMethodBodyContext) {
 			mb = mbVisitor.visit(ctx.getChild(5));
@@ -55,7 +66,17 @@ public class AntlrToLoop extends exprBaseVisitor<Loop>{
 		return new Loop(iterationGoal, this.mb, mb, this.semanticErrors, this.variableMap);
 	}
 
+	public void visitConditionCoverage(Deterministic_LoopContext ctx) {
+
+		AntlrToMyMethodBody mbVisitor = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods, this.condCov);
+		MyMethodBody mb = null;
+		if(ctx.getChild(5) instanceof MyMethodBodyContext) {
+			mbVisitor.visitConditionCoverage((MyMethodBodyContext) ctx.getChild(5));
+		}
 	
+		
+	}
+
 	public Loop control(Deterministic_LoopContext ctx) {
 		int iterationGoal = Integer.valueOf(Integer.valueOf(ctx.getChild(2).getText()));
 		AntlrToMyMethodBody mbVisitor = new AntlrToMyMethodBody(this.semanticErrors, this.variableMap, this.global_mymethods);

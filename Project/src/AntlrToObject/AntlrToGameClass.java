@@ -67,11 +67,11 @@ public class AntlrToGameClass extends exprBaseVisitor<GameClass>{
 	
 	// Condition Coverage 
 	public AntlrToGameClass(ConditionCoverage condCov) {
-		this.condCov = condCov;
+		this.condCov = condCov;/*
 		if (!condCov.isComponentState()) {
 			this.t_method_call = condCov.getTestMethod().getKey();
 			this.inputValues = condCov.getTestMethod().getValue();
-		}
+		}*/
 	}
 	
 	@Override
