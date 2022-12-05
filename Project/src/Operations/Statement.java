@@ -543,9 +543,7 @@ public class Statement {
 			if(lo.iterationGoal == 0) {
 				result += NotCovered(lo.body, space);
 			}else {
-				for(MyMethodBody mb: lo.loopbody) {
-				result += CoveredCoverage(mb, space);
-				}
+				result += CoveredCoverage(lo.body, space);
 			}
 			result += space + "!<br>";
 		}
