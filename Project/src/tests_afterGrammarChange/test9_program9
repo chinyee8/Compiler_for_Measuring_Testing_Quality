@@ -1,0 +1,19 @@
+test test_Aclass !
+	bo1 << BOOLEAN
+	bo2 << BOOLEAN
+	bo3 << BOOLEAN
+	bo4 << BOOLEAN
+	bo5 << BOOLEAN
+	bo6 << BOOLEAN
+	
+	bo1 <- MOD_TWO[1]
+	bo2 <- MOD_TWO[2]
+	bo3 <- MOD_TWO[3]
+	bo4 <- MOD_TWO[4]
+	bo5 <- MOD_TWO[5]
+	bo6 <- MOD_TWO[6]
+	
+	
+
+
+!

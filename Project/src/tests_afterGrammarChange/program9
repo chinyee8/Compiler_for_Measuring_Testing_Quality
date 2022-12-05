@@ -1,0 +1,33 @@
+game Mathclass !
+
+	mymethod MOD_TWO BOOLEAN [INT a] !
+        re << BOOLEAN
+        count << INT
+        num << INT
+        
+        num <- a
+        
+        loop(1000) !
+    		jackieAsks[num == 0] !
+    			re <- TRUE
+    		!
+    		elseJackie !
+    			jackieAsks[num == 1] !
+    				re <- FALSE
+	    		!
+	    		elseJackie !
+	    			jackieAsks[num > 0 ] !
+    					num <- num - 2
+		    		!
+		    		elseJackie !
+		    			
+		    		!	
+	    			
+	    		!	
+    		!
+    	!
+    	        
+        jackieReturns re
+    !
+									   
+!

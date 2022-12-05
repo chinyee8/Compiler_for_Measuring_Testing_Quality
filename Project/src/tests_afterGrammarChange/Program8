@@ -3,7 +3,6 @@ game Aclass !
 									
     mymethod CHECKER STRING [INT num] !
     	re << STRING
-
     	
     	jackieAsks[ num == 0]!
     		re <- "ZERO"
@@ -131,7 +130,7 @@ game Aclass !
     	!
     	jackieReturns re
     !
-    
+    #to loop to a specific number
     mymethod FACT_TO_STRING STRING[INT num] !
     	re << INT
     	count << INT
