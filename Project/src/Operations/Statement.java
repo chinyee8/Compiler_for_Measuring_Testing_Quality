@@ -130,7 +130,6 @@ public class Statement {
 
 					//						getNumCoveredLine(mt.method_body, true);
 					result += "<br>";
-											this.totalLine++;
 					
 					result += "&emsp;!<br>";
 				}
@@ -269,8 +268,7 @@ public class Statement {
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if(mc.contains(mm.methodName)  ) {
-
+				if(mc.contains(mm.methodName) ) {
 					String para = ""; int num = 0;
 					for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
 						para += p1.getValue()+ " " + p1.getKey();
@@ -283,7 +281,9 @@ public class Statement {
 
 					result += "<br>";
 
-					//					result += Covered(mt.method_body, "&emsp;");
+
+					result += CoveredCoverage(mt.method_body, "&emsp;");
+					result += "<br>";
 
 				}
 
@@ -354,7 +354,19 @@ public class Statement {
 							list.add(s);
 						}
 					}
+
+					for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
+					}
 				}else {
+					for(String s: getMethodCallFromThisMethod( i1.ifBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
+					}
+
 					for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
 						if(!list.contains(s)) {
 							list.add(s);
@@ -444,9 +456,9 @@ public class Statement {
 				if(i1.CondEvaluatedTo) {
 					result += Covered( i1.ifBody, space, mc, isLoop);
 					result += space + "! elseJackie !<br>";
-					result += NotCovered(i1.elseBody, space);
+					result += Covered(i1.elseBody, space, mc, isLoop);
 				}else{
-					result += NotCovered( i1.ifBody, space);
+					result += Covered( i1.ifBody, space, mc, isLoop);
 					result += space + "! elseJackie !<br>";
 					result += Covered(i1.elseBody, space, mc, isLoop);
 				}
@@ -534,9 +546,9 @@ public class Statement {
 			if(i1.CondEvaluatedTo) {
 				result += CoveredCoverage( i1.ifBody, space);
 				result += space + "! elseJackie !<br>";
-				result += NotCovered(i1.elseBody, space);
+				result += CoveredCoverage(i1.elseBody, space);
 			}else {
-				result += NotCovered( i1.ifBody, space);
+				result += CoveredCoverage( i1.ifBody, space);
 				result += space + "! elseJackie !<br>";
 				result += CoveredCoverage(i1.elseBody, space);
 			}
@@ -573,7 +585,12 @@ public class Statement {
 					i++;
 				}
 
-				result += space + "<mark style=\"background-color: yellow;\">" + ((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [" + params + "]" + "</mark>" + "<br>";
+				if(((VoidMethodCall)v).covered) {
+					result += space + "<mark style=\"background-color: yellow;\">" + ((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [" + params + "]" + "</mark>" + "<br>";
+				}else {
+					result += space  + ((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [" + params + "]"  + "<br>";
+
+				}
 			}
 		}
 
