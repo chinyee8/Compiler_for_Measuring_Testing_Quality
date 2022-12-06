@@ -319,7 +319,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			}else {
 				if(a.expr instanceof Values) {
 					if(((Values)a.expr) instanceof ValueMath) {
-						checkMath((ValueMath)a.expr, a, true);
+						checkMath((ValueMath)a.expr, a, false);
 					}else {
 						if(local_variableMap.containsKey(a.varName)) {
 							if(local_variableMap.get(a.varName).getType().equals(((Values)a.expr).getValues().getType())) {
