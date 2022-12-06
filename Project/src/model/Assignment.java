@@ -17,4 +17,8 @@ public class Assignment {
 	public String toString() {
 		return varName + " <- " + expr.toString();
 	}
+
+	public void setCovered(boolean b) {
+		this.covered = b;
+	}
 }
