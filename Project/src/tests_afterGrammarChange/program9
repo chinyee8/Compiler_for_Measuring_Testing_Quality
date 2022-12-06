@@ -92,7 +92,7 @@ game Mathclass !
     	
     	count <- 1
     	rem <- 0
-    	loop (3) !
+    	loop (100) !
     		count <- count + 1
 				jackieAsks[count < num ] !
     		
