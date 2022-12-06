@@ -56,7 +56,7 @@ game Firstclass !
 	mymethod CHECK_IF_BALANCE_POSITIVE BOOLEAN[DOUBLE balance] !
 		result << BOOLEAN
 		
-		jackieAsks[balance >= 0] !
+		jackieAsks[balance >= 0.00] !
 			result <- TRUE
 		!
 		elseJackie !
