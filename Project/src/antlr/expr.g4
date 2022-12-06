@@ -35,7 +35,7 @@ method_type: DATA_TYPE '[' parameter ']' '!' method_body 'jackieReturns' VAR_NAM
 		   ;  
 	
 
-method_body: (decl)* (assi)* (if_statement|v_method_call|loop)*					 					#MyMethodBody
+method_body: (decl)* (assi)* (if_statement)* (loop)* (v_method_call)* 					 					#MyMethodBody
 		   ;
 loop: 'loop' '(' NUM ')' '!' method_body '!'													#Deterministic_Loop
 ;
