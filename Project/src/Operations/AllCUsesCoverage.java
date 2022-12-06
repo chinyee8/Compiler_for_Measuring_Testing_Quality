@@ -72,8 +72,9 @@ public class AllCUsesCoverage {
 	public Map<Integer, List<String>> css;
 	public Map<Integer, List<String>> lines;
 	private int countNotUse;
+	private List<List<MyMethods>> globalReturn;
 
-	public AllCUsesCoverage(Map<Program, MethodCall> defProgram) {
+	public AllCUsesCoverage(Map<Program, MethodCall> defProgram, List<List<MyMethods>> globalReturn) {
 		this.defProgram = defProgram;
 		this.countDef = 0;
 		this.countUse = 0;
@@ -89,7 +90,7 @@ public class AllCUsesCoverage {
 		this.javascript = new LinkedHashMap<>();
 		this.css = new LinkedHashMap<>();
 		this.lines = new LinkedHashMap<>();
-
+		this.globalReturn = globalReturn;
 	}
 
 	public void computeAllC() {
@@ -113,7 +114,7 @@ public class AllCUsesCoverage {
 			List<String> mc = getListOfMethodCall(p, methodcall.getName());
 			
 
-			for(MyMethods mm : p.gameclass.body.myMethodList) {
+			for(MyMethods mm :this.globalReturn.get(i)) {
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
 
@@ -310,7 +311,8 @@ public class AllCUsesCoverage {
 		
 		List<String> mc = getListOfMethodCall(p, methodcall.getName());
 
-		for(MyMethods mm : p.gameclass.body.myMethodList) {
+		int i = 0;
+		for(MyMethods mm : this.globalReturn.get(i)) {
 
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
@@ -337,6 +339,7 @@ public class AllCUsesCoverage {
 					result += getNotUnderLinedVoid(mm.methodName, mt);
 				}		  
 			}
+			i++;
 		}
 		result += "!<br>";
 
