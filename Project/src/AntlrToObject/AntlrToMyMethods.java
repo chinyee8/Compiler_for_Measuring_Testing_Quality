@@ -261,9 +261,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}
 				}
 			}
-			
-			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
-			
+						
 			((MyReturnMethod)methodType).setJackieReturnCovered(true);
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
 
