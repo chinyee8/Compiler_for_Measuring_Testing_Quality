@@ -521,7 +521,11 @@ public class Statement {
 		space = space + "&emsp;&emsp;";
 
 		for(Declaration d: mm.declList) {
-			result+=space + "<mark style=\"background-color: yellow;\">" + d.toString() + "</mark>" + "<br>";
+			if(d.covered) {
+				result+=space + "<mark style=\"background-color: yellow;\">" + d.toString() + "</mark>" + "<br>";
+			}else {
+				result+=space  + d.toString() + "<br>";
+			}
 
 		}
 
@@ -530,7 +534,13 @@ public class Statement {
 		}
 
 		for(Assignment a: mm.assiList) {
-			result += space + "<mark style=\"background-color: yellow;\">" + a.toString()+ "</mark>" + "<br>";
+			if(a.covered) {
+				result += space + "<mark style=\"background-color: yellow;\">" + a.toString()+ "</mark>" + "<br>";
+
+			}else {
+				result += space + a.toString()+ "<br>";
+
+			}
 
 		}
 
@@ -541,7 +551,13 @@ public class Statement {
 		}
 
 		for(IfStatement i1 : mm.ifStatList) {
-			result += space  +"<mark style=\"background-color: yellow;\">" +"jackieAsks [ " + i1.cond.toString() + " ] !" + "</mark>" + "<br>";
+			if(i1.jackieIf) {
+				result += space  +"<mark style=\"background-color: yellow;\">" +"jackieAsks [ " + i1.cond.toString() + " ] !" + "</mark>" + "<br>";
+
+			}else {
+				result += space  +"jackieAsks [ " + i1.cond.toString() + " ] !" + "<br>";
+
+			}
 
 			if(i1.CondEvaluatedTo) {
 				result += CoveredCoverage( i1.ifBody, space);
@@ -561,7 +577,13 @@ public class Statement {
 		}
 
 		for(Loop lo : mm.loops) {
-			result += space  +"<mark style=\"background-color: yellow;\">"+ "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
+			if(lo.forCovered) {
+				result += space  +"<mark style=\"background-color: yellow;\">"+ "loop (" + lo.iterationGoal + ") !"  +"</mark>"+ "<br>";
+
+			}else {
+				result += space + "loop (" + lo.iterationGoal + ") !" + "<br>";
+
+			}
 
 			result += CoveredCoverage(lo.body, space);
 
