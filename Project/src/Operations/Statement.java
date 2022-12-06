@@ -60,7 +60,7 @@ public class Statement {
 
 			result += "game " + p.gameclass.className + " !<br><br>";
 
-			List<String> mc = getListOfMethodCall(p, methodcall.getName());
+			List<String> mc = getListOfMethodCall(globalMyMethods, p, methodcall.getName());
 
 			for(MyMethods mm : globalMyMethods) {
 
@@ -153,7 +153,7 @@ public class Statement {
 						+ "</div>"					
 						+"<div class=\""+s+"scolumn\">" + "<br><h3><mark style=\"background-color: orange;\"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3>"  + "<div id=\"statementpercentagenote\"><div id=\"statementpercentagenotecolumn\">" +percentage +  "</div><div id=\"statementpercentagenotecolumn\"><br>" + note +"</div></div>" + "<br>"
 						+"<div id=\"statementcov\">"
-						+ this.getCoverage(p, methodcall, s)
+						+ this.getCoverage(globalMyMethods, p, methodcall, s)
 						+"</div>"
 						+"</div>"
 						+"</div>");
@@ -229,10 +229,10 @@ public class Statement {
 
 	}
 
-	private String getCoverage(Program p, MethodCall methodcall, String currentmc) {
+	private String getCoverage(List<MyMethods> globalMyMethods, Program p, MethodCall methodcall, String currentmc) {
 		String result = "";
 
-		List<String> mc = getListOfMethodCall(p, currentmc);
+		List<String> mc = getListOfMethodCall(globalMyMethods, p, currentmc);
 
 		int i = 0;
 		for(MyMethods mm : this.global.get(i)) {
@@ -297,9 +297,9 @@ public class Statement {
 		return result;
 	}
 
-	private List<String> getMethodCallFromThis(Program p, String methodcall, List<String> list) {
+	private List<String> getMethodCallFromThis(List<MyMethods> globalMyMethods, Program p, String methodcall, List<String> list) {
 		int i = 0;
-		for(MyMethods mm : this.global.get(i)) {
+		for(MyMethods mm : globalMyMethods) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				if(mm.methodName.equals(methodcall) ) {
@@ -720,10 +720,10 @@ public class Statement {
 		}
 	}
 
-	private List<String> getListOfMethodCall(Program p, String name) {
+	private List<String> getListOfMethodCall(List<MyMethods> globalMyMethods, Program p, String name) {
 		List<String> mc = new ArrayList<>();
 		mc.add(name);
-		for(String s: getMethodCallFromThis(p, name, mc)) {
+		for(String s: getMethodCallFromThis(globalMyMethods, p, name, mc)) {
 			if(!mc.contains(s)) {
 				mc.add(s);
 			}
@@ -731,7 +731,7 @@ public class Statement {
 		List<String> current = new ArrayList<>();
 		current.addAll(mc);
 		for(String s : current) {
-			for(String s2:getMethodCallFromThis(p, s, mc)) {
+			for(String s2:getMethodCallFromThis(globalMyMethods, p, s, mc)) {
 				if(!mc.contains(s2)) {
 					mc.add(s2);
 				}
@@ -745,7 +745,7 @@ public class Statement {
 				}
 			}
 			for(String s : current) {
-				for(String s2:getMethodCallFromThis(p, s, mc)) {
+				for(String s2:getMethodCallFromThis(globalMyMethods, p, s, mc)) {
 					if(!mc.contains(s2)) {
 						mc.add(s2);
 					}
