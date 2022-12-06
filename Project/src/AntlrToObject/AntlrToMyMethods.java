@@ -665,7 +665,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 //					checkMath((ValueMath)a.expr, a, true);
 					local.put(a.varName, getMath(local, (ValueMath)a.expr, a, true) );
 				}else {
-					local.put(a.varName, ((Values)a.expr).getValues());	
+					if(!local.containsKey(a.varName)) {
+						semanticErrors.add("Error [Line " + a.line + "] : is not declared");
+					}else {
+						local.put(a.varName, ((Values)a.expr).getValues());	
+					}
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
@@ -771,7 +775,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 //					checkMath((ValueMath)a.expr, a, true);
 					local.put(a.varName, getMath(local, (ValueMath)a.expr, a, true) );
 				}else {
-					local.put(a.varName, ((Values)a.expr).getValues());	
+					if(!local.containsKey(a.varName)) {
+						semanticErrors.add("Error [Line " + a.line + "] : is not declared");
+					}else {
+						local.put(a.varName, ((Values)a.expr).getValues());	
+					}
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
