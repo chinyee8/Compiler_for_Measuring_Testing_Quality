@@ -35,4 +35,9 @@ public class Declaration {
 		return varName + " << " + dataType;
 	}
 
+	public void setCovered(boolean b) {
+		this.covered = b;
+		
+	}
+
 }
