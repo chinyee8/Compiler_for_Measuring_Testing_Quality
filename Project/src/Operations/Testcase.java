@@ -168,6 +168,9 @@ public class Testcase {
 					+ " font-size:12px;"
 					+ "}");
 
+//		this.css.add("mark{"
+//				+ "border-style: outset;"
+//				+ "}");
 	}
 
 	public void getResult() {
