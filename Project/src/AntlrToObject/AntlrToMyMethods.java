@@ -127,10 +127,11 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.variableMap = variableMap;
 		this.global_mymethods = mymethod;
 		this.condCov = condCov;
+		/*
 		if (!condCov.isComponentState()) {
 			this.t_method_call = condCov.getTestMethod().getKey();
 			this.inputValues = condCov.getTestMethod().getValue();
-		}
+		}*/
 	}
 
 	@Override
@@ -231,8 +232,12 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(t_method_call instanceof ReturnMethodCall) {
 				checkTestMethodCallParameter(parameter, methodType, methodName, line);
 			}
-
+			String temp = condCov.getCalledMethod(); //condition coverage
+			condCov.setCalledMethod(methodName); //condition coverage
+			
 			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
+			
+			condCov.setCalledMethod(temp); //condition coverage
 
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
 
@@ -590,14 +595,15 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 
 			//I really need to call eval() only once, so I changed this to be called once...
 			boolean res = evaluated(ifs.cond, local_variableMap);
+			condCov.addResult(); //condition coverage (get test values here)
+			
 			ifs.setCond(res);
 			if(res) {
 				getForIfBody(methodName, ifBody, needCheck);
 			}else {
 				getForIfBody(methodName, elseBody, needCheck);
 			}
-			
-			condCov.addResult(); //condition coverage (get test values here)
+
 
 		}
 
@@ -1510,7 +1516,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 			}
 		}
 		
-		if (condCov != null) {
+		if (condCov != null && !(c instanceof Conjunction) && !(c instanceof Disjunction) && !(c instanceof CondParenthesis)) {
 			condCov.appendResultString(result ? "1" : "0"); //condition coverage
 		}
 				

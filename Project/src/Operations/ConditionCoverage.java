@@ -25,7 +25,7 @@ public class ConditionCoverage{
 	boolean isComponentState;
 	String ifStatString;
 	String resultString;
-	Map.Entry<MethodCall, Map<String, Values>> testMethod;
+	//Map.Entry<MethodCall, Map<String, Values>> testMethod;
 	public HashMap<String, Values> localVarMap;
 	
 	
@@ -55,7 +55,7 @@ public class ConditionCoverage{
 		componentMap = new HashMap<>();
 		//htmlPrint = ""; // for pretty printing
 		isComponentState = true;
-		testMethod = null;
+		//testMethod = null;
 		calledMethod = "";
 		
 		programList = new ArrayList<>();
@@ -79,8 +79,11 @@ public class ConditionCoverage{
 	}
 
 	public void setIfStatString(String ifStatString) {
-		this.ifStatString = ifStatString.replace(" ", "");
-		resetResultString();
+		String temp = ifStatString.replace(" ", "");
+		if (this.ifStatString == null || !this.ifStatString.equals(temp)) {
+			this.ifStatString = temp;
+			resetResultString();
+		}
 	}
 
 	public void appendResultString(String addedString) {
@@ -90,7 +93,7 @@ public class ConditionCoverage{
 	public void resetResultString() {
 		this.resultString = "";
 	}
-	
+	/*
 	public Map.Entry<MethodCall, Map<String, Values>> getTestMethod() {
 		return testMethod;
 	}
@@ -98,7 +101,7 @@ public class ConditionCoverage{
 
 	public void setTestMethod(Map.Entry<MethodCall, Map<String, Values>> testMethod) {
 		this.testMethod = testMethod;
-	}
+	}*/
 
 	public String getMethodParam(String varName) {
 		return localVarMap.get(varName).toString();
@@ -124,14 +127,18 @@ public class ConditionCoverage{
 	// for example, if there are two components, and first component is true and second conpoenents is false, "01" should be in the parameter
 	public boolean addResult() { 
 		TestCase curTestCase = componentMap.get(ifStatString);
-		
 		if (!resultString.isEmpty() && curTestCase != null && isCalledMethod()) {
 			int n = Integer.parseInt(this.resultString, 2);
 			int index = (int) Math.pow(2, curTestCase.components.size()) - n - 1;
+			
+			resetResultString();
+			
 			if (index  < 0 || index >= curTestCase.results.length) 
 				return false;
-			curTestCase.results[index] = true; // Tested
-			curTestCase.resultCount++;
+			if (!curTestCase.results[index]) {
+				curTestCase.results[index] = true; 
+				curTestCase.resultCount++;
+			}
 			return true;
 		}
 		return false;
@@ -239,7 +246,7 @@ public class ConditionCoverage{
 			return "";
 		}
 		String hoverButton = "";
-		hoverButton += "<a" + hoverIndex + " class =\"popup\" onmouseover=\"showTable" + hoverIndex + "()\"> ☞ See Coverage" ;
+		hoverButton += "<a" + hoverIndex + " class =\"popup\" onclick=\"showTable" + hoverIndex + "()\"> ☞ See Coverage" ;
 		hoverButton +=  " <span id=\"Popup" + hoverIndex + "\" class=\"popuptext\">" + tableHTMLMap.get( curCondString.replace(" ", "")) + "</span>  </a" + hoverIndex + ">";
 		hoverIndex++;
 		return hoverButton;

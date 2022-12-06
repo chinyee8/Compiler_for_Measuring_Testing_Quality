@@ -95,10 +95,11 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		this.global_mymethods = global_mymethods;
 		this.local_methodvar = new HashMap<>();
 		this.condCov = condCov;		
+		/*
 		if (!condCov.isComponentState()) {
 			this.t_method_call = condCov.getTestMethod().getKey();
 			this.inputValues = condCov.getTestMethod().getValue();
-		}
+		}*/
 	}
 
 	@Override
@@ -330,10 +331,12 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 		List<Assignment> assi = new ArrayList<>();
 		List<IfStatement> ifstatement = new ArrayList<>();
 		List<MethodCall> methodcall = new ArrayList<>();
+		//List<Loop> loops = new ArrayList<>();
 
 		AntlrToDeclaration declVisitor = new AntlrToDeclaration(semanticErrors, this.variableMap);
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
-		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap);
+		AntlrToMethodCall methodcallVisitor = new AntlrToMethodCall(semanticErrors, this.variableMap, this.condCov);
+		AntlrToLoop loopVisitor = new AntlrToLoop(semanticErrors, this.variableMap, this.global_mymethods, this.condCov);
 
 		this.local_methodvar.putAll(variableMap);
 
@@ -358,19 +361,26 @@ public class AntlrToMyMethodBody extends exprBaseVisitor<MyMethodBody> {
 				methodcall.add(methodcallVisitor.visit(ctx.getChild(i)));
 			}
 			*/
-
+			
 			if (ctx.getChild(i) instanceof VoidMethodCallContext) {
-				methodcall.add(methodcallVisitor.visitConditionCoverageV((VoidMethodCallContext)ctx.getChild(i)));
+				methodcallVisitor.visitConditionCoverageV((VoidMethodCallContext)ctx.getChild(i));
 			}
 			else if (ctx.getChild(i) instanceof ReturnMethodCallContext) {
-				methodcall.add(methodcallVisitor.visitConditionCoverageR((ReturnMethodCallContext)ctx.getChild(i)));
+				methodcallVisitor.visitConditionCoverageR((ReturnMethodCallContext)ctx.getChild(i));
 			}
+			
+			if(ctx.getChild(i) instanceof Deterministic_LoopContext) {
+				loopVisitor.visitConditionCoverage((Deterministic_LoopContext) ctx.getChild(i));
+				//loops.add(lo);
+			}
+			
 		}
 
 		this.decl = decl;
 		this.assi = assi;
 		this.ifstatement = ifstatement;
 		this.methodcall = methodcall;
+		//this.loops = loops;
 		
 	}
 

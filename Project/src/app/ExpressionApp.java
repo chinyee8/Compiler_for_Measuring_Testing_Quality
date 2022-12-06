@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import AntlrToObject.AntlrToProgram;
 import Operations.AllCUsesCoverage;
 import Operations.AllDefCoverage;
+import Operations.AllPUsesCoverage;
 import Operations.ConditionCoverage;
 import Operations.ErrorListener;
 import Operations.Original;

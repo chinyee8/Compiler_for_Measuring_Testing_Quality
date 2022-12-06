@@ -231,6 +231,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			ifVisitor.visitConditionCoverage(m);
 		}*/
 
+		
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
@@ -265,9 +266,9 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethodsContext m = (MyMethodsContext)ctx.mymethod(i);
 			Map.Entry<MethodCall, Map<String, Values>> testMethod = condCov.getTestMethod();
-
+			
 			condCov.setCurMethod(m.METHODNAME().getText());
-
+			
 			if (!condCov.isComponentState() && testMethod != null
 					&& m.METHODNAME().getText().equals(testMethod.getKey().getName())) {
 				condCov.setCalledMethod(m.METHODNAME().getText());

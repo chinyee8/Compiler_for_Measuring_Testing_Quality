@@ -52,10 +52,11 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 
 		this.methodCallParamOrder = condCov.getMethodCallParamOrder();
 		this.condCov = condCov;
+		/*
 		if (!condCov.isComponentState()) {
 			this.t_method_call = condCov.getTestMethod().getKey();
 			this.inputValues = condCov.getTestMethod().getValue();
-		}
+		}*/
 	}
 	
 	//defCoverage
@@ -76,6 +77,7 @@ public class AntlrToMethodType extends exprBaseVisitor<MethodType> {
 		
 		AntlrToMyMethodBody method_bodyVisitor = new AntlrToMyMethodBody(semanticErrors, this.variableMap, this.global_mymethods);
 		MyMethodBody method_body = method_bodyVisitor.visit(ctx.method_body());
+		//ifVisitor.visitConditionCoverage((MyMethodBodyContext)ctx.method_body());
 		
 		String varName = ctx.VAR_NAME().getText();
 		Token token = ctx.VAR_NAME().getSymbol();
