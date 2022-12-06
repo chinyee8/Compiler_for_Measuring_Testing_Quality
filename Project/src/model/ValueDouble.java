@@ -1,7 +1,7 @@
 package model;
 
 public class ValueDouble extends Values {
-	double value;
+	public double value;
 	public ValueDouble(double value) {
 		this.value = value;
 	}
