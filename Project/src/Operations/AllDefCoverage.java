@@ -1225,46 +1225,67 @@ public class AllDefCoverage {
 	}
 
 	private List<String> getMethodCallFromThis(Program p, String methodcall, List<String> list) {
-		for(MyMethods mm : p.gameclass.body.myMethodList) {
+		int i = 0;
+		for(MyMethods mm : this.globalReturn.get(i)) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				if(mm.methodName.equals(methodcall) ) {
-					list = getMethodCallFromThisMethod(mt.method_body ,list);
+					list = getMethodCallFromThisMethod(mt.method_body ,list, false);
 				}
 
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
 				if(mm.methodName.equals(methodcall) ) {
-					list = getMethodCallFromThisMethod(mt.method_body ,list);
+					list = getMethodCallFromThisMethod(mt.method_body ,list, false);
 				}
 
 			}
+			i++;
 		}
 
 		return list;
 	}
 
-	private List<String> getMethodCallFromThisMethod(MyMethodBody mb, List<String> list) {
+	private List<String> getMethodCallFromThisMethod(MyMethodBody mb, List<String> list, boolean isLoop) {
 		for(Assignment a: mb.assiList) {
-			if(a.expr instanceof ReturnMethodCall) {
-				if(!list.contains(((ReturnMethodCall)a.expr).methodName)) {
-					list.add(((ReturnMethodCall)a.expr).methodName);
+			if(a.covered) {
+				if(a.expr instanceof ReturnMethodCall) {
+					if(!list.contains(((ReturnMethodCall)a.expr).methodName)) {
+						list.add(((ReturnMethodCall)a.expr).methodName);
+					}
 				}
 			}
+
 		}
 
 		for(IfStatement i1 : mb.ifStatList) {
-			if(i1.CondEvaluatedTo) {
-				for(String s: getMethodCallFromThisMethod( i1.ifBody, list)) {
+			if(isLoop) {
+				for(String s: getMethodCallFromThisMethod( i1.ifBody, list, isLoop)) {
+					if(!list.contains(s)) {
+						list.add(s);
+					}
+				}
+
+				for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}
 				}
 			}else {
-				for(String s: getMethodCallFromThisMethod( i1.elseBody, list)) {
-					if(!list.contains(s)) {
-						list.add(s);
+
+
+				if(i1.CondEvaluatedTo) {
+					for(String s: getMethodCallFromThisMethod( i1.ifBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
+					}
+				}else {
+					for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
 					}
 				}
 			}
@@ -1272,7 +1293,7 @@ public class AllDefCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				for(String s: getMethodCallFromThisMethod( lo.body, list)) {
+				for(String s: getMethodCallFromThisMethod( lo.body, list, true)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}
@@ -1282,8 +1303,10 @@ public class AllDefCoverage {
 
 		for(MethodCall v: mb.methodCall) {
 			if(v instanceof VoidMethodCall) {
-				if(!list.contains(((VoidMethodCall)v).methodname)) {
-					list.add(((VoidMethodCall)v).methodname);
+				if(((VoidMethodCall)v).covered) {
+					if(!list.contains(((VoidMethodCall)v).methodname)) {
+						list.add(((VoidMethodCall)v).methodname);
+					}
 				}
 			}
 		}
