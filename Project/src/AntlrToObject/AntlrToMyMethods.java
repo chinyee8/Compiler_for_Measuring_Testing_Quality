@@ -920,7 +920,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 										if(p instanceof CallParamVarName) {
 											CallParamVarName a1 = (CallParamVarName) p;
 											if(!this.local_variableMap.containsKey(a1.varName)) {
-												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
+												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods " + m.methodName + " does not exist");
 											}else {
 												callInputs.put("" + i, this.local_variableMap.get(a1.varName));
 											}
@@ -1666,7 +1666,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 										if(p instanceof CallParamVarName) {
 											CallParamVarName a1 = (CallParamVarName) p;
 											if(!this.local_variableMap.containsKey(a1.varName)) {
-												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
+												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods " + m.methodName + " does not exist");
 											}else {
 												callInputs.put("" + i, this.local_variableMap.get(a1.varName));
 											}
@@ -1744,7 +1744,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 										if(p instanceof CallParamVarName) {
 											CallParamVarName a1 = (CallParamVarName) p;
 											if(!local.containsKey(a1.varName)) {
-												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
+												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods " + m.methodName + " does not exist");
 											}else {
 												callInputs.put("" + i, local.get(a1.varName));
 											}
