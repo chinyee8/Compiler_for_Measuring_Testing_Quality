@@ -1,36 +1,16 @@
 game Mathclass !  
-      mymethod SCIENCE DOUBLE [DOUBLE input1, DOUBLE input2] !
-        result << DOUBLE	
-        input2 <- 1.23	
-        result <- HISTORY [input1, input2]
-        jackieAsks [input1 > input2] !
-            result <- 10.00
-        ! elseJackie !
-			result <- 100.00
-        !
-        jackieReturns result
-    !     									
-    
+     									   
     mymethod MATH DOUBLE [BOOLEAN b, DOUBLE input1, DOUBLE input2] !
         result << DOUBLE
-        input1 <- input1 + 2.45
-        input2 <- 3.45 * input2
-        result <- SCIENCE [input1, input2]
+        
         jackieAsks [b] !
+        	answer << DOUBLE
         ! elseJackie !
 			input1 <- SCIENCE [input1, input2]
         !
-        jackieReturns result
+        
+        jackieReturns answer
     !     
     
-     mymethod HISTORY DOUBLE [DOUBLE input1, DOUBLE input2] !
-        result << DOUBLE	
-        input2 <- 1.23	
-        jackieAsks [input1 > input2] !
-            result <- 10.00
-        ! elseJackie !
-			result <- 100.00
-        !
-        jackieReturns result
-    ! 
+ 
 !

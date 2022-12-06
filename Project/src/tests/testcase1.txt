@@ -4,11 +4,10 @@ test test_api01 !
 	bool1 << BOOLEAN
 	result << DOUBLE
 	
-	input1 <- 1.23
-	input2 <- 2.37
+	input1 <- 1.00
+	input2 <- 2.00
 	bool1 <- TRUE
 	result <- MATH[bool1, input1, input2]	
-	input2 <- HISTORY[input1, input2]
-	input2 <- SCIENCE[input1, input2]
+
 	
 !
