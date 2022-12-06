@@ -9,6 +9,7 @@ public class MyReturnMethod extends MethodType {
 	public String varName;
 	public Values returnValue;
 	public int jackieReturnLine;
+	public boolean jackieReturnCovered;
 	
 	public MyReturnMethod(String dataType,
 			Parameter parameter,
@@ -19,6 +20,7 @@ public class MyReturnMethod extends MethodType {
 		this.method_body = method_body;
 		this.varName = varName;
 		this.jackieReturnLine = line;
+		this.jackieReturnCovered = false;
 	}
 	public MyReturnMethod(String dataType,
 			Parameter parameter,
@@ -30,6 +32,8 @@ public class MyReturnMethod extends MethodType {
 		this.varName = varName;
 		this.returnValue = returnValue;
 		this.jackieReturnLine = line;
+		this.jackieReturnCovered = false;
+
 	}
 	@Override
 	public String toString() {
@@ -49,6 +53,9 @@ public class MyReturnMethod extends MethodType {
 
 	public void putReturnValue(Values v) {
 		this.returnValue = v;
+	}
+	public void setJackieReturnCovered(boolean b) {
+		this.jackieReturnCovered = b;
 	}
 	
 }
