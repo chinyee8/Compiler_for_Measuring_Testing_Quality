@@ -28,6 +28,4 @@ test test_bankaccount !
 	
 	person3_account <- CLEAR_ACCOUNT[person3_account]
 
-	
-	
 !
