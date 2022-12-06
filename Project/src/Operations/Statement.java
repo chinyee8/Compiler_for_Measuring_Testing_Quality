@@ -113,7 +113,26 @@ public class Statement {
 					//					}
 
 				}else if(mm.methodType instanceof MyVoidMethod) {
+					MyVoidMethod mt = (MyVoidMethod) mm.methodType;
+					
+					String para = ""; int num = 0;
+					for(Map.Entry<String, String> p1 : mt.parameter.getParams().entrySet()) {
+						para += p1.getValue()+ " " + p1.getKey();
+						if(num < mt.parameter.getParams().size()-1) {
+							para+= ", ";
+						}
+						num++;
+					}
+					result += "&emsp;mymethod " + mm.methodName + " " + mt.voidType + " [" + para + "] !<br>";
+					result += "<br>";
+//										this.totalLine ++;
+					result += Covered(mt.method_body, "&emsp;", mc, false);
 
+					//						getNumCoveredLine(mt.method_body, true);
+					result += "<br>";
+											this.totalLine++;
+					
+					result += "&emsp;!<br>";
 				}
 			}
 			result += "!<br>";
