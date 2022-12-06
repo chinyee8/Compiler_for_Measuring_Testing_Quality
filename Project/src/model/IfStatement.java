@@ -12,6 +12,7 @@ public class IfStatement{
 	public HashMap<String, Values> variableMap;
 	public boolean ifCovered;
 	public boolean elseCovered;
+	public boolean jackieIf;
 	public List<String> semanticErrors;
 	public boolean CondEvaluatedTo;
 	public int line;
@@ -22,6 +23,7 @@ public class IfStatement{
 		this.elseBody = elseBody;
 		ifCovered = false;
 		elseCovered = false;
+		jackieIf = false;
 		this.semanticErrors = semanticErrors;
 		this.CondEvaluatedTo = false;
 		this.line = line;
@@ -41,6 +43,11 @@ public class IfStatement{
 
 	public void setCond(boolean evaluated) {
 		this.CondEvaluatedTo = evaluated;
+		
+	}
+
+	public void setCoveredJackieIf(boolean covered) {
+		this.jackieIf = covered;
 		
 	}
 		
