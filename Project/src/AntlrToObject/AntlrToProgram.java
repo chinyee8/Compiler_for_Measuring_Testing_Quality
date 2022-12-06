@@ -44,6 +44,8 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 	public Map<String, Values> testVarMap = new LinkedHashMap<String, Values>();
 	public Map< Integer,String> assignedTo = new LinkedHashMap<>();
 	public Map< Integer,Values> assignedValues = new LinkedHashMap<>();
+	public List<List<MyMethods>> globalReturn = new LinkedList<>();
+
 
 	// Condition Coverage member variable
 	public ConditionCoverage condCov;
@@ -168,6 +170,7 @@ public class AntlrToProgram extends exprBaseVisitor<Program> {
 		this.testKey = tVisitor.getTestKey();
 		this.assignedTo = tVisitor.getAssignedTo();
 		this.assignedValues = tVisitor.getAssignedValues();
+		this.globalReturn = tVisitor.getGlobalReturn();
 		return prog;
 	}
 	
