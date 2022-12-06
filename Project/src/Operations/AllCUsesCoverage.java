@@ -110,13 +110,15 @@ public class AllCUsesCoverage {
 
 			result += "game " + p.gameclass.className + " !<br><br>";
 
-			
+
 			List<String> mc = getListOfMethodCall(p, methodcall.getName());
-			
+
 
 			for(MyMethods mm :this.globalReturn.get(i)) {
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
+				this.countDef = 0;
+				this.countUse = 0;
 
 				if( mm.methodType instanceof MyReturnMethod) {
 					MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
@@ -125,7 +127,7 @@ public class AllCUsesCoverage {
 						getAllVariableReturn(mt, false);
 						this.countDefTotal += this.countDef;
 						this.countUseTotal += this.countUse;
-						
+
 						result += getUnderLinedReturn(mm.methodName, mt);
 					}else {
 						result += getNotUnderLinedReturn(mm.methodName, mt);
@@ -138,7 +140,7 @@ public class AllCUsesCoverage {
 						getAllVariableVoid(mt, false);
 						this.countDefTotal += this.countDef;
 						this.countUseTotal += this.countUse;
-						
+
 						result += getUnderLinedVoid(mm.methodName, mt);
 					}else {
 						result += getNotUnderLinedVoid(mm.methodName, mt);
@@ -265,50 +267,50 @@ public class AllCUsesCoverage {
 		return mc;
 	}
 
-	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
-		for(MyMethods mm : l) {
-			if( mm.methodType instanceof MyReturnMethod) {
-				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
-					this.returnMethodCall.add(methodcall.getName());
-					getTestMethodCall( mt.method_body);
-				}
-
-			}else if(mm.methodType instanceof MyVoidMethod) {
-				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName) ) {
-					this.voidMethodCall.add(methodcall.getName());
-					getTestMethodCall( mt.method_body);
-				}
-			}
-		}	
-
-		checkAllMethodCall(l, methodcall);
-	}
-
-	private void checkAllMethodCall(List<MyMethods> l, MethodCall methodcall) {
-		for(MyMethods mm : l) {
-			if( mm.methodType instanceof MyReturnMethod) {
-				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
-				if(this.returnMethodCall.size()>0 && this.returnMethodCall.contains(mm.methodName)) {
-					getTestMethodCall(mt.method_body);
-				}
-
-			}else if(mm.methodType instanceof MyVoidMethod) {
-				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
-				if(this.voidMethodCall.size()>0 && this.voidMethodCall.contains(mm.methodName)) {
-					getTestMethodCall(mt.method_body);
-				}
-			}
-		}		
-	}
+	//	private void checkMethodCall(List<MyMethods> l, MethodCall methodcall) {
+	//		for(MyMethods mm : l) {
+	//			if( mm.methodType instanceof MyReturnMethod) {
+	//				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+	//				if(methodcall instanceof ReturnMethodCall && ((ReturnMethodCall)methodcall).methodName.equals(mm.methodName) ) {
+	//					this.returnMethodCall.add(methodcall.getName());
+	//					getTestMethodCall( mt.method_body);
+	//				}
+	//
+	//			}else if(mm.methodType instanceof MyVoidMethod) {
+	//				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+	//				if((methodcall instanceof VoidMethodCall && ((VoidMethodCall)methodcall).methodname.equals(mm.methodName)) || this.voidMethodCall.contains(mm.methodName) ) {
+	//					this.voidMethodCall.add(methodcall.getName());
+	//					getTestMethodCall( mt.method_body);
+	//				}
+	//			}
+	//		}	
+	//
+	//		checkAllMethodCall(l, methodcall);
+	//	}
+	//
+	//	private void checkAllMethodCall(List<MyMethods> l, MethodCall methodcall) {
+	//		for(MyMethods mm : l) {
+	//			if( mm.methodType instanceof MyReturnMethod) {
+	//				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
+	//				if(this.returnMethodCall.size()>0 && this.returnMethodCall.contains(mm.methodName)) {
+	//					getTestMethodCall(mt.method_body);
+	//				}
+	//
+	//			}else if(mm.methodType instanceof MyVoidMethod) {
+	//				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
+	//				if(this.voidMethodCall.size()>0 && this.voidMethodCall.contains(mm.methodName)) {
+	//					getTestMethodCall(mt.method_body);
+	//				}
+	//			}
+	//		}		
+	//	}
 
 
 	public String getResultString(Program p, MethodCall methodcall, String d) {
 		String result = "";
 
 		result += "game " + p.gameclass.className + " !<br><br>";
-		
+
 		List<String> mc = getListOfMethodCall(p, methodcall.getName());
 
 		int i = 0;
@@ -321,7 +323,7 @@ public class AllCUsesCoverage {
 					this.def = new ArrayList<>();
 					this.use = new ArrayList<>();
 					getAllVariableReturn(mt, false);
-					result += this.getResult(mm.methodName, mt.method_body, mt.parameter, mt.dataType, mt.varName, d);
+					result += this.getResult(((MyReturnMethod)mm.methodType) ,mm.methodName, mt.method_body, mt.parameter, mt.dataType, mt.varName, d);
 				}else {
 					result += getNotUnderLinedReturn(mm.methodName, mt);
 				}
@@ -467,26 +469,36 @@ public class AllCUsesCoverage {
 
 		List<String> assignmentvar = new ArrayList<>();
 		for(Assignment a: mm.assiList) {
-			if(!assignmentvar.contains(a.varName)) {
-				assignmentvar.add(a.varName);
+			if(a.covered) {
+				if(!assignmentvar.contains(a.varName)) {
+					assignmentvar.add(a.varName);
+				}
 			}
+
+
 		}
 
 		for(Declaration a: mm.declList) {
-			if(assignmentvar.contains(a.varName)) {
-				result += space + a.toString() + "<br>";
-			}else {
-				if(def.contains(a.varName)) {
-					if(use.contains(a.varName)) {
-						result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> << " + a.dataType + "<br>";
-					}else {
-						result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> << " + a.dataType + "<br>";
-					}
-				}else {
+			if(a.covered) {
+				if(assignmentvar.contains(a.varName)) {
 					result += space + a.toString() + "<br>";
+				}else {
+					if(def.contains(a.varName)) {
+						if(use.contains(a.varName)) {
+							result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> << " + a.dataType + "<br>";
+						}else {
+							result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> << " + a.dataType + "<br>";
+						}
+					}else {
+						result += space + a.toString() + "<br>";
+					}
+
 				}
+			}else {
+				result += space + a.toString() + "<br>";
 
 			}
+
 		}
 
 		if(mm.declList.size()>0 && mm.assiList.size()>0) {
@@ -494,10 +506,14 @@ public class AllCUsesCoverage {
 		}
 
 		for(Assignment a: mm.assiList) {
-			if(def.contains(a.varName)) {
-				result += space + "<u class=\"paragraph_underline\">" + a.varName + "</u>" + " <- " + a.expr.toString() + "<br>";
+			if(a.covered) {
+				if(def.contains(a.varName)) {
+					result += space + "<u class=\"paragraph_underline\">" + a.varName + "</u>" + " <- " + a.expr.toString() + "<br>";
+				}else {
+					result += space  + a.varName + " <- " + a.expr.toString() + "<br>";
+				}
 			}else {
-				result += space  + a.varName + " <- " + a.expr.toString() + "<br>";
+				result += space  + a.toString() + "<br>";
 			}
 		}
 
@@ -512,11 +528,11 @@ public class AllCUsesCoverage {
 				result += space + "jackieAsks [ " + i1.cond.toString() + " ] !<br>";
 				result += getMethodBodyString( i1.ifBody, space);
 				result += space + "! elseJackie !<br>";
-				result += getElseMethodBodyString(i1.elseBody, space);
+				result += getMethodBodyString(i1.elseBody, space);
 				result += space + "!<br>";
 			}else {
 				result += space + "jackieAsks [ " + i1.cond.toString() + " ] !<br>";
-				result += getElseMethodBodyString( i1.ifBody, space);
+				result += getMethodBodyString( i1.ifBody, space);
 				result += space + "! elseJackie !<br>";
 				result += getMethodBodyString(i1.elseBody, space);
 				result += space + "!<br>";
@@ -531,11 +547,9 @@ public class AllCUsesCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			if(lo.iterationGoal == 0) {
-				result += getElseMethodBodyString(lo.body, space);
-			}else {
-				result += getMethodBodyString(lo.body, space);
-			}
+
+			result += getMethodBodyString(lo.body, space);
+
 			result += space + "!<br>";
 		}
 
@@ -660,7 +674,7 @@ public class AllCUsesCoverage {
 		return result;
 	}
 
-	private String getResult(String methodName, MyMethodBody method_body, Parameter parameter, String dataType, String varName, String d) {
+	private String getResult(MyReturnMethod methodType, String methodName, MyMethodBody method_body, Parameter parameter, String dataType, String varName, String d) {
 		String result="";
 		String para = ""; int i = 0;
 		for(Map.Entry<String, String> p1 :parameter.getParams().entrySet()) {
@@ -687,10 +701,16 @@ public class AllCUsesCoverage {
 
 		result += "<br>";
 
-		if(d.equals(varName)) {
-			result += "&emsp;&emsp;jackieReturns " + "<mark style=\"background-color: yellow;\">" + varName + "</mark><br>";
+		if(methodType.jackieReturnCovered) {
+			if(d.equals(varName)) {
+				result += "&emsp;&emsp;jackieReturns " + "<mark style=\"background-color: yellow;\">" + varName + "</mark><br>";
+			}else {
+				result += "&emsp;&emsp;jackieReturns " + varName + "<br>";
+			}
+
 		}else {
 			result += "&emsp;&emsp;jackieReturns " + varName + "<br>";
+
 		}
 
 		result += "&emsp;!<br>";
@@ -701,28 +721,34 @@ public class AllCUsesCoverage {
 	public String getResultBody(MyMethodBody mm, String space, String d) {
 		String result = "";
 		space = space + "&emsp;&emsp;";
-		
+
 		List<String> assignmentvar = new ArrayList<>();
 		for(Assignment a: mm.assiList) {
-			if(!assignmentvar.contains(a.varName)) {
-				assignmentvar.add(a.varName);
+			if(a.covered) {
+				if(!assignmentvar.contains(a.varName)) {
+					assignmentvar.add(a.varName);
+				}
 			}
 		}
 
 		for(Declaration a: mm.declList) {
-			if(assignmentvar.contains(a.varName)) {
-				result += space + a.toString() + "<br>";
-			}else {
-				if(d.equals(a.varName)) {
-					if(use.contains(a.varName)) {
-						result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> << " + a.dataType + "<br>";
-					}else {
-						result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> << " + a.dataType + "<br>";
-					}
-				}else {
+			if(a.covered) {
+				if(assignmentvar.contains(a.varName)) {
 					result += space + a.toString() + "<br>";
-				}
+				}else {
+					if(d.equals(a.varName)) {
+						if(use.contains(a.varName)) {
+							result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> << " + a.dataType + "<br>";
+						}else {
+							result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> << " + a.dataType + "<br>";
+						}
+					}else {
+						result += space + a.toString() + "<br>";
+					}
 
+				}
+			}else {
+				result += space + a.toString() + "<br>";
 			}
 		}
 
@@ -731,58 +757,62 @@ public class AllCUsesCoverage {
 		}
 
 		for(Assignment a: mm.assiList) {
-			String expr = "";
-			if(a.expr instanceof Values) {
-				if(((Values)a.expr) instanceof ValueMath) {
-					expr = getMathString(((ValueMath)((Values)a.expr)).math, d);
-				}else{
-					expr = ((Values)a.expr).getValues().toString();
-				}
-			}else if(a.expr instanceof ReturnMethodCall) {
-				String para = ""; int i = 0;
-				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
-					if(p instanceof CallParamVarName) {
-						CallParamVarName a1 = (CallParamVarName) p;
-						if(d.equals(a1.varName)) {
-							para += "<mark style=\"background-color: yellow;\">" + a1.varName + "</mark>";
-						}else {
-							para += a1.varName;
+			if(a.covered) {
+				String expr = "";
+				if(a.expr instanceof Values) {
+					if(((Values)a.expr) instanceof ValueMath) {
+						expr = getMathString(((ValueMath)((Values)a.expr)).math, d);
+					}else{
+						expr = ((Values)a.expr).getValues().toString();
+					}
+				}else if(a.expr instanceof ReturnMethodCall) {
+					String para = ""; int i = 0;
+					for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
+						if(p instanceof CallParamVarName) {
+							CallParamVarName a1 = (CallParamVarName) p;
+							if(d.equals(a1.varName)) {
+								para += "<mark style=\"background-color: yellow;\">" + a1.varName + "</mark>";
+							}else {
+								para += a1.varName;
+							}
+						}else if(p instanceof CallParamDouble) {
+							CallParamDouble a1 = (CallParamDouble) p;
+							para += a1.input;
+						}else if(p instanceof CallParamNum) {
+							CallParamNum a1 = (CallParamNum) p;
+							para += a1.num;
+						}else if(p instanceof CallParamChar) {
+							CallParamChar a1 = (CallParamChar) p;
+							para += a1.input;
+						}else if(p instanceof CallParamString) {
+							CallParamString a1 = (CallParamString) p;
+							para += a1.input;
+						}else if(p instanceof CallParamBoolean) {
+							CallParamBoolean a1 = (CallParamBoolean) p;
+							para += a1.input;
 						}
-					}else if(p instanceof CallParamDouble) {
-						CallParamDouble a1 = (CallParamDouble) p;
-						para += a1.input;
-					}else if(p instanceof CallParamNum) {
-						CallParamNum a1 = (CallParamNum) p;
-						para += a1.num;
-					}else if(p instanceof CallParamChar) {
-						CallParamChar a1 = (CallParamChar) p;
-						para += a1.input;
-					}else if(p instanceof CallParamString) {
-						CallParamString a1 = (CallParamString) p;
-						para += a1.input;
-					}else if(p instanceof CallParamBoolean) {
-						CallParamBoolean a1 = (CallParamBoolean) p;
-						para += a1.input;
-					}
-					
-					
 
-					if(i < ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams().size()-1) {
-						para+= ", ";
+
+
+						if(i < ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams().size()-1) {
+							para+= ", ";
+						}
+						i++;
 					}
-					i++;
+					expr = ((ReturnMethodCall)a.expr).methodName + " [ " + para + " ]";
 				}
-				expr = ((ReturnMethodCall)a.expr).methodName + " [ " + para + " ]";
-			}
 
-			if(d.equals(a.varName)) {
-				if(use.contains(a.varName)) {
-					result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> <- " + expr + "<br>";
+				if(d.equals(a.varName)) {
+					if(use.contains(a.varName)) {
+						result += space + "<u class=\"paragraph_underline\">" + a.varName  + "</u> <- " + expr + "<br>";
+					}else {
+						result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> <- " + expr + "<br>";
+					}
 				}else {
-					result += space + "<mark style=\"background-color: red; color: white;\">" + a.varName  +  "</mark> <- " + expr + "<br>";
+					result += space + a.varName + " <- " + expr + "<br>";
 				}
 			}else {
-				result += space + a.varName + " <- " + expr + "<br>";
+				result += space + a.toString() + "<br>";
 			}
 		}
 
@@ -797,11 +827,11 @@ public class AllCUsesCoverage {
 				result += space + "jackieAsks [ " + i1.cond.toString() + " ] !<br>";
 				result += getResultBody( i1.ifBody, space, d);
 				result += space + "! elseJackie !<br>";
-				result += getElseMethodBodyString(i1.elseBody, space);
+				result += getResultBody(i1.elseBody, space, d);
 				result += space + "!<br>";
 			}else {
 				result += space + "jackieAsks [ " + i1.cond.toString() + " ] !<br>";
-				result += getElseMethodBodyString( i1.ifBody, space);
+				result += getResultBody( i1.ifBody, space, d);
 				result += space + "! elseJackie !<br>";
 				result += getResultBody(i1.elseBody, space, d);
 				result += space + "!<br>";
@@ -816,12 +846,9 @@ public class AllCUsesCoverage {
 
 		for(Loop lo : mm.loops) {
 			result += space + "loop (" + lo.iterationGoal + ") !<br>";
-			if(lo.iterationGoal == 0) {
-				result += getElseMethodBodyString(lo.body, space);
 
-			}else {
-				result += getResultBody(lo.body, space, d);
-			}
+			result += getResultBody(lo.body, space, d);
+
 			result += space + "!<br>";
 		}
 
@@ -833,17 +860,30 @@ public class AllCUsesCoverage {
 			if(v instanceof VoidMethodCall) {
 
 				String params = ""; int i = 0; 
-				for(String p: ((VoidMethodCall)v).call_parameter.getCallParams()) {
-					if(d.equals(p)) {
-						params += "<mark style=\"background-color: yellow;\">"+ p + "</mark>";
-					}else {
+				if(((VoidMethodCall)v).covered) {
+					for(String p: ((VoidMethodCall)v).call_parameter.getCallParams()) {
+						if(d.equals(p)) {
+							params += "<mark style=\"background-color: yellow;\">"+ p + "</mark>";
+						}else {
+							params += p;
+						}
+						if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
+							params += ", ";
+						}
+						i++;
+					}
+				}else {
+					for(String p: ((VoidMethodCall)v).call_parameter.getCallParams()) {
+
 						params += p;
+
+						if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
+							params += ", ";
+						}
+						i++;
 					}
-					if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
-						params += ", ";
-					}
-					i++;
 				}
+
 
 				result += space + ((VoidMethodCall)v).voidcall + ((VoidMethodCall)v).methodname + " [ " + params + " ]<br>";
 			}
@@ -866,10 +906,13 @@ public class AllCUsesCoverage {
 			this.countDef++;
 		}
 
-		if(!use.contains(mt.varName)) {
-			use.add(mt.varName);
+		if(mt.jackieReturnCovered) {
+
+			if(!use.contains(mt.varName)) {
+				use.add(mt.varName);
+			}
+			this.countUse++;
 		}
-		this.countUse++;
 
 		getMethodVar(mt.method_body, yes);
 
@@ -885,10 +928,10 @@ public class AllCUsesCoverage {
 			this.countDef++;
 		}
 
-//		if(!use.contains(mt.varName)) {
-//			use.add(mt.varName);
-//		}
-//		this.countUse++;
+		//		if(!use.contains(mt.varName)) {
+		//			use.add(mt.varName);
+		//		}
+		//		this.countUse++;
 
 
 		getMethodVar(mt.method_body, yes);
@@ -897,66 +940,72 @@ public class AllCUsesCoverage {
 	}
 
 	private void getMethodVar(MyMethodBody mb, Boolean yes) {
-		
+
 		List<String> assignmentvar = new ArrayList<>();
 		for(Assignment a: mb.assiList) {
-			if(!assignmentvar.contains(a.varName)) {
-				assignmentvar.add(a.varName);
+			if(a.covered) {
+				if(!assignmentvar.contains(a.varName)) {
+					assignmentvar.add(a.varName);
+				}	
 			}
 		}
 
 		for(Declaration a: mb.declList) {
-			if(!assignmentvar.contains(a.varName)) {
-				if(!def.contains(a.varName)) {
-					def.add(a.varName);
+			if(a.covered) {
+				if(!assignmentvar.contains(a.varName)) {
+					if(!def.contains(a.varName)) {
+						def.add(a.varName);
+					}
+					this.countDef++;
 				}
-				this.countDef++;
 			}
 		}
 
 		for(Assignment a: mb.assiList) {
-			if(!def.contains(a.varName)) {
-				def.add(a.varName);
-			}
-			this.countDef++;
-
-			if(a.expr instanceof Values) {
-				if(((Values)a.expr) instanceof ValueMath) {
-					List<String> list  = new ArrayList<>();
-					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
-
-					for(String s : list) {
-						if(!use.contains(s)) {
-							use.add(s);
-						}
-						this.countUse++;
-					}
+			if(a.covered) {
+				if(!def.contains(a.varName)) {
+					def.add(a.varName);
 				}
-			}else if(a.expr instanceof ReturnMethodCall) {
-				if(yes == true) {
-					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
-				}
-				for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
-					if(p instanceof CallParamVarName) {
-						CallParamVarName a1 = (CallParamVarName) p;
-						if(!use.contains(a1.varName)) {
-							use.add(a1.varName);
+				this.countDef++;
+
+				if(a.expr instanceof Values) {
+					if(((Values)a.expr) instanceof ValueMath) {
+						List<String> list  = new ArrayList<>();
+						list = getVariables(((ValueMath)((Values)a.expr)).math, list);
+
+						for(String s : list) {
+							if(!use.contains(s)) {
+								use.add(s);
+							}
+							this.countUse++;
 						}
-						this.countUse++;
-
-					}else if(p instanceof CallParamDouble) {
-						CallParamDouble a1 = (CallParamDouble) p;
-					}else if(p instanceof CallParamNum) {
-						CallParamNum a1 = (CallParamNum) p;
-					}else if(p instanceof CallParamChar) {
-						CallParamChar a1 = (CallParamChar) p;
-					}else if(p instanceof CallParamString) {
-						CallParamString a1 = (CallParamString) p;
-					}else if(p instanceof CallParamBoolean) {
-						CallParamBoolean a1 = (CallParamBoolean) p;
 					}
+				}else if(a.expr instanceof ReturnMethodCall) {
+					if(yes == true) {
+						this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
+					}
+					for(Input_List p : ((ReturnMethodCall)a.expr).call_parameter.getTestCallParams()) {
+						if(p instanceof CallParamVarName) {
+							CallParamVarName a1 = (CallParamVarName) p;
+							if(!use.contains(a1.varName)) {
+								use.add(a1.varName);
+							}
+							this.countUse++;
+
+						}else if(p instanceof CallParamDouble) {
+							CallParamDouble a1 = (CallParamDouble) p;
+						}else if(p instanceof CallParamNum) {
+							CallParamNum a1 = (CallParamNum) p;
+						}else if(p instanceof CallParamChar) {
+							CallParamChar a1 = (CallParamChar) p;
+						}else if(p instanceof CallParamString) {
+							CallParamString a1 = (CallParamString) p;
+						}else if(p instanceof CallParamBoolean) {
+							CallParamBoolean a1 = (CallParamBoolean) p;
+						}
 
 
+					}
 				}
 			}
 		}
@@ -964,10 +1013,12 @@ public class AllCUsesCoverage {
 		for(IfStatement i1 : mb.ifStatList) {
 			if(i1.CondEvaluatedTo) {
 				getMethodVar(i1.ifBody, yes);
-//				getMethodVarNotUsed(i1.elseBody, yes);
-			}else {
 				getMethodVar(i1.elseBody, yes);
-//				getMethodVarNotUsed(i1.ifBody, yes);
+				//				getMethodVarNotUsed(i1.elseBody, yes);
+			}else {
+				getMethodVar(i1.ifBody, yes);
+				getMethodVar(i1.elseBody, yes);
+				//				getMethodVarNotUsed(i1.ifBody, yes);
 			}
 		}
 
@@ -984,124 +1035,127 @@ public class AllCUsesCoverage {
 					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
 				}
 
-				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
-					if(!use.contains(s)) {
-						use.add(s);
+				if(((VoidMethodCall)v).covered) {
+
+					for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
+						if(!use.contains(s)) {
+							use.add(s);
+						}
+						this.countUse++;
 					}
-					this.countUse++;
 				}
 			}
 		}
 	}
 
-//	private void getMethodVarNotUsed(MyMethodBody mb, Boolean yes) {
-//		for(Assignment a: mb.assiList) {
-//			if(!def.contains(a.varName)) {
-//				def.add(a.varName);
-//			}
-//			this.countDef++;
-//
-//			if(a.expr instanceof Values) {
-//				if(((Values)a.expr) instanceof ValueMath) {
-//					List<String> list  = new ArrayList<>();
-//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
-//
-//					for(String s : list) {
-//						if(!use.contains(s)) {
-//							use.add(s);
-//						}
-//						this.countNotUse++;
-//					}
-//				}
-//			}else if(a.expr instanceof ReturnMethodCall) {
-//				if(yes == true) {
-//					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
-//				}
-//				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
-//					if(!use.contains(s)) {
-//						use.add(s);
-//					}
-//					this.countNotUse++;
-//				}
-//			}
-//		}
-//
-//		for(IfStatement i1 : mb.ifStatList) {
-//			List<String> condList = new ArrayList<>();
-//			condList = getCondVariableList(i1.cond, condList);
-//
-//			for(String s: condList) {
-//				if(!use.contains(s)) {
-//					use.add(s);
-//				}
-//				this.countNotUse++;
-//			}
-//
-//			if(i1.CondEvaluatedTo) {
-//				getMethodVar(i1.ifBody, yes);
-//				getMethodVarNotUsed(i1.elseBody, yes);
-//			}else {
-//				getMethodVar(i1.elseBody, yes);
-//				getMethodVarNotUsed(i1.ifBody, yes);
-//			}
-//		}
-//
-//
-//		for(Loop lo : mb.loops) {
-//			if(lo.iterationGoal!=0) {
-//				getMethodVar(lo.loopbody, yes);
-//			}
-//		}
-//
-//		for(MethodCall v: mb.methodCall) {
-//			if(v instanceof VoidMethodCall) {
-//				if(yes == true) {
-//					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
-//				}
-//
-//				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
-//					if(!use.contains(s)) {
-//						use.add(s);
-//					}
-//					this.countNotUse ++;
-//				}
-//			}
-//		}
-//
-//	}
+	//	private void getMethodVarNotUsed(MyMethodBody mb, Boolean yes) {
+	//		for(Assignment a: mb.assiList) {
+	//			if(!def.contains(a.varName)) {
+	//				def.add(a.varName);
+	//			}
+	//			this.countDef++;
+	//
+	//			if(a.expr instanceof Values) {
+	//				if(((Values)a.expr) instanceof ValueMath) {
+	//					List<String> list  = new ArrayList<>();
+	//					list = getVariables(((ValueMath)((Values)a.expr)).math, list);
+	//
+	//					for(String s : list) {
+	//						if(!use.contains(s)) {
+	//							use.add(s);
+	//						}
+	//						this.countNotUse++;
+	//					}
+	//				}
+	//			}else if(a.expr instanceof ReturnMethodCall) {
+	//				if(yes == true) {
+	//					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
+	//				}
+	//				for(String s : ((ReturnMethodCall)a.expr).call_parameter.getCallParams()) {
+	//					if(!use.contains(s)) {
+	//						use.add(s);
+	//					}
+	//					this.countNotUse++;
+	//				}
+	//			}
+	//		}
+	//
+	//		for(IfStatement i1 : mb.ifStatList) {
+	//			List<String> condList = new ArrayList<>();
+	//			condList = getCondVariableList(i1.cond, condList);
+	//
+	//			for(String s: condList) {
+	//				if(!use.contains(s)) {
+	//					use.add(s);
+	//				}
+	//				this.countNotUse++;
+	//			}
+	//
+	//			if(i1.CondEvaluatedTo) {
+	//				getMethodVar(i1.ifBody, yes);
+	//				getMethodVarNotUsed(i1.elseBody, yes);
+	//			}else {
+	//				getMethodVar(i1.elseBody, yes);
+	//				getMethodVarNotUsed(i1.ifBody, yes);
+	//			}
+	//		}
+	//
+	//
+	//		for(Loop lo : mb.loops) {
+	//			if(lo.iterationGoal!=0) {
+	//				getMethodVar(lo.loopbody, yes);
+	//			}
+	//		}
+	//
+	//		for(MethodCall v: mb.methodCall) {
+	//			if(v instanceof VoidMethodCall) {
+	//				if(yes == true) {
+	//					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
+	//				}
+	//
+	//				for(String s: ((VoidMethodCall)v).call_parameter.getCallParams()) {
+	//					if(!use.contains(s)) {
+	//						use.add(s);
+	//					}
+	//					this.countNotUse ++;
+	//				}
+	//			}
+	//		}
+	//
+	//	}
 
-	private void getTestMethodCall( MyMethodBody mb) {
-
-		for(Assignment a: mb.assiList) {
-			if(a.expr instanceof ReturnMethodCall) {
-				if(!this.returnMethodCall.contains(((ReturnMethodCall)a.expr).methodName)){
-					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
-				}
-			}
-		}
-
-		for(IfStatement i1 : mb.ifStatList) {
-			if(i1.CondEvaluatedTo) {
-				getTestMethodCall( i1.ifBody);
-			}else {
-				getTestMethodCall( i1.elseBody);
-			}
-		}
-
-		for(Loop lo : mb.loops) {
-			if(lo.iterationGoal != 0) {
-				getTestMethodCall( lo.body);
-			}
-		}
-
-		for(MethodCall v: mb.methodCall) {
-			if(v instanceof VoidMethodCall) {
-				if(!this.voidMethodCall.contains(((VoidMethodCall)v).methodname)) {
-					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
-				}
-			}
-		}
-	}
+	//	private void getTestMethodCall( MyMethodBody mb) {
+	//
+	//		for(Assignment a: mb.assiList) {
+	//			if(a.expr instanceof ReturnMethodCall) {
+	//				if(!this.returnMethodCall.contains(((ReturnMethodCall)a.expr).methodName)){
+	//					this.returnMethodCall.add(((ReturnMethodCall)a.expr).methodName);
+	//				}
+	//			}
+	//		}
+	//
+	//		for(IfStatement i1 : mb.ifStatList) {
+	//			if(i1.CondEvaluatedTo) {
+	//				getTestMethodCall( i1.ifBody);
+	//			}else {
+	//				getTestMethodCall( i1.elseBody);
+	//			}
+	//		}
+	//
+	//		for(Loop lo : mb.loops) {
+	//			if(lo.iterationGoal != 0) {
+	//				getTestMethodCall( lo.body);
+	//			}
+	//		}
+	//
+	//		for(MethodCall v: mb.methodCall) {
+	//			if(v instanceof VoidMethodCall) {
+	//				if(!this.voidMethodCall.contains(((VoidMethodCall)v).methodname)) {
+	//					this.voidMethodCall.add(((VoidMethodCall)v).methodname);
+	//				}
+	//			}
+	//		}
+	//	}
 
 	private List<String> getVariables(Mathematics m, List<String> list) {
 		if(m instanceof Addition) {
@@ -1311,46 +1365,79 @@ public class AllCUsesCoverage {
 	}
 
 	private List<String> getMethodCallFromThis(Program p, String methodcall, List<String> list) {
-		for(MyMethods mm : p.gameclass.body.myMethodList) {
+		int i = 0;
+		for(MyMethods mm : this.globalReturn.get(i)) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				if(mm.methodName.equals(methodcall) ) {
-					list = getMethodCallFromThisMethod(mt.method_body ,list);
+					list = getMethodCallFromThisMethod(mt.method_body ,list, false);
 				}
 
 			}else if(mm.methodType instanceof MyVoidMethod) {
 
 				MyVoidMethod mt = ((MyVoidMethod)mm.methodType);
 				if(mm.methodName.equals(methodcall) ) {
-					list = getMethodCallFromThisMethod(mt.method_body ,list);
+					list = getMethodCallFromThisMethod(mt.method_body ,list, false);
 				}
 
 			}
+			i++;
 		}
 
 		return list;
 	}
 
-	private List<String> getMethodCallFromThisMethod(MyMethodBody mb, List<String> list) {
+	private List<String> getMethodCallFromThisMethod(MyMethodBody mb, List<String> list, boolean isLoop) {
 		for(Assignment a: mb.assiList) {
-			if(a.expr instanceof ReturnMethodCall) {
-				if(!list.contains(((ReturnMethodCall)a.expr).methodName)) {
-					list.add(((ReturnMethodCall)a.expr).methodName);
+			if(a.covered) {
+				if(a.expr instanceof ReturnMethodCall) {
+					if(!list.contains(((ReturnMethodCall)a.expr).methodName)) {
+						list.add(((ReturnMethodCall)a.expr).methodName);
+					}
 				}
 			}
+
 		}
 
 		for(IfStatement i1 : mb.ifStatList) {
-			if(i1.CondEvaluatedTo) {
-				for(String s: getMethodCallFromThisMethod( i1.ifBody, list)) {
+			if(isLoop) {
+				for(String s: getMethodCallFromThisMethod( i1.ifBody, list, isLoop)) {
+					if(!list.contains(s)) {
+						list.add(s);
+					}
+				}
+
+				for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}
 				}
 			}else {
-				for(String s: getMethodCallFromThisMethod( i1.elseBody, list)) {
-					if(!list.contains(s)) {
-						list.add(s);
+
+
+				if(i1.CondEvaluatedTo) {
+					for(String s: getMethodCallFromThisMethod( i1.ifBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
+					}
+
+					for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
+					}
+				}else {
+					for(String s: getMethodCallFromThisMethod( i1.ifBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
+					}
+
+					for(String s: getMethodCallFromThisMethod( i1.elseBody, list, isLoop)) {
+						if(!list.contains(s)) {
+							list.add(s);
+						}
 					}
 				}
 			}
@@ -1358,7 +1445,7 @@ public class AllCUsesCoverage {
 
 		for(Loop lo : mb.loops) {
 			if(lo.iterationGoal != 0) {
-				for(String s: getMethodCallFromThisMethod( lo.body, list)) {
+				for(String s: getMethodCallFromThisMethod( lo.body, list, true)) {
 					if(!list.contains(s)) {
 						list.add(s);
 					}
@@ -1368,8 +1455,10 @@ public class AllCUsesCoverage {
 
 		for(MethodCall v: mb.methodCall) {
 			if(v instanceof VoidMethodCall) {
-				if(!list.contains(((VoidMethodCall)v).methodname)) {
-					list.add(((VoidMethodCall)v).methodname);
+				if(((VoidMethodCall)v).covered) {
+					if(!list.contains(((VoidMethodCall)v).methodname)) {
+						list.add(((VoidMethodCall)v).methodname);
+					}
 				}
 			}
 		}
