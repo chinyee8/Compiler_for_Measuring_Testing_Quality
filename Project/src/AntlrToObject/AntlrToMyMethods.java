@@ -57,6 +57,7 @@ import model.MyReturnMethod;
 import model.MyVoidMethod;
 import model.Negation;
 import model.NotEqualTo;
+import model.Parameter;
 import model.ReturnMethodCall;
 import model.Subtraction;
 import model.TestMethodCall;
@@ -117,7 +118,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		this.t_method_call = t_method_call;
 		this.inputValues = inputValues;
 		this.testValue = testValue;
-		
+
 		this.condCov = condCov;
 	}
 
@@ -137,7 +138,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 	@Override
 	public MyMethods visitMyMethods(MyMethodsContext ctx) {
 		local_variableMap = new HashMap<>();
-		
+
 		Token token = ctx.METHODNAME().getSymbol();
 		int line = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
@@ -221,7 +222,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 		Token token = ctx.METHODNAME().getSymbol();
 		int line  = token.getLine();
 		String methodName = ctx.METHODNAME().getText();
-		
+
 		if(ctx.getChild(2) instanceof MyReturnMethodContext) {
 			AntlrToMethodType mtVisitor = new AntlrToMethodType(semanticErrors, variableMap, global_mymethods, t_method_call, inputValues);
 
@@ -239,6 +240,31 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			
 			condCov.setCalledMethod(temp); //condition coverage
 
+			for(MyMethods mm : this.global_mymethods) {
+				if(mm.methodType instanceof MyReturnMethod) {
+					if(mm.methodName.equals(methodName)) {
+						declareParameter(((MyReturnMethod)mm.methodType).parameter.getParams());
+						if(t_method_call instanceof ReturnMethodCall) {
+							checkTestMethodCallParameter(((MyReturnMethod)mm.methodType).parameter.getParams(), mm.methodType, methodName, line);
+						}
+						
+						getDefCoverage(methodName,((MyReturnMethod)mm.methodType).method_body);
+
+						((MyReturnMethod)mm.methodType).setJackieReturnCovered(true);
+						((MyReturnMethod)mm.methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)mm.methodType).varName));
+
+						if(t_method_call instanceof ReturnMethodCall) {
+							if(t_method_call.getName().equals(methodName)){
+								this.testValue = local_variableMap.get(((MyReturnMethod)mm.methodType).varName);
+							}
+						}
+					}
+				}
+			}
+			
+			getDefCoverage(methodName,((MyReturnMethod)methodType).method_body);
+			
+			((MyReturnMethod)methodType).setJackieReturnCovered(true);
 			((MyReturnMethod)methodType).putReturnValue(local_variableMap.get(((MyReturnMethod)methodType).varName));
 
 			if(t_method_call instanceof ReturnMethodCall) {
@@ -307,7 +333,7 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
 					ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
-					
+
 					for(MyMethods mm : this.global_mymethods) {
 						if(mm.methodType instanceof MyReturnMethod) {
 							if(mm.methodName.equals(rmc.methodName)) {
@@ -444,8 +470,8 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 						}
 					}
 				}else if(a.expr instanceof ReturnMethodCall) {
-ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
-					
+					ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
+
 					for(MyMethods mm : this.global_mymethods) {
 						if(mm.methodType instanceof MyReturnMethod) {
 							if(mm.methodName.equals(rmc.methodName)) {
@@ -557,11 +583,13 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void getDefCoverage(String methodName,MyMethodBody method_body) {
 		for(Declaration d: method_body.declList) {
+			d.setCovered(true);
 			local_variableMap.put(d.varName, d.defaultValue);
 		}
 
 		for(Assignment a: method_body.assiList) {
 			if(a.expr instanceof Values) {
+				a.setCovered(true);
 				if(((Values)a.expr) instanceof ValueMath) {
 					checkMath((ValueMath)a.expr, a, true);
 				}else {
@@ -569,6 +597,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 				}
 
 			}else if(a.expr instanceof ReturnMethodCall) {
+				a.setCovered(true);
 				if(smtg(methodName,a.expr, a, true)) {
 					this.local_variableMap.put(a.varName, callExpr(((ReturnMethodCall)a.expr), a.varName));
 				}
@@ -578,7 +607,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 
 		defCheckIf(methodName,method_body, true);
 		defCheckLoop(methodName,method_body, true);
-		defCheckVoid(method_body);
+		defCheckVoid(methodName, method_body);
 
 	}
 
@@ -593,6 +622,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 
 			condCov.setIfStatString(methodName + ".jackieAsks[" + ifs.cond.toString() + "]"); // condition coverage
 
+			ifs.setCoveredJackieIf(needCheck);
 			//I really need to call eval() only once, so I changed this to be called once...
 			boolean res = evaluated(ifs.cond, local_variableMap);
 			condCov.addResult(); //condition coverage (get test values here)
@@ -611,10 +641,12 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 
 	private void getForIfBody(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Declaration d: method_body.declList) {
+			d.setCovered(needCheck);
 			local_variableMap.put(d.varName, d.defaultValue);
 		}
 
 		for(Assignment a: method_body.assiList) {
+			a.setCovered(needCheck);
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
 					checkMath((ValueMath)a.expr, a, true);
@@ -638,39 +670,175 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 		}
 
 		if(method_body.methodCall.size() > 0) {
-			defCheckVoid(method_body);
+			defCheckVoid(methodName, method_body);
 		}
 	}
 
 	private void defCheckLoop(String methodName, MyMethodBody method_body, boolean needCheck) {
 		for(Loop lo : method_body.loops) {
-			for(MyMethodBody mb: lo.loopbody) {
-				evaluateLoop(methodName, mb, needCheck);
+			lo.setForCovered(needCheck);
+			if(lo.iterationGoal != 0) {
+				for(int i = 0; i < lo.iterationGoal; i++) {
+					evaluateLoop(methodName, lo.body, needCheck);
+				}
+			}
+
+		}
+	}
+
+	private void defCheckVoid(String methodName, MyMethodBody method_body) {
+		for(MethodCall v: method_body.methodCall) {
+			if(v instanceof VoidMethodCall) {
+				List<String> params = ((VoidMethodCall)v).call_parameter.getCallParams();
+				String parameter = ""; int i = 0;
+				for(String s: params) {
+					parameter+= s;
+					if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
+						parameter += ", ";
+					}
+					i++;
+				}
+				VoidMethodCall vmc = (VoidMethodCall) v;
+				if(smtgVoid(methodName, vmc, true)) {
+					vmc.setCovered(true);
+					callVoidMethodCall(vmc, this.local_variableMap);
+				}
 			}
 		}
 	}
 
-	private void defCheckVoid(MyMethodBody method_body) {
-		for(MethodCall v: method_body.methodCall) {
-			List<String> params = ((VoidMethodCall)v).call_parameter.getCallParams();
-			String parameter = ""; int i = 0;
-			for(String s: params) {
-				parameter+= s;
-				if(i < ((VoidMethodCall)v).call_parameter.getCallParams().size()) {
-					parameter += ", ";
+	private boolean smtgVoid(String methodName, VoidMethodCall vmc, Boolean needCheck) {
+		if(needCheck) {
+			if (checkIfMyMethodContainsVoidMethodCall(vmc, this.global_mymethods)) { //if rhs methodcall is declared 
+				String rhsMethodName = vmc.methodname; 
+				for(MyMethods m: this.global_mymethods) { //grab method from DeclaredMethodsList, find matching method, check for return data type against type
+					if(m.methodName.equals(rhsMethodName)) {
+
+						List<Input_List> RHSparams = vmc.call_parameter.getTestCallParams();
+						Map<String, String> methodparams = ((MyVoidMethod)m.methodType).parameter.getParams();
+						if(RHSparams.size() != methodparams.size()) {
+							semanticErrors.contains("Error [Line:" + vmc.line +"]: methodcall must have the same number of parameters as mymethod " + m.methodName);
+						}else {
+							Map<String, Values> callInputs = new LinkedHashMap<>();
+							int i = 0;
+							for(Map.Entry<String, String> map: methodparams.entrySet()){
+								int j = 0;
+								for(Input_List p: RHSparams) {
+									if(i == j) {
+										if(p instanceof CallParamVarName) {
+											CallParamVarName a1 = (CallParamVarName) p;
+											if(!this.local_variableMap.containsKey(a1.varName)) {
+												semanticErrors.add("Error [Line:" + m.line +"]: " + a1.varName + " in mymethods" + m.methodName + " does not exist");
+											}else {
+												callInputs.put("" + i, this.local_variableMap.get(a1.varName));
+											}
+										}else if(p instanceof CallParamDouble) {
+											CallParamDouble a1 = (CallParamDouble) p;
+											callInputs.put("" + i, new ValueDouble(a1.input));		
+										}else if(p instanceof CallParamNum) {
+											CallParamNum a1 = (CallParamNum) p;
+											callInputs.put("" + i, new ValueNum(a1.num));		
+										}else if(p instanceof CallParamChar) {
+											CallParamChar a1 = (CallParamChar) p;
+											callInputs.put("" + i, new ValueChar(a1.input));		
+										}else if(p instanceof CallParamString) {
+											CallParamString a1 = (CallParamString) p;
+											callInputs.put("" + i, new ValueString(a1.input));		
+										}else if(p instanceof CallParamBoolean) {
+											CallParamBoolean a1 = (CallParamBoolean) p;
+											callInputs.put("" + i, new ValueBool(a1.input));		
+										}
+									}
+									j++;
+								}
+								i++;
+							}
+						}
+
+						if(m.methodType instanceof MyVoidMethod) {
+							System.out.println("return type checking error");
+							return false;
+						}
+					}
 				}
-				i++;
+				return false;
+			}else if(vmc.methodname.equals(methodName)){
+				this.semanticErrors.add("StackOverflowError [Line:" + vmc.line +"]: mymethod " + methodName + " cannot call itself : " + vmc.toString());
+				return false;
+			}
+			else { //if method not declared
+				this.semanticErrors.add("Error [Line:" + vmc.line +"]: Void Method Call is not declared");
+				return false;
+			}
+		}else {
+			return true;
+		}
+	}
+
+	private boolean checkIfMyMethodContainsVoidMethodCall(VoidMethodCall vmc, List<MyMethods> mymethod) {
+		for(MyMethods i: mymethod) {
+			if(i.methodName.equals(vmc.methodname)) {
+				return true;
 			}
 		}
+		return false;
+	}
+
+	private Values callVoidMethodCall(VoidMethodCall vmc, Map<String, Values> vars2) {
+		for(MyMethods m : this.global_mymethods) {
+			if(m.methodName.equals(vmc.methodname) && m.methodType instanceof MyVoidMethod) {
+				boolean noerror = true;
+				List<Input_List> RHSparams = vmc.call_parameter.getTestCallParams();
+				Map<String, String> methodparams = ((MyVoidMethod)m.methodType).parameter.getParams();
+				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
+
+					Map<String, Values> lists = new LinkedHashMap<>();
+					int num = 0;
+					for(Input_List p: RHSparams) {
+
+						if(p instanceof CallParamVarName) {
+							CallParamVarName a = (CallParamVarName) p;
+							if(this.local_variableMap.containsKey(a.varName)) {
+								lists.put("" + num, this.local_variableMap.get(a.varName));
+							}else {
+								semanticErrors.add("Error [Line " + vmc.line + "] : " + a.varName + " is not declared");
+							}
+						}else if(p instanceof CallParamDouble) {
+							CallParamDouble a = (CallParamDouble) p;
+							lists.put("" + num, new ValueDouble(a.input));		
+						}else if(p instanceof CallParamNum) {
+							CallParamNum a = (CallParamNum) p;
+							lists.put("" + num, new ValueNum(a.num));		
+						}else if(p instanceof CallParamChar) {
+							CallParamChar a = (CallParamChar) p;
+							lists.put("" + num, new ValueChar(a.input));		
+						}else if(p instanceof CallParamString) {
+							CallParamString a = (CallParamString) p;
+							lists.put("" + num, new ValueString(a.input));		
+						}else if(p instanceof CallParamBoolean) {
+							CallParamBoolean a = (CallParamBoolean) p;
+							lists.put("" + num, new ValueBool(a.input));		
+						}
+						num++;
+					}
+
+					Values v = ((MyVoidMethod)m.methodType).getValue(lists);
+					return v;
+				}
+			}
+
+		}
+		return null;
 	}
 
 	private void evaluateLoop(String methodName, MyMethodBody loopbody, boolean needCheck) {
 		for(Declaration d: loopbody.declList) {
-				local_variableMap.put(d.varName, d.defaultValue);
+			d.setCovered(needCheck);
+			local_variableMap.put(d.varName, d.defaultValue);
 		}
 
 		for(Assignment a: loopbody.assiList) {
-
+			a.setCovered(needCheck);
 			if(a.expr instanceof Values) {
 				if(((Values)a.expr) instanceof ValueMath) {
 					checkMath((ValueMath)a.expr, a, true);
@@ -693,7 +861,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 		}
 
 		if(loopbody.methodCall.size() > 0) {
-			defCheckVoid(loopbody);
+			defCheckVoid(methodName, loopbody);
 		}		
 	}
 
@@ -828,7 +996,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 				Map<String, String> methodparams = ((MyReturnMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
 					semanticErrors.add("Error [Line:" + ((ReturnMethodCall)this.t_method_call).line +"]: " + ((ReturnMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
-					
+
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -856,7 +1024,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 				Map<String, String> methodparams = ((MyVoidMethod)methodtype).parameter.getParams();
 				if(RHSparams.size() != methodparams.size()) {
 					semanticErrors.add("Error [Line:" + line +"]: " + ((VoidMethodCall)this.t_method_call).toString() + " must have the same number of parameters as mymethod " + methodName);
-					
+
 				}else {
 					int i = 0;
 					for(Map.Entry<String, String> map: methodparams.entrySet()){
@@ -889,7 +1057,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 					Map<String, Values> lists = new LinkedHashMap<>();
 					int num = 0;
 					for(Input_List p: RHSparams) {
-						
+
 						if(p instanceof CallParamVarName) {
 							CallParamVarName a = (CallParamVarName) p;
 							if(this.local_variableMap.containsKey(a.varName)) {
@@ -943,7 +1111,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 					////								}
 					////							}
 					////						}
-					Values v = ((MyReturnMethod)m.methodType).getValue(lists);
+					Values v = this.getValue(m.methodName,((MyReturnMethod)m.methodType), lists);
 					return v;
 					//					}
 				}
@@ -952,6 +1120,273 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 		}
 
 		return this.local_variableMap.get(varName);
+
+	}
+
+	private Values getValue(String methodName, MyReturnMethod myReturnMethod, Map<String, Values> lists) {
+		Values result = null;
+		for(MyMethods mm : this.global_mymethods) {
+			if(mm.methodType instanceof MyReturnMethod) {
+				MyReturnMethod mrm = (MyReturnMethod) mm.methodType;
+				if(mm.methodName.equals(methodName)){
+					 result = getValues(mrm, mrm.method_body,  mrm.parameter , lists).get(mrm.varName);
+				}
+			}
+		}
+		return result;
+	}
+
+	private Map<String, Values> getValues(MyReturnMethod myReturnMethod, MyMethodBody method_body, Parameter parameter, Map<String, Values> lists) {
+			int j = 0;
+			for(Map.Entry<String, String> p : parameter.getParams().entrySet()) {
+				int i = 0;
+				for(Map.Entry<String, Values> l : lists.entrySet()) {
+					if(i == j) {
+						method_body.vars.put(p.getKey(), l.getValue());
+					}
+					i++;
+				}
+				j++;
+			}
+			getDeclaredList(method_body, method_body.vars, parameter);
+			
+			myReturnMethod.setJackieReturnCovered(true);
+
+			return method_body.vars;
+		
+	}
+	
+	public void getDeclaredList(MyMethodBody method_body, Map<String, Values> vars2, Parameter parameter) {
+		method_body.vars.putAll(vars2);
+
+		for(Declaration d: method_body.declList) {
+			d.setCovered(true);
+			method_body.vars.put(d.varName, d.defaultValue);
+		}
+
+		for(Assignment a : method_body.assiList) {
+			a.setCovered(true);
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					String type = getMATHTYPE(((ValueMath)a.expr).math);
+					if(type == "DOUBLE") {
+						double d = getDouble(method_body, ((ValueMath)a.expr).math, parameter);
+						method_body.vars.put(a.varName, new ValueDouble(d));
+					}else if(type == "INT") {
+						int i = getInt(method_body,((ValueMath)a.expr).math, parameter);
+						method_body.vars.put(a.varName, new ValueNum(i));
+					}
+				}else {
+					method_body.vars.put(a.varName, ((Values)a.expr).getValues());
+				}
+			}else if(a.expr instanceof ReturnMethodCall) {
+				method_body.vars.put(a.varName, callExpr2(method_body,((ReturnMethodCall)a.expr), a.varName, method_body.vars));
+			}
+		}
+
+		for(IfStatement ifs: method_body.ifStatList) {
+			MyMethodBody ifBody = ifs.ifBody;
+			MyMethodBody elseBody = ifs.elseBody;
+
+
+			List<String> convarlist = new ArrayList<>();
+			convarlist = getCondVariableList(ifs.cond, convarlist);
+
+			ifs.setCond(method_body.evaluated(ifs.cond, method_body.vars, parameter));
+
+			ifs.setCoveredJackieIf(true);
+			if(method_body.evaluated(ifs.cond, method_body.vars, parameter)) {
+				method_body.vars.putAll(getList(ifBody, method_body.vars, parameter, true));
+			}else {
+				method_body.vars.putAll(getList(elseBody, method_body.vars, parameter, true));
+			}
+		}
+
+		for(Loop lo: method_body.loops) {
+			lo.setForCovered(true);
+			if(lo.iterationGoal!= 0) {
+				for(int i = 0; i < lo.iterationGoal; i++) {
+					method_body.vars.putAll(getList(lo.body, method_body.vars, parameter, true));
+				}
+			}
+
+		}
+
+		for(MethodCall v : method_body.methodCall) {
+			if(v instanceof VoidMethodCall) {
+				VoidMethodCall vmc = (VoidMethodCall) v;
+				vmc.setCovered(true);
+				callVoidMethodCall(vmc, method_body.vars);
+			}
+		}
+	}
+	
+	public Map<String, Values> getList(MyMethodBody body, Map<String, Values> vars2, Parameter parameter, boolean b) {
+		body.vars.putAll(vars2);
+
+		for(Declaration d: body.declList) {
+			d.setCovered(b);
+			body.vars.put(d.varName, d.defaultValue);
+		}
+
+		for(Assignment a : body.assiList) {
+			a.setCovered(b);
+			if(a.expr instanceof Values) {
+				if(((Values)a.expr) instanceof ValueMath) {
+					String type = getMATHTYPEbody(((ValueMath)a.expr).math, body.vars);
+					if(type == "DOUBLE") {
+						double d = getDouble(body, ((ValueMath)a.expr).math, parameter);
+						body.vars.put(a.varName, new ValueDouble(d));
+					}else if(type == "INT") {
+						int i = getInt(body, ((ValueMath)a.expr).math, parameter);
+						body.vars.put(a.varName, new ValueNum(i));
+					}
+				}else {
+					body.vars.put(a.varName, ((Values)a.expr).getValues());
+				}
+			}else if(a.expr instanceof ReturnMethodCall) {
+				body.vars.put(a.varName, callExpr2(body, ((ReturnMethodCall)a.expr), a.varName, body.vars));
+			}
+		}
+
+		for(IfStatement ifs: body.ifStatList) {
+			MyMethodBody ifBody = ifs.ifBody;
+			MyMethodBody elseBody = ifs.elseBody;
+
+
+			List<String> convarlist = new ArrayList<>();
+			convarlist = getCondVariableList(ifs.cond, convarlist);
+
+			ifs.setCond(body.evaluated(ifs.cond, body.vars, parameter));
+
+			ifs.setCoveredJackieIf(b);
+			if(body.evaluated(ifs.cond, body.vars, parameter)) {
+				body.vars.putAll(getList(ifBody, body.vars, parameter, b));
+
+			}else {
+				body.vars.putAll(getList(elseBody, body.vars, parameter, b));
+
+			}
+		}
+
+		for(Loop lo: body.loops) {
+			lo.setForCovered(b);
+			if(lo.iterationGoal != 0) {
+				for(int i = 0; i < lo.iterationGoal; i++) {
+					body.vars.putAll(getList(body, body.vars, parameter, b));
+				}
+			}
+		}
+
+		return body.vars;
+	}
+	
+	private String getMATHTYPEbody(Mathematics m, Map<String, Values> vars) {
+		String result = "";
+
+		if(m instanceof Addition) {
+			Addition a = (Addition) m;
+			String left = getMATHTYPEbody(a.math1, vars);
+			String right = getMATHTYPEbody(a.math2, vars);
+			if(left.equals(right)) {
+				result = left;
+			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+				result = "NOT SAME";
+			}
+		}else if(m instanceof Subtraction) {
+			Subtraction a = (Subtraction) m;
+			String left = getMATHTYPEbody(a.math1, vars);
+			String right = getMATHTYPEbody(a.math2, vars);
+			if(left.equals(right)) {
+				result = left;
+			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+				result = "NOT SAME";
+			}
+		}else if(m instanceof Multiplication) {
+			Multiplication a = (Multiplication) m;
+			String left = getMATHTYPEbody(a.math1, vars);
+			String right = getMATHTYPEbody(a.math2, vars);
+			if(left.equals(right)) {
+				result = left;
+			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+				result = "NOT SAME";
+			}
+		}else if(m instanceof Division) {
+			Division a = (Division) m;
+			String left = getMATHTYPEbody(a.math1, vars);
+			String right = getMATHTYPEbody(a.math2, vars);
+			if(left.equals(right)) {
+				result = left;
+			}else if(!left.equals(right) || left.equals("NOT SAME") || right.equals("NOT SAME")) {
+				result = "NOT SAME";
+			}
+		}else if(m instanceof MathParenthesis) {
+			MathParenthesis a = (MathParenthesis) m;
+			result = getMATHTYPEbody(a.math, vars);
+		}else if(m instanceof MathNumber) {
+			result = "INT";
+		}else if(m instanceof MathDouble) {
+			result = "DOUBLE";
+		}else if(m instanceof MathVarName) {
+			MathVarName a = (MathVarName) m;
+			if(!vars.containsKey(a.varName)) {
+				semanticErrors.add("Error [Line:" + a.line +"]: variable " + a.varName + " is not declared");
+			}else if(vars.containsKey(a.varName)) {
+				result = vars.get(a.varName).getType();
+			}
+		}
+
+		return result;
+	}
+
+	private Values callExpr2(MyMethodBody method_body, ReturnMethodCall r, String varName, Map<String, Values> vars2) {
+		method_body.vars.putAll(vars2);
+
+		for(MyMethods m : this.global_mymethods) {
+			if(m.methodName.equals(r.methodName) && m.methodType instanceof MyReturnMethod) {
+				boolean noerror = true;
+				List<Input_List> RHSparams = r.call_parameter.getTestCallParams();
+				Map<String, String> methodparams = ((MyReturnMethod)m.methodType).parameter.getParams();
+				if(RHSparams.size() == methodparams.size() && RHSparams.size() > 0) {
+
+					Map<String, Values> lists = new LinkedHashMap<>();
+					int num = 0;
+					for(Input_List p: RHSparams) {
+
+						if(p instanceof CallParamVarName) {
+							CallParamVarName a = (CallParamVarName) p;
+							if(method_body.vars.containsKey(a.varName)) {
+								lists.put("" + num, method_body.vars.get(a.varName));
+							}else {
+								semanticErrors.add("Error [Line " + r.line + "] : " + a.varName + " is not declared");
+							}
+						}else if(p instanceof CallParamDouble) {
+							CallParamDouble a = (CallParamDouble) p;
+							lists.put("" + num, new ValueDouble(a.input));		
+						}else if(p instanceof CallParamNum) {
+							CallParamNum a = (CallParamNum) p;
+							lists.put("" + num, new ValueNum(a.num));		
+						}else if(p instanceof CallParamChar) {
+							CallParamChar a = (CallParamChar) p;
+							lists.put("" + num, new ValueChar(a.input));		
+						}else if(p instanceof CallParamString) {
+							CallParamString a = (CallParamString) p;
+							lists.put("" + num, new ValueString(a.input));		
+						}else if(p instanceof CallParamBoolean) {
+							CallParamBoolean a = (CallParamBoolean) p;
+							lists.put("" + num, new ValueBool(a.input));		
+						}
+						num++;
+					}
+
+					Values v = this.getValue(m.methodName, ((MyReturnMethod)m.methodType), lists);
+					return v;
+				}
+			}
+
+		}
+
+		return method_body.vars.get(varName);
 
 	}
 
@@ -1202,7 +1637,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 			int left = getMathINT(a.math1);
 			int right = getMathINT(a.math2);
 			if(right == 0) {
-					semanticErrors.add("Error [Line:" + a.line +"]: undefined. Cannot divide by 0");
+				semanticErrors.add("Error [Line:" + a.line +"]: undefined. Cannot divide by 0");
 			}else {
 				result = left / right;
 			}
@@ -1517,9 +1952,10 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 		}
 		
 		if (condCov != null && !(c instanceof Conjunction) && !(c instanceof Disjunction) && !(c instanceof CondParenthesis)) {
+
 			condCov.appendResultString(result ? "1" : "0"); //condition coverage
 		}
-				
+
 		return result;
 	}
 
@@ -1538,7 +1974,7 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 
 			declareParameter(parameter);
 			checkMethodBody(methodName, ((MyReturnMethod)methodType).method_body, parameter, true);
-			
+
 			if(this.local_variableMap.containsKey(((MyReturnMethod)methodType).varName)) {
 				if(!this.local_variableMap.get(((MyReturnMethod)methodType).varName).getType().equals(((MyReturnMethod)methodType).dataType)) {
 					semanticErrors.add("Error [Line "+ ((MyReturnMethod)methodType).jackieReturnLine +"] : incompatible jackieReturns type");
@@ -1560,4 +1996,94 @@ ReturnMethodCall rmc = (ReturnMethodCall) a.expr;
 			return new MyMethods(methodName, (MyVoidMethod)methodType, line);
 		}
 	}
+	
+	private double getDouble(MyMethodBody method_body, Mathematics m, Parameter parameter) {
+		double result = 0.00;
+		if(m instanceof Addition) {
+			Addition a = (Addition) m;
+			double left = getDouble(method_body, a.math1, parameter);
+			double right = getDouble(method_body, a.math2, parameter);
+			result = left + right;
+		}else if(m instanceof Subtraction) {
+			Subtraction a = (Subtraction) m;
+			double left = getDouble(method_body, a.math1, parameter);
+			double right = getDouble(method_body, a.math2, parameter);
+			result = left - right;
+		}else if(m instanceof Multiplication) {
+			Multiplication a = (Multiplication) m;
+			double left = getDouble(method_body, a.math1, parameter);
+			double right = getDouble(method_body, a.math2, parameter);
+			result = left * right;
+		}else if(m instanceof Division) {
+			Division a = (Division) m;
+			double left = getDouble(method_body, a.math1, parameter);
+			double right = getDouble(method_body, a.math2, parameter);
+			if(right == 0) {
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
+		}else if(m instanceof MathParenthesis) {
+			MathParenthesis a = (MathParenthesis) m;
+			result = getDouble(method_body, a.math, parameter);
+		}else if(m instanceof MathDouble) {
+			MathDouble a = (MathDouble) m;
+			result = a.num;
+		}else if(m instanceof MathVarName) {
+			MathVarName a = (MathVarName) m;
+			if(parameter.getParams().containsKey(a.varName) && parameter.getParams().get(a.varName).equals("DOUBLE")) {
+				result = ((ValueDouble)(method_body.vars.get(a.varName))).value;
+			}else if(method_body.vars.containsKey(a.varName) && method_body.vars.get(a.varName).getType().equals("DOUBLE")) {
+				result = ((ValueDouble)(method_body.vars.get(a.varName))).value;
+			}
+		}
+
+		return result;
+	}
+
+	public int getInt(MyMethodBody method_body, Mathematics m, Parameter parameter) {
+		int result = 0;
+
+		if(m instanceof Addition) {
+			Addition a = (Addition) m;
+			int left = getInt(method_body, a.math1, parameter);
+			int right = getInt(method_body, a.math2, parameter);
+			result = left + right;
+		}else if(m instanceof Subtraction) {
+			Subtraction a = (Subtraction) m;
+			int left = getInt(method_body, a.math1, parameter);
+			int right = getInt(method_body, a.math2, parameter);
+			result = left - right;
+		}else if(m instanceof Multiplication) {
+			Multiplication a = (Multiplication) m;
+			int left = getInt(method_body, a.math1, parameter);
+			int right = getInt(method_body, a.math2, parameter);
+			result = left * right;
+		}else if(m instanceof Division) {
+			Division a = (Division) m;
+			int left = getInt(method_body, a.math1, parameter);
+			int right = getInt(method_body, a.math2, parameter);
+			if(right == 0) {
+				semanticErrors.add("Error [Line "+ a.line +" ] : undefined. Cannot divide by 0");
+			}else {
+				result = left / right;
+			}
+		}else if(m instanceof MathParenthesis) {
+			MathParenthesis a = (MathParenthesis) m;
+			result = getInt(method_body, a.math, parameter);
+		}else if(m instanceof MathNumber) {
+			MathNumber a = (MathNumber) m;
+			result = a.num;
+		}else if(m instanceof MathVarName) {
+			MathVarName a = (MathVarName) m;
+			if(parameter.getParams().containsKey(a.varName) && parameter.getParams().get(a.varName).equals("INT")) {
+				result = ((ValueNum)(method_body.vars.get(a.varName))).num;
+			}else if(method_body.vars.containsKey(a.varName) && method_body.vars.get(a.varName).getType().equals("INT")) {
+				result = ((ValueNum)(method_body.vars.get(a.varName))).num;
+			}
+		}
+
+		return result;
+	}
+
 }
