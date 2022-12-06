@@ -52,18 +52,20 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public Map<MethodCall, Map<String, Values>> allMethodCalls = new HashMap<>();
 	public Map<MethodCall, List<String>> methodMappedToOrderParameter = new HashMap<>();
 	public List<Program> progReturn;
+	public List<List<MyMethods>> globalReturn;
 	public List<MethodCall> testKey = new LinkedList<>();
 	public Map< Integer,String> assignedTo = new LinkedHashMap<>();
 	public Map< Integer,Values> assignedValues = new LinkedHashMap<>();
-	
+
 	private ConditionCoverage condCov; // condition coverage
 
 	public AntlrToTestCase(List<String> semanticError, HashMap<String, Values> variableMap, ConditionCoverage condCov) {
 		this.semanticErrors = semanticError;
 		this.variableMap = variableMap;
 		this.progReturn = new LinkedList<>();
+		this.globalReturn = new LinkedList<>();
 		//		this.mymethod = ;
-		
+
 		this.condCov = condCov; // condition coverage
 	}
 	public AntlrToTestCase() {
@@ -118,9 +120,9 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 						variableMap.put(i.varName, ((Values)i.expr).getValues());
 					}else if(i.expr instanceof ReturnMethodCall) {
 						ReturnMethodCall rmc = ((ReturnMethodCall) i.expr);
-						
+
 						List<Input_List> paramaters = rmc.call_parameter.getTestCallParams(); //this returns an empty list?
-//						this.methodMappedToOrderParameter.put(rmc, paramaters);
+						//						this.methodMappedToOrderParameter.put(rmc, paramaters);
 						Map<String, Values> callInputs = new LinkedHashMap<>();
 						int num = 0;
 						for(Input_List p : paramaters) {
@@ -279,7 +281,7 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 				//condition coverage start
 				this.condCov.setCalledMethod(rmc.methodName);
 				//condition coverage end
-				
+
 				this.testKey.add(((ReturnMethodCall)assi.get(i).expr));
 				this.testVarMap.put(assi.get(i).varName, getTestValue((ReturnMethodCall)assi.get(i).expr, progAST, global_methods2, callInputs, check, methodCallParamOrder2));
 				this.assignedTo.put(assi.get(i).line, assi.get(i).varName);
@@ -301,36 +303,32 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 	private Values getTestValue(ReturnMethodCall rm, ParseTree progAST, List<MyMethods> global_methods2, Map<String, Values> callInputs, String check, Map<MethodCall, List<String>> methodCallParamOrder2) {
 		Values result = null;
+		List<MyMethods> global = new ArrayList<>();
+		for(MyMethods g : global_methods2) {
+			global.add(g);
+		}
+		
+		AntlrToProgram devCoverage = new AntlrToProgram(rm, global, callInputs, condCov); // condition coverage
+		Program defProg = devCoverage.defControl((ProgramContext)progAST);
+		this.progReturn.add(defProg);
+		result = devCoverage.testValue;
+		this.globalReturn.add(devCoverage.global_methods);
 
-		if(check.equals("statement")) {
-			ArrayList<String> list = new ArrayList<>();
-			for(Entry<MethodCall, List<String>> e : methodCallParamOrder2.entrySet()) {
-				if(e.getKey().getName().equals(rm.methodName)) {
-					list.addAll(e.getValue());
-				}
-			}
-			AntlrToProgram progControllor = new AntlrToProgram(rm, callInputs, list); //pass in methodcall, input parameters, and order of input parameters
-			Program prog2 = progControllor.control((ProgramContext)progAST);
-			this.progReturn.add(prog2);
-			result = progControllor.testValue;
-
-		}else {
-			AntlrToProgram devCoverage = new AntlrToProgram(rm, global_methods2, callInputs, condCov); // condition coverage
-			Program defProg = devCoverage.defControl((ProgramContext)progAST);
-			this.progReturn.add(defProg);
-			result = devCoverage.testValue;
-
-			if(devCoverage.semanticErrors.size()>0) {
-				for(String s: devCoverage.semanticErrors) {
-					if(!this.semanticErrors.contains(s)) {
-						this.semanticErrors.add(s);
-					}
+		if(devCoverage.semanticErrors.size()>0) {
+			for(String s: devCoverage.semanticErrors) {
+				if(!this.semanticErrors.contains(s)) {
+					this.semanticErrors.add(s);
 				}
 			}
 		}
 
 
+
 		return result;
+	}
+	
+	public List<List<MyMethods>> getGlobalReturn(){
+		return this.globalReturn;
 	}
 
 	public List<Program> getProgReturn(){
@@ -340,15 +338,15 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 	public List<MethodCall> getTestKey(){
 		return this.testKey;
 	}
-	
+
 	public Map<String, Values> getTestVarMap(){
 		return this.testVarMap;
 	}
-	
+
 	public Map<Integer, String> getAssignedTo(){
 		return this.assignedTo;
 	}
-	
+
 	public Map<Integer, Values> getAssignedValues(){
 		return this.assignedValues;
 	}
