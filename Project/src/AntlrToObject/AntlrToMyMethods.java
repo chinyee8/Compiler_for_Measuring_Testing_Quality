@@ -405,10 +405,10 @@ public class AntlrToMyMethods extends exprBaseVisitor<MyMethods>{
 			if(evaluated(i.cond, local_variableMap)) {
 				checkIfBody(methodName,ifBody, methodbody, parameter, needCheck);
 
-				checkElseBody(methodName,elseBody, methodbody, parameter, needCheck);
+				checkIfBody(methodName,elseBody, methodbody, parameter, needCheck);
 
 			}else {
-				checkElseBody(methodName,ifBody, methodbody, parameter, needCheck);
+				checkIfBody(methodName,ifBody, methodbody, parameter, needCheck);
 
 				checkIfBody(methodName,elseBody, methodbody, parameter, needCheck);
 
