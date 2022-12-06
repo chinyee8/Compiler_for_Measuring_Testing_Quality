@@ -1,6 +1,7 @@
 package Operations;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import model.Assignment;
@@ -18,9 +19,11 @@ import model.VoidMethodCall;
 public class Original {
 
 	private ArrayList<Program> programList;
+	private  List<List<MyMethods>> globalReturn;
 
-	public Original(ArrayList<Program> programList) {
+	public Original(ArrayList<Program> programList, List<List<MyMethods>> globalReturn) {
 		this.programList = programList;
+		this.globalReturn = globalReturn;
 	}
 
 	public String getString() {
@@ -29,7 +32,7 @@ public class Original {
 
 		result += "game " + p.gameclass.className + " !<br><br>";
 
-		for(MyMethods mm : p.gameclass.body.myMethodList) {
+		for(MyMethods mm : this.globalReturn.get(0)) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				String para = ""; int i = 0;
