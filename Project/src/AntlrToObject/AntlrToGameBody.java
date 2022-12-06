@@ -91,7 +91,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.inputValues = inputValues;
 		this.testValue = testValue;
 		this.global_mymethods = global_methods;
-		
+
 		this.condCov = condCov; //condition coverage
 
 	}
@@ -103,7 +103,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		this.variableMap = new HashMap<>();
 		this.global_mymethods = new ArrayList<>();
 	}
-	
+
 	@Override
 	public GameBody visitGameBody(GameBodyContext ctx) {
 		List<Declaration> decl = new ArrayList<>();
@@ -114,20 +114,20 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods); 
 
-//		if(ctx.decl().size() > 0) {
-//			semanticErrors.add("Error: no declaration is allowed");
-//		}
-//		for(int i = 0; i < ctx.decl().size(); i++) {			
-//			//			decl.add(declVisitor.visit(ctx.decl(i)));
-//			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
-//		}
-//
-//		if(ctx.assi().size() > 0) {
-//			semanticErrors.add("Error: no assignment is allowed");
-//		}
-//		for(int i = 0; i < ctx.assi().size(); i++) {
-//			//			assi.add(assiVisitor.visit(ctx.assi(i)));
-//		}
+		//		if(ctx.decl().size() > 0) {
+		//			semanticErrors.add("Error: no declaration is allowed");
+		//		}
+		//		for(int i = 0; i < ctx.decl().size(); i++) {			
+		//			//			decl.add(declVisitor.visit(ctx.decl(i)));
+		//			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+		//		}
+		//
+		//		if(ctx.assi().size() > 0) {
+		//			semanticErrors.add("Error: no assignment is allowed");
+		//		}
+		//		for(int i = 0; i < ctx.assi().size(); i++) {
+		//			//			assi.add(assiVisitor.visit(ctx.assi(i)));
+		//		}
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
@@ -144,12 +144,12 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			//			}
 			this.global_mymethods.add(myMeth);
 		}
-		
+
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethods myMeth = mmVisitor.visit2((MyMethodsContext)ctx.mymethod(i));
 			mymethod.add(myMeth);
 		}
-		
+
 		this.global_mymethods.clear();
 		for(MyMethods m:mymethod) {
 			this.global_mymethods.add(m);
@@ -212,10 +212,10 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		return new GameBody(decl, assi, mymethod);
 	}
 
-	
+
 	// Condition Coverage
 	public void visitConditionCoverage(GameBodyContext ctx) {
-/*
+		/*
 		AntlrToMyMethods ifVisitor = new AntlrToMyMethods(semanticErrors, condCov); 
 
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
@@ -230,7 +230,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			}
 			ifVisitor.visitConditionCoverage(m);
 		}*/
-		
+
 		List<Declaration> decl = new ArrayList<>();
 		List<Assignment> assi = new ArrayList<>();
 		List<MyMethods> mymethod = new ArrayList<>();
@@ -239,20 +239,20 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		AntlrToAssignment assiVisitor = new AntlrToAssignment(semanticErrors, this.variableMap, this.global_mymethods);
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods(semanticErrors, this.variableMap, this.global_mymethods, condCov); 
 
-//		if(ctx.decl().size() > 0) {
-//			semanticErrors.add("Error: no declaration is allowed");
-//		}
-//		for(int i = 0; i < ctx.decl().size(); i++) {			
-//			//			decl.add(declVisitor.visit(ctx.decl(i)));
-//			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
-//		}
-//
-//		if(ctx.assi().size() > 0) {
-//			semanticErrors.add("Error: no assignment is allowed");
-//		}
-//		for(int i = 0; i < ctx.assi().size(); i++) {
-//			//			assi.add(assiVisitor.visit(ctx.assi(i)));
-//		}
+		//		if(ctx.decl().size() > 0) {
+		//			semanticErrors.add("Error: no declaration is allowed");
+		//		}
+		//		for(int i = 0; i < ctx.decl().size(); i++) {			
+		//			//			decl.add(declVisitor.visit(ctx.decl(i)));
+		//			//			variableMap.put(decl.get(i).varName, decl.get(i).defaultValue); //store default values for each decl into a map
+		//		}
+		//
+		//		if(ctx.assi().size() > 0) {
+		//			semanticErrors.add("Error: no assignment is allowed");
+		//		}
+		//		for(int i = 0; i < ctx.assi().size(); i++) {
+		//			//			assi.add(assiVisitor.visit(ctx.assi(i)));
+		//		}
 
 		/*
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
@@ -261,13 +261,13 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			mymethod.add(myMeth);
 
 		}
-		*/
+		 */
 		for(int i = 0; i < ctx.mymethod().size(); i++) {
 			MyMethodsContext m = (MyMethodsContext)ctx.mymethod(i);
 			Map.Entry<MethodCall, Map<String, Values>> testMethod = condCov.getTestMethod();
-			
+
 			condCov.setCurMethod(m.METHODNAME().getText());
-			
+
 			if (!condCov.isComponentState() && testMethod != null
 					&& m.METHODNAME().getText().equals(testMethod.getKey().getName())) {
 				condCov.setCalledMethod(m.METHODNAME().getText());
@@ -277,7 +277,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 			}
 			mmVisitor.visitConditionCoverage(m);
 		}
-		
+
 		this.decl = decl;
 		this.assi = assi;
 		this.mymethod = mymethod;
@@ -332,7 +332,7 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		}
 	}
 
-	
+
 	//control flow underneath
 	public GameBody control(GameBodyContext ctx) {
 		//		this.rangeOfLines = new int[2];
@@ -341,21 +341,21 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 		//		this.rangeOfLines[0]=start.getLine()-1;
 		//		this.rangeOfLines[1]=end.getLine()-1;
 
-//		for(int i = 0; i < ctx.decl().size(); i++) {			
-//			AntlrToDeclaration declController = new AntlrToDeclaration();
-//			this.dControllers.add(declController);
-//			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
-//			this.variableMap.put(this.decl.get(i).varName, this.decl.get(i).defaultValue); //store default values for each decl into a map
-//
-//
-//		}
-//
-//
-//		for(int i = 0; i < ctx.assi().size(); i++) {
-//			AntlrToAssignment assiController = new AntlrToAssignment();
-//			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
-//			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
-//		}
+		//		for(int i = 0; i < ctx.decl().size(); i++) {			
+		//			AntlrToDeclaration declController = new AntlrToDeclaration();
+		//			this.dControllers.add(declController);
+		//			this.decl.add(declController.control((DeclarationContext)ctx.decl(i)));
+		//			this.variableMap.put(this.decl.get(i).varName, this.decl.get(i).defaultValue); //store default values for each decl into a map
+		//
+		//
+		//		}
+		//
+		//
+		//		for(int i = 0; i < ctx.assi().size(); i++) {
+		//			AntlrToAssignment assiController = new AntlrToAssignment();
+		//			assi.add(assiController.control((AssignmentContext)ctx.assi(i)));
+		//			this.controlVariableMap.put(assi.get(i).varName, assi.get(i).expr);
+		//		}
 
 
 		//start here
@@ -395,26 +395,50 @@ public class AntlrToGameBody extends exprBaseVisitor<GameBody>{
 
 		AntlrToMyMethods mmVisitor = new AntlrToMyMethods( semanticErrors, variableMap, global_mymethods, t_method_call, inputValues, testValue, condCov); // condition coverage
 
-//		for(int i = 0; i < ctx.mymethod().size(); i++) {
-//			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
-//			this.global_mymethods.add(myMeth);
+		//		for(int i = 0; i < ctx.mymethod().size(); i++) {
+		//			MyMethods myMeth = mmVisitor.visit(ctx.mymethod(i));
+		//			this.global_mymethods.add(myMeth);
+		//			mymethod.add(myMeth);
+		//		}
+
+//		int i = 0;
+//		for(MyMethods m : this.global_mymethods) {
+//
+//			//condition coverage start
+//			condCov.setCurMethod(m.methodName);			
+//			if (!condCov.isComponentState() && m.methodName != null
+//					&& m.methodName.equals(t_method_call.getName())) {
+//				condCov.setCalledMethod(m.methodName);
+//			}
+//			//condition coverage end
+//
+//			MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
+//			this.testValue = mmVisitor.testValue;
 //			mymethod.add(myMeth);
+//			i++;
 //		}
 
 		int i = 0;
 		for(MyMethods m : this.global_mymethods) {
 			
-			//condition coverage start
 			condCov.setCurMethod(m.methodName);			
 			if (!condCov.isComponentState() && m.methodName != null
 					&& m.methodName.equals(t_method_call.getName())) {
 				condCov.setCalledMethod(m.methodName);
 			}
-			//condition coverage end
 			
-			MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
-			this.testValue = mmVisitor.testValue;
-			mymethod.add(myMeth);
+			if(this.t_method_call.getName().equals(m.methodName)) {
+				if(this.t_method_call instanceof ReturnMethodCall && m.methodType instanceof MyReturnMethod) {
+					MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
+					this.testValue = mmVisitor.testValue;
+					mymethod.add(myMeth);
+				}else if(this.t_method_call instanceof VoidMethodCall && m.methodType instanceof MyVoidMethod) {
+					MyMethods myMeth = mmVisitor.defControl((MyMethodsContext)ctx.mymethod(i));
+					this.testValue = mmVisitor.testValue;
+					mymethod.add(myMeth);
+				}
+			}
+			
 			i++;
 		}
 
