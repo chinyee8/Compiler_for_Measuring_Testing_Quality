@@ -29,6 +29,7 @@ import model.Input_List;
 import model.MethodCall;
 import model.MyMethods;
 import model.MyReturnMethod;
+import model.MyVoidMethod;
 import model.Program;
 import model.ReturnMethodCall;
 import model.TestCase;
@@ -303,12 +304,11 @@ public class AntlrToTestCase extends exprBaseVisitor<TestCase>{
 
 	private Values getTestValue(ReturnMethodCall rm, ParseTree progAST, List<MyMethods> global_methods2, Map<String, Values> callInputs, String check, Map<MethodCall, List<String>> methodCallParamOrder2) {
 		Values result = null;
-		List<MyMethods> global = new ArrayList<>();
-		for(MyMethods g : global_methods2) {
-			global.add(g);
-		}
 		
-		AntlrToProgram devCoverage = new AntlrToProgram(rm, global, callInputs, condCov); // condition coverage
+		AntlrToProgram progVisitor = new AntlrToProgram();
+		Program prog = progVisitor.visit(progAST);
+		
+		AntlrToProgram devCoverage = new AntlrToProgram(rm, progVisitor.global_methods, callInputs, condCov); // condition coverage
 		Program defProg = devCoverage.defControl((ProgramContext)progAST);
 		this.progReturn.add(defProg);
 		result = devCoverage.testValue;
