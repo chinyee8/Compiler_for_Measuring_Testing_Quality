@@ -152,7 +152,7 @@ public class ExpressionApp {
 							Original ori = new Original(programList, testV.globalReturn);
 							Testcase test = new Testcase(testp, testV);
 							Statement st = new Statement(defProgram, testV.globalReturn);
-							condCov.setProgramList(programList, testV.globalReturn); // condition coverage for html
+							condCov.setProgramList(programList); // condition coverage for html
 
 							AllDefCoverage alldef = new AllDefCoverage(defProgram, testV.globalReturn);
 							AllCUsesCoverage allc = new AllCUsesCoverage(defProgram, testV.globalReturn);
