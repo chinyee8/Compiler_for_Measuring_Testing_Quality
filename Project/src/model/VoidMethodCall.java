@@ -5,6 +5,7 @@ public class VoidMethodCall extends MethodCall{
 	public String methodname;
 	public Call_Parameter call_parameter;
 	public int line;
+	public boolean covered;
 	
 	public VoidMethodCall(String voidcall,
 						String methodname,
@@ -13,6 +14,7 @@ public class VoidMethodCall extends MethodCall{
 		this.methodname = methodname;
 		this.call_parameter = call_parameter;
 		this.line = line;
+		covered = false;
 	}
 	
 	@Override
@@ -24,5 +26,10 @@ public class VoidMethodCall extends MethodCall{
 	public String getName() {
 		// TODO Auto-generated method stub
 		return this.methodname;
+	}
+
+	public void setCovered(boolean b) {
+		this.covered = b;
+		
 	}
 }
