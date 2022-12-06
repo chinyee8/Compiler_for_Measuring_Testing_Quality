@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 public class MyVoidMethod extends MethodType{
 	public String voidType;
 	public Parameter parameter;
@@ -21,5 +23,10 @@ public class MyVoidMethod extends MethodType{
 		result += "!";
 		
 		return result ;
+	}
+
+	public Values getValue(Map<String, Values> lists) {
+		this.method_body.getValues(parameter, lists);
+		return null;
 	}
 }
