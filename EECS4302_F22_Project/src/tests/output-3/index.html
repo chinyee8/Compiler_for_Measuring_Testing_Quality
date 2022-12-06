@@ -1,0 +1,57 @@
+<html>
+<style>
+h1{font-size: 3rem;font-family: Times; font-weight: bold; text-align: center; }.result{	font-size:1.5rem; font-weight: bold;}p{
+display: inline;
+}
+.testcaseclick{background-color: #7B68EE;color: white;}.testcaseclick:hover{background-color: #E6E6FA;color: black;}h3{ width: max-content; padding:0;border: 3px dotted #7B68EE;}#left{
+    float:left;
+    width:50%;
+}
+
+.testString:after{
+    content : "";
+    display: table;
+    clear: both;
+}
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 500px;
+    background-color: #F0F8FF;
+}
+li .varList{
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+		border-style: outset;		margin: 0;}
+li .varList:hover{
+    background-color: blue;
+    color: white;
+}
+.lineNum{ color: grey; font-size:12px;}
+</style>
+<h1>TestCase</h1><div class="testString"><div id="left"><h3>Click method call below for more coverage &darr; &emsp;</h3></div><div id="left"><h3>Click button below for result &darr; &emsp;</h3></div></div><div class="testString"><div id="left"><p class="lineNum">1</p>&ensp;test test_Aclass !<br><p class="lineNum"> 2</p>&ensp;&emsp;re1 << INT<br><p class="lineNum"> 3</p>&ensp;&emsp;re2 << INT<br><p class="lineNum"> 4</p>&ensp;&emsp;re3 << INT<br><p class="lineNum"> 5</p>&ensp;&emsp;re4 << INT<br><p class="lineNum"> 6</p>&ensp;&emsp;re5 << INT<br><p class="lineNum"> 7</p>&ensp;&emsp;re6 << INT<br><p class="lineNum"> 8</p>&ensp;&emsp;re_1 << INT<br><br><p class="lineNum">10</p>&ensp;&emsp;re1 <- <a href="game0.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ 1 ] </mark></p></a><br><p class="lineNum">11</p>&ensp;&emsp;re2 <- <a href="game1.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ 56 ] </mark></p></a><br><p class="lineNum">12</p>&ensp;&emsp;re3 <- <a href="game2.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ 141 ] </mark></p></a><br><p class="lineNum">13</p>&ensp;&emsp;re4 <- <a href="game3.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ 3125 ] </mark></p></a><br><p class="lineNum">14</p>&ensp;&emsp;re5 <- <a href="game4.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ 52356 ] </mark></p></a><br><p class="lineNum">15</p>&ensp;&emsp;re6 <- <a href="game5.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ 900 ] </mark></p></a><br><p class="lineNum">16</p>&ensp;&emsp;re_1 <- <a href="game6.html"><p><mark class="testcaseclick">DIGIT_CHECKER [ -1 ] </mark></p></a><br>!</div><div id="left"><div id="right" class="result"> Result</div><br><div id="right"><ul><li id="testlist0" onclick="testlist0()"><p class="varList">Line 10 : re1 <- DIGIT_CHECKER [ 1 ]</p></li><li id="testlist1" onclick="testlist1()"><p class="varList">Line 11 : re2 <- DIGIT_CHECKER [ 56 ]</p></li><li id="testlist2" onclick="testlist2()"><p class="varList">Line 12 : re3 <- DIGIT_CHECKER [ 141 ]</p></li><li id="testlist3" onclick="testlist3()"><p class="varList">Line 13 : re4 <- DIGIT_CHECKER [ 3125 ]</p></li><li id="testlist4" onclick="testlist4()"><p class="varList">Line 14 : re5 <- DIGIT_CHECKER [ 52356 ]</p></li><li id="testlist5" onclick="testlist5()"><p class="varList">Line 15 : re6 <- DIGIT_CHECKER [ 900 ]</p></li><li id="testlist6" onclick="testlist6()"><p class="varList">Line 16 : re_1 <- DIGIT_CHECKER [ -1 ]</p></li></ul></div></div></div><div id="testresult0" hidden>Result = 1</div><div id="testresult1" hidden>Result = 2</div><div id="testresult2" hidden>Result = 3</div><div id="testresult3" hidden>Result = 4</div><div id="testresult4" hidden>Result = 5</div><div id="testresult5" hidden>Result = 3</div><div id="testresult6" hidden>Result = -1</div><script>
+function testlist0(){
+document.getElementById("right").innerHTML = document.getElementById("testresult0").innerHTML;
+}
+function testlist1(){
+document.getElementById("right").innerHTML = document.getElementById("testresult1").innerHTML;
+}
+function testlist2(){
+document.getElementById("right").innerHTML = document.getElementById("testresult2").innerHTML;
+}
+function testlist3(){
+document.getElementById("right").innerHTML = document.getElementById("testresult3").innerHTML;
+}
+function testlist4(){
+document.getElementById("right").innerHTML = document.getElementById("testresult4").innerHTML;
+}
+function testlist5(){
+document.getElementById("right").innerHTML = document.getElementById("testresult5").innerHTML;
+}
+function testlist6(){
+document.getElementById("right").innerHTML = document.getElementById("testresult6").innerHTML;
+}
+</script></html>

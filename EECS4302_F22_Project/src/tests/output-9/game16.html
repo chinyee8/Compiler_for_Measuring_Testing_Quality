@@ -1,0 +1,646 @@
+<html>
+<style>
+h1{font-size: 3rem;font-family: Times; font-weight: bold; text-align: center; }p{
+display: inline;
+}
+button{	width: 200px; align-items: center; font-weight: bold;	height: 30px; font-size: 1rem;	background-color: #00008B; color: white;}button:hover{	background-color: #B0E0E6; color: black;}.topic{ font-weight: bold; font-size: 1.2rem;}.navbar{ text-align: center;}.statementmc{
+    background-color: 	orange;
+}
+
+.statementmc:hover{
+    background-color: red;
+    color: white;
+}#statementcov{
+    background-color: #F0F8FF;
+	   width: max-content;}.IS_PRIMEscolumn{
+    float:left;
+    width:50%;
+}
+
+#IS_PRIMEsans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.MOD_Kscolumn{
+    float:left;
+    width:50%;
+}
+
+#MOD_Ksans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.numsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.numcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.numcolumn{
+    float:left;
+    width:50%;
+}
+
+#numans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.ksubcolumn{
+    float:left;
+    width:50%;
+}
+
+.kcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.kcolumn{
+    float:left;
+    width:50%;
+}
+
+#kans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.resubcolumn{
+    float:left;
+    width:50%;
+}
+
+.recolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.recolumn{
+    float:left;
+    width:50%;
+}
+
+#reans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.countsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.countcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.countcolumn{
+    float:left;
+    width:50%;
+}
+
+#countans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.tempsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.tempcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.tempcolumn{
+    float:left;
+    width:50%;
+}
+
+#tempans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.numcsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.numccolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.numccolumn{
+    float:left;
+    width:50%;
+}
+
+#numcans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.kcsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.kccolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.kccolumn{
+    float:left;
+    width:50%;
+}
+
+#kcans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.recsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.reccolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.reccolumn{
+    float:left;
+    width:50%;
+}
+
+#recans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.countcsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.countccolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.countccolumn{
+    float:left;
+    width:50%;
+}
+
+#countcans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.tempcsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.tempccolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.tempccolumn{
+    float:left;
+    width:50%;
+}
+
+#tempcans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.numpsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.numpcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.numpcolumn{
+    float:left;
+    width:50%;
+}
+
+#numpans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.kpsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.kpcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.kpcolumn{
+    float:left;
+    width:50%;
+}
+
+#kpans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.repsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.repcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.repcolumn{
+    float:left;
+    width:50%;
+}
+
+#repans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.countpsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.countpcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.countpcolumn{
+    float:left;
+    width:50%;
+}
+
+#countpans:after{
+    content : "";
+    display: table;
+    clear: both;
+}.temppsubcolumn{
+    float:left;
+    width:50%;
+}
+
+.temppcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.temppcolumn{
+    float:left;
+    width:50%;
+}
+
+#temppans:after{
+    content : "";
+    display: table;
+    clear: both;
+}#statementpercentagenotecolumn{
+    float:left;
+    width:50%;
+}
+
+#statementpercentagenote:after{
+    content : "";
+    display: table;
+    clear: both;
+}.allDefsubcolumn{
+    float:left;
+    width:50%;
+}
+
+#allDefcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}.allDefcolumn{
+    float:left;
+    width:50%;
+}
+
+#allDef:after{
+    content : "";
+    display: table;
+    clear: both;
+}.allDefsubcolumn{
+    float:left;
+    width:50%;
+}
+
+#allDefcolumn:after{
+    content : "";
+    display: table;
+    clear: both;
+}ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    background-color: #F0F8FF;
+}
+li .varList{
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+		border-style: outset;		margin: 0;}
+li .varList:hover{
+    background-color: blue;
+    color: white;
+}.paragraph_underline{color:red;}.note{width: 200px; padding:0;border: 3px dotted grey;}</style>
+<h1>Game Class</h1><h3 style="text-align: center;">Click button below for coverage 	&darr;</h3><div class="navbar"><a href="index.html"><button>&larr; TestCase </button></a>
+<button onclick="statement()"> Statement Coverage </button>
+<button onclick="condition()"> Condition Coverage </button>
+<button onclick="allDef()"> All-Defs Coverage </button>
+<button onclick="allCUse()"> All-C-Uses Coverage </button>
+<button onclick="allPUse()"> All-P-Uses Coverage </button>
+</div><br><br><div id="text">
+game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num , count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div id="statement" hidden>
+<div class="allDefcolumn"><u class="topic">Statement Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << BOOLEAN</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (100) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num == 0 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- true</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num == 1 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- false</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num > 0 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">num <- num - k</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << BOOLEAN</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count << INT</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">temp << BOOLEAN</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count <- 1</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- true</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (100) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count <- count + 1</mark><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ count < num ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">temp <- </mark><mark class="statementmc" id="statementmcMOD_K" onclick="statementmcMOD_K()">MOD_K [ num , count ] </mark><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ temp ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- false</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="allDefcolumn"><br><h3><mark style="background-color: orange;"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3><div id="statementpercentagenote"><div id="statementpercentagenotecolumn"><h3>Percentage = 47%</h3></div><div id="statementpercentagenotecolumn"><br><div class="note"><u>Note:</u> <br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;statement coverage</div></div></div></div></div>
+<div id="IS_PRIMEsans" hidden><div class="IS_PRIMEscolumn"><u class="topic">Statement Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << BOOLEAN</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (100) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num == 0 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- true</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num == 1 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- false</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num > 0 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">num <- num - k</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << BOOLEAN</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count << INT</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">temp << BOOLEAN</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count <- 1</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- true</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (100) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count <- count + 1</mark><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ count < num ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">temp <- </mark><mark class="statementmc" id="statementmcMOD_K" onclick="statementmcMOD_K()">MOD_K [ num , count ] </mark><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ temp ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- false</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="IS_PRIMEscolumn"><br><h3><mark style="background-color: orange;"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3><div id="statementpercentagenote"><div id="statementpercentagenotecolumn"><h3>Percentage => 47%</h3></div><div id="statementpercentagenotecolumn"><br><div class="note"><u>Note:</u> <br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;statement coverage</div></div></div><br><div id="statementcov">&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num , count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br></div></div></div>
+<div id="MOD_Ksans" hidden><div class="MOD_Kscolumn"><u class="topic">Statement Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << BOOLEAN</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (100) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num == 0 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- true</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num == 1 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- false</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ num > 0 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">num <- num - k</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << BOOLEAN</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count << INT</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">temp << BOOLEAN</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count <- 1</mark><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- true</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (100) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">count <- count + 1</mark><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ count < num ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">temp <- </mark><mark class="statementmc" id="statementmcMOD_K" onclick="statementmcMOD_K()">MOD_K [ num , count ] </mark><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ temp ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- false</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="MOD_Kscolumn"><br><h3><mark style="background-color: orange;"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3><div id="statementpercentagenote"><div id="statementpercentagenotecolumn"><h3>Percentage => 47%</h3></div><div id="statementpercentagenotecolumn"><br><div class="note"><u>Note:</u> <br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;statement coverage</div></div></div><br><div id="statementcov">&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br></div></div></div>
+<div id="condition" hidden>
+<u class="topic">Condition Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable0() { var popup = document.getElementById("Popup0"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<a0 class ="popup" onclick="showTable0()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup0" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_TWO.jackieAsks[num==0]</p><table style="width:100%"><tr><th>possible case #</th><th>MOD_TWO.num==0</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a0><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable1() { var popup = document.getElementById("Popup1"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<a1 class ="popup" onclick="showTable1()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup1" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_TWO.jackieAsks[num==1]</p><table style="width:100%"><tr><th>possible case #</th><th>MOD_TWO.num==1</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a1><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable2() { var popup = document.getElementById("Popup2"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<a2 class ="popup" onclick="showTable2()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup2" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_TWO.jackieAsks[num&gt0]</p><table style="width:100%"><tr><th>possible case #</th><th>num&gt0</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th></th></tr></table></div><p2 style="background-color:yellow">50.00% covered! <p2></span>  </a2><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div id="allDef" hidden>
+<div class="allDefcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num , count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="allDefcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="allDefsubcolumn"><h3>Percentage = 92%</h3>
+<ul>
+<li id="num" onclick="num()"><p class="varList">num</p></li>
+<li id="k" onclick="k()"><p class="varList">k</p></li>
+<li id="re" onclick="re()"><p class="varList">re</p></li>
+<li id="count" onclick="count()"><p class="varList">count</p></li>
+<li id="temp" onclick="temp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="allDefsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><mark style="background-color: green;"> &emsp; </mark> &emsp;green => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: #7B68EE;"> &emsp; </mark> &emsp;purple => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use or p-use</div></div></div></div>
+<div id="numans" hidden><div class="numcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT <mark style="background-color: lime;">num</mark>, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">num</mark> == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">num</mark> == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">num</mark> > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: lime;">num</mark> <- <mark style="background-color: yellow;">num</mark> - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT <mark style="background-color: lime;">num</mark>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < <mark style="background-color: yellow;">num</mark> ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ <mark style="background-color: yellow;">num</mark>, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="numcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="numsubcolumn"><h3>Percentage = 92%</h3>
+<ul>
+<li id="num" onclick="num()"><p class="varList">num</p></li>
+<li id="k" onclick="k()"><p class="varList">k</p></li>
+<li id="re" onclick="re()"><p class="varList">re</p></li>
+<li id="count" onclick="count()"><p class="varList">count</p></li>
+<li id="temp" onclick="temp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="numsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><mark style="background-color: green;"> &emsp; </mark> &emsp;green => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: #7B68EE;"> &emsp; </mark> &emsp;purple => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use or p-use</div></div></div></div>
+<div id="kans" hidden><div class="kcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT <mark style="background-color: lime;">k</mark>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - <mark style="background-color: yellow;">k</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="kcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="ksubcolumn"><h3>Percentage = 92%</h3>
+<ul>
+<li id="num" onclick="num()"><p class="varList">num</p></li>
+<li id="k" onclick="k()"><p class="varList">k</p></li>
+<li id="re" onclick="re()"><p class="varList">re</p></li>
+<li id="count" onclick="count()"><p class="varList">count</p></li>
+<li id="temp" onclick="temp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="ksubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><mark style="background-color: green;"> &emsp; </mark> &emsp;green => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: #7B68EE;"> &emsp; </mark> &emsp;purple => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use or p-use</div></div></div></div>
+<div id="reans" hidden><div class="recolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: lime;">re</mark> << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: lime;">re</mark> <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: lime;">re</mark> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns <mark style="background-color: yellow;">re</mark><br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;<mark style="background-color: lime;">re</mark> <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: lime;">re</mark> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns <mark style="background-color: yellow;">re</mark><br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="recolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="resubcolumn"><h3>Percentage = 92%</h3>
+<ul>
+<li id="num" onclick="num()"><p class="varList">num</p></li>
+<li id="k" onclick="k()"><p class="varList">k</p></li>
+<li id="re" onclick="re()"><p class="varList">re</p></li>
+<li id="count" onclick="count()"><p class="varList">count</p></li>
+<li id="temp" onclick="temp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="resubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><mark style="background-color: green;"> &emsp; </mark> &emsp;green => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: #7B68EE;"> &emsp; </mark> &emsp;purple => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use or p-use</div></div></div></div>
+<div id="countans" hidden><div class="countcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">count</mark> << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;<mark style="background-color: lime;">count</mark> <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: lime;">count</mark> <- <mark style="background-color: yellow;">count</mark> + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">count</mark> < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, <mark style="background-color: yellow;">count</mark> ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="countcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="countsubcolumn"><h3>Percentage = 92%</h3>
+<ul>
+<li id="num" onclick="num()"><p class="varList">num</p></li>
+<li id="k" onclick="k()"><p class="varList">k</p></li>
+<li id="re" onclick="re()"><p class="varList">re</p></li>
+<li id="count" onclick="count()"><p class="varList">count</p></li>
+<li id="temp" onclick="temp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="countsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><mark style="background-color: green;"> &emsp; </mark> &emsp;green => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: #7B68EE;"> &emsp; </mark> &emsp;purple => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use or p-use</div></div></div></div>
+<div id="tempans" hidden><div class="tempcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;<mark style="background-color: lime;">temp</mark> << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: lime;">temp</mark> <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: #7B68EE; color: white;">temp</mark> ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="tempcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="tempsubcolumn"><h3>Percentage = 92%</h3>
+<ul>
+<li id="num" onclick="num()"><p class="varList">num</p></li>
+<li id="k" onclick="k()"><p class="varList">k</p></li>
+<li id="re" onclick="re()"><p class="varList">re</p></li>
+<li id="count" onclick="count()"><p class="varList">count</p></li>
+<li id="temp" onclick="temp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="tempsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><mark style="background-color: green;"> &emsp; </mark> &emsp;green => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: #7B68EE;"> &emsp; </mark> &emsp;purple => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use or p-use</div></div></div></div>
+<div id="allCUse" hidden>
+<div class="allDefcolumn"><u class="topic">All-C-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT <u class="paragraph_underline">num</u>, INT <u class="paragraph_underline">k</u>] !<br><br>&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> << BOOLEAN<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">count</mark> << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">num</u> <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT <u class="paragraph_underline">num</u>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">temp</mark> << BOOLEAN<br><br>&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- 1<br>&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">temp</u> <- MOD_K [ num , count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="allDefcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="allDefsubcolumn"><h3>Percentage = 50%</h3>
+<ul>
+<li id="numc" onclick="numc()"><p class="varList">num</p></li>
+<li id="kc" onclick="kc()"><p class="varList">k</p></li>
+<li id="rec" onclick="rec()"><p class="varList">re</p></li>
+<li id="countc" onclick="countc()"><p class="varList">count</p></li>
+<li id="tempc" onclick="tempc()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="allDefsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use</div></div></div></div>
+<div id="numcans" hidden><div class="numccolumn"><u class="topic">All-C-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT <u class="paragraph_underline">num</u>, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">num</u> <- <mark style="background-color: yellow;">num</mark> - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT <u class="paragraph_underline">num</u>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ <mark style="background-color: yellow;">num</mark>, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="numccolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="numcsubcolumn"><h3>Percentage = 50%</h3>
+<ul>
+<li id="numc" onclick="numc()"><p class="varList">num</p></li>
+<li id="kc" onclick="kc()"><p class="varList">k</p></li>
+<li id="rec" onclick="rec()"><p class="varList">re</p></li>
+<li id="countc" onclick="countc()"><p class="varList">count</p></li>
+<li id="tempc" onclick="tempc()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="numcsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use</div></div></div></div>
+<div id="kcans" hidden><div class="kccolumn"><u class="topic">All-C-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT <u class="paragraph_underline">k</u>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - <mark style="background-color: yellow;">k</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="kccolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="kcsubcolumn"><h3>Percentage = 50%</h3>
+<ul>
+<li id="numc" onclick="numc()"><p class="varList">num</p></li>
+<li id="kc" onclick="kc()"><p class="varList">k</p></li>
+<li id="rec" onclick="rec()"><p class="varList">re</p></li>
+<li id="countc" onclick="countc()"><p class="varList">count</p></li>
+<li id="tempc" onclick="tempc()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="kcsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use</div></div></div></div>
+<div id="recans" hidden><div class="reccolumn"><u class="topic">All-C-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns <mark style="background-color: yellow;">re</mark><br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns <mark style="background-color: yellow;">re</mark><br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="reccolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="recsubcolumn"><h3>Percentage = 50%</h3>
+<ul>
+<li id="numc" onclick="numc()"><p class="varList">num</p></li>
+<li id="kc" onclick="kc()"><p class="varList">k</p></li>
+<li id="rec" onclick="rec()"><p class="varList">re</p></li>
+<li id="countc" onclick="countc()"><p class="varList">count</p></li>
+<li id="tempc" onclick="tempc()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="recsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use</div></div></div></div>
+<div id="countcans" hidden><div class="countccolumn"><u class="topic">All-C-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">count</mark> << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- <mark style="background-color: yellow;">count</mark> + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, <mark style="background-color: yellow;">count</mark> ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="countccolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="countcsubcolumn"><h3>Percentage = 50%</h3>
+<ul>
+<li id="numc" onclick="numc()"><p class="varList">num</p></li>
+<li id="kc" onclick="kc()"><p class="varList">k</p></li>
+<li id="rec" onclick="rec()"><p class="varList">re</p></li>
+<li id="countc" onclick="countc()"><p class="varList">count</p></li>
+<li id="tempc" onclick="tempc()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="countcsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use</div></div></div></div>
+<div id="tempcans" hidden><div class="tempccolumn"><u class="topic">All-C-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">temp</mark> << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">temp</mark> <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="tempccolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="tempcsubcolumn"><h3>Percentage = 50%</h3>
+<ul>
+<li id="numc" onclick="numc()"><p class="varList">num</p></li>
+<li id="kc" onclick="kc()"><p class="varList">k</p></li>
+<li id="rec" onclick="rec()"><p class="varList">re</p></li>
+<li id="countc" onclick="countc()"><p class="varList">count</p></li>
+<li id="tempc" onclick="tempc()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="tempcsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => c-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no c-use</div></div></div></div>
+<div id="allPUse" hidden>
+<div class="allDefcolumn"><u class="topic">All-P-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT <u class="paragraph_underline">num</u>, INT <u class="paragraph_underline">k</u>] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">re</mark> << BOOLEAN<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">count</mark> << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">num</u> <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT <u class="paragraph_underline">num</u>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;<u class="paragraph_underline">temp</u> << BOOLEAN<br><br>&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- 1<br>&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">temp</u> <- MOD_K [ num , count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">re</u> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="allDefcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="allDefsubcolumn"><h3>Percentage = 46%</h3>
+<ul>
+<li id="nump" onclick="nump()"><p class="varList">num</p></li>
+<li id="kp" onclick="kp()"><p class="varList">k</p></li>
+<li id="rep" onclick="rep()"><p class="varList">re</p></li>
+<li id="countp" onclick="countp()"><p class="varList">count</p></li>
+<li id="tempp" onclick="tempp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="allDefsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no p-use</div></div></div></div>
+<div id="numpans" hidden><div class="numpcolumn"><u class="topic">All-P-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT <u class="paragraph_underline">num</u>, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">num</mark> == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">num</mark> == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">num</mark> > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">num</u> <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT <u class="paragraph_underline">num</u>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < <mark style="background-color: yellow;">num</mark> ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="numpcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="numpsubcolumn"><h3>Percentage = 46%</h3>
+<ul>
+<li id="nump" onclick="nump()"><p class="varList">num</p></li>
+<li id="kp" onclick="kp()"><p class="varList">k</p></li>
+<li id="rep" onclick="rep()"><p class="varList">re</p></li>
+<li id="countp" onclick="countp()"><p class="varList">count</p></li>
+<li id="tempp" onclick="tempp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="numpsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no p-use</div></div></div></div>
+<div id="kpans" hidden><div class="kpcolumn"><u class="topic">All-P-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT <mark style="background-color: red; color: white;">k</mark>] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="kpcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="kpsubcolumn"><h3>Percentage = 46%</h3>
+<ul>
+<li id="nump" onclick="nump()"><p class="varList">num</p></li>
+<li id="kp" onclick="kp()"><p class="varList">k</p></li>
+<li id="rep" onclick="rep()"><p class="varList">re</p></li>
+<li id="countp" onclick="countp()"><p class="varList">count</p></li>
+<li id="tempp" onclick="tempp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="kpsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no p-use</div></div></div></div>
+<div id="repans" hidden><div class="repcolumn"><u class="topic">All-P-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">re</mark> << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">re</mark> <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">re</mark> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">re</mark> <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">re</mark> <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="repcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="repsubcolumn"><h3>Percentage = 46%</h3>
+<ul>
+<li id="nump" onclick="nump()"><p class="varList">num</p></li>
+<li id="kp" onclick="kp()"><p class="varList">k</p></li>
+<li id="rep" onclick="rep()"><p class="varList">re</p></li>
+<li id="countp" onclick="countp()"><p class="varList">count</p></li>
+<li id="tempp" onclick="tempp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="repsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no p-use</div></div></div></div>
+<div id="countpans" hidden><div class="countpcolumn"><u class="topic">All-P-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;<mark style="background-color: red; color: white;">count</mark> << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">count</u> <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">count</mark> < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="countpcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="countpsubcolumn"><h3>Percentage = 46%</h3>
+<ul>
+<li id="nump" onclick="nump()"><p class="varList">num</p></li>
+<li id="kp" onclick="kp()"><p class="varList">k</p></li>
+<li id="rep" onclick="rep()"><p class="varList">re</p></li>
+<li id="countp" onclick="countp()"><p class="varList">count</p></li>
+<li id="tempp" onclick="tempp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="countpsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no p-use</div></div></div></div>
+<div id="temppans" hidden><div class="temppcolumn"><u class="topic">All-P-Uses Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;<u class="paragraph_underline">temp</u> << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<u class="paragraph_underline">temp</u> <- MOD_K [ num, count ]<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ <mark style="background-color: yellow;">temp</mark> ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br><br></div><div class="temppcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="temppsubcolumn"><h3>Percentage = 46%</h3>
+<ul>
+<li id="nump" onclick="nump()"><p class="varList">num</p></li>
+<li id="kp" onclick="kp()"><p class="varList">k</p></li>
+<li id="rep" onclick="rep()"><p class="varList">re</p></li>
+<li id="countp" onclick="countp()"><p class="varList">count</p></li>
+<li id="tempp" onclick="tempp()"><p class="varList">temp</p></li>
+</ul>
+</div><div class="temppsubcolumn"><br><br><br><br><br><div class="note"><u>Note:</u> <br><u class="paragraph_underline"> &emsp; </u> &emsp;underline => def<br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;yellow => p-use<br><mark style="background-color: red;"> &emsp; </mark> &emsp;red => no p-use</div></div></div></div>
+<script>
+function statement(){
+document.getElementById("text").innerHTML = document.getElementById("statement").innerHTML;
+}
+function condition(){
+document.getElementById("text").innerHTML = document.getElementById("condition").innerHTML;
+}
+function allDef(){
+document.getElementById("text").innerHTML = document.getElementById("allDef").innerHTML;
+}
+function allCUse(){
+document.getElementById("text").innerHTML = document.getElementById("allCUse").innerHTML;
+}
+function allPUse(){
+document.getElementById("text").innerHTML = document.getElementById("allPUse").innerHTML;
+}
+function statementmcIS_PRIME(){
+document.getElementById("text").innerHTML = document.getElementById("IS_PRIMEsans").innerHTML;
+}function statementmcMOD_K(){
+document.getElementById("text").innerHTML = document.getElementById("MOD_Ksans").innerHTML;
+}function num(){
+document.getElementById("text").innerHTML = document.getElementById("numans").innerHTML;
+}function k(){
+document.getElementById("text").innerHTML = document.getElementById("kans").innerHTML;
+}function re(){
+document.getElementById("text").innerHTML = document.getElementById("reans").innerHTML;
+}function count(){
+document.getElementById("text").innerHTML = document.getElementById("countans").innerHTML;
+}function temp(){
+document.getElementById("text").innerHTML = document.getElementById("tempans").innerHTML;
+}function numc(){
+document.getElementById("text").innerHTML = document.getElementById("numcans").innerHTML;
+}function kc(){
+document.getElementById("text").innerHTML = document.getElementById("kcans").innerHTML;
+}function rec(){
+document.getElementById("text").innerHTML = document.getElementById("recans").innerHTML;
+}function countc(){
+document.getElementById("text").innerHTML = document.getElementById("countcans").innerHTML;
+}function tempc(){
+document.getElementById("text").innerHTML = document.getElementById("tempcans").innerHTML;
+}function nump(){
+document.getElementById("text").innerHTML = document.getElementById("numpans").innerHTML;
+}function kp(){
+document.getElementById("text").innerHTML = document.getElementById("kpans").innerHTML;
+}function rep(){
+document.getElementById("text").innerHTML = document.getElementById("repans").innerHTML;
+}function countp(){
+document.getElementById("text").innerHTML = document.getElementById("countpans").innerHTML;
+}function tempp(){
+document.getElementById("text").innerHTML = document.getElementById("temppans").innerHTML;
+}</script></html>

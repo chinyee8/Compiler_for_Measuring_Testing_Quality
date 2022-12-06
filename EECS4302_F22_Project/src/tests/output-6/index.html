@@ -1,0 +1,42 @@
+<html>
+<style>
+h1{font-size: 3rem;font-family: Times; font-weight: bold; text-align: center; }.result{	font-size:1.5rem; font-weight: bold;}p{
+display: inline;
+}
+.testcaseclick{background-color: #7B68EE;color: white;}.testcaseclick:hover{background-color: #E6E6FA;color: black;}h3{ width: max-content; padding:0;border: 3px dotted #7B68EE;}#left{
+    float:left;
+    width:50%;
+}
+
+.testString:after{
+    content : "";
+    display: table;
+    clear: both;
+}
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 500px;
+    background-color: #F0F8FF;
+}
+li .varList{
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+		border-style: outset;		margin: 0;}
+li .varList:hover{
+    background-color: blue;
+    color: white;
+}
+.lineNum{ color: grey; font-size:12px;}
+</style>
+<h1>TestCase</h1><div class="testString"><div id="left"><h3>Click method call below for more coverage &darr; &emsp;</h3></div><div id="left"><h3>Click button below for result &darr; &emsp;</h3></div></div><div class="testString"><div id="left"><p class="lineNum">1</p>&ensp;test test_Aclass !<br><p class="lineNum"> 2</p>&ensp;&emsp;re1 << INT<br><br><p class="lineNum"> 4</p>&ensp;&emsp;re1 <- <a href="game0.html"><p><mark class="testcaseclick">LCALLVI [ 2 ] </mark></p></a><br><p class="lineNum"> 5</p>&ensp;&emsp;re1 <- <a href="game1.html"><p><mark class="testcaseclick">LCALLV [ 3 ] </mark></p></a><br>!</div><div id="left"><div id="right" class="result"> Result</div><br><div id="right"><ul><li id="testlist0" onclick="testlist0()"><p class="varList">Line 4 : re1 <- LCALLVI [ 2 ]</p></li><li id="testlist1" onclick="testlist1()"><p class="varList">Line 5 : re1 <- LCALLV [ 3 ]</p></li></ul></div></div></div><div id="testresult0" hidden>Result = 0</div><div id="testresult1" hidden>Result = 4</div><script>
+function testlist0(){
+document.getElementById("right").innerHTML = document.getElementById("testresult0").innerHTML;
+}
+function testlist1(){
+document.getElementById("right").innerHTML = document.getElementById("testresult1").innerHTML;
+}
+</script></html>
