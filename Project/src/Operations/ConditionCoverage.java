@@ -35,7 +35,6 @@ public class ConditionCoverage{
 	
 	//for html
 	List<Program> programList;
-	private  List<List<MyMethods>> globalReturn;
 	int hoverIndex;
 	Map<String, String> tableHTMLMap;
 	
@@ -172,9 +171,8 @@ public class ConditionCoverage{
 	}
 
 
-	public void setProgramList(List<Program> programList, List<List<MyMethods>> globalReturn) {
+	public void setProgramList(List<Program> programList) {
 		this.programList = programList;
-		this.globalReturn = globalReturn;
 	}
 
 	
@@ -212,7 +210,7 @@ public class ConditionCoverage{
 				+ "}"
 				+ ".popuptext {  visibility: hidden;\n"
 				+ "  width: 160px;\n"
-				+ "  background-color: yellow;\n"
+				+ "  background-color: white;\n"
 				+ "  color: black;\n"
 				+ "  text-align: center;\n"
 				+ "  border-radius: 6px;\n"
@@ -248,7 +246,7 @@ public class ConditionCoverage{
 			return "";
 		}
 		String hoverButton = "";
-		hoverButton += "<a" + hoverIndex + " class =\"popup\" onclick=\"showTable" + hoverIndex + "()\"> ☞ See Coverage" ;
+		hoverButton += "<a" + hoverIndex + " class =\"popup\" onclick=\"showTable" + hoverIndex + "()\"> <mark style=\"backround-color:yellow\"> ☞ See Coverage </mark>";
 		hoverButton +=  " <span id=\"Popup" + hoverIndex + "\" class=\"popuptext\">" + tableHTMLMap.get( curCondString.replace(" ", "")) + "</span>  </a" + hoverIndex + ">";
 		hoverIndex++;
 		return hoverButton;
@@ -266,8 +264,7 @@ public class ConditionCoverage{
 
 		result += "game " + p.gameclass.className + " !<br><br>";
 		
-		int num = 0;
-		for(MyMethods mm : this.globalReturn.get(num)) {
+		for(MyMethods mm : p.gameclass.body.myMethodList) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				String para = ""; int i = 0;
@@ -310,7 +307,6 @@ public class ConditionCoverage{
 
 				result += "&emsp;!<br>";
 			}
-			num++;
 		}
 		result += "!<br>";
 
@@ -448,7 +444,19 @@ public class ConditionCoverage{
 			}
 			curTableHTML += "</table></div>";
 			double coveragePercent = (((double)componentMap.get(curIfStat).resultCount / (double)possibleCaseNum) * 100);
-			curTableHTML += "<p2>" + String.format("%.2f", coveragePercent) + "% covered! <p2>";
+			
+			String tableColor;
+			if (coveragePercent > 99) {
+				tableColor = "green";
+			}
+			else if(coveragePercent < 1) {
+				tableColor = "red";
+			}
+			else {
+				tableColor = "yellow";
+			}
+			
+			curTableHTML += "<p2 style=\"background-color:" + tableColor + "\">" + String.format("%.2f", coveragePercent) + "% covered! <p2>";
 			
 			tableHTMLMap.put(curIfStat.replace(" ", ""), curTableHTML); //add into list
 			
