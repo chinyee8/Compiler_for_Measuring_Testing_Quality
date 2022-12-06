@@ -106,6 +106,7 @@ public class AllDefCoverage {
 		for(Map.Entry<Program, MethodCall> prog : defProgram.entrySet()) {
 			Program p = prog.getKey();
 			MethodCall methodcall = prog.getValue();
+			List<MyMethods> globalMyMethods = this.globalReturn.get(i);
 			String result = "";
 			this.totaldef = new ArrayList<>();
 			this.countDefTotal = 0;
@@ -113,10 +114,10 @@ public class AllDefCoverage {
 
 			result += "game " + p.gameclass.className + " !<br><br>";
 
-			List<String> mc = getListOfMethodCall(p, methodcall.getName());
+			List<String> mc = getListOfMethodCall(globalMyMethods, p, methodcall.getName());
 
 
-			for(MyMethods mm : this.globalReturn.get(i)) {
+			for(MyMethods mm : globalMyMethods) {
 				this.def = new ArrayList<>();
 				this.use = new ArrayList<>();
 				this.countDef = 0;
@@ -189,7 +190,7 @@ public class AllDefCoverage {
 			String note = "<br><br><br><br><div class=\"note\"><u>Note:</u> " + "<br><mark style=\"background-color: green;\"> &emsp; </mark> &emsp;green => def" + "<br><mark style=\"background-color: yellow;\"> &emsp; </mark> &emsp;yellow => c-use" + "<br><mark style=\"background-color: #7B68EE;\"> &emsp; </mark> &emsp;purple => p-use" + "<br><mark style=\"background-color: red;\"> &emsp; </mark> &emsp;red => no c-use or p-use</div>";
 			for(String d: totaldef) {
 				tempdiff.add("<div id=\"" + d + "ans\" hidden>" 
-						+ "<div class=\""+ d +"column\"><u class=\"topic\">All-Defs Coverage</u><br><br>" +getResultString(p, methodcall, d) + "<br>" + "</div>"
+						+ "<div class=\""+ d +"column\"><u class=\"topic\">All-Defs Coverage</u><br><br>" +getResultString(globalMyMethods, p, methodcall, d) + "<br>" + "</div>"
 						+ "<div class=\""+ d +"column\"><h3><u>List of Variables - Click to see coverage:</u></h3>" 
 						+ "<div class=\""+ d +"subcolumn\">" + tmpString + "</div>"
 						+ "<div class=\""+ d +"subcolumn\">" + "<br>" + note + "</div>"
@@ -232,10 +233,10 @@ public class AllDefCoverage {
 		}
 	}
 
-	private List<String> getListOfMethodCall(Program p, String name) {
+	private List<String> getListOfMethodCall(List<MyMethods> globalMyMethods, Program p, String name) {
 		List<String> mc = new ArrayList<>();
 		mc.add(name);
-		for(String s: getMethodCallFromThis(p, name, mc)) {
+		for(String s: getMethodCallFromThis(globalMyMethods, p, name, mc)) {
 			if(!mc.contains(s)) {
 				mc.add(s);
 			}
@@ -243,7 +244,7 @@ public class AllDefCoverage {
 		List<String> current = new ArrayList<>();
 		current.addAll(mc);
 		for(String s : current) {
-			for(String s2:getMethodCallFromThis(p, s, mc)) {
+			for(String s2:getMethodCallFromThis(globalMyMethods, p, s, mc)) {
 				if(!mc.contains(s2)) {
 					mc.add(s2);
 				}
@@ -257,7 +258,7 @@ public class AllDefCoverage {
 				}
 			}
 			for(String s : current) {
-				for(String s2:getMethodCallFromThis(p, s, mc)) {
+				for(String s2:getMethodCallFromThis(globalMyMethods, p, s, mc)) {
 					if(!mc.contains(s2)) {
 						mc.add(s2);
 					}
@@ -305,15 +306,15 @@ public class AllDefCoverage {
 	//		}		
 	//	}
 
-	public String getResultString(Program p, MethodCall methodcall, String d) {
+	public String getResultString(List<MyMethods> globalMyMethods, Program p, MethodCall methodcall, String d) {
 		String result = "";
 
 		result += "game " + p.gameclass.className + " !<br><br>";
 
-		List<String> mc = getListOfMethodCall(p, methodcall.getName());
+		List<String> mc = getListOfMethodCall(globalMyMethods, p, methodcall.getName());
 
 		int i = 0;
-		for(MyMethods mm : this.globalReturn.get(i)) {
+		for(MyMethods mm : globalMyMethods) {
 
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
@@ -1273,9 +1274,9 @@ public class AllDefCoverage {
 		return list;
 	}
 
-	private List<String> getMethodCallFromThis(Program p, String methodcall, List<String> list) {
+	private List<String> getMethodCallFromThis(List<MyMethods> globalMyMethods, Program p, String methodcall, List<String> list) {
 		int i = 0;
-		for(MyMethods mm : this.globalReturn.get(i)) {
+		for(MyMethods mm : globalMyMethods) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				if(mm.methodName.equals(methodcall) ) {
@@ -1374,5 +1375,4 @@ public class AllDefCoverage {
 
 		return list;
 	}
-
 }
