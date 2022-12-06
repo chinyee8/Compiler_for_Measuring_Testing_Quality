@@ -149,14 +149,14 @@ public class ExpressionApp {
 						else {
 							
 							
-							Original ori = new Original(programList);
+							Original ori = new Original(programList, testV.globalReturn);
 							Testcase test = new Testcase(testp, testV);
-							Statement st = new Statement(defProgram);
-							condCov.setProgramList(programList); // condition coverage for html
+							Statement st = new Statement(defProgram, testV.globalReturn);
+							condCov.setProgramList(programList, testV.globalReturn); // condition coverage for html
 
-							AllDefCoverage alldef = new AllDefCoverage(defProgram);
-							AllCUsesCoverage allc = new AllCUsesCoverage(defProgram);
-							AllPUsesCoverage allp = new AllPUsesCoverage(defProgram);
+							AllDefCoverage alldef = new AllDefCoverage(defProgram, testV.globalReturn);
+							AllCUsesCoverage allc = new AllCUsesCoverage(defProgram, testV.globalReturn);
+							AllPUsesCoverage allp = new AllPUsesCoverage(defProgram, testV.globalReturn);
 
 							PrettyPrinter printer = new PrettyPrinter(testProg.testcase.allMethodCalls);
 							printer.addOriginal(ori);
