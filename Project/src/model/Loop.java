@@ -9,6 +9,7 @@ public class Loop {
 	public HashMap<String, Values> variableMap;
 	public List<MyMethodBody> loopbody;
 	public MyMethodBody body;
+	public boolean forCovered;
 	
 	public Loop(int iterationGoal, List<MyMethodBody> mb, MyMethodBody mb2, List<String> semanticErrors, HashMap<String, Values> variableMap) {
 		this.iterationGoal = iterationGoal;
@@ -16,6 +17,12 @@ public class Loop {
 		this.body = mb2;
 		this.semanticErrors = semanticErrors;
 		this.variableMap = variableMap;
+		this.forCovered = false;
+	}
+
+	public void setForCovered(boolean covered) {
+		this.forCovered = covered;
+		
 	}
 	
 	
