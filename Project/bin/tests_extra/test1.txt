@@ -1,0 +1,14 @@
+game Classname[]!
+		var1 << INT #need to change in docs
+	
+		var1 <- 123
+
+	mymethod HFDFS_FDFSF1 INT [ INT var1 ] ! #need to consider empty parameter
+		
+			var2 << STRING
+
+			var2 <- "How are you"
+		
+		jackieReturns var2
+	! 
+!

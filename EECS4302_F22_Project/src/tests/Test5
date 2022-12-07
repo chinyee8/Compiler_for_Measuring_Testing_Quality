@@ -1,4 +1,7 @@
 test test_Aclass !
+# This input test is to be ran with input Program5.txt
+# This input test is used to demonstrate chain calls in input Program5.txt
+# Refer to section 5.5 in the report
 	re1 << INT
 	
 	re1 <- CALLVI[2]

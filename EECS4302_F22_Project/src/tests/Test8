@@ -1,4 +1,8 @@
 test test_Aclass !
+# This input test is to be ran with input Program8.txt
+# This input test is used to demonstrate usage of String type
+# Refer to section 5.8 in the report
+
 	re0 << STRING
 	re1 << STRING
 	re2 << STRING

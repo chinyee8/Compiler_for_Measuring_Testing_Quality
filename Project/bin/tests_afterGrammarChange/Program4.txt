@@ -1,0 +1,170 @@
+game Firstclass !
+
+	mymethod POWER_TEN INT[INT num1] !
+		re << INT
+		re <- 1
+		loop(10) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	
+	mymethod POWER_TWO INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(2) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	
+	mymethod POWER_THREE INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(3) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	mymethod POWER_FOUR INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(4) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	mymethod POWER_FIVE INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(5) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	mymethod POWER_SIX INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(6) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	mymethod POWER_SEVEN INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(7) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	mymethod POWER_EIGHT INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(8) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	mymethod POWER_NINE INT [INT num1] !
+		re << INT
+		re <- 1
+		loop(9) !
+			re <- re * num1
+		!
+		jackieReturns re
+	!
+	
+	mymethod POWER INT [INT num1, INT pow] !
+		re << INT
+		re <- 1
+		jackieAsks[ pow == 2] !
+			re <- POWER_TWO[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 3] !
+			re <- POWER_THREE[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 4] !
+			re <- POWER_FOUR[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 5] !
+			re <- POWER_FIVE[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 6] !
+			re <- POWER_SIX[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 7] !
+			re <- POWER_SEVEN[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 8] !
+			re <- POWER_EIGHT[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 9] !
+			re <- POWER_NINE[num1]
+		!
+		elseJackie !
+		!
+		jackieAsks[ pow == 10] !
+			re <- POWER_TEN[num1]
+		!
+		elseJackie !
+		!
+				
+		
+		jackieReturns re
+	!
+	
+	mymethod CALC INT[INT num1, INT num2, INT op] !
+		re << INT
+		re <- 1
+		# op: 1 +, 2 -, 3 *, 4 /, 5 power
+		
+		jackieAsks[ op == 1 ] !
+			re <- num1 + num2
+		! 
+		elseJackie !
+		!
+		
+		jackieAsks[ op == 2 ] !
+			re <- num1 - num2
+		! 
+		elseJackie !
+		!
+		
+		jackieAsks[ op == 3 ] !
+			re <- num1 * num2
+		! 
+		elseJackie !
+		!
+			
+		jackieAsks[ op == 4 ] !
+			re <- num1 / num2
+		! 
+		elseJackie !
+		!	
+		
+		jackieAsks[ op == 5 ] !
+			re <- POWER[num1,num2]
+		! 
+		elseJackie !
+		!
+		
+		jackieReturns re
+	!
+	
+	
+!

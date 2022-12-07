@@ -1,4 +1,7 @@
 test test_bankaccount !
+# This input test is to be ran with input Program2.txt
+# This input test is used to demonstrate different bank operations by calling on the methods in Program2.txt and storing its values
+# Refer to section 5.2 in the report
 	person1 << STRING
 	person2 << STRING
 	person3 << STRING

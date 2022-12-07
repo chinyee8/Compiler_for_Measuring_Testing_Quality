@@ -1,4 +1,8 @@
 test test_Aclass !
+# This input test is to be ran with input Program7.txt
+# This input test is used to demonstrate computation of math problems
+# Refer to section 5.7 in the report
+
 	re1 << INT
 	re2 << INT
 	

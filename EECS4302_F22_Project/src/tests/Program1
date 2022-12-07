@@ -1,5 +1,9 @@
 game Mathclass !
-
+	# This input program is to be ran with input Test1.txt
+	# This input program is to demonstrate a normal standard program of what our language can do
+	# It contains different data types and if-statements (jackieAsks-elseJackie) and loops
+	# It also demonstrates variable scoping
+	# Refer to Section 5.1 in the report
 									
     mymethod MATH INT [BOOLEAN b, DOUBLE input1, DOUBLE input2] !
         result << DOUBLE

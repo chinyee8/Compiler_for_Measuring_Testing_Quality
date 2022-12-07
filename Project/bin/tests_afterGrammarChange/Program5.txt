@@ -1,0 +1,46 @@
+game Aclass !
+
+	mymethod CALLI INT[INT num1] !
+		re << INT 
+		re <- num1 + 1
+		
+		jackieReturns re
+	!
+	
+	mymethod CALLII INT[INT num1] !
+		re << INT 
+		re <- CALLI[num1] 
+		
+		jackieReturns re
+	!
+	
+	mymethod CALLIII INT[INT num1] !
+		re << INT 
+		re <- CALLII[num1] 	
+		
+		jackieReturns re
+	!
+	
+	mymethod CALLIV INT[INT num1] !
+		re << INT 
+		re <- CALLIII[num1] 
+		
+		jackieReturns re
+	!
+	
+	mymethod CALLV INT[INT num1] !
+		re << INT 
+		re <- CALLIV[num1] 
+		
+		jackieReturns re
+	!
+	
+	mymethod CALLVI INT[INT num1] !
+		re << INT 
+		re <- CALLV[num1] 
+		
+		jackieReturns re
+	!
+	
+	
+!

@@ -1,4 +1,8 @@
 test test_Aclass !
+# This input test is to be ran with input Program9.txt
+# This input test is used to demonstrate modular calculations, checks for prime, and counting prime
+# Refer to section 5.9 in the report
+
 	bo1 << BOOLEAN
 	bo2 << BOOLEAN
 	bo3 << BOOLEAN

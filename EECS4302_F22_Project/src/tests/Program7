@@ -1,4 +1,7 @@
 game Firstclass !
+# This input program is to be ran with input Test7.txt
+# This input program demonstrates ability to write branching paths from loops and ability to do math problems
+# Refer to section 5.7 in the report
 
 	mymethod POWER_TEN INT[INT num1] !
 		re << INT

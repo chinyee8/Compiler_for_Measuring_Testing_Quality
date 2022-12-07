@@ -1,0 +1,117 @@
+game Firstclass !
+	
+	
+	mymethod SETUP_ACCOUNT DOUBLE [DOUBLE balance] !
+		account << DOUBLE
+		checker << BOOLEAN
+		
+		account <- balance
+		checker <- CHECK_IF_BALANCE_POSITIVE[account]
+		
+		jackieAsks[checker] !
+			account <- SET_UP_FEE[account]
+		!
+		elseJackie !
+			account <- 0.00
+			
+		!
+		
+		jackieReturns account
+	!
+
+	mymethod DEPOSIT DOUBLE [DOUBLE balance, DOUBLE add_funds] !
+		checker << BOOLEAN
+		checker <- CHECK_IF_BALANCE_POSITIVE[balance]
+		
+		jackieAsks[checker] !
+			reducebalance << DOUBLE
+			reducebalance <- DEPOSIT_FEE[balance]
+			balance <- balance + add_funds - reducebalance
+			
+		!
+		
+		elseJackie!
+		!
+		
+		jackieReturns balance
+	! 
+
+
+	mymethod WITHDRAW DOUBLE[DOUBLE balance, DOUBLE reduce_funds] !
+		checker << BOOLEAN
+		checker <- CHECK_IF_BALANCE_POSITIVE[balance]
+		
+		jackieAsks[checker] !
+			balance <- balance - reduce_funds
+		!
+		
+		elseJackie!
+		!
+		
+		jackieReturns balance
+	
+	
+	!
+	
+	mymethod CHECK_IF_BALANCE_POSITIVE BOOLEAN[DOUBLE balance] !
+		result << BOOLEAN
+		
+		jackieAsks[balance >= 0.00] !
+			result <- TRUE
+		!
+		elseJackie !
+			result <- FALSE
+		
+		!
+		
+		jackieReturns result
+	!
+	
+	mymethod CLEAR_ACCOUNT DOUBLE [DOUBLE balance] !
+		checker << BOOLEAN
+		checker <- CHECK_IF_BALANCE_POSITIVE[balance]
+		
+		jackieAsks[checker] !
+			balance <- 0.00
+		!
+		
+		elseJackie!
+		!
+		
+		jackieReturns balance
+		
+		
+	!
+	
+	mymethod SET_UP_FEE DOUBLE [DOUBLE balance] !
+		balance <- balance - 50.00
+		jackieReturns balance
+	!
+	
+	mymethod DEPOSIT_FEE DOUBLE[DOUBLE balance] !
+		balance <- balance - 10.00
+		jackieReturns balance
+	!
+	
+	mymethod TWICE_WITHDRAWAL DOUBLE[DOUBLE balance, DOUBLE withdrawal_ammount] !
+		checker << BOOLEAN
+		checker <- CHECK_IF_BALANCE_POSITIVE[balance]
+		
+		jackieAsks[checker] !
+			loop(2) !
+				jackieAsks[checker] !
+					balance <- WITHDRAW[balance, 5.00]
+					checker <- CHECK_IF_BALANCE_POSITIVE[balance]
+				!
+				elseJackie!
+				!
+				
+			!
+		!
+		
+		elseJackie!
+		!
+		
+		jackieReturns balance
+	!
+!

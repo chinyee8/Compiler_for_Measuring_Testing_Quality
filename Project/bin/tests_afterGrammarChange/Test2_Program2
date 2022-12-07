@@ -1,0 +1,30 @@
+test test_bankaccount !
+	person1 << STRING
+	person2 << STRING
+	person3 << STRING
+	person1_account << DOUBLE
+	person2_account << DOUBLE
+	person3_account << DOUBLE
+	
+	person1 <- "CHIN"
+	person2 <- "YES"
+	person3 <- "MON"
+	
+	person1_account <- SETUP_ACCOUNT[100.00] 
+	person1_account <- DEPOSIT[person1_account, 100.00]	
+	person1_account <- DEPOSIT[person1_account, 200.00]	
+	
+	
+	
+	person2_account <- SETUP_ACCOUNT[200.00] 
+	person2_account <- WITHDRAW[person2_account, 100.00]
+	person2_account <- TWICE_WITHDRAWAL[person2_account, 10.00] 
+	
+	
+	person3_account <- SETUP_ACCOUNT[160.00]
+	person3_account <- DEPOSIT[person3_account, 40.00]	
+	
+	
+	
+	person3_account <- CLEAR_ACCOUNT[person3_account]
+!

@@ -1,4 +1,7 @@
 test test_Aclass !
+# This input test is to be ran with input Program3.txt
+# This input test is used to demonstrate the number of digits of an integer input and storing its values in it's variables
+# Refer to section 5.3 in the report
 	re1 << INT
 	re2 << INT
 	re3 << INT

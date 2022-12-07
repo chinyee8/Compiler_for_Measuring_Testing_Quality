@@ -1,4 +1,7 @@
 game Aclass !
+# This input program is to be ran with input Test5.txt
+# This input program demonstrates chain calls 
+# Refer to section 5.5 in the report
 
 	mymethod CALLI INT[INT num1] !
 		re << INT 

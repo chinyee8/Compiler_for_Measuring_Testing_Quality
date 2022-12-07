@@ -1,5 +1,7 @@
 game Firstclass !
-	
+# This input program is to be ran with input Test2.txt
+# This input program simulates a bank's operations and demonstrates methods calling each other
+# Refer to section 5.2 of the report
 	
 	mymethod SETUP_ACCOUNT DOUBLE [DOUBLE balance] !
 		account << DOUBLE

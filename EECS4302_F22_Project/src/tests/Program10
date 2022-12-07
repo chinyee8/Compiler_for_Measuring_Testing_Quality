@@ -1,5 +1,7 @@
 game Aclass !
-
+# This input program is to be ran with input Test10.txt
+# This input program demonstrates a leap year checker and function calls
+# Refer to section 5.10 in the report
 									
     mymethod MOD_K BOOLEAN[INT num, INT k]!
     	re << BOOLEAN

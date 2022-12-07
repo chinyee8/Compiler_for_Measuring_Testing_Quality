@@ -1,4 +1,7 @@
 game Aclass !
+# This input program is to be ran with input Test8.txt
+# This input program demonstrates usage of strings
+# Refer to section 5.8 in the report
 
 									
     mymethod CHECKER STRING [INT num] !

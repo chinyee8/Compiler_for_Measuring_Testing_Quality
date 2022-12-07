@@ -1,5 +1,9 @@
 	
 game Aclass !
+# This input program is to be ran with input Test3.txt
+# This input program demonstrates nested if-statements (jackieAsks and elseJackie)
+# Refer to section 5.3 in the report
+
 	mymethod DIGIT_CHECKER INT [INT num] !
 	
 		re << INT

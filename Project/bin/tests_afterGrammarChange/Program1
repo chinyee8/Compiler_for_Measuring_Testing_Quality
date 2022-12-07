@@ -1,0 +1,44 @@
+game Mathclass !
+
+									
+    mymethod MATH INT [BOOLEAN b, DOUBLE input1, DOUBLE input2] !
+        result << DOUBLE
+        tester1 << INT
+        tester2 << INT
+        tester3 << INT
+        flag << BOOLEAN
+        loresult << INT
+        dd << DOUBLE
+        dd <- 0.00
+        
+        tester1 <- 1 + 2
+        tester2 <- 2 + tester1
+        input2 <- input1 + input2
+        flag <- TRUE
+        input2 <- input1 + input2
+        
+         		
+        jackieAsks [b] !
+        	result <- input2	
+        ! 
+        
+        elseJackie !
+			result <- 0.00
+        !
+        
+        loop (5) !
+		# variable scoping
+        	temp << INT
+        	jackieAsks[1 < 2] !
+        		temp <- temp + 1
+        		loresult <- temp	
+        		
+        	!
+        	elseJackie!
+        	    loresult <- temp	
+        	
+        	!
+        !
+        jackieReturns loresult
+    !     
+!

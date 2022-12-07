@@ -1,4 +1,7 @@
 game Firstclass !
+# This input program is to be ran with input Test4.txt
+# This input program demonstrates multiple if-statements (jackieAsks-elseJackie), function calls and branching conditions 
+# Refer to section 5.4 in the report
 
 	mymethod POWER_TEN INT[INT num1] !
 		re << INT

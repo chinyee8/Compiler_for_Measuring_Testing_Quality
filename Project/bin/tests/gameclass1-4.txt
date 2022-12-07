@@ -1,0 +1,16 @@
+game Mathclass !  
+     									   
+    mymethod MATH DOUBLE [BOOLEAN b, DOUBLE input1, DOUBLE input2] !
+        result << DOUBLE
+        
+        jackieAsks [b] !
+        	answer << DOUBLE
+        ! elseJackie !
+			input1 <- SCIENCE [input1, input2]
+        !
+        
+        jackieReturns answer
+    !     
+    
+ 
+!

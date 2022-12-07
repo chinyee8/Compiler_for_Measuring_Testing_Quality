@@ -1,4 +1,7 @@
 game Mathclass !
+# This input program is to be ran with input Test9.txt
+# This input program demonstrates further ability for loops and math, also implements modular operation, and primes
+# Refer to section 5.9 in the report
 
 	mymethod MOD_TWO BOOLEAN [INT a] !
         re << BOOLEAN

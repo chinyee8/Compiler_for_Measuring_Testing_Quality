@@ -1,0 +1,27 @@
+game Classname[]!
+		var1 << INT #need to change in docs
+		var1 <- 123
+
+	mymethod HFDFS_FDFSF1 INT [ INT var1 ] ! #need to consider empty parameter
+			var2 << STRING
+			var2 <- "How are you"
+		
+		jackieAsks [ 3 == -4] ! #semantic error
+				var2 <- "Hello World"
+			jackieAsks[ (not TRUE) == (3 /= 4) ] ! #semantic error
+					var2 <- "you"
+			! elseJackie!
+					var1 <- 323
+			!
+		! elseJackie !
+				var1 <- 123
+				
+			jackieAsks[not TRUE] !
+			!elseJackie!
+					var1 <-234
+			!
+		!
+		
+		jackieReturns var2
+	! 
+!

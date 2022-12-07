@@ -1,0 +1,11 @@
+test test_Aclass !
+	re1 << INT
+	re2 << INT
+	
+	re1 <- MATH_F[2,3, TRUE]
+	re1 <- MATH_F[2,3, FALSE]
+	
+	re2 <- MATH_FF[2,3, TRUE]
+	re2 <- MATH_FF[2,3, FALSE]
+	
+!

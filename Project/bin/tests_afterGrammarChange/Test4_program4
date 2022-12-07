@@ -1,0 +1,54 @@
+test test_Aclass !
+	re1 << INT
+	re2 << INT
+	re3 << INT
+	re4 << INT
+	re5 << INT
+	re6 << INT
+	re7 << INT
+	re8 << INT
+	re9 << INT
+	re10 << INT
+	
+	rep1 << INT
+	rep2 << INT
+	rep3 << INT
+	rep4 << INT
+	rep5 << INT
+	rep6 << INT
+	rep7 << INT
+	rep8 << INT
+	rep9 << INT
+	rep10 << INT
+	
+	num1 << INT
+	num2 << INT
+	
+	ans1 << INT
+	
+	re2 <- POWER_TWO[2]
+	re3 <- POWER_THREE[2]
+	re4 <- POWER_FOUR[2]
+	re5 <- POWER_FIVE[2]
+	re6 <- POWER_SIX[2]
+	re7 <- POWER_SEVEN[2]
+	re8 <- POWER_EIGHT[2]
+	re9 <- POWER_NINE[2]
+	re10 <- POWER_TEN[2]
+	 
+	rep2 <- POWER[2,2]
+	rep3 <- POWER[2,3]
+	rep4 <- POWER[2,4]
+	rep5 <- POWER[2,5]
+	rep6 <- POWER[2,6]
+	rep7 <- POWER[2,7]
+	rep8 <- POWER[2,8]
+	rep9 <- POWER[2,9]
+	rep10 <- POWER[2,10]
+	
+	ans1 <- CALC[4,2,1]
+	ans1 <- CALC[4,2,2]
+	ans1 <- CALC[4,2,3]
+	ans1 <- CALC[4,2,4]
+	ans1 <- CALC[4,2,5]
+!

@@ -1,0 +1,116 @@
+game Mathclass !
+
+	mymethod MOD_TWO BOOLEAN [INT a] !
+        re << BOOLEAN
+        count << INT
+        num << INT
+        
+        num <- a
+        
+        loop(10000) !
+    		jackieAsks[num == 0] !
+    			re <- TRUE
+    		!
+    		elseJackie !
+    			jackieAsks[num == 1] !
+    				re <- FALSE
+	    		!
+	    		elseJackie !
+	    			jackieAsks[num > 0 ] !
+    					num <- num - 2
+		    		!
+		    		elseJackie !
+		    			
+		    		!	
+	    			
+	    		!	
+    		!
+    	!
+    	        
+        jackieReturns re
+    !
+    
+    mymethod MOD_K BOOLEAN[INT num, INT k]!
+    	re << BOOLEAN
+        count << INT
+                
+        loop(100) !
+    		jackieAsks[num == 0] !
+    			re <- TRUE
+    		!
+    		elseJackie !
+    			jackieAsks[num == 1] !
+    				re <- FALSE
+	    		!
+	    		elseJackie !
+	    			jackieAsks[num > 0 ] !
+    					num <- num - k
+		    		!
+		    		elseJackie !
+		    			
+		    		!	
+	    			
+	    		!	
+    		!
+    	!
+    	        
+        jackieReturns re
+    !
+    
+    mymethod IS_PRIME BOOLEAN[INT num] !
+    	re << BOOLEAN
+    	count << INT
+    	temp << BOOLEAN
+    	
+    	count <- 1
+    	re <- TRUE
+    	loop(100) !
+    	    count <- count + 1
+    		jackieAsks[count < num ] !
+    		
+    			temp <- MOD_K[num,count]
+    			jackieAsks [temp] !
+    				re <- FALSE
+    			!
+    			elseJackie !
+    			
+    			! 	
+
+    		!
+    		elseJackie !
+    		
+    		!
+    	!
+    	jackieReturns re
+    	
+    !
+    
+    mymethod COUNT_PRIME INT[INT num] !
+    	rem << INT
+    	count << INT
+    	temp << BOOLEAN
+    	
+    	count <- 1
+    	rem <- 0
+    	loop (100) !
+    		count <- count + 1
+				jackieAsks[count < num ] !
+    		
+    				temp <- IS_PRIME[count]
+    				jackieAsks [temp] !
+    					rem <- rem + 1
+    				!
+    				elseJackie !
+    				! 	
+    			!
+    			elseJackie !
+    		
+    			!    		
+    	! 
+    	jackieReturns rem
+    	
+    !
+    
+    
+									   
+!

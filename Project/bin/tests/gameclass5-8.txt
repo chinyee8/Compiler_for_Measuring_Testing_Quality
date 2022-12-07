@@ -1,0 +1,17 @@
+game Pika [] ! 
+
+	mymethod METHOD_ONE INT [INT num, BOOLEAN b, STRING s] !
+		var1 << INT
+		var1<- 5
+		jackieAsks[b] !
+			var1 <- num
+		!
+		elseJackie !
+			var1 <- num + 5
+		!
+		
+		jackieReturns var1
+	!
+	
+	
+!

@@ -1,4 +1,8 @@
 test test_api02 !
+# This input test is to be ran with input Program1.txt
+# This is used to call method MATH from Program1.txt and output the html showcasing different coverages
+# Refer to section 5.1 on the report
+
 	input1 << DOUBLE
 	input2 << DOUBLE
 	bool1 << BOOLEAN

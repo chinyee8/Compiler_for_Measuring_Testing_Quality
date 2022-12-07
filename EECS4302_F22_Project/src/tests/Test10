@@ -1,4 +1,8 @@
 test test_Aclass !
+# This input test is to be ran with input Program10.txt
+# This input test is used to check if integer input is a leap year or not
+# Refer to section 5.10 in the report
+
 	re1 << BOOLEAN
 	re2 << BOOLEAN
 	re3 << BOOLEAN

@@ -1,0 +1,6 @@
+test test_Aclass !
+	re1 << INT
+	
+	re1 <- LCALLVI[2]
+	re1 <- LCALLV[3]
+!

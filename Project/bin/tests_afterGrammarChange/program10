@@ -1,0 +1,61 @@
+game Aclass !
+
+									
+    mymethod MOD_K BOOLEAN[INT num, INT k]!
+    	re << BOOLEAN
+        count << INT
+                
+        loop(10000) !
+    		jackieAsks[num == 0] !
+    			re <- TRUE
+    		!
+    		elseJackie !
+    			jackieAsks[num < 0] !
+    				re <- FALSE
+	    		!
+	    		elseJackie !
+	    			jackieAsks[num > 0 ] !
+    					num <- num - k
+		    		!
+		    		elseJackie !
+		    			
+		    		!	
+	    			
+	    		!	
+    		!
+    	!
+    	        
+        jackieReturns re
+    !
+    
+    mymethod LEAPYEAR BOOLEAN[INT num] !
+    	re << BOOLEAN
+    	temp << BOOLEAN
+    	temp2 << BOOLEAN
+    	temp3 << BOOLEAN
+    	
+    	temp <- MOD_K[num,4]
+    	temp2 <- MOD_K[num,100]
+    	temp3 <- MOD_K[num,400]
+    	jackieAsks[temp] !
+    		jackieAsks[temp2] !
+    			jackieAsks[temp3] !
+    				re <- TRUE
+    			!
+    			elseJackie !
+    				re <- FALSE
+    			!
+    		!
+    		elseJackie!
+    			re <- TRUE
+    		!
+    		
+    	!
+    	elseJackie!
+    		re <- FALSE
+    	! 
+    	
+    	jackieReturns re
+    	
+    !
+!

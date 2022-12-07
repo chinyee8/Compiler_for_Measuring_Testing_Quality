@@ -1,0 +1,42 @@
+	
+game Aclass !
+	mymethod DIGIT_CHECKER INT [INT num] !
+	
+		re << INT
+		jackieAsks [ (num>=0 && num<=9) ] !
+			re <- 1
+		!
+		elseJackie !
+			jackieAsks [ (num>=10 && num<=99) ] !
+				re <- 2
+			!
+			elseJackie !
+				jackieAsks [ (num>=100 && num<=999)] !
+					re <- 3
+				!
+				elseJackie !
+					jackieAsks [ (num>=1000 && num<=9999) ] !
+						re <- 4
+					!
+					elseJackie !
+						jackieAsks [ (num>=10000 && num<=99999) ] !
+							re <- 5
+						!
+						elseJackie !
+							jackieAsks [ (num>=100000) ] !
+								re <- 100
+							!
+							elseJackie !
+								re <- -1
+							!	
+						!
+					!
+				!			
+			!	
+		! 
+		
+		jackieReturns re
+		 
+	!
+
+!

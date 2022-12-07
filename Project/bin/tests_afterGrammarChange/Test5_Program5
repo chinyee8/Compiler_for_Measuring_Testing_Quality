@@ -1,0 +1,5 @@
+test test_Aclass !
+	re1 << INT
+	
+	re1 <- CALLVI[2]
+!

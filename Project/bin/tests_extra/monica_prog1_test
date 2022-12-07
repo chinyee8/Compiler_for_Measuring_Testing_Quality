@@ -1,0 +1,12 @@
+test test_api01 []!
+	input1 << INT
+	input2 << STRING
+	input3 << BOOLEAN
+	result << INT
+	
+	input1 <- 9
+	input2 <- "hi"
+	
+	result <- METHOD_ONE[input1, input3, input2]	
+		
+!

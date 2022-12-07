@@ -1,0 +1,15 @@
+game Mathclass [] !
+    
+    mymethod MATH DOUBLE [DOUBLE input1, DOUBLE input2] !
+        result << DOUBLE
+
+        jackieAsks [TRUE] !
+            result <- input1 + input2
+        ! elseJackie !
+           
+        !
+		
+        jackieReturns result
+    !  
+    
+!
