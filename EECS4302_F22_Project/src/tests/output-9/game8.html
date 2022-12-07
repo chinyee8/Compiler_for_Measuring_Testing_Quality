@@ -364,7 +364,154 @@ game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&e
   left: 50%;
   margin-left: -80px;} .popup .show {
   visibility: visible;
-}</style> <script> function showTable2() { var popup = document.getElementById("Popup2"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<a2 class ="popup" onclick="showTable2()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup2" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_TWO.jackieAsks[num&gt0]</p><table style="width:100%"><tr><th>possible case #</th><th>num&gt0</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th></th></tr></table></div><p2 style="background-color:yellow">50.00% covered! <p2></span>  </a2><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div id="allDef" hidden>
+}</style> <script> function showTable2() { var popup = document.getElementById("Popup2"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<a2 class ="popup" onclick="showTable2()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup2" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_TWO.jackieAsks[num&gt0]</p><table style="width:100%"><tr><th>possible case #</th><th>num&gt0</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th></th></tr></table></div><p2 style="background-color:yellow">50.00% covered! <p2></span>  </a2><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable3() { var popup = document.getElementById("Popup3"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<a3 class ="popup" onclick="showTable3()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup3" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_K.jackieAsks[num==0]</p><table style="width:100%"><tr><th>possible case #</th><th>MOD_K.num==0</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a3><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable4() { var popup = document.getElementById("Popup4"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<a4 class ="popup" onclick="showTable4()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup4" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_K.jackieAsks[num==1]</p><table style="width:100%"><tr><th>possible case #</th><th>MOD_K.num==1</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a4><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable5() { var popup = document.getElementById("Popup5"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<a5 class ="popup" onclick="showTable5()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup5" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>MOD_K.jackieAsks[num&gt0]</p><table style="width:100%"><tr><th>possible case #</th><th>num&gt0</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a5><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable6() { var popup = document.getElementById("Popup6"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<a6 class ="popup" onclick="showTable6()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup6" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>IS_PRIME.jackieAsks[count&ltnum]</p><table style="width:100%"><tr><th>possible case #</th><th>count&ltnum</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a6><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num , count ] <br><br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable7() { var popup = document.getElementById("Popup7"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<a7 class ="popup" onclick="showTable7()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup7" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>IS_PRIME.jackieAsks[temp]</p><table style="width:100%"><tr><th>possible case #</th><th>temp</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a7><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable8() { var popup = document.getElementById("Popup8"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<a8 class ="popup" onclick="showTable8()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup8" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>COUNT_PRIME.jackieAsks[count&ltnum]</p><table style="width:100%"><tr><th>possible case #</th><th>count&ltnum</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a8><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable9() { var popup = document.getElementById("Popup9"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<a9 class ="popup" onclick="showTable9()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup9" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>COUNT_PRIME.jackieAsks[temp]</p><table style="width:100%"><tr><th>possible case #</th><th>temp</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a9><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div id="allDef" hidden>
 <div class="allDefcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Mathclass !<br><br>&emsp;mymethod MOD_TWO BOOLEAN [INT a] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;num << INT<br><br>&emsp;&emsp;&emsp;num <- a<br><br>&emsp;&emsp;&emsp;loop (10000) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - 2<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod MOD_K BOOLEAN [INT num, INT k] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- true<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ num > 0 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;num <- num - k<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod IS_PRIME BOOLEAN [INT num] !<br><br>&emsp;&emsp;&emsp;re << BOOLEAN<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;re <- true<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- MOD_K [ num , count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;re <- false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod COUNT_PRIME INT [INT num] !<br><br>&emsp;&emsp;&emsp;rem << INT<br>&emsp;&emsp;&emsp;count << INT<br>&emsp;&emsp;&emsp;temp << BOOLEAN<br><br>&emsp;&emsp;&emsp;count <- 1<br>&emsp;&emsp;&emsp;rem <- 0<br><br>&emsp;&emsp;&emsp;loop (100) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;count <- count + 1<br><br>&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ count < num ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;temp <- IS_PRIME [ count ] <br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;jackieAsks [ temp ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;rem <- rem + 1<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns rem<br>&emsp;!<br>!<br></div><div class="allDefcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="allDefsubcolumn"><h3>Percentage = 100%</h3>
 <ul>
 <li id="num" onclick="num()"><p class="varList">num</p></li>

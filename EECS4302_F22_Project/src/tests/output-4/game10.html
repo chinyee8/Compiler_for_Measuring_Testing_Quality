@@ -257,7 +257,301 @@ game Firstclass !<br><br>&emsp;mymethod POWER_TEN INT [INT num1] !<br><br>&emsp;
 <div id="POWERsans" hidden><div class="POWERscolumn"><u class="topic">Statement Coverage</u><br><br>game Firstclass !<br><br>&emsp;mymethod POWER_TEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (10) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_TWO INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (2) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_THREE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- 1</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (3) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- re * num1</mark><br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod POWER_FOUR INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (4) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_FIVE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (5) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SIX INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (6) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SEVEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (7) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_EIGHT INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (8) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_NINE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (9) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER INT [INT num1, INT pow] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- 1</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 2 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TWO [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 3 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- </mark><mark class="statementmc" id="statementmcPOWER_THREE" onclick="statementmcPOWER_THREE()">POWER_THREE [ num1 ] </mark><br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 4 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FOUR [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 5 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FIVE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 6 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SIX [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 7 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SEVEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 8 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_EIGHT [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 9 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_NINE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 10 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod CALC INT [INT num1, INT num2, INT op] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;jackieAsks [ op == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 + num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 2 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 - num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 3 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 * num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 4 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 / num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 5 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER [ num1 , num2 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div class="POWERscolumn"><br><h3><mark style="background-color: orange;"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3><div id="statementpercentagenote"><div id="statementpercentagenotecolumn"><h3>Percentage => 22%</h3></div><div id="statementpercentagenotecolumn"><br><div class="note"><u>Note:</u> <br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;statement coverage</div></div></div><br><div id="statementcov">&emsp;mymethod POWER_THREE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (3) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER INT [INT num1, INT pow] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;jackieAsks [ pow == 2 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TWO [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 3 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_THREE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 4 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FOUR [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 5 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FIVE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 6 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SIX [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 7 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SEVEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 8 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_EIGHT [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 9 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_NINE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 10 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br></div></div></div>
 <div id="POWER_THREEsans" hidden><div class="POWER_THREEscolumn"><u class="topic">Statement Coverage</u><br><br>game Firstclass !<br><br>&emsp;mymethod POWER_TEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (10) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_TWO INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (2) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_THREE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- 1</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">loop (3) !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- re * num1</mark><br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod POWER_FOUR INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (4) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_FIVE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (5) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SIX INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (6) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SEVEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (7) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_EIGHT INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (8) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_NINE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (9) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER INT [INT num1, INT pow] !<br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re << INT</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- 1</mark><br><br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 2 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TWO [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 3 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;<mark style="background-color: yellow;">re <- </mark><mark class="statementmc" id="statementmcPOWER_THREE" onclick="statementmcPOWER_THREE()">POWER_THREE [ num1 ] </mark><br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 4 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FOUR [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 5 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FIVE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 6 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SIX [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 7 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SEVEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 8 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_EIGHT [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 9 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_NINE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;<mark style="background-color: yellow;">jackieAsks [ pow == 10 ] !</mark><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;<mark style="background-color: yellow;">jackieReturns re</mark><br>&emsp;!<br>&emsp;mymethod CALC INT [INT num1, INT num2, INT op] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;jackieAsks [ op == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 + num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 2 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 - num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 3 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 * num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 4 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 / num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 5 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER [ num1 , num2 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div class="POWER_THREEscolumn"><br><h3><mark style="background-color: orange;"> &emsp;&larr;&emsp; </mark> &emsp;Click method call for coverage</h3><div id="statementpercentagenote"><div id="statementpercentagenotecolumn"><h3>Percentage => 22%</h3></div><div id="statementpercentagenotecolumn"><br><div class="note"><u>Note:</u> <br><mark style="background-color: yellow;"> &emsp; </mark> &emsp;statement coverage</div></div></div><br><div id="statementcov">&emsp;mymethod POWER_THREE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (3) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br></div></div></div>
 <div id="condition" hidden>
-<u class="topic">Condition Coverage</u><br><br>game Firstclass !<br><br>&emsp;mymethod POWER_TWO INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (2) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div id="allDef" hidden>
+<u class="topic">Condition Coverage</u><br><br>game Firstclass !<br><br>&emsp;mymethod POWER_TEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (10) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_TWO INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (2) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_THREE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (3) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_FOUR INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (4) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_FIVE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (5) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SIX INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (6) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SEVEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (7) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_EIGHT INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (8) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_NINE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (9) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER INT [INT num1, INT pow] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable0() { var popup = document.getElementById("Popup0"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 2 ] !<a0 class ="popup" onclick="showTable0()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup0" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==2]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==2</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a0><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TWO [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable1() { var popup = document.getElementById("Popup1"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 3 ] !<a1 class ="popup" onclick="showTable1()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup1" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==3]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==3</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a1><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_THREE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable2() { var popup = document.getElementById("Popup2"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 4 ] !<a2 class ="popup" onclick="showTable2()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup2" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==4]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==4</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a2><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FOUR [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable3() { var popup = document.getElementById("Popup3"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 5 ] !<a3 class ="popup" onclick="showTable3()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup3" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==5]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==5</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a3><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FIVE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable4() { var popup = document.getElementById("Popup4"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 6 ] !<a4 class ="popup" onclick="showTable4()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup4" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==6]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==6</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a4><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SIX [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable5() { var popup = document.getElementById("Popup5"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 7 ] !<a5 class ="popup" onclick="showTable5()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup5" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==7]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==7</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a5><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SEVEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable6() { var popup = document.getElementById("Popup6"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 8 ] !<a6 class ="popup" onclick="showTable6()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup6" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==8]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==8</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a6><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_EIGHT [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable7() { var popup = document.getElementById("Popup7"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 9 ] !<a7 class ="popup" onclick="showTable7()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup7" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==9]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==9</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a7><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_NINE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable8() { var popup = document.getElementById("Popup8"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ pow == 10 ] !<a8 class ="popup" onclick="showTable8()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup8" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>POWER.jackieAsks[pow==10]</p><table style="width:100%"><tr><th>possible case #</th><th>POWER.pow==10</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a8><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod CALC INT [INT num1, INT num2, INT op] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable9() { var popup = document.getElementById("Popup9"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ op == 1 ] !<a9 class ="popup" onclick="showTable9()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup9" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>CALC.jackieAsks[op==1]</p><table style="width:100%"><tr><th>possible case #</th><th>CALC.op==1</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a9><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 + num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable10() { var popup = document.getElementById("Popup10"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ op == 2 ] !<a10 class ="popup" onclick="showTable10()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup10" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>CALC.jackieAsks[op==2]</p><table style="width:100%"><tr><th>possible case #</th><th>CALC.op==2</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a10><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 - num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable11() { var popup = document.getElementById("Popup11"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ op == 3 ] !<a11 class ="popup" onclick="showTable11()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup11" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>CALC.jackieAsks[op==3]</p><table style="width:100%"><tr><th>possible case #</th><th>CALC.op==3</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a11><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 * num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable12() { var popup = document.getElementById("Popup12"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ op == 4 ] !<a12 class ="popup" onclick="showTable12()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup12" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>CALC.jackieAsks[op==4]</p><table style="width:100%"><tr><th>possible case #</th><th>CALC.op==4</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a12><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 / num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><style> .popup {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}.popuptext {  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;} .popup .show {
+  visibility: visible;
+}</style> <script> function showTable13() { var popup = document.getElementById("Popup13"); popup.classList.toggle("show");}</script>&emsp;&emsp;&emsp;jackieAsks [ op == 5 ] !<a13 class ="popup" onclick="showTable13()"> <mark style="backround-color:yellow"> ☞ See Coverage </mark> <span id="Popup13" class="popuptext"><style>table,th,td{border:1px solid black;}</style><div><p>CALC.jackieAsks[op==5]</p><table style="width:100%"><tr><th>possible case #</th><th>CALC.op==5</th><th>is tested?</th></tr><tr><th>1</th><th>T</th><th>✔</th></tr><tr><th>2</th><th>F</th><th>✔</th></tr></table></div><p2 style="background-color:green">100.00% covered! <p2></span>  </a13><br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER [ num1 , num2 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div id="allDef" hidden>
 <div class="allDefcolumn"><u class="topic">All-Defs Coverage</u><br><br>game Firstclass !<br><br>&emsp;mymethod POWER_TEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (10) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_TWO INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (2) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_THREE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (3) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_FOUR INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (4) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_FIVE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (5) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SIX INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (6) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_SEVEN INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (7) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_EIGHT INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (8) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER_NINE INT [INT num1] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;loop (9) !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- re * num1<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod POWER INT [INT num1, INT pow] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;jackieAsks [ pow == 2 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TWO [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 3 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_THREE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 4 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FOUR [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 5 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_FIVE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 6 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SIX [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 7 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_SEVEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 8 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_EIGHT [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 9 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_NINE [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ pow == 10 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER_TEN [ num1 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>&emsp;mymethod CALC INT [INT num1, INT num2, INT op] !<br><br>&emsp;&emsp;&emsp;re << INT<br><br>&emsp;&emsp;&emsp;re <- 1<br><br>&emsp;&emsp;&emsp;jackieAsks [ op == 1 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 + num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 2 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 - num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 3 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 * num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 4 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- num1 / num2<br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br>&emsp;&emsp;&emsp;jackieAsks [ op == 5 ] !<br>&emsp;&emsp;&emsp;&emsp;&emsp;re <- POWER [ num1 , num2 ] <br>&emsp;&emsp;&emsp;! elseJackie !<br>&emsp;&emsp;&emsp;!<br><br>&emsp;&emsp;jackieReturns re<br>&emsp;!<br>!<br></div><div class="allDefcolumn"><h3><u>List of Variables - Click to see coverage:</u></h3><div class="allDefsubcolumn"><h3>Percentage = 100%</h3>
 <ul>
 <li id="num1" onclick="num1()"><p class="varList">num1</p></li>

@@ -37,6 +37,7 @@ public class ConditionCoverage{
 	List<Program> programList;
 	int hoverIndex;
 	Map<String, String> tableHTMLMap;
+	private List<List<MyMethods>> globalReturn;
 	
 	public class TestCase{
 
@@ -171,8 +172,9 @@ public class ConditionCoverage{
 	}
 
 
-	public void setProgramList(List<Program> programList) {
+	public void setProgramList(List<Program> programList, List<List<MyMethods>> globalReturn) {
 		this.programList = programList;
+		this.globalReturn = globalReturn;
 	}
 
 	
@@ -264,7 +266,7 @@ public class ConditionCoverage{
 
 		result += "game " + p.gameclass.className + " !<br><br>";
 		
-		for(MyMethods mm : p.gameclass.body.myMethodList) {
+		for(MyMethods mm : globalReturn.get(0)) {
 			if( mm.methodType instanceof MyReturnMethod) {
 				MyReturnMethod mt = ((MyReturnMethod)mm.methodType);
 				String para = ""; int i = 0;
